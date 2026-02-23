@@ -9,6 +9,7 @@ from aiogram.exceptions import (
 )
 
 from korone.logger import get_logger
+from korone.modules.error.utils.permission_errors import is_no_rights_error
 from korone.modules.utils_.telegram_exceptions import (
     CAN_NOT_BE_DELETED,
     MSG_TO_DEL_NOT_FOUND,
@@ -48,6 +49,9 @@ async def common_try[T](
             await logger.aerror("common_try: Unknown TelegramBadRequest exception, re-raising", error=str(err))
             raise
     except IGNORED_EXCEPTIONS as err:
+        if isinstance(err, TelegramForbiddenError) and is_no_rights_error(err):
+            await logger.awarning("common_try: Re-raising no-rights error", error=str(err))
+            raise
         await logger.adebug("common_try: Caught ignored exception", error=str(err))
         return None
     except TelegramAPIError as err:

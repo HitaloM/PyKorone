@@ -3,7 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, override
 
 from aiogram import BaseMiddleware
-from aiogram.enums import ChatType
+from aiogram.enums import ChatMemberStatus, ChatType
+from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Chat, Update, User
 
 from korone.config import CONFIG
@@ -242,13 +243,30 @@ class SaveChatsMiddleware(BaseMiddleware):
     async def save_my_chat_member(event: ChatMemberUpdated) -> bool:
         status = event.new_chat_member.status
         await logger.adebug("SaveChatsMiddleware: Handling my_chat_member update", status=status, chat_id=event.chat.id)
-        if status in {"kicked", "left"}:
+        if status in {ChatMemberStatus.KICKED, ChatMemberStatus.LEFT}:
             if not (group := await ChatRepository.get_by_chat_id(event.chat.id)):
                 return False
             await logger.adebug("SaveChatsMiddleware: Bot left chat", chat_id=event.chat.id, status=status)
             await ChatRepository.delete_chat(group)
             return False
-        return status != "member"
+
+        if status == ChatMemberStatus.RESTRICTED:
+            can_send_messages = getattr(event.new_chat_member, "can_send_messages", True)
+            if can_send_messages is False:
+                await logger.awarning(
+                    "SaveChatsMiddleware: Bot restricted from sending messages, leaving chat", chat_id=event.chat.id
+                )
+                try:
+                    await event.bot.leave_chat(event.chat.id)  # pyright: ignore[reportOptionalMemberAccess]
+                    await logger.ainfo("SaveChatsMiddleware: Successfully left restricted chat", chat_id=event.chat.id)
+                except TelegramAPIError as error:
+                    await logger.aexception(
+                        "SaveChatsMiddleware: Failed to leave restricted chat", chat_id=event.chat.id, error=str(error)
+                    )
+                if group := await ChatRepository.get_by_chat_id(event.chat.id):
+                    await ChatRepository.delete_chat(group)
+                return False
+        return status != ChatMemberStatus.MEMBER
 
     @override
     async def __call__(
