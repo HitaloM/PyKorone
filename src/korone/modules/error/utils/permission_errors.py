@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypeGuard
 
 from aiogram.exceptions import TelegramAPIError, TelegramBadRequest, TelegramForbiddenError
 from aiogram.types import Chat
@@ -45,7 +45,7 @@ def _extract_chat_id(chat: Chat | None, exception: TelegramBadRequest | Telegram
     return _coerce_chat_id(method_chat_id)
 
 
-def is_no_rights_error(exception: BaseException) -> bool:
+def is_no_rights_error(exception: BaseException) -> TypeGuard[TelegramBadRequest | TelegramForbiddenError]:
     if not isinstance(exception, (TelegramBadRequest, TelegramForbiddenError)):
         return False
 

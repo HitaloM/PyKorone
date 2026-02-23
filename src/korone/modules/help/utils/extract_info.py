@@ -18,11 +18,13 @@ from korone.logger import get_logger
 from korone.utils.i18n import LazyProxy as KoroneLazyProxy
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
     from types import ModuleType
 
     from aiogram import Router
     from babel.support import LazyProxy
     from stfu_tg import Doc
+
 
 ARGS_DICT = dict[str, ArgFabric]
 ARGS_COROUTINE = Callable[[Message | None, Any], Coroutine[None, None, ARGS_DICT]]
@@ -75,15 +77,15 @@ def get_all_cmds_raw() -> tuple[str, ...]:
     return tuple(chain.from_iterable(cmds.cmds for cmds in get_all_cmds()))
 
 
-def normalize_cmds(cmds: object) -> tuple[str, ...] | None:
+def normalize_cmds(cmds: str | tuple[str] | Sequence[str]) -> tuple[str, ...] | None:
     if isinstance(cmds, str):
         return (cmds,)
     if isinstance(cmds, (list, tuple)) and all(isinstance(cmd, str) for cmd in cmds):
-        return cast("tuple[str, ...]", tuple(cmds))
+        return tuple(cmds)
     return None
 
 
-def _clone_without_cache(description: object) -> object:
+def _clone_without_cache(description: LazyProxy | str | None) -> LazyProxy | str | None:
     if not isinstance(description, KoroneLazyProxy):
         return description
     return KoroneLazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)
@@ -95,14 +97,14 @@ def _normalize_arg_description(fabric: ArgFabric) -> None:
         if description is not None:
             fabric.description = KoroneLazyProxy(lambda d=description: f"?{d}", enable_cache=False)
         return
-    fabric.description = cast("Any", description)
+    fabric.description = description
 
 
 async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
     if not args:
         return None
     if isinstance(args, dict):
-        result = cast("ARGS_DICT", args)
+        result = args.copy()
         for fabric in result.values():
             try:
                 _normalize_arg_description(fabric)
@@ -113,7 +115,6 @@ async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT 
         result = args(None, {})
         if iscoroutinefunction(args) or isawaitable(result):
             result = await result
-        result = cast("ARGS_DICT", result)
         for fabric in result.values():
             try:
                 _normalize_arg_description(fabric)
@@ -168,7 +169,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         disableable = handler.flags.get("disableable")
         disableable_name = disableable.name if disableable else None
 
-        cmd_list = normalize_cmds(cmds)
+        cmd_list = normalize_cmds(cast("str", cmds))
         if not cmd_list:
             continue
         cmd = HandlerHelp(
@@ -198,7 +199,7 @@ async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
     if not hasattr(module, "router"):
         return None
 
-    name: LazyProxy | str = _clone_without_cache(getattr(module, "__module_name__", module.__name__.split(".")[-1]))
+    name = _clone_without_cache(getattr(module, "__module_name__", module.__name__.split(".")[-1]))
     emoji = getattr(module, "__module_emoji__", "?")
     exclude_public = getattr(module, "__exclude_public__", False)
     info = _clone_without_cache(getattr(module, "__module_info__", None))
@@ -209,7 +210,7 @@ async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
     if cmds := await gather_cmds_help(module.router):
         return ModuleHelp(
             handlers=cmds,
-            name=name,
+            name=name or "N/A",
             icon=emoji,
             exclude_public=exclude_public,
             info=info if info is not None else "",
