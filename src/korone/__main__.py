@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 import sentry_sdk
 import uvloop
@@ -127,6 +128,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    setup_logging()
+    setup_logging(level=logging.DEBUG if CONFIG.debug_mode else logging.INFO)
     uvloop.install()
     main()
