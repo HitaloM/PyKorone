@@ -1,7 +1,6 @@
 import sys
 from typing import TYPE_CHECKING
 
-from aiogram.exceptions import TelegramBadRequest
 from aiogram.fsm.context import FSMContext
 from aiogram.handlers import ErrorHandler
 from aiogram.types import Chat
@@ -29,7 +28,7 @@ class KoroneErrorHandler(ErrorHandler):
         if isinstance(exception, QUIET_EXCEPTIONS):
             return
 
-        if isinstance(exception, TelegramBadRequest) and is_no_rights_error(exception):
+        if is_no_rights_error(exception):
             chat = self.data.get("event_chat")
             await handle_no_rights_error(self.bot, chat, exception)
             return

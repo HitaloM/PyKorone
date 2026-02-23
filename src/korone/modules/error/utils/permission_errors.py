@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from aiogram.exceptions import TelegramAPIError, TelegramBadRequest
+from aiogram.exceptions import TelegramAPIError, TelegramBadRequest, TelegramForbiddenError
 from aiogram.types import Chat
 
 from korone.db.repositories.chat import ChatRepository
@@ -13,14 +13,17 @@ logger = get_logger(__name__)
 
 
 def is_no_rights_error(exception: BaseException) -> bool:
-    if not isinstance(exception, TelegramBadRequest):
+    if not isinstance(exception, TelegramBadRequest | TelegramForbiddenError):
         return False
 
     error_message = str(exception).lower()
-    return "not enough rights" in error_message and "send" in error_message
+    rights_indicators = ("not enough rights", "can't send messages", "cannot send messages")
+    return any(indicator in error_message for indicator in rights_indicators)
 
 
-async def handle_no_rights_error(bot: Bot, chat: Chat | None, exception: TelegramBadRequest) -> bool:
+async def handle_no_rights_error(
+    bot: Bot, chat: Chat | None, exception: TelegramBadRequest | TelegramForbiddenError
+) -> bool:
     if not isinstance(chat, Chat):
         logger.warning("Cannot handle no-rights error: no event_chat in data")
         return False
