@@ -22,7 +22,8 @@ logger = get_logger(__name__)
 
 class KoroneErrorHandler(ErrorHandler):
     async def handle(self) -> None:
-        exception = self.event
+        event_exception = getattr(self.event, "exception", None)
+        exception = event_exception if isinstance(event_exception, Exception) else self.event
         update: Update = self.update
 
         if isinstance(exception, QUIET_EXCEPTIONS):
@@ -30,8 +31,9 @@ class KoroneErrorHandler(ErrorHandler):
 
         if is_no_rights_error(exception):
             chat = self.data.get("event_chat")
-            await handle_no_rights_error(self.bot, chat, exception)
-            return
+            handled = await handle_no_rights_error(self.bot, chat, exception)
+            if handled:
+                return
 
         etype, value, tb = sys.exc_info()
         sys_exception = sys.exception()
@@ -42,7 +44,7 @@ class KoroneErrorHandler(ErrorHandler):
 
         if not isinstance(sys_exception, Exception):
             await logger.awarning("No sys exception", from_aiogram=exception, from_sys=sys_exception)
-        elif exception != sys_exception:
+        elif type(exception) is not type(sys_exception) or str(exception) != str(sys_exception):
             await logger.awarning("Mismatched exception seeking", from_aiogram=exception, from_sys=sys_exception)
 
         if isinstance(state := self.data.get("state"), FSMContext):

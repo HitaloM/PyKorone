@@ -234,14 +234,15 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         data["chat_db"] = data["user_db"] = user
 
-    async def save_my_chat_member(self, event: ChatMemberUpdated) -> bool:
+    @staticmethod
+    async def save_my_chat_member(event: ChatMemberUpdated) -> bool:
         status = event.new_chat_member.status
         logger.debug("SaveChatsMiddleware: Handling my_chat_member update", status=status, chat_id=event.chat.id)
-        if status == "kicked":
+        if status in {"kicked", "left"}:
             if not (group := await ChatRepository.get_by_chat_id(event.chat.id)):
                 return False
-            logger.debug("SaveChatsMiddleware: Bot was kicked from chat", chat_id=event.chat.id)
-            await self._delete_user_in_chat_by_user_id(event.new_chat_member.user.id, group)
+            logger.debug("SaveChatsMiddleware: Bot left chat", chat_id=event.chat.id, status=status)
+            await ChatRepository.delete_chat(group)
             return False
         return status != "member"
 
