@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gzip
 import json
 import re
 from typing import TYPE_CHECKING, Any, cast
@@ -36,6 +37,7 @@ TIKTOK_QUERY_PARAMS = {
 
 TIKTOK_API_HEADERS = {
     "Accept": "*/*",
+    "Accept-Encoding": "identity",
     "Accept-Language": "en",
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -146,8 +148,14 @@ class TikTokProvider(MediaProvider):
                         )
                         continue
 
-                    payload = await response.json(content_type=None)
-            except (aiohttp.ClientError, aiohttp.ContentTypeError, json.JSONDecodeError, UnicodeDecodeError) as exc:
+                    payload = cls._load_feed_payload(await response.read())
+            except (
+                aiohttp.ClientError,
+                aiohttp.ContentTypeError,
+                json.JSONDecodeError,
+                UnicodeDecodeError,
+                OSError,
+            ) as exc:
                 await logger.aerror("[TikTok] Feed request failed", method=method, error=str(exc), post_id=post_id)
                 continue
 
@@ -159,6 +167,17 @@ class TikTokProvider(MediaProvider):
                 return cast("dict[str, JsonValue]", aweme)
 
         return None
+
+    @classmethod
+    def _load_feed_payload(cls, payload: bytes) -> Any:  # noqa: ANN401
+        # Some TikTok edges return gzipped bytes without a matching response header.
+        if cls._is_gzip_payload(payload):
+            payload = gzip.decompress(payload)
+        return json.loads(payload)
+
+    @staticmethod
+    def _is_gzip_payload(payload: bytes) -> bool:
+        return len(payload) >= 2 and payload[0] == 0x1F and payload[1] == 0x8B
 
     @classmethod
     def _extract_first_aweme(cls, payload: dict[str, Any], post_id: str) -> dict[str, Any] | None:
