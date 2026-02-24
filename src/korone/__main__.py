@@ -110,7 +110,9 @@ def create_webhook_app() -> web.Application:
     setup_application(app, dp, bot=bot)
     app.on_shutdown.append(on_shutdown)
 
-    webhook_handler = SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=CONFIG.webhook_secret)
+    webhook_handler = SimpleRequestHandler(
+        dispatcher=dp, bot=bot, handle_in_background=True, secret_token=CONFIG.webhook_secret
+    )
     webhook_handler.register(app, path=CONFIG.webhook_path)
 
     return app
