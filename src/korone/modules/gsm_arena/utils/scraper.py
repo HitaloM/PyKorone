@@ -46,7 +46,7 @@ HEADERS = {
 async def fetch_html(url: str) -> str:
     try:
         proxy_url = f"{CONFIG.cors_bypass_url.rstrip('/')}/{url}"
-        timeout = aiohttp.ClientTimeout(total=20)
+        timeout = aiohttp.ClientTimeout(total=60)
         session = await HTTPClient.get_session()
         async with session.get(proxy_url, headers=HEADERS, timeout=timeout) as response:
             response.raise_for_status()
