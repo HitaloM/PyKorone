@@ -224,6 +224,12 @@ class BaseMediaHandler(KoroneMessageHandler):
         )
         return builder.as_markup()
 
+    async def _fetch_post(self, url: str) -> MediaPost | None:
+        async with ChatActionSender.typing(
+            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+        ):
+            return await self.PROVIDER.fetch(url)
+
     async def handle(self) -> None:
         if not self.bot:
             return
@@ -232,7 +238,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not urls:
             return
 
-        post = await self.PROVIDER.fetch(urls[0])
+        post = await self._fetch_post(urls[0])
         if not post:
             return
 
