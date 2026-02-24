@@ -20,14 +20,24 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 
-REDLIB_INSTANCES = (
-    "https://redlib.catsarch.com",
-    "https://redlib.4o1x5.dev",
-    "https://l.opnxng.com",
-    "https://redlib.orangenet.cc",
-)
+REDLIB_INSTANCES = ("https://redlib.4o1x5.dev", "https://l.opnxng.com", "https://redlib.catsarch.com")
 REDDIT_PATTERN_HOSTS = tuple(urlparse(instance).netloc for instance in REDLIB_INSTANCES)
 REDDIT_PATTERN_HOSTS_REGEX = "|".join(re.escape(host) for host in REDDIT_PATTERN_HOSTS)
+
+REDLIB_REQUEST_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
+    ),
+    "sec-ch-ua": '"Not:A-Brand";v="99", "Microsoft Edge";v="145", "Chromium";v="145"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "none",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en;q=0.8,en-US;q=0.7",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -190,7 +200,7 @@ class RedditProvider(MediaProvider):
 
     @classmethod
     async def _fetch_redlib_html(cls, redlib_url: str) -> dict[str, str] | None:
-        headers = {**cls._DEFAULT_HEADERS, "Cookie": "use_hls=on; hide_hls_notification=on"}
+        headers = {**REDLIB_REQUEST_HEADERS, "Cookie": "use_hls=on; hide_hls_notification=on"}
 
         try:
             session = await HTTPClient.get_session()
