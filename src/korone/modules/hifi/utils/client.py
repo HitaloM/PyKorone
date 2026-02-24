@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import base64
 import binascii
-import json
 
 import aiohttp
+import orjson
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
@@ -151,8 +151,8 @@ def _extract_stream(data: dict[str, object]) -> tuple[str | None, str | None, st
 
     try:
         manifest_payload = _decode_manifest(manifest)
-        parsed_manifest = json.loads(manifest_payload)
-    except binascii.Error, json.JSONDecodeError, UnicodeDecodeError:
+        parsed_manifest = orjson.loads(manifest_payload)
+    except binascii.Error, orjson.JSONDecodeError, UnicodeDecodeError:
         return None, None, None
 
     if not isinstance(parsed_manifest, dict):
@@ -206,7 +206,7 @@ async def _request_json(path: str, *, params: dict[str, str | int]) -> dict[str,
                     continue
 
                 try:
-                    payload = await response.json(content_type=None)
+                    payload = await response.json(content_type=None, loads=orjson.loads)
                 except (aiohttp.ContentTypeError, ValueError) as exc:
                     last_error = HifiPayloadError("HiFi API returned invalid JSON")
                     await logger.adebug("[HiFi] Invalid payload", error=str(exc), url=url)

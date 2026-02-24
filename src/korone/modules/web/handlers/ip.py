@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, cast
 
 import aiohttp
+import orjson
 from aiogram import flags
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -73,7 +74,7 @@ class IPInfoHandler(KoroneMessageHandler):
             async with session.get(url, timeout=timeout) as response:
                 if response.status != 200:
                     return None
-                data = await response.json()
+                data = await response.json(loads=orjson.loads)
                 data.pop("readme", None)
                 return data
         except aiohttp.ClientError:

@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import quote
 
 import aiohttp
+import orjson
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
@@ -100,7 +101,7 @@ class BlueskyProvider(MediaProvider):
                 if response.status != 200:
                     await logger.adebug("[Bluesky] Resolve handle failed", status=response.status, handle=handle)
                     return None
-                data = await response.json()
+                data = await response.json(loads=orjson.loads)
                 return str(data.get("did")) if isinstance(data, dict) else None
         except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
             await logger.aerror("[Bluesky] Resolve handle error", error=str(exc))
@@ -122,7 +123,7 @@ class BlueskyProvider(MediaProvider):
                 if response.status != 200:
                     await logger.adebug("[Bluesky] PLC directory lookup failed", status=response.status, did=did)
                     return None
-                data = await response.json()
+                data = await response.json(loads=orjson.loads)
                 if not isinstance(data, dict):
                     return None
                 services = data.get("service")
@@ -147,7 +148,7 @@ class BlueskyProvider(MediaProvider):
                 if response.status != 200:
                     await logger.adebug("[Bluesky] Post thread failed", status=response.status, uri=uri)
                     return None
-                data = await response.json()
+                data = await response.json(loads=orjson.loads)
                 return cast("dict[str, JsonValue]", data)
         except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
             await logger.aerror("[Bluesky] Post thread error", error=str(exc))

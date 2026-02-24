@@ -6,6 +6,7 @@ import socket
 from typing import Any
 
 import aiohttp
+import orjson
 
 from korone.utils.aiohttp_session import HTTPClient
 
@@ -23,7 +24,7 @@ async def fetch_ip_info(ip_or_domain: str) -> dict[str, Any] | None:
         async with session.get(url, timeout=timeout) as response:
             if response.status != 200:
                 return None
-            data = await response.json()
+            data = await response.json(loads=orjson.loads)
             data.pop("readme", None)
             return data
     except aiohttp.ClientError:
@@ -40,7 +41,7 @@ async def fetch_dns_info(hostname: str, record_type: str) -> list[str]:
         async with session.get(CF_DNS_URL, timeout=timeout, params=params, headers=headers) as response:
             if response.status != 200:
                 return []
-            data = await response.json()
+            data = await response.json(loads=orjson.loads)
             answers = data.get("Answer", [])
             expected_type = 1 if record_type == "A" else 28
             return [answer["data"] for answer in answers if answer.get("type") == expected_type]

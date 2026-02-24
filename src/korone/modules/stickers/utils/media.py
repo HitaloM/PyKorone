@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import asyncio
-import json
 import math
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import orjson
 from aiogram.types import FSInputFile, InputSticker
 from PIL import Image
 
@@ -204,13 +204,13 @@ async def probe_video(path: Path) -> VideoMeta:
         raise StickerPrepareError(_("Could not inspect video metadata."))
 
     try:
-        payload = json.loads(stdout)
+        payload = orjson.loads(stdout)
         stream = payload["streams"][0]
         width = int(stream["width"])
         height = int(stream["height"])
         fps = parse_fps(str(stream.get("avg_frame_rate", "0")))
         duration = float(payload["format"]["duration"])
-    except (ValueError, TypeError, KeyError, IndexError, json.JSONDecodeError) as exc:
+    except (ValueError, TypeError, KeyError, IndexError, orjson.JSONDecodeError) as exc:
         raise StickerPrepareError(_("Could not parse video metadata.")) from exc
 
     if width <= 0 or height <= 0 or duration <= 0:

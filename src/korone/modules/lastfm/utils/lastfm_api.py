@@ -4,6 +4,7 @@ from enum import StrEnum
 from typing import Any, ClassVar, TypeVar, cast
 
 import aiohttp
+import orjson
 from pydantic import BaseModel
 
 from korone.config import CONFIG
@@ -56,7 +57,7 @@ class LastFMClient:
                 if response.status >= 400:
                     await LastFMClient._raise_http_error(response, params)
 
-                data = await response.json()
+                data = await response.json(loads=orjson.loads)
                 if not data:
                     msg = "Empty response from Last.fm API"
                     raise LastFMError(msg)
@@ -82,7 +83,7 @@ class LastFMClient:
     @staticmethod
     async def _raise_http_error(response: aiohttp.ClientResponse, params: dict[str, Any]) -> None:
         try:
-            data = await response.json()
+            data = await response.json(loads=orjson.loads)
             error_code = data.get("error")
             error_message = data.get("message", "Unknown error")
             error_class = ERROR_CODE_MAP.get(error_code, LastFMError)

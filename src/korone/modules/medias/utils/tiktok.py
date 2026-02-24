@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import gzip
-import json
 import re
 from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import quote
 
 import aiohttp
+import orjson
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
@@ -152,7 +152,7 @@ class TikTokProvider(MediaProvider):
             except (
                 aiohttp.ClientError,
                 aiohttp.ContentTypeError,
-                json.JSONDecodeError,
+                orjson.JSONDecodeError,
                 UnicodeDecodeError,
                 OSError,
             ) as exc:
@@ -173,7 +173,7 @@ class TikTokProvider(MediaProvider):
         # Some TikTok edges return gzipped bytes without a matching response header.
         if cls._is_gzip_payload(payload):
             payload = gzip.decompress(payload)
-        return json.loads(payload)
+        return orjson.loads(payload)
 
     @staticmethod
     def _is_gzip_payload(payload: bytes) -> bool:

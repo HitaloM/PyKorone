@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 import aiohttp
+import orjson
 
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
@@ -34,7 +35,7 @@ class DeezerClient:
             session = await HTTPClient.get_session()
             async with session.get(url, params=params, timeout=timeout) as response:
                 response.raise_for_status()
-                data = await response.json()
+                data = await response.json(loads=orjson.loads)
 
                 if "error" in data:
                     msg = f"API error: {data['error'].get('message', 'Unknown error')}"

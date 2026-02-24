@@ -4,6 +4,7 @@ import re
 from typing import TYPE_CHECKING, Any, cast
 
 import aiohttp
+import orjson
 
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
@@ -87,7 +88,7 @@ class FXTwitterProvider(MediaProvider):
                 if response.status != 200:
                     await logger.adebug("[FXTwitter] Non-200 response", status=response.status, url=url)
                     return None
-                data = await response.json()
+                data = await response.json(loads=orjson.loads)
                 return cast("dict[str, JsonValue]", data)
         except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
             await logger.aerror("[FXTwitter] Request error", error=str(exc), url=url)
