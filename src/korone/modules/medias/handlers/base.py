@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, ClassVar, cast
 
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.chat_action import ChatActionSender
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -12,6 +13,7 @@ from korone.filters.chat_status import GroupChatFilter
 from korone.modules.medias.filters import MediaUrlFilter
 from korone.modules.medias.utils.base import MediaKind
 from korone.modules.utils_.file_id_cache import make_file_id_cache_key, set_cached_file_payload
+from korone.modules.utils_.telegram_exceptions import REPLIED_NOT_FOUND
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 
@@ -31,6 +33,11 @@ class BaseMediaHandler(KoroneMessageHandler):
     DEFAULT_AUTHOR_NAME: ClassVar[str]
     DEFAULT_AUTHOR_HANDLE: ClassVar[str]
 
+    @staticmethod
+    def _is_missing_reply_error(error: TelegramBadRequest) -> bool:
+        normalized_message = error.message.lower()
+        return REPLIED_NOT_FOUND in normalized_message or "replied message not found" in normalized_message
+
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
         return (GroupChatFilter(), MediaUrlFilter(cls.PROVIDER.pattern))
@@ -41,20 +48,46 @@ class BaseMediaHandler(KoroneMessageHandler):
             async with ChatActionSender.upload_photo(
                 chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
             ):
-                sent_message = await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
+                try:
+                    sent_message = await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
+                except TelegramBadRequest as error:
+                    if not self._is_missing_reply_error(error):
+                        raise
+                    sent_message = await self.bot.send_photo(
+                        chat_id=self.event.chat.id,
+                        photo=media.file,
+                        caption=caption,
+                        reply_markup=keyboard,
+                        message_thread_id=self.event.message_thread_id,
+                    )
         else:
             async with ChatActionSender.upload_video(
                 chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
             ):
-                sent_message = await self.event.reply_video(
-                    media.file,
-                    caption=caption,
-                    reply_markup=keyboard,
-                    duration=media.duration,
-                    width=media.width,
-                    height=media.height,
-                    thumbnail=media.thumbnail,
-                )
+                try:
+                    sent_message = await self.event.reply_video(
+                        media.file,
+                        caption=caption,
+                        reply_markup=keyboard,
+                        duration=media.duration,
+                        width=media.width,
+                        height=media.height,
+                        thumbnail=media.thumbnail,
+                    )
+                except TelegramBadRequest as error:
+                    if not self._is_missing_reply_error(error):
+                        raise
+                    sent_message = await self.bot.send_video(
+                        chat_id=self.event.chat.id,
+                        video=media.file,
+                        caption=caption,
+                        reply_markup=keyboard,
+                        duration=media.duration,
+                        width=media.width,
+                        height=media.height,
+                        thumbnail=media.thumbnail,
+                        message_thread_id=self.event.message_thread_id,
+                    )
 
         if not sent_message:
             return
@@ -86,12 +119,20 @@ class BaseMediaHandler(KoroneMessageHandler):
                     thumbnail=item.thumbnail,
                 )
 
-        sent_messages = await self.bot.send_media_group(
-            chat_id=self.event.chat.id,
-            media=builder.build(),
-            reply_to_message_id=self.event.message_id,
-            message_thread_id=self.event.message_thread_id,
-        )
+        media_group = builder.build()
+        try:
+            sent_messages = await self.bot.send_media_group(
+                chat_id=self.event.chat.id,
+                media=media_group,
+                reply_to_message_id=self.event.message_id,
+                message_thread_id=self.event.message_thread_id,
+            )
+        except TelegramBadRequest as error:
+            if not self._is_missing_reply_error(error):
+                raise
+            sent_messages = await self.bot.send_media_group(
+                chat_id=self.event.chat.id, media=media_group, message_thread_id=self.event.message_thread_id
+            )
 
         for item, sent in zip(media_items, sent_messages, strict=False):
             file_id: str | None = None
