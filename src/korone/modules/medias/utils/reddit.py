@@ -21,7 +21,12 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 
-REDLIB_INSTANCES = ("https://l.opnxng.com", "https://redlib.orangenet.cc", "https://redlib.4o1x5.dev")
+REDLIB_INSTANCES = (
+    "https://redlib.catsarch.com",
+    "https://redlib.4o1x5.dev",
+    "https://l.opnxng.com",
+    "https://redlib.orangenet.cc",
+)
 REDDIT_PATTERN_HOSTS = tuple(urlparse(instance).netloc for instance in REDLIB_INSTANCES)
 REDDIT_PATTERN_HOSTS_REGEX = "|".join(re.escape(host) for host in REDDIT_PATTERN_HOSTS)
 
@@ -191,9 +196,7 @@ class RedditProvider(MediaProvider):
 
         try:
             session = await HTTPClient.get_session()
-            async with session.get(
-                redlib_url, timeout=cls._DEFAULT_TIMEOUT, headers=headers, allow_redirects=True
-            ) as response:
+            async with session.get(redlib_url, headers=headers, allow_redirects=True) as response:
                 if response.status != 200:
                     await logger.adebug("[Reddit] Non-200 Redlib response", status=response.status, url=redlib_url)
                     return None
@@ -470,7 +473,7 @@ class RedditProvider(MediaProvider):
     async def _fetch_text(cls, url: str) -> str | None:
         try:
             session = await HTTPClient.get_session()
-            async with session.get(url, timeout=cls._DEFAULT_TIMEOUT, headers=cls._DEFAULT_HEADERS) as response:
+            async with session.get(url, headers=cls._DEFAULT_HEADERS) as response:
                 if response.status != 200:
                     await logger.adebug("[Reddit] Failed to fetch playlist", status=response.status, url=url)
                     return None
