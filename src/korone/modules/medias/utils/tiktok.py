@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import quote
@@ -148,8 +149,8 @@ class TikTokProvider(MediaProvider):
                         )
                         continue
 
-                    payload = await response.json()
-            except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
+                    payload = await response.json(content_type=None)
+            except (aiohttp.ClientError, aiohttp.ContentTypeError, json.JSONDecodeError, UnicodeDecodeError) as exc:
                 await logger.aerror("[TikTok] Feed request failed", method=method, error=str(exc), post_id=post_id)
                 continue
 
