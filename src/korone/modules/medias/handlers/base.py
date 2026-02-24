@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, ClassVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar
 from urllib.parse import urldefrag
 
 from aiogram.exceptions import TelegramBadRequest
@@ -24,17 +24,22 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
+    from contextlib import AbstractAsyncContextManager
+
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import InlineKeyboardMarkup, Message
     from stfu_tg.doc import Element
 
     from korone.modules.medias.utils.base import MediaProvider
 
+type CachePayload = dict[str, Any]
+
 
 class BaseMediaHandler(KoroneMessageHandler):
     CAPTION_LIMIT = 1024
     MEDIA_GROUP_LIMIT = 10
     POST_CACHE_NAMESPACE: ClassVar[str] = "media-post"
+    MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
 
     PROVIDER: ClassVar[type[MediaProvider]]
     DEFAULT_AUTHOR_NAME: ClassVar[str]
@@ -51,39 +56,45 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     @staticmethod
     def _post_cache_candidates(url: str) -> list[str]:
-        normalized_url = url.strip()
-        if not normalized_url:
+        if not (normalized_url := url.strip()):
             return []
 
         without_fragment, _ = urldefrag(normalized_url)
-        without_trailing_slash = without_fragment.rstrip("/")
+        return list(
+            dict.fromkeys(
+                candidate for candidate in (normalized_url, without_fragment, without_fragment.rstrip("/")) if candidate
+            )
+        )
 
-        candidates: list[str] = []
-        for candidate in (normalized_url, without_fragment, without_trailing_slash):
-            if candidate and candidate not in candidates:
-                candidates.append(candidate)
-
-        return candidates
+    @classmethod
+    def _collect_post_cache_candidates(cls, *urls: str) -> set[str]:
+        return {candidate for url in urls for candidate in cls._post_cache_candidates(url)}
 
     @classmethod
     def _post_cache_key(cls, url: str) -> str:
         return make_file_id_cache_key(cls.POST_CACHE_NAMESPACE, url)
 
+    @classmethod
+    def _media_source_cache_key(cls, source_url: str) -> str:
+        return make_file_id_cache_key(cls.MEDIA_SOURCE_CACHE_NAMESPACE, source_url)
+
     @staticmethod
     def _extract_sent_file_id(sent_message: Message, kind: MediaKind) -> str | None:
-        if kind == MediaKind.PHOTO and sent_message.photo:
-            return sent_message.photo[-1].file_id
-        if kind == MediaKind.VIDEO and sent_message.video:
-            return sent_message.video.file_id
-        return None
+        match kind:
+            case MediaKind.PHOTO if sent_message.photo:
+                return sent_message.photo[-1].file_id
+            case MediaKind.VIDEO if sent_message.video:
+                return sent_message.video.file_id
+            case _:
+                return None
 
     @staticmethod
     def _coerce_cached_int(value: object) -> int | None:
         return value if isinstance(value, int) and not isinstance(value, bool) else None
 
     @staticmethod
-    def _serialize_media_cache_entry(media: MediaItem, file_id: str) -> dict[str, Any]:
-        payload: dict[str, Any] = {"kind": media.kind.value, "file_id": file_id, "source_url": media.source_url}
+    def _serialize_media_cache_entry(media: MediaItem, file_id: str) -> CachePayload:
+        payload: CachePayload = {"kind": media.kind.value, "file_id": file_id, "source_url": media.source_url}
 
         if media.duration is not None:
             payload["duration"] = media.duration
@@ -95,30 +106,32 @@ class BaseMediaHandler(KoroneMessageHandler):
         return payload
 
     @classmethod
-    def _deserialize_media_cache_entry(cls, payload: dict[str, Any], index: int) -> MediaItem | None:
-        kind_raw = payload.get("kind")
-        file_id = payload.get("file_id")
-        source_url = payload.get("source_url")
-        if not isinstance(kind_raw, str) or kind_raw not in {MediaKind.PHOTO.value, MediaKind.VIDEO.value}:
-            return None
-        if not isinstance(file_id, str) or not file_id:
-            return None
+    def _deserialize_media_cache_entry(cls, payload: CachePayload, index: int) -> MediaItem | None:
+        match payload:
+            case {"kind": str() as kind_raw, "file_id": str() as file_id, **rest} if file_id:
+                try:
+                    kind = MediaKind(kind_raw)
+                except ValueError:
+                    return None
+            case _:
+                return None
 
+        source_url = rest.get("source_url")
         if not isinstance(source_url, str) or not source_url:
             source_url = f"cached://{index}"
 
         return MediaItem(
-            kind=MediaKind(kind_raw),
+            kind=kind,
             file=file_id,
             filename=f"cached_media_{index}",
             source_url=source_url,
-            duration=cls._coerce_cached_int(payload.get("duration")),
-            width=cls._coerce_cached_int(payload.get("width")),
-            height=cls._coerce_cached_int(payload.get("height")),
+            duration=cls._coerce_cached_int(rest.get("duration")),
+            width=cls._coerce_cached_int(rest.get("width")),
+            height=cls._coerce_cached_int(rest.get("height")),
         )
 
     @classmethod
-    def _build_post_cache_payload(cls, post: MediaPost, media_payload: list[dict[str, Any]]) -> dict[str, Any]:
+    def _build_post_cache_payload(cls, post: MediaPost, media_payload: list[CachePayload]) -> CachePayload:
         return {
             "author_name": post.author_name,
             "author_handle": post.author_handle,
@@ -129,10 +142,14 @@ class BaseMediaHandler(KoroneMessageHandler):
         }
 
     @classmethod
-    def _deserialize_post_cache_payload(cls, payload: dict[str, Any]) -> MediaPost | None:
-        raw_media = payload.get("media")
-        if not isinstance(raw_media, list):
-            return None
+    def _deserialize_post_cache_payload(cls, payload: CachePayload) -> MediaPost | None:
+        match payload:
+            case {"media": list(raw_media), "url": str() as url, "website": str() as website, **rest} if (
+                url and website
+            ):
+                pass
+            case _:
+                return None
 
         media_items: list[MediaItem] = []
         for index, entry in enumerate(raw_media, start=1):
@@ -146,16 +163,9 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not media_items:
             return None
 
-        author_name = payload.get("author_name")
-        author_handle = payload.get("author_handle")
-        text = payload.get("text")
-        url = payload.get("url")
-        website = payload.get("website")
-
-        if not isinstance(url, str) or not url:
-            return None
-        if not isinstance(website, str) or not website:
-            return None
+        author_name = rest.get("author_name")
+        author_handle = rest.get("author_handle")
+        text = rest.get("text")
 
         return MediaPost(
             author_name=author_name if isinstance(author_name, str) and author_name else cls.DEFAULT_AUTHOR_NAME,
@@ -182,105 +192,123 @@ class BaseMediaHandler(KoroneMessageHandler):
         return None
 
     async def _delete_post_cache(self, *urls: str) -> None:
-        cache_candidates: set[str] = set()
-        for url in urls:
-            cache_candidates.update(self._post_cache_candidates(url))
-
-        for candidate_url in cache_candidates:
+        for candidate_url in self._collect_post_cache_candidates(*urls):
             await delete_cached_file_payload(self._post_cache_key(candidate_url))
 
-    async def _set_post_cache(self, source_url: str, post: MediaPost, media_payload: list[dict[str, Any]]) -> None:
+    async def _set_post_cache(self, source_url: str, post: MediaPost, media_payload: list[CachePayload]) -> None:
         if not media_payload:
             return
 
         payload = self._build_post_cache_payload(post, media_payload)
-        cache_candidates: set[str] = set()
-        for url in (source_url, post.url):
-            cache_candidates.update(self._post_cache_candidates(url))
-
-        for candidate_url in cache_candidates:
+        for candidate_url in self._collect_post_cache_candidates(source_url, post.url):
             await set_cached_file_payload(self._post_cache_key(candidate_url), payload)
+
+    def _chat_action_kwargs(self) -> CachePayload:
+        return {"chat_id": self.event.chat.id, "bot": self.bot, "message_thread_id": self.event.message_thread_id}
+
+    def _upload_action(self, kind: MediaKind) -> AbstractAsyncContextManager[Any]:
+        kwargs = self._chat_action_kwargs()
+        match kind:
+            case MediaKind.PHOTO:
+                return ChatActionSender.upload_photo(**kwargs)
+            case MediaKind.VIDEO:
+                return ChatActionSender.upload_video(**kwargs)
+            case _:
+                msg = f"Unsupported media kind: {kind!r}"
+                raise ValueError(msg)
+
+    async def _reply_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> Message:
+        match media.kind:
+            case MediaKind.PHOTO:
+                return await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
+            case MediaKind.VIDEO:
+                return await self.event.reply_video(
+                    media.file,
+                    caption=caption,
+                    reply_markup=keyboard,
+                    duration=media.duration,
+                    width=media.width,
+                    height=media.height,
+                    thumbnail=media.thumbnail,
+                )
+            case _:
+                msg = f"Unsupported media kind: {media.kind!r}"
+                raise ValueError(msg)
+
+    async def _send_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> Message:
+        match media.kind:
+            case MediaKind.PHOTO:
+                return await self.bot.send_photo(
+                    chat_id=self.event.chat.id,
+                    photo=media.file,
+                    caption=caption,
+                    reply_markup=keyboard,
+                    message_thread_id=self.event.message_thread_id,
+                )
+            case MediaKind.VIDEO:
+                return await self.bot.send_video(
+                    chat_id=self.event.chat.id,
+                    video=media.file,
+                    caption=caption,
+                    reply_markup=keyboard,
+                    duration=media.duration,
+                    width=media.width,
+                    height=media.height,
+                    thumbnail=media.thumbnail,
+                    message_thread_id=self.event.message_thread_id,
+                )
+            case _:
+                msg = f"Unsupported media kind: {media.kind!r}"
+                raise ValueError(msg)
+
+    @classmethod
+    async def _cache_media_source_file_id(cls, source_url: str, file_id: str) -> None:
+        await set_cached_file_payload(cls._media_source_cache_key(source_url), {"file_id": file_id})
+
+    async def _cache_sent_media(self, media: MediaItem, sent_message: Message) -> CachePayload | None:
+        if not (file_id := self._extract_sent_file_id(sent_message, media.kind)):
+            return None
+
+        await self._cache_media_source_file_id(media.source_url, file_id)
+        return self._serialize_media_cache_entry(media, file_id)
 
     async def _send_single_media(
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
-    ) -> list[dict[str, Any]]:
-        sent_message = None
-        if media.kind == MediaKind.PHOTO:
-            async with ChatActionSender.upload_photo(
-                chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
-            ):
-                try:
-                    sent_message = await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
-                except TelegramBadRequest as error:
-                    if not self._is_missing_reply_error(error):
-                        raise
-                    sent_message = await self.bot.send_photo(
-                        chat_id=self.event.chat.id,
-                        photo=media.file,
-                        caption=caption,
-                        reply_markup=keyboard,
-                        message_thread_id=self.event.message_thread_id,
-                    )
-        else:
-            async with ChatActionSender.upload_video(
-                chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
-            ):
-                try:
-                    sent_message = await self.event.reply_video(
-                        media.file,
-                        caption=caption,
-                        reply_markup=keyboard,
-                        duration=media.duration,
-                        width=media.width,
-                        height=media.height,
-                        thumbnail=media.thumbnail,
-                    )
-                except TelegramBadRequest as error:
-                    if not self._is_missing_reply_error(error):
-                        raise
-                    sent_message = await self.bot.send_video(
-                        chat_id=self.event.chat.id,
-                        video=media.file,
-                        caption=caption,
-                        reply_markup=keyboard,
-                        duration=media.duration,
-                        width=media.width,
-                        height=media.height,
-                        thumbnail=media.thumbnail,
-                        message_thread_id=self.event.message_thread_id,
-                    )
+    ) -> list[CachePayload]:
+        async with self._upload_action(media.kind):
+            try:
+                sent_message = await self._reply_media(media, caption, keyboard)
+            except TelegramBadRequest as error:
+                if not self._is_missing_reply_error(error):
+                    raise
+                sent_message = await self._send_media(media, caption, keyboard)
 
-        if not sent_message:
+        if not (serialized := await self._cache_sent_media(media, sent_message)):
             return []
 
-        file_id = self._extract_sent_file_id(sent_message, media.kind)
-        if not file_id:
-            return []
+        return [serialized]
 
-        cache_key = make_file_id_cache_key("media-source", media.source_url)
-        await set_cached_file_payload(cache_key, {"file_id": file_id})
-        return [self._serialize_media_cache_entry(media, file_id)]
-
-    async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> list[dict[str, Any]]:
-        builder = MediaGroupBuilder()
-        last_index = len(media_items) - 1
-        for index, item in enumerate(media_items):
-            item_caption = caption if index == last_index else None
-            if item.kind == MediaKind.PHOTO:
-                builder.add_photo(item.file, caption=item_caption)
-            else:
+    @staticmethod
+    def _add_group_item(builder: MediaGroupBuilder, item: MediaItem, caption: str | None) -> None:
+        match item.kind:
+            case MediaKind.PHOTO:
+                builder.add_photo(item.file, caption=caption)
+            case MediaKind.VIDEO:
                 builder.add_video(
                     item.file,
-                    caption=item_caption,
+                    caption=caption,
                     duration=item.duration,
                     width=item.width,
                     height=item.height,
                     thumbnail=item.thumbnail,
                 )
+            case _:
+                msg = f"Unsupported media kind: {item.kind!r}"
+                raise ValueError(msg)
 
-        media_group = builder.build()
+    async def _send_media_group_messages(self, media_group: list[Any]) -> list[Message]:
         try:
-            sent_messages = await self.bot.send_media_group(
+            return await self.bot.send_media_group(
                 chat_id=self.event.chat.id,
                 media=media_group,
                 reply_to_message_id=self.event.message_id,
@@ -289,30 +317,25 @@ class BaseMediaHandler(KoroneMessageHandler):
         except TelegramBadRequest as error:
             if not self._is_missing_reply_error(error):
                 raise
-            sent_messages = await self.bot.send_media_group(
+            return await self.bot.send_media_group(
                 chat_id=self.event.chat.id, media=media_group, message_thread_id=self.event.message_thread_id
             )
 
-        cached_media_payload: list[dict[str, Any]] = []
+    async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> list[CachePayload]:
+        builder = MediaGroupBuilder()
+        last_index = len(media_items) - 1
+        for index, item in enumerate(media_items):
+            self._add_group_item(builder, item, caption if index == last_index else None)
+
+        media_group = builder.build()
+        sent_messages = await self._send_media_group_messages(media_group)
+
+        cached_media_payload: list[CachePayload] = []
         for item, sent in zip(media_items, sent_messages, strict=False):
-            file_id = self._extract_sent_file_id(sent, item.kind)
-
-            if not file_id:
-                continue
-
-            cache_key = make_file_id_cache_key("media-source", item.source_url)
-            await set_cached_file_payload(cache_key, {"file_id": file_id})
-            cached_media_payload.append(self._serialize_media_cache_entry(item, file_id))
+            if serialized := await self._cache_sent_media(item, sent):
+                cached_media_payload.append(serialized)
 
         return cached_media_payload
-
-    @classmethod
-    def _format_caption(cls, post: MediaPost) -> str:
-        return cls._build_caption(post, include_link=False)
-
-    @classmethod
-    def _format_caption_with_link(cls, post: MediaPost) -> str:
-        return cls._build_caption(post, include_link=True)
 
     @classmethod
     def _caption_title(cls, author_name: str, author_handle: str) -> Element:
@@ -384,17 +407,15 @@ class BaseMediaHandler(KoroneMessageHandler):
         return builder.as_markup()
 
     async def _fetch_post(self, url: str) -> MediaPost | None:
-        async with ChatActionSender.typing(
-            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
-        ):
+        async with ChatActionSender.typing(**self._chat_action_kwargs()):
             return await self.PROVIDER.fetch(url)
 
-    async def _send_post(self, post: MediaPost) -> list[dict[str, Any]]:
+    async def _send_post(self, post: MediaPost) -> list[CachePayload]:
         media_items = post.media[: self.MEDIA_GROUP_LIMIT]
         if not media_items:
             return []
 
-        caption = self._format_caption(post)
+        caption = self._build_caption(post, include_link=False)
         keyboard = self._build_keyboard(post)
 
         if len(media_items) == 1:
@@ -403,37 +424,41 @@ class BaseMediaHandler(KoroneMessageHandler):
                 return []
             return cached_media_payload
 
-        group_caption = self._format_caption_with_link(post)
-        async with ChatActionSender.upload_document(
-            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
-        ):
+        group_caption = self._build_caption(post, include_link=True)
+        async with ChatActionSender.upload_document(**self._chat_action_kwargs()):
             cached_media_payload = await self._send_media_group(media_items, group_caption)
 
         if len(cached_media_payload) != len(media_items):
             return []
         return cached_media_payload
 
+    async def _try_send_cached_post(self, source_url: str) -> bool:
+        if not (cached_post_payload := await self._get_cached_post(source_url)):
+            return False
+
+        cached_url, cached_post = cached_post_payload
+        try:
+            cached_media_payload = await self._send_post(cached_post)
+        except TelegramBadRequest:
+            await self._delete_post_cache(source_url, cached_url, cached_post.url)
+            return False
+
+        if cached_media_payload:
+            await self._set_post_cache(source_url, cached_post, cached_media_payload)
+        return True
+
     async def handle(self) -> None:
         if not self.bot:
             return
 
-        urls = cast("list[str]", self.data.get("media_urls") or [])
-        if not urls:
-            return
-
-        source_url = urls[0]
-
-        cached_post_payload = await self._get_cached_post(source_url)
-        if cached_post_payload is not None:
-            cached_url, cached_post = cached_post_payload
-            try:
-                cached_media_payload = await self._send_post(cached_post)
-            except TelegramBadRequest:
-                await self._delete_post_cache(source_url, cached_url, cached_post.url)
-            else:
-                if cached_media_payload:
-                    await self._set_post_cache(source_url, cached_post, cached_media_payload)
+        match self.data.get("media_urls"):
+            case [str() as source_url, *_]:
+                pass
+            case _:
                 return
+
+        if await self._try_send_cached_post(source_url):
+            return
 
         post = await self._fetch_post(source_url)
         if not post:
