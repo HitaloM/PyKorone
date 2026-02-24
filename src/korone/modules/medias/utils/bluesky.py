@@ -6,10 +6,9 @@ from urllib.parse import quote
 
 import aiohttp
 
-from korone.constants import CACHE_MEDIA_TTL_SECONDS, TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
+from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
-from korone.utils.cached import Cached
 
 from .base import MediaKind, MediaPost, MediaProvider, MediaSource
 
@@ -92,7 +91,6 @@ class BlueskyProvider(MediaProvider):
         return match.group("handle"), match.group("rkey")
 
     @staticmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="bsky:resolve")
     async def _resolve_handle(handle: str) -> str | None:
         timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
         params = {"handle": handle}
@@ -109,7 +107,6 @@ class BlueskyProvider(MediaProvider):
             return None
 
     @staticmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="bsky:pds")
     async def _resolve_pds_url(did: str) -> str | None:
         timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
         if did.startswith("did:plc:"):
@@ -141,7 +138,6 @@ class BlueskyProvider(MediaProvider):
             return None
 
     @staticmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="bsky:post")
     async def _get_post_thread(uri: str) -> dict[str, JsonValue] | None:
         timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
         params = {"uri": uri, "depth": 0}

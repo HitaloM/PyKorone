@@ -7,10 +7,9 @@ from urllib.parse import quote
 
 import aiohttp
 
-from korone.constants import CACHE_MEDIA_TTL_SECONDS, TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
+from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
-from korone.utils.cached import Cached
 
 from .base import MediaKind, MediaPost, MediaProvider, MediaSource
 
@@ -118,7 +117,6 @@ class TikTokProvider(MediaProvider):
         return post_id if post_id.isdigit() else None
 
     @classmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="tiktok:redirect")
     async def _resolve_redirect_url(cls, url: str) -> str | None:
         try:
             session = await HTTPClient.get_session()
@@ -131,7 +129,6 @@ class TikTokProvider(MediaProvider):
             return None
 
     @classmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="tiktok:aweme")
     async def _fetch_aweme(cls, post_id: str) -> dict[str, JsonValue] | None:
         params = {**TIKTOK_QUERY_PARAMS, "aweme_id": post_id}
         headers = {**cls._DEFAULT_HEADERS, **TIKTOK_API_HEADERS}

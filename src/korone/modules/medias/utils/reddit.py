@@ -9,10 +9,9 @@ from urllib.parse import quote, urldefrag, urljoin, urlparse, urlunparse
 import aiohttp
 from lxml import html as lxml_html
 
-from korone.constants import CACHE_MEDIA_TTL_SECONDS, TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
+from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
-from korone.utils.cached import Cached
 
 from .base import MediaKind, MediaPost, MediaProvider, MediaSource
 
@@ -190,7 +189,6 @@ class RedditProvider(MediaProvider):
         return None
 
     @classmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="reddit:redlib:html")
     async def _fetch_redlib_html(cls, redlib_url: str) -> dict[str, str] | None:
         headers = {**cls._DEFAULT_HEADERS, "Cookie": "use_hls=on; hide_hls_notification=on"}
 
@@ -469,7 +467,6 @@ class RedditProvider(MediaProvider):
         return variant_url, best_width, best_height
 
     @classmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="reddit:redlib:text")
     async def _fetch_text(cls, url: str) -> str | None:
         try:
             session = await HTTPClient.get_session()

@@ -10,10 +10,8 @@ import aiohttp
 from aiogram.types import BufferedInputFile
 from lxml import html as lxml_html
 
-from korone.constants import CACHE_MEDIA_TTL_SECONDS
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
-from korone.utils.cached import Cached
 
 from .base import MediaItem, MediaKind, MediaPost, MediaProvider
 
@@ -95,7 +93,6 @@ class InstagramProvider(MediaProvider):
         return url
 
     @classmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="instafix:html")
     async def _get_instafix_data(cls, instafix_url: str) -> dict[str, str] | None:
         try:
             session = await HTTPClient.get_session()

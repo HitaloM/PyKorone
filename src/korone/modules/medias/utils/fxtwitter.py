@@ -5,10 +5,8 @@ from typing import TYPE_CHECKING, Any, cast
 
 import aiohttp
 
-from korone.constants import CACHE_MEDIA_TTL_SECONDS
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
-from korone.utils.cached import Cached
 
 from .base import MediaKind, MediaPost, MediaProvider, MediaSource
 
@@ -81,7 +79,6 @@ class FXTwitterProvider(MediaProvider):
         return status_id, handle
 
     @classmethod
-    @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="fxtwitter:json")
     async def _fetch_json(cls, url: str) -> dict[str, JsonValue] | None:
         timeout = cls._DEFAULT_TIMEOUT
         try:
