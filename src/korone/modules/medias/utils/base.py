@@ -13,6 +13,7 @@ import aiohttp
 from aiogram.types import BufferedInputFile
 
 from korone.logger import get_logger
+from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import get_cached_file_payload, make_file_id_cache_key
 from korone.utils.aiohttp_session import HTTPClient
 
@@ -69,6 +70,7 @@ class MediaProvider(ABC):
 
     _DEFAULT_HEADERS: ClassVar[dict[str, str]] = {"User-Agent": "KoroneBot/1.0", "Accept-Encoding": "gzip, deflate, br"}
     _DEFAULT_TIMEOUT: ClassVar[aiohttp.ClientTimeout] = aiohttp.ClientTimeout(total=60)
+    _MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
 
     @classmethod
     def extract_urls(cls, text: str) -> list[str]:
@@ -126,7 +128,7 @@ class MediaProvider(ABC):
     async def _download_source(
         cls, source: MediaSource, index: int, prefix: str, max_size: int | None, label: str
     ) -> MediaItem | None:
-        cache_key = make_file_id_cache_key("media-source", source.url)
+        cache_key = cls._media_source_cache_key(source.url)
         cached_payload = await get_cached_file_payload(cache_key)
         if cached_payload:
             cached_file_id = cached_payload.get("file_id")
@@ -180,6 +182,11 @@ class MediaProvider(ABC):
             width=source.width,
             height=source.height,
         )
+
+    @classmethod
+    def _media_source_cache_key(cls, source_url: str) -> str:
+        cache_identifier = normalize_media_url(source_url) or source_url.strip() or source_url
+        return make_file_id_cache_key(cls._MEDIA_SOURCE_CACHE_NAMESPACE, cache_identifier)
 
     @classmethod
     async def _download_thumbnail(cls, url: str, label: str, index: int, prefix: str) -> InputFile | None:

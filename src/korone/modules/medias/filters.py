@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any
 from aiogram.filters import BaseFilter
 
 from korone.modules.medias.utils.settings import is_auto_download_enabled
+from korone.modules.medias.utils.url import normalize_media_url
 
 if TYPE_CHECKING:
     import re
@@ -22,7 +23,16 @@ class MediaUrlFilter(BaseFilter):
         if not text:
             return False
 
-        urls = [match.group(0) for match in self.pattern.finditer(text)]
+        urls: list[str] = []
+        seen_urls: set[str] = set()
+        for match in self.pattern.finditer(text):
+            normalized_url = normalize_media_url(match.group(0))
+            if not normalized_url or normalized_url in seen_urls:
+                continue
+
+            seen_urls.add(normalized_url)
+            urls.append(normalized_url)
+
         if not urls:
             return False
 

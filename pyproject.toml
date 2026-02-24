@@ -26,6 +26,7 @@ dependencies = [
     "polib>=1.2.0",
     "orjson>=3.11.7",
     "sentry-sdk>=2.53.0",
+    "url-normalize>=2.2.1",
 ]
 
 [dependency-groups]

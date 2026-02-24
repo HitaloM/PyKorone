@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, ClassVar
-from urllib.parse import urldefrag
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import InlineKeyboardButton
@@ -13,6 +12,7 @@ from stfu_tg import Bold, Code, Italic, Template, Url
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.medias.filters import MediaUrlFilter
 from korone.modules.medias.utils.base import MediaItem, MediaKind, MediaPost
+from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import (
     delete_cached_file_payload,
     get_cached_file_payload,
@@ -59,12 +59,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not (normalized_url := url.strip()):
             return []
 
-        without_fragment, _ = urldefrag(normalized_url)
-        return list(
-            dict.fromkeys(
-                candidate for candidate in (normalized_url, without_fragment, without_fragment.rstrip("/")) if candidate
-            )
-        )
+        return [normalized_url]
 
     @classmethod
     def _collect_post_cache_candidates(cls, *urls: str) -> set[str]:
@@ -76,7 +71,8 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     @classmethod
     def _media_source_cache_key(cls, source_url: str) -> str:
-        return make_file_id_cache_key(cls.MEDIA_SOURCE_CACHE_NAMESPACE, source_url)
+        cache_identifier = normalize_media_url(source_url) or source_url.strip() or source_url
+        return make_file_id_cache_key(cls.MEDIA_SOURCE_CACHE_NAMESPACE, cache_identifier)
 
     @staticmethod
     def _extract_sent_file_id(sent_message: Message, kind: MediaKind) -> str | None:
