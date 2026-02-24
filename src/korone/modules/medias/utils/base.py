@@ -68,7 +68,21 @@ class MediaProvider(ABC):
     website: ClassVar[str]
     pattern: ClassVar[re.Pattern[str]]
 
-    _DEFAULT_HEADERS: ClassVar[dict[str, str]] = {"User-Agent": "KoroneBot/1.0", "Accept-Encoding": "gzip, deflate, br"}
+    _DEFAULT_HEADERS: ClassVar[dict[str, str]] = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
+        ),
+        "sec-ch-ua": '"Not:A-Brand";v="99", "Microsoft Edge";v="145", "Chromium";v="145"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "none",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Accept-Encoding": "gzip, deflate, br",
+    }
     _DEFAULT_TIMEOUT: ClassVar[aiohttp.ClientTimeout] = aiohttp.ClientTimeout(total=60)
     _MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
 
@@ -145,7 +159,7 @@ class MediaProvider(ABC):
 
         try:
             session = await HTTPClient.get_session()
-            async with session.get(source.url, timeout=cls._DEFAULT_TIMEOUT) as response:
+            async with session.get(source.url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response:
                 if response.status != 200:
                     await logger.adebug(f"[{label}] HTTP {response.status}", url=source.url)
                     return None
@@ -192,7 +206,7 @@ class MediaProvider(ABC):
     async def _download_thumbnail(cls, url: str, label: str, index: int, prefix: str) -> InputFile | None:
         try:
             session = await HTTPClient.get_session()
-            async with session.get(url, timeout=cls._DEFAULT_TIMEOUT) as response:
+            async with session.get(url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response:
                 if response.status != 200:
                     return None
                 payload = await response.read()
