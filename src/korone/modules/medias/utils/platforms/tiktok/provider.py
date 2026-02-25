@@ -130,6 +130,7 @@ class TikTokProvider(MediaProvider):
                 MediaSource(
                     kind=source.kind,
                     url=offload_url,
+                    thumbnail_url=source.thumbnail_url,
                     duration=source.duration,
                     width=source.width,
                     height=source.height,
