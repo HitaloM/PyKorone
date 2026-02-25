@@ -6,8 +6,6 @@ class Config(BaseSettings):
     token: str = "12345:ABCDEFG"
     debug_mode: bool = False
 
-    username: str | None = None
-
     owner_id: int | None = None
     operators: list[int] = []
 

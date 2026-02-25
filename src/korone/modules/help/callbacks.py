@@ -1,6 +1,6 @@
 from aiogram.filters.callback_data import CallbackData
 
-from korone.filters.command_start import CmdStart
+HELP_START_PAYLOAD = "help"
 
 
 class PMHelpModule(CallbackData, prefix="pmhelpmod"):
@@ -10,7 +10,3 @@ class PMHelpModule(CallbackData, prefix="pmhelpmod"):
 
 class PMHelpModules(CallbackData, prefix="pmhelpback"):
     back_to_start: bool = False
-
-
-class PMHelpStartUrlCallback(CmdStart, prefix="help"):
-    pass
