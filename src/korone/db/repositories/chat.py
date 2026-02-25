@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from aiogram.enums import ChatType
 from sqlalchemy import func, select
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from korone.db.base import get_one
 from korone.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
@@ -141,14 +142,17 @@ class ChatRepository:
     @classmethod
     async def _upsert(cls, chat_id: int, data: ChatData) -> ChatModel:
         async with cls._upsert_lock, session_scope() as session:
-            if model := await get_one(session, ChatModel, ChatModel.chat_id == chat_id):
-                for key, value in data.items():
-                    setattr(model, key, value)
-                return model
-
-            model = ChatModel(chat_id=chat_id, **data)
-            session.add(model)
-            await session.flush()
+            stmt = (
+                pg_insert(ChatModel)
+                .values(chat_id=chat_id, **data)
+                .on_conflict_do_update(index_elements=[ChatModel.chat_id], set_=dict(data))
+                .returning(ChatModel.id)
+            )
+            model_id = (await session.execute(stmt)).scalar_one()
+            model = await session.get(ChatModel, model_id)
+            if model is None:
+                msg = f"Upsert for chat_id={chat_id} did not return a chat model"
+                raise RuntimeError(msg)
             return model
 
     @staticmethod
