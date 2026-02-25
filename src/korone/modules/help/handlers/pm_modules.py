@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING, cast
 
-from aiogram import flags
 from aiogram.enums import ButtonStyle
 from aiogram.filters import Command, CommandStart
 from aiogram.types import CallbackQuery
@@ -22,14 +21,21 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("Shows help overview for all modules"))
 class PMModulesList(KoroneMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
         router.message.register(
-            cls, CommandStart(deep_link=True, magic=F.args == HELP_START_PAYLOAD), PrivateChatFilter()
+            cls,
+            CommandStart(deep_link=True, magic=F.args == HELP_START_PAYLOAD),
+            PrivateChatFilter(),
+            flags={"help": {"exclude": True}},
         )
-        router.message.register(cls, Command("help"), PrivateChatFilter())
+        router.message.register(
+            cls,
+            Command("help"),
+            PrivateChatFilter(),
+            flags={"help": {"description": l_("Shows help overview for all modules")}},
+        )
         router.callback_query.register(cls, PMHelpModules.filter())
 
     async def handle(self) -> None:

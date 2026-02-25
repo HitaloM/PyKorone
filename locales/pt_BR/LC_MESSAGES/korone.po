@@ -366,7 +366,7 @@ msgstr "Conectividade e Energia"
 
 #: src/korone/modules/help/__init__.py:25
 #: src/korone/modules/help/handlers/help_group.py:30
-#: src/korone/modules/help/handlers/pm_modules.py:67
+#: src/korone/modules/help/handlers/pm_modules.py:73
 #: src/korone/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr "Ajuda"
@@ -391,12 +391,12 @@ msgstr "Mostra a mensagem de ajuda"
 msgid "The help information available in the private messages with Korone"
 msgstr "As informações de ajuda estão disponíveis nas mensagens privadas com o Korone"
 
-#: src/korone/modules/help/handlers/pm_modules.py:25
+#: src/korone/modules/help/handlers/pm_modules.py:37
 msgid "Shows help overview for all modules"
 msgstr "Mostra a visão geral de ajuda de todos os módulos"
 
-#: src/korone/modules/help/handlers/pm_modules.py:56
-#: src/korone/modules/help/handlers/pm_modules.py:135
+#: src/korone/modules/help/handlers/pm_modules.py:62
+#: src/korone/modules/help/handlers/pm_modules.py:141
 #: src/korone/modules/hifi/handlers/preview.py:58
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:47
@@ -406,61 +406,61 @@ msgstr "Mostra a visão geral de ajuda de todos os módulos"
 msgid "⬅️ Back"
 msgstr "⬅️ Voltar"
 
-#: src/korone/modules/help/handlers/pm_modules.py:68
+#: src/korone/modules/help/handlers/pm_modules.py:74
 msgid "Select a module to see its commands and information!"
 msgstr "Selecione um módulo para ver seus comandos e informações!"
 
-#: src/korone/modules/help/handlers/pm_modules.py:72
+#: src/korone/modules/help/handlers/pm_modules.py:78
 #, python-brace-format
 msgid "Arguments: {required} is required and {optional} is optional."
 msgstr "Argumentos: {required} é obrigatório e {optional} é opcional."
 
-#: src/korone/modules/help/handlers/pm_modules.py:76
+#: src/korone/modules/help/handlers/pm_modules.py:82
 msgid "means it works only in group chats."
 msgstr "indica que funciona apenas em chats de grupo."
 
-#: src/korone/modules/help/handlers/pm_modules.py:76
+#: src/korone/modules/help/handlers/pm_modules.py:82
 #: src/korone/modules/help/utils/format_help.py:47
 msgid "— Only in groups"
 msgstr "— Somente em grupos"
 
-#: src/korone/modules/help/handlers/pm_modules.py:77
+#: src/korone/modules/help/handlers/pm_modules.py:83
 msgid "lists commands that only work in private chat."
 msgstr "lista comandos que funcionam apenas em chat privado."
 
-#: src/korone/modules/help/handlers/pm_modules.py:77
+#: src/korone/modules/help/handlers/pm_modules.py:83
 #: src/korone/modules/help/utils/format_help.py:83
 msgid "PM-only"
 msgstr "Somente PM"
 
-#: src/korone/modules/help/handlers/pm_modules.py:78
+#: src/korone/modules/help/handlers/pm_modules.py:84
 msgid "lists commands that require admin rights."
 msgstr "lista comandos que exigem permissões de administrador."
 
-#: src/korone/modules/help/handlers/pm_modules.py:78
+#: src/korone/modules/help/handlers/pm_modules.py:84
 #: src/korone/modules/help/utils/format_help.py:85
 msgid "Only admins"
 msgstr "Somente administradores"
 
-#: src/korone/modules/help/handlers/pm_modules.py:80
+#: src/korone/modules/help/handlers/pm_modules.py:86
 #: src/korone/modules/help/utils/format_help.py:48
 msgid "Disable-able"
 msgstr "Desativável"
 
-#: src/korone/modules/help/handlers/pm_modules.py:82
+#: src/korone/modules/help/handlers/pm_modules.py:88
 #, python-brace-format
 msgid "means the command can be toggled with {disable} and {enable}."
 msgstr "indica que o comando pode ser alternado com {disable} e {enable}."
 
-#: src/korone/modules/help/handlers/pm_modules.py:88
+#: src/korone/modules/help/handlers/pm_modules.py:94
 msgid "How to read /help"
 msgstr "Como ler o /help"
 
-#: src/korone/modules/help/handlers/pm_modules.py:109
+#: src/korone/modules/help/handlers/pm_modules.py:115
 msgid "Module not found"
 msgstr "Módulo não encontrado"
 
-#: src/korone/modules/help/handlers/pm_modules.py:129
+#: src/korone/modules/help/handlers/pm_modules.py:135
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr "Comandos com alias de {module}"
