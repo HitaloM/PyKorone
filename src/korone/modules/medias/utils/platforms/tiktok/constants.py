@@ -2,40 +2,43 @@ from __future__ import annotations
 
 import re
 
-TIKTOK_FEED_API = "https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/feed/"
-TIKTOK_IMAGE_AWEME_TYPES = {2, 68, 150}
+WEB_VIDEO_DETAIL_URL = "https://www.tiktok.com/@i/video/{post_id}"
+UNIVERSAL_DATA_SCRIPT_ID = "__UNIVERSAL_DATA_FOR_REHYDRATION__"
+WEBAPP_DEFAULT_SCOPE_KEY = "__DEFAULT_SCOPE__"
+WEBAPP_VIDEO_SCOPE_KEY = "webapp.video-detail"
+PLAY_URL_MARKER = "/aweme/v1/play/"
+MAX_REDIRECTS = 5
 
-TIKTOK_QUERY_PARAMS = {
-    "iid": "7318518857994389254",
-    "device_id": "7318517321748022790",
-    "channel": "googleplay",
-    "version_code": "300904",
-    "device_platform": "android",
-    "device_type": "ASUS_Z01QD",
-    "os_version": "9",
-    "aid": "1128",
-}
-
-TIKTOK_API_HEADERS = {
-    "Accept": "*/*",
-    "Accept-Encoding": "identity",
-    "Accept-Language": "en",
+TIKTOK_WEB_HEADERS = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/131.0.0.0 Safari/537.36"
+        "Chrome/132.0.0.0 Safari/537.36"
     ),
-    "Sec-Ch-UA": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
-    "Sec-Ch-UA-Mobile": "?0",
-    "Sec-Ch-UA-Platform": '"Windows"',
+}
+
+TIKTOK_MEDIA_HEADERS = {
+    "Accept": "*/*",
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/58.0.3029.110 Safari/537.3"
+    ),
 }
 
 PATTERN = re.compile(
     r"https?://(?:"
-    r"(?:www\.|m\.)?tiktok\.com/(?:@[^/\s]+/(?:video|photo)/\d+|v/\d+|t/[A-Za-z0-9._-]+)"
+    r"(?:www\.|m\.)?tiktok\.com/(?:@[^/\s]+/(?:video|photo|live)/[A-Za-z0-9._-]+|v/[A-Za-z0-9._-]+|t/[A-Za-z0-9._-]+)"
     r"|(?:vm|vt)\.tiktok\.com/[A-Za-z0-9._-]+/?"
     r")(?:\?[^\s#]*)?(?:#[^\s]*)?",
     re.IGNORECASE,
 )
 
-POST_ID_PATTERN = re.compile(r"/(?:video|photo|v)/(?P<id>\d+)", re.IGNORECASE)
+POST_ID_PATTERN = re.compile(r"/(?:video|photo|v)/(?P<id>\d{1,19})", re.IGNORECASE)
+
+UNIVERSAL_DATA_SCRIPT_PATTERN = re.compile(
+    rf"<script[^>]*id=[\"']{re.escape(UNIVERSAL_DATA_SCRIPT_ID)}[\"'][^>]*>(?P<payload>.*?)</script>",
+    re.IGNORECASE | re.DOTALL,
+)

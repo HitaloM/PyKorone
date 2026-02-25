@@ -1,42 +1,45 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import ClassVar
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
-from korone.modules.medias.utils.platforms import MediaProvider
-from korone.modules.medias.utils.types import MediaPost
+from korone.logger import get_logger
+from korone.modules.medias.utils.provider_base import MediaProvider
+from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost, MediaSource
 
 from . import client, parser
-from .constants import PATTERN
+from .constants import PATTERN, TIKTOK_MEDIA_HEADERS
 
-if TYPE_CHECKING:
-    from korone.modules.medias.utils.types import MediaItem, MediaSource
+_TNKTOK_OFFLOAD_BASE_URL = "https://offload.tnktok.com"
+
+logger = get_logger(__name__)
 
 
 class TikTokProvider(MediaProvider):
     name = "TikTok"
     website = "TikTok"
     pattern = PATTERN
+    _DEFAULT_HEADERS: ClassVar[dict[str, str]] = dict(TIKTOK_MEDIA_HEADERS)
 
     @classmethod
     async def fetch(cls, url: str) -> MediaPost | None:
         normalized_url = parser.ensure_url_scheme(url)
-        post_id = await cls._resolve_post_id(normalized_url)
+        post_id, resolved_url = await cls._resolve_post_id(normalized_url)
         if not post_id:
             return None
 
-        aweme = await client.fetch_aweme(post_id)
-        if not aweme:
+        item_struct = await client.fetch_item_struct(post_id)
+        if not item_struct:
             return None
 
-        media_sources = parser.extract_media_sources(aweme)
-        media = await cls._download_media(media_sources)
+        media_sources = await cls._extract_media_sources(item_struct)
+        media = await cls._download_media(media_sources, post_id=post_id)
         if not media:
             return None
 
-        author_name, author_handle = parser.extract_author(aweme)
-        text = parser.extract_text(aweme)
-        post_url = parser.extract_post_url(aweme, author_handle, post_id, normalized_url)
+        author_name, author_handle = parser.extract_author(item_struct)
+        text = parser.extract_text(item_struct)
+        post_url = parser.build_post_url(item_struct, resolved_url or normalized_url)
 
         return MediaPost(
             author_name=author_name or author_handle or "TikTok",
@@ -48,19 +51,81 @@ class TikTokProvider(MediaProvider):
         )
 
     @classmethod
-    async def _resolve_post_id(cls, url: str) -> str | None:
+    async def _resolve_post_id(cls, url: str) -> tuple[str | None, str | None]:
         post_id = parser.extract_post_id(url)
         if post_id:
-            return post_id
+            return post_id, url
 
         resolved_url = await client.resolve_redirect_url(url)
         if not resolved_url:
-            return None
+            return None, None
 
-        return parser.extract_post_id(resolved_url)
+        return parser.extract_post_id(resolved_url), resolved_url
 
     @classmethod
-    async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
-        return await cls.download_media(
+    async def _extract_media_sources(cls, item_struct: dict[str, object]) -> list[MediaSource]:
+        sources = parser.extract_media_sources(item_struct)
+        if not sources:
+            return []
+
+        if len(sources) == 1 and sources[0].kind == MediaKind.VIDEO:
+            source = sources[0]
+            resolved_url = await client.resolve_media_url(source.url)
+            if resolved_url and resolved_url != source.url:
+                return [
+                    MediaSource(
+                        kind=source.kind,
+                        url=resolved_url,
+                        thumbnail_url=source.thumbnail_url,
+                        duration=source.duration,
+                        width=source.width,
+                        height=source.height,
+                    )
+                ]
+
+        return sources
+
+    @classmethod
+    async def _download_media(cls, sources: list[MediaSource], *, post_id: str) -> list[MediaItem]:
+        media = await cls.download_media(
             sources, filename_prefix="tiktok_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="TikTok"
         )
+        if media:
+            return media
+
+        offload_media = cls._offload_media_fallback(post_id, sources)
+        if offload_media:
+            await logger.adebug(
+                "[TikTok] Using offload fallback", source_count=len(offload_media), offload_url=_TNKTOK_OFFLOAD_BASE_URL
+            )
+            return offload_media
+
+        return []
+
+    @classmethod
+    def _offload_media_fallback(cls, post_id: str, sources: list[MediaSource]) -> list[MediaItem]:
+        base_url = _TNKTOK_OFFLOAD_BASE_URL
+        photo_index = 1
+        fallback: list[MediaItem] = []
+
+        for index, source in enumerate(sources, start=1):
+            if source.kind == MediaKind.VIDEO:
+                offload_url = f"{base_url}/generate/video/{post_id}.mp4"
+            else:
+                offload_url = f"{base_url}/generate/image/{post_id}/{photo_index}"
+                photo_index += 1
+
+            extension = cls._guess_extension(offload_url, "", source.kind)
+            fallback.append(
+                MediaItem(
+                    kind=source.kind,
+                    file=offload_url,
+                    filename=f"tiktok_media_{index}{extension}",
+                    source_url=offload_url,
+                    duration=source.duration,
+                    width=source.width,
+                    height=source.height,
+                )
+            )
+
+        return fallback
