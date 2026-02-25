@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from korone.modules.medias.handlers.base import BaseMediaHandler
-from korone.modules.medias.utils.bluesky import BlueskyProvider
+from korone.modules.medias.utils.platforms import BlueskyProvider
+
+from .base import BaseMediaHandler
 
 
 class BlueskyMediaHandler(BaseMediaHandler):

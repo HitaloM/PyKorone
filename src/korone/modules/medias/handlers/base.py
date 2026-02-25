@@ -11,7 +11,7 @@ from stfu_tg import Bold, Code, Italic, Template, Url
 
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.medias.filters import MediaUrlFilter
-from korone.modules.medias.utils.base import MediaItem, MediaKind, MediaPost
+from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
 from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import (
     delete_cached_file_payload,
@@ -30,7 +30,7 @@ if TYPE_CHECKING:
     from aiogram.types import InlineKeyboardMarkup, Message
     from stfu_tg.doc import Element
 
-    from korone.modules.medias.utils.base import MediaProvider
+    from korone.modules.medias.utils.provider_base import MediaProvider
 
 type CachePayload = dict[str, Any]
 

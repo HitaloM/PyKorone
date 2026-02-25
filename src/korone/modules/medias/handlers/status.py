@@ -4,10 +4,11 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 
+from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import GroupChatFilter
 from korone.filters.cmd import CMDFilter
-from korone.modules.medias.utils.settings import is_auto_download_enabled, set_auto_download_enabled
+from korone.modules.medias.utils.settings import AUTO_DOWNLOAD_KEY, is_auto_download_enabled
 from korone.modules.utils_.status_handler import StatusBoolHandlerABC
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -30,4 +31,16 @@ class MediaAutoDownloadStatus(StatusBoolHandlerABC):
         return await is_auto_download_enabled(self.chat.chat_id)
 
     async def set_status(self, *, new_status: bool) -> None:
-        await set_auto_download_enabled(self.chat.chat_id, enabled=new_status)
+        disabled = await DisablingRepository.get_disabled(self.chat.chat_id)
+
+        if new_status:
+            if AUTO_DOWNLOAD_KEY not in disabled:
+                return
+            disabled = [cmd for cmd in disabled if cmd != AUTO_DOWNLOAD_KEY]
+            await DisablingRepository.set_disabled(self.chat.chat_id, disabled)
+            return
+
+        if AUTO_DOWNLOAD_KEY in disabled:
+            return
+
+        await DisablingRepository.set_disabled(self.chat.chat_id, [*disabled, AUTO_DOWNLOAD_KEY])

@@ -992,11 +992,11 @@ msgstr ""
 msgid "Open in {website}"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/status.py:18
+#: src/korone/modules/medias/handlers/status.py:19
 msgid "Enable or disable automatic media downloads in this chat."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/status.py:21
+#: src/korone/modules/medias/handlers/status.py:22
 msgid "Media auto-download"
 msgstr ""
 
@@ -1623,77 +1623,77 @@ msgstr ""
 msgid "Get IP details and WHOIS information for domains."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:27
-#: src/korone/modules/web/handlers/ip.py:49
+#: src/korone/modules/web/handlers/ip.py:28
+#: src/korone/modules/web/handlers/ip.py:50
 msgid "IP"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:28
+#: src/korone/modules/web/handlers/ip.py:29
 msgid "Hostname"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:29
+#: src/korone/modules/web/handlers/ip.py:30
 msgid "City"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:30
+#: src/korone/modules/web/handlers/ip.py:31
 msgid "Region"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:31
+#: src/korone/modules/web/handlers/ip.py:32
 msgid "Country"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:32
+#: src/korone/modules/web/handlers/ip.py:33
 msgid "Location"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:33
+#: src/korone/modules/web/handlers/ip.py:34
 msgid "Organization"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:34
+#: src/korone/modules/web/handlers/ip.py:35
 msgid "Postal"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:35
+#: src/korone/modules/web/handlers/ip.py:36
 msgid "Timezone"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:40
+#: src/korone/modules/web/handlers/ip.py:41
 msgid "IP Information"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:54
+#: src/korone/modules/web/handlers/ip.py:55
 msgid "Shows information about an IP or domain."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:62
+#: src/korone/modules/web/handlers/ip.py:63
 msgid "IP or domain"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:85
-#: src/korone/modules/web/handlers/ip.py:144
+#: src/korone/modules/web/handlers/ip.py:86
+#: src/korone/modules/web/handlers/ip.py:145
 #, python-brace-format
 msgid "No information found for {ip_or_domain}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:92
-#: src/korone/modules/web/handlers/ip.py:152
+#: src/korone/modules/web/handlers/ip.py:93
+#: src/korone/modules/web/handlers/ip.py:153
 #, python-brace-format
 msgid "The provided IP address {ip} is a {bogon} IP address, meaning it is either not in use or reserved for special use."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:109
+#: src/korone/modules/web/handlers/ip.py:110
 #, python-brace-format
 msgid "You should provide an IP address or domain. Example: {example}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:116
+#: src/korone/modules/web/handlers/ip.py:117
 msgid "No valid IP addresses or domains found in the provided input."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:127
+#: src/korone/modules/web/handlers/ip.py:128
 msgid "Please select an IP address:"
 msgstr ""
 

@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from korone.modules.medias.handlers.base import BaseMediaHandler
-from korone.modules.medias.utils.reddit import RedditProvider
+from korone.modules.medias.utils.platforms import RedditProvider
+
+from .base import BaseMediaHandler
 
 
 class RedditMediaHandler(BaseMediaHandler):

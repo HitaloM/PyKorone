@@ -1,20 +1,5 @@
-from .base import MediaItem, MediaPost, MediaProvider
-from .bluesky import BlueskyProvider
-from .fxtwitter import FXTwitterProvider
-from .instagram import InstagramProvider
-from .reddit import RedditProvider
-from .settings import is_auto_download_enabled, set_auto_download_enabled
-from .tiktok import TikTokProvider
+from .provider_base import MediaProvider
+from .settings import is_auto_download_enabled
+from .types import MediaItem, MediaKind, MediaPost, MediaSource
 
-__all__ = (
-    "BlueskyProvider",
-    "FXTwitterProvider",
-    "InstagramProvider",
-    "MediaItem",
-    "MediaPost",
-    "MediaProvider",
-    "RedditProvider",
-    "TikTokProvider",
-    "is_auto_download_enabled",
-    "set_auto_download_enabled",
-)
+__all__ = ("MediaItem", "MediaKind", "MediaPost", "MediaProvider", "MediaSource", "is_auto_download_enabled")

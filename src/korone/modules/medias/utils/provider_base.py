@@ -3,8 +3,6 @@ from __future__ import annotations
 import asyncio
 import mimetypes
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from enum import StrEnum
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import urlparse
@@ -17,50 +15,17 @@ from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import get_cached_file_payload, make_file_id_cache_key
 from korone.utils.aiohttp_session import HTTPClient
 
+from .types import MediaItem, MediaKind
+
 if TYPE_CHECKING:
     import re
     from collections.abc import Sequence
 
     from aiogram.types import InputFile
 
+    from .types import MediaPost, MediaSource
+
 logger = get_logger(__name__)
-
-
-class MediaKind(StrEnum):
-    PHOTO = "photo"
-    VIDEO = "video"
-
-
-@dataclass(frozen=True, slots=True)
-class MediaItem:
-    kind: MediaKind
-    file: InputFile | str
-    filename: str
-    source_url: str
-    thumbnail: InputFile | None = None
-    duration: int | None = None
-    width: int | None = None
-    height: int | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class MediaPost:
-    author_name: str
-    author_handle: str
-    text: str
-    url: str
-    website: str
-    media: list[MediaItem]
-
-
-@dataclass(frozen=True, slots=True)
-class MediaSource:
-    kind: MediaKind
-    url: str
-    thumbnail_url: str | None = None
-    duration: int | None = None
-    width: int | None = None
-    height: int | None = None
 
 
 class MediaProvider(ABC):

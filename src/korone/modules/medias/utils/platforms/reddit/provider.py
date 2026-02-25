@@ -1,89 +1,50 @@
 from __future__ import annotations
 
-import asyncio
-import hashlib
-import html
 import re
-from dataclasses import dataclass
-from time import perf_counter
 from typing import TYPE_CHECKING
-from urllib.parse import parse_qs, quote, urldefrag, urljoin, urlparse, urlunparse
+from urllib.parse import quote, urljoin, urlparse, urlunparse
 
 import aiohttp
-import orjson
 from lxml import html as lxml_html
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
+from korone.modules.medias.utils.provider_base import MediaProvider
+from korone.modules.medias.utils.types import MediaKind, MediaPost, MediaSource
 from korone.utils.aiohttp_session import HTTPClient
 
-from .base import MediaKind, MediaPost, MediaProvider, MediaSource
+from . import client, parser
+from .anubis import RedlibAnubisBypassMixin
+from .constants import (
+    BLOCK_MARKERS,
+    JSON_SCRIPT_REGEX_TEMPLATE,
+    META_REFRESH_REGEX,
+    PATTERN,
+    PLAYLIST_REGEX,
+    POST_TYPE_REGEX,
+    REDLIB_INSTANCES,
+    REDLIB_REQUEST_COOKIES,
+    VIDEO_REGEX,
+)
+from .types import _PostRef, _ResolvedVideo, _ScrapedPost
 
 if TYPE_CHECKING:
-    from .base import MediaItem
+    from korone.modules.medias.utils.types import MediaItem
 
 logger = get_logger(__name__)
 
-REDLIB_INSTANCES = ("https://redlib.catsarch.com", "https://redlib.4o1x5.dev", "https://l.opnxng.com")
-REDDIT_PATTERN_HOSTS = tuple(urlparse(instance).netloc for instance in REDLIB_INSTANCES)
-REDDIT_PATTERN_HOSTS_REGEX = "|".join(re.escape(host) for host in REDDIT_PATTERN_HOSTS)
-ANUBIS_PASS_CHALLENGE_PATH = "/.within.website/x/cmd/anubis/api/pass-challenge"
 
-REDLIB_REQUEST_COOKIES = {"use_hls": "on", "hide_hls_notification": "on"}
-
-
-@dataclass(frozen=True, slots=True)
-class _PostRef:
-    kind: str
-    name: str | None
-    post_id: str
-
-
-@dataclass(frozen=True, slots=True)
-class _ResolvedVideo:
-    url: str
-    thumbnail_url: str | None = None
-    width: int | None = None
-    height: int | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class _ScrapedPost:
-    author: str
-    subreddit: str
-    title: str
-    post_url: str
-    media_sources: list[MediaSource]
-
-
-@dataclass(frozen=True, slots=True)
-class _AnubisChallengeInfo:
-    algorithm: str
-    difficulty: int
-    challenge_id: str
-    random_data: str
-    pass_url: str
-    redir: str
-
-
-class RedditProvider(MediaProvider):
+class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
     name = "Reddit"
     website = "Reddit"
 
-    pattern = re.compile(
-        rf"https?://(?:"
-        rf"(?:www\.|old\.|new\.|np\.)?reddit\.com/(?:(?:r|user)/[^/\s]+/comments/[A-Za-z0-9]+(?:/[^\s?#]*)?|comments/[A-Za-z0-9]+(?:/[^\s?#]*)?)"
-        rf"|(?:www\.)?redd\.it/[A-Za-z0-9]+(?:/[^\s?#]*)?"
-        rf"|(?:{REDDIT_PATTERN_HOSTS_REGEX}|(?:[A-Za-z0-9-]+\.)?redlib\.[A-Za-z0-9.-]+)/(?:(?:r|user)/[^/\s]+/comments/[A-Za-z0-9]+(?:/[^\s?#]*)?|comments/[A-Za-z0-9]+(?:/[^\s?#]*)?)"
-        rf")(?:\?[^\s#]*)?(?:#[^\s]*)?",
-        re.IGNORECASE,
-    )
-    _post_type_regex = re.compile(r"post_type:\s*(\w+)", re.IGNORECASE)
-    _video_regex = re.compile(r'(?s)<source\s+[^>]*src="([^"]+)"[^>]*type="video/mp4"')
-    _playlist_regex = re.compile(r'(?s)<source\s+[^>]*src="([^"]+)"[^>]*type="application/vnd\.apple\.mpegurl"')
-    _json_script_regex_template = r'(?is)<script[^>]*\bid=["\']{script_id}["\'][^>]*>(.*?)</script>'
-    _meta_refresh_regex = re.compile(r'(?is)<meta[^>]*http-equiv=["\']refresh["\'][^>]*content=["\']([^"\']+)["\']')
-    _block_markers = ("anubis_challenge", "making sure you're not a bot", "<title>403")
+    pattern = PATTERN
+    _post_type_regex = POST_TYPE_REGEX
+    _video_regex = VIDEO_REGEX
+    _playlist_regex = PLAYLIST_REGEX
+    _json_script_regex_template = JSON_SCRIPT_REGEX_TEMPLATE
+    _meta_refresh_regex = META_REFRESH_REGEX
+    _block_markers = BLOCK_MARKERS
 
     @classmethod
     async def fetch(cls, url: str) -> MediaPost | None:
@@ -150,19 +111,11 @@ class RedditProvider(MediaProvider):
 
     @staticmethod
     def _normalize_post_id(post_id: str) -> str | None:
-        candidate = post_id.strip()
-        if not candidate:
-            return None
-
-        if re.fullmatch(r"[A-Za-z0-9]+", candidate):
-            return candidate
-        return None
+        return parser.normalize_post_id(post_id)
 
     @staticmethod
     def _ensure_url_scheme(url: str) -> str:
-        if url.startswith(("http://", "https://")):
-            return url
-        return f"https://{url.lstrip('/')}"
+        return parser.ensure_url_scheme(url)
 
     @classmethod
     def _instance_candidates(cls) -> list[str]:
@@ -232,219 +185,17 @@ class RedditProvider(MediaProvider):
     async def _request_redlib_page(
         cls, session: aiohttp.ClientSession, url: str, *, headers: dict[str, str]
     ) -> dict[str, str] | None:
-        async with session.get(
-            url, headers=headers, cookies=REDLIB_REQUEST_COOKIES, allow_redirects=True, timeout=cls._DEFAULT_TIMEOUT
-        ) as response:
-            if response.status != 200:
-                await logger.adebug("[Reddit] Non-200 Redlib response", status=response.status, url=url)
-                return None
-
-            html_content = await response.text()
-            return {"html": html_content, "base_url": str(response.url)}
-
-    @classmethod
-    async def _solve_anubis_challenge(
-        cls, session: aiohttp.ClientSession, *, challenge_html: str, challenge_url: str, headers: dict[str, str]
-    ) -> dict[str, str] | None:
-        info = cls._extract_anubis_challenge_info(challenge_html, challenge_url)
-        if not info:
-            return None
-
-        params: dict[str, str]
-        if info.algorithm == "metarefresh":
-            await asyncio.sleep((max(info.difficulty, 0) * 0.8) + 0.1)
-            params = {"id": info.challenge_id, "challenge": info.random_data, "redir": info.redir}
-        elif info.algorithm == "preact":
-            await asyncio.sleep((max(info.difficulty, 0) * 0.125) + 0.05)
-            result = hashlib.sha256(info.random_data.encode("utf-8")).hexdigest()
-            params = {"id": info.challenge_id, "result": result, "redir": info.redir}
-        elif info.algorithm in {"fast", "slow"}:
-            started_at = perf_counter()
-            solved = await asyncio.to_thread(cls._solve_pow_challenge, info.random_data, info.difficulty)
-            if not solved:
-                await logger.adebug(
-                    "[Reddit] Anubis PoW challenge not solved",
-                    url=challenge_url,
-                    algorithm=info.algorithm,
-                    difficulty=info.difficulty,
-                )
-                return None
-            response_hash, nonce = solved
-            elapsed_time = max(1, int((perf_counter() - started_at) * 1000))
-            params = {
-                "id": info.challenge_id,
-                "response": response_hash,
-                "nonce": str(nonce),
-                "redir": info.redir,
-                "elapsedTime": str(elapsed_time),
-            }
-        else:
-            await logger.adebug("[Reddit] Unsupported Anubis challenge", algorithm=info.algorithm, url=challenge_url)
-            return None
-
-        try:
-            async with session.get(
-                info.pass_url,
-                headers=headers,
-                cookies=REDLIB_REQUEST_COOKIES,
-                params=params,
-                allow_redirects=True,
-                timeout=cls._DEFAULT_TIMEOUT,
-            ) as response:
-                if response.status != 200:
-                    await logger.adebug(
-                        "[Reddit] Failed to pass Anubis challenge",
-                        status=response.status,
-                        url=info.pass_url,
-                        algorithm=info.algorithm,
-                    )
-                    return None
-
-                html_content = await response.text()
-                if cls._looks_like_block_page(html_content):
-                    await logger.adebug(
-                        "[Reddit] Anubis challenge solved but page still blocked",
-                        url=info.pass_url,
-                        algorithm=info.algorithm,
-                    )
-                    return None
-
-                return {"html": html_content, "base_url": str(response.url)}
-        except aiohttp.ClientError as exc:
-            await logger.aerror("[Reddit] Failed during Anubis challenge solve", error=str(exc), url=info.pass_url)
-            return None
-
-    @classmethod
-    def _extract_anubis_challenge_info(cls, html_content: str, challenge_url: str) -> _AnubisChallengeInfo | None:
-        anubis_payload = cls._extract_json_script(html_content, "anubis_challenge")
-        if isinstance(anubis_payload, dict):
-            rules = anubis_payload.get("rules")
-            challenge = anubis_payload.get("challenge")
-            if isinstance(rules, dict) and isinstance(challenge, dict):
-                algorithm = str(rules.get("algorithm") or challenge.get("method") or "").strip().lower()
-                challenge_id = str(challenge.get("id") or "").strip()
-                random_data = str(challenge.get("randomData") or "").strip()
-                difficulty = cls._coerce_int(rules.get("difficulty"))
-                if difficulty is None:
-                    difficulty = cls._coerce_int(challenge.get("difficulty"))
-                difficulty = max(difficulty or 0, 0)
-
-                if algorithm and challenge_id and random_data:
-                    base_prefix = cls._extract_json_script(html_content, "anubis_base_prefix")
-                    prefix = base_prefix if isinstance(base_prefix, str) else ""
-                    pass_url = cls._extract_meta_refresh_pass_url(html_content, challenge_url)
-                    if not pass_url:
-                        pass_url = cls._build_anubis_pass_url(challenge_url, prefix)
-                    redir = cls._extract_query_param(pass_url, "redir") or cls._build_challenge_redir(challenge_url)
-                    return _AnubisChallengeInfo(
-                        algorithm=algorithm,
-                        difficulty=difficulty,
-                        challenge_id=challenge_id,
-                        random_data=random_data,
-                        pass_url=pass_url,
-                        redir=redir,
-                    )
-
-        preact_payload = cls._extract_json_script(html_content, "preact_info")
-        if isinstance(preact_payload, dict):
-            pass_url_raw = str(preact_payload.get("redir") or "").strip()
-            random_data = str(preact_payload.get("challenge") or "").strip()
-            difficulty = max(cls._coerce_int(preact_payload.get("difficulty")) or 0, 0)
-            if pass_url_raw and random_data:
-                pass_url = urljoin(challenge_url, pass_url_raw)
-                challenge_id = cls._extract_query_param(pass_url, "id")
-                redir = cls._extract_query_param(pass_url, "redir") or cls._build_challenge_redir(challenge_url)
-                if challenge_id:
-                    return _AnubisChallengeInfo(
-                        algorithm="preact",
-                        difficulty=difficulty,
-                        challenge_id=challenge_id,
-                        random_data=random_data,
-                        pass_url=pass_url,
-                        redir=redir,
-                    )
-
-        return None
-
-    @classmethod
-    def _extract_json_script(cls, html_content: str, script_id: str) -> object | None:
-        pattern = cls._json_script_regex_template.format(script_id=re.escape(script_id))
-        match = re.search(pattern, html_content)
-        if not match:
-            return None
-
-        payload = html.unescape(match.group(1).strip())
+        payload = await client.request_redlib_page(
+            url, headers=headers, cookies=REDLIB_REQUEST_COOKIES, request_timeout=cls._DEFAULT_TIMEOUT
+        )
         if not payload:
+            await logger.adebug("[Reddit] Non-200 Redlib response", url=url)
             return None
-
-        try:
-            return orjson.loads(payload)
-        except orjson.JSONDecodeError:
-            return None
-
-    @classmethod
-    def _extract_meta_refresh_pass_url(cls, html_content: str, challenge_url: str) -> str:
-        match = cls._meta_refresh_regex.search(html_content)
-        if not match:
-            return ""
-
-        content = html.unescape(match.group(1))
-        url_match = re.search(r"(?i)\burl\s*=\s*(.+)$", content)
-        if not url_match:
-            return ""
-
-        target = url_match.group(1).strip()
-        if not target:
-            return ""
-        return urljoin(challenge_url, target)
-
-    @staticmethod
-    def _build_anubis_pass_url(challenge_url: str, base_prefix: str) -> str:
-        prefix = base_prefix.strip()
-        if prefix and not prefix.startswith("/"):
-            prefix = f"/{prefix}"
-        prefix = prefix.rstrip("/")
-        return urljoin(challenge_url, f"{prefix}{ANUBIS_PASS_CHALLENGE_PATH}")
-
-    @staticmethod
-    def _extract_query_param(url: str, key: str) -> str:
-        values = parse_qs(urlparse(url).query).get(key)
-        if not values:
-            return ""
-        value = values[0]
-        if not isinstance(value, str):
-            return ""
-        return value.strip()
-
-    @staticmethod
-    def _build_challenge_redir(challenge_url: str) -> str:
-        parsed = urlparse(challenge_url)
-        path = parsed.path or "/"
-        if parsed.query:
-            return f"{path}?{parsed.query}"
-        return path
-
-    @classmethod
-    def _solve_pow_challenge(cls, random_data: str, difficulty: int) -> tuple[str, int] | None:
-        if difficulty < 0:
-            return None
-
-        target_prefix = "0" * difficulty
-        started_at = perf_counter()
-        nonce = 0
-
-        while perf_counter() - started_at <= 20.0:
-            digest = hashlib.sha256(f"{random_data}{nonce}".encode()).hexdigest()
-            if digest.startswith(target_prefix):
-                return digest, nonce
-            nonce += 1
-
-        return None
+        return payload
 
     @classmethod
     def _looks_like_block_page(cls, html_content: str) -> bool:
-        lowered = html_content.lower()
-        return any(marker in lowered for marker in cls._block_markers)
+        return parser.looks_like_block_page(html_content, cls._block_markers)
 
     @classmethod
     async def _scrape_post(cls, html_content: str, base_url: str, post_ref: _PostRef) -> _ScrapedPost | None:
@@ -705,15 +456,16 @@ class RedditProvider(MediaProvider):
     @classmethod
     async def _fetch_text(cls, url: str) -> str | None:
         try:
-            session = await HTTPClient.get_session()
-            async with session.get(url, headers=cls._DEFAULT_HEADERS, cookies=REDLIB_REQUEST_COOKIES) as response:
-                if response.status != 200:
-                    await logger.adebug("[Reddit] Failed to fetch playlist", status=response.status, url=url)
-                    return None
-                return await response.text()
+            text = await client.fetch_text(url, headers=cls._DEFAULT_HEADERS, cookies=REDLIB_REQUEST_COOKIES)
         except aiohttp.ClientError as exc:
             await logger.aerror("[Reddit] Playlist request failed", error=str(exc), url=url)
             return None
+
+        if text is None:
+            await logger.adebug("[Reddit] Failed to fetch playlist", url=url)
+            return None
+
+        return text
 
     @classmethod
     def _join_hls_url(cls, master_url: str, playlist_path: str) -> str:
@@ -746,38 +498,15 @@ class RedditProvider(MediaProvider):
 
     @classmethod
     def _normalize_media_url(cls, base_url: str, candidate: str | None) -> str:
-        if not candidate:
-            return ""
-
-        decoded = html.unescape(candidate.strip())
-        if not decoded:
-            return ""
-
-        absolute = urljoin(base_url, decoded)
-        absolute, _ = urldefrag(absolute)
-        return absolute.strip()
+        return parser.normalize_media_url(base_url, candidate)
 
     @staticmethod
     def _first_non_empty(values: list[str]) -> str | None:
-        for value in values:
-            if isinstance(value, str) and value.strip():
-                return value.strip()
-        return None
+        return parser.first_non_empty(values)
 
     @staticmethod
     def _coerce_int(value: object) -> int | None:
-        if isinstance(value, bool):
-            return None
-        if isinstance(value, int):
-            return value
-        if isinstance(value, float):
-            return int(value)
-        if isinstance(value, str):
-            try:
-                return int(float(value))
-            except ValueError:
-                return None
-        return None
+        return parser.coerce_int(value)
 
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:

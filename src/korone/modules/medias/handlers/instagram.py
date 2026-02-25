@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from korone.modules.medias.handlers.base import BaseMediaHandler
-from korone.modules.medias.utils.instagram import InstagramProvider
+from korone.modules.medias.utils.platforms import InstagramProvider
+
+from .base import BaseMediaHandler
 
 
 class InstagramMediaHandler(BaseMediaHandler):

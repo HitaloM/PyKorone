@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from korone.modules.medias.handlers.base import BaseMediaHandler
-from korone.modules.medias.utils.tiktok import TikTokProvider
+from korone.modules.medias.utils.platforms import TikTokProvider
+
+from .base import BaseMediaHandler
 
 
 class TikTokMediaHandler(BaseMediaHandler):
