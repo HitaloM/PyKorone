@@ -22,27 +22,12 @@ class LastFMRefreshCallback(CallbackData, prefix="lfmr"):
     uid: int
 
 
-class LastFMInfoCallback(CallbackData, prefix="lfmi"):
-    u: str
-    uid: int
-
-
 class LastFMAlbumRefreshCallback(CallbackData, prefix="lfmar"):
     u: str
     uid: int
 
 
-class LastFMAlbumInfoCallback(CallbackData, prefix="lfmai"):
-    u: str
-    uid: int
-
-
 class LastFMArtistRefreshCallback(CallbackData, prefix="lfmtr"):
-    u: str
-    uid: int
-
-
-class LastFMArtistInfoCallback(CallbackData, prefix="lfmti"):
     u: str
     uid: int
 

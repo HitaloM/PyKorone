@@ -10,7 +10,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, WordArg
 
 from korone.filters.cmd import CMDFilter
-from korone.modules.lastfm.callbacks import LastFMArtistInfoCallback, LastFMArtistRefreshCallback
+from korone.modules.lastfm.callbacks import LastFMArtistRefreshCallback
 from korone.modules.lastfm.handlers.common import (
     build_link_preview_options,
     can_use_buttons,
@@ -24,7 +24,6 @@ from korone.modules.lastfm.utils import (
     LastFMAPIError,
     LastFMClient,
     LastFMError,
-    format_artist_info_alert,
     format_artist_status,
     format_lastfm_error,
 )
@@ -56,8 +55,7 @@ class LastFMArtistPayload:
 def _build_keyboard(*, username: str, owner_id: int) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.row(
-        InlineKeyboardButton(text="ℹ️", callback_data=LastFMArtistInfoCallback(u=username, uid=owner_id).pack()),
-        InlineKeyboardButton(text="🔃", callback_data=LastFMArtistRefreshCallback(u=username, uid=owner_id).pack()),
+        InlineKeyboardButton(text="🔃", callback_data=LastFMArtistRefreshCallback(u=username, uid=owner_id).pack())
     )
     return builder.as_markup()
 
@@ -134,14 +132,12 @@ class LastFMArtistCallbackHandler(KoroneCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
         router.callback_query.register(cls, LastFMArtistRefreshCallback.filter())
-        router.callback_query.register(cls, LastFMArtistInfoCallback.filter())
 
     async def _refresh(self, *, username: str, owner_id: int) -> None:
         message = cast("Message", self.event.message)
-        async with typing_action(bot=self.bot, message=message):
-            client = LastFMClient()
-            deezer_client = DeezerClient()
-            payload = await _build_artist_payload(client, deezer_client, username=username)
+        client = LastFMClient()
+        deezer_client = DeezerClient()
+        payload = await _build_artist_payload(client, deezer_client, username=username)
         if payload is None:
             await message.edit_text(_("No artist information found for the current track."))
             return
@@ -150,48 +146,22 @@ class LastFMArtistCallbackHandler(KoroneCallbackQueryHandler):
         link_preview_options = build_link_preview_options(payload.image_url)
         await message.edit_text(payload.text, reply_markup=keyboard, link_preview_options=link_preview_options)
 
-    async def _show_info(self, *, username: str) -> None:
-        message = cast("Message", self.event.message)
-        async with typing_action(bot=self.bot, message=message):
-            client = LastFMClient()
-            recent_tracks = await client.get_recent_tracks(username=username, limit=1)
-            if not recent_tracks:
-                await self.event.answer(_("No artist information found for the current track."), show_alert=True)
-                return
-
-            track = recent_tracks[0]
-            artist_info = None
-
-            try:
-                artist_info = await client.get_artist_info(username=username, artist=track.artist)
-            except LastFMAPIError:
-                artist_info = None
-
-        await self.event.answer(format_artist_info_alert(artist_info), show_alert=True)
-
     async def handle(self) -> None:
         await self.check_for_message()
 
         callback_data = self.callback_data
-        username = ""
-        owner_id = 0
-
-        if isinstance(callback_data, (LastFMArtistRefreshCallback, LastFMArtistInfoCallback)):
-            username = callback_data.u
-            owner_id = callback_data.uid
-        else:
+        if not isinstance(callback_data, LastFMArtistRefreshCallback):
             await self.event.answer()
             return
+
+        username = callback_data.u
+        owner_id = callback_data.uid
 
         if not can_use_buttons(callback_owner_id=owner_id, user_id=self.event.from_user.id):
             await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
             return
 
         try:
-            if isinstance(callback_data, LastFMArtistInfoCallback):
-                await self._show_info(username=username)
-                return
-
             await self._refresh(username=username, owner_id=owner_id)
             await self.event.answer()
         except LastFMError as exc:

@@ -18,7 +18,6 @@ if TYPE_CHECKING:
     from .types import LastFMAlbumInfo, LastFMArtistInfo, LastFMRecentTrack, LastFMTrackInfo
 
 TAG_SANITIZER_RE = re.compile(r"[^a-z0-9]+")
-CALLBACK_ALERT_MAX_LENGTH = 190
 
 
 def _format_elapsed_time(played_at: int | None) -> str:
@@ -60,25 +59,6 @@ def _format_tags(tags: tuple[str, ...]) -> str:
 def _build_spotify_search_url(artist: str, track: str) -> str:
     query = quote_plus(f"{artist} - {track}")
     return f"https://open.spotify.com/search/{query}"
-
-
-def _format_duration(duration_ms: int | None) -> str | None:
-    if duration_ms is None or duration_ms <= 0:
-        return None
-
-    total_seconds = duration_ms // 1000 if duration_ms > 1000 else duration_ms
-    minutes, seconds = divmod(total_seconds, 60)
-    return f"{minutes}:{seconds:02d}"
-
-
-def _format_number(value: int) -> str:
-    return f"{max(value, 0):,}"
-
-
-def _truncate(value: str, limit: int) -> str:
-    if len(value) <= limit:
-        return value
-    return f"{value[: limit - 3]}..."
 
 
 def format_status(username: str, tracks: Sequence[LastFMRecentTrack], track_info: LastFMTrackInfo | None) -> str:
@@ -177,81 +157,6 @@ def format_artist_status(username: str, track: LastFMRecentTrack, artist_info: L
     ).to_html()
 
     return f"{header}\n{line}{tags_suffix}"
-
-
-def format_album_info_alert(album_info: LastFMAlbumInfo | None) -> str:
-    if album_info is None:
-        return _("No additional album info found.")
-
-    chunks: list[str] = [
-        f"💽 {_truncate(album_info.artist, 26)} — {_truncate(album_info.name, 24)}",
-        _("Plays: {plays} | Tracks: {tracks} | Listeners: {listeners}").format(
-            plays=_format_number(album_info.user_playcount),
-            tracks=_format_number(album_info.track_count),
-            listeners=_format_number(album_info.listeners),
-        ),
-        _("Scrobbles: {scrobbles}").format(scrobbles=_format_number(album_info.playcount)),
-    ]
-
-    text = "\n".join(chunks)
-    if len(text) > CALLBACK_ALERT_MAX_LENGTH:
-        return f"{text[: CALLBACK_ALERT_MAX_LENGTH - 3]}..."
-    return text
-
-
-def format_artist_info_alert(artist_info: LastFMArtistInfo | None) -> str:
-    if artist_info is None:
-        return _("No additional artist info found.")
-
-    chunks: list[str] = [
-        f"🎙️ {_truncate(artist_info.name, 36)}",
-        _("Plays: {plays} | Listeners: {listeners} | Scrobbles: {scrobbles}").format(
-            plays=_format_number(artist_info.user_playcount),
-            listeners=_format_number(artist_info.listeners),
-            scrobbles=_format_number(artist_info.playcount),
-        ),
-    ]
-
-    text = "\n".join(chunks)
-    if len(text) > CALLBACK_ALERT_MAX_LENGTH:
-        return f"{text[: CALLBACK_ALERT_MAX_LENGTH - 3]}..."
-    return text
-
-
-def format_info_alert(
-    track: LastFMRecentTrack, track_info: LastFMTrackInfo | None, artist_info: LastFMArtistInfo | None
-) -> str:
-    chunks: list[str] = []
-
-    if track_info:
-        duration = _format_duration(track_info.duration_ms)
-        duration_suffix = f" ({duration})" if duration else ""
-        chunks.extend((
-            f"🎵 {_truncate(track.name, 34)}{duration_suffix}",
-            _("Plays: {plays} | Listeners: {listeners} | Scrobbles: {scrobbles}").format(
-                plays=_format_number(track_info.user_playcount),
-                listeners=_format_number(track_info.listeners),
-                scrobbles=_format_number(track_info.playcount),
-            ),
-        ))
-
-    if artist_info:
-        chunks.extend((
-            f"🎙️ {_truncate(artist_info.name, 34)}",
-            _("Plays: {plays} | Listeners: {listeners} | Scrobbles: {scrobbles}").format(
-                plays=_format_number(artist_info.user_playcount),
-                listeners=_format_number(artist_info.listeners),
-                scrobbles=_format_number(artist_info.playcount),
-            ),
-        ))
-
-    if not chunks:
-        return _("No additional info found.")
-
-    text = "\n".join(chunks)
-    if len(text) > CALLBACK_ALERT_MAX_LENGTH:
-        return f"{text[: CALLBACK_ALERT_MAX_LENGTH - 3]}..."
-    return text
 
 
 def format_lastfm_error(error: LastFMError) -> str:

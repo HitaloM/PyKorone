@@ -10,7 +10,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, WordArg
 
 from korone.filters.cmd import CMDFilter
-from korone.modules.lastfm.callbacks import LastFMAlbumInfoCallback, LastFMAlbumRefreshCallback
+from korone.modules.lastfm.callbacks import LastFMAlbumRefreshCallback
 from korone.modules.lastfm.handlers.common import (
     build_link_preview_options,
     can_use_buttons,
@@ -24,7 +24,6 @@ from korone.modules.lastfm.utils import (
     LastFMAPIError,
     LastFMClient,
     LastFMError,
-    format_album_info_alert,
     format_album_status,
     format_lastfm_error,
 )
@@ -65,8 +64,7 @@ class LastFMAlbumPayload:
 def _build_keyboard(*, username: str, owner_id: int) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.row(
-        InlineKeyboardButton(text="ℹ️", callback_data=LastFMAlbumInfoCallback(u=username, uid=owner_id).pack()),
-        InlineKeyboardButton(text="🔃", callback_data=LastFMAlbumRefreshCallback(u=username, uid=owner_id).pack()),
+        InlineKeyboardButton(text="🔃", callback_data=LastFMAlbumRefreshCallback(u=username, uid=owner_id).pack())
     )
     return builder.as_markup()
 
@@ -148,14 +146,12 @@ class LastFMAlbumCallbackHandler(KoroneCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
         router.callback_query.register(cls, LastFMAlbumRefreshCallback.filter())
-        router.callback_query.register(cls, LastFMAlbumInfoCallback.filter())
 
     async def _refresh(self, *, username: str, owner_id: int) -> None:
         message = cast("Message", self.event.message)
-        async with typing_action(bot=self.bot, message=message):
-            client = LastFMClient()
-            deezer_client = DeezerClient()
-            payload = await _build_album_payload(client, deezer_client, username=username)
+        client = LastFMClient()
+        deezer_client = DeezerClient()
+        payload = await _build_album_payload(client, deezer_client, username=username)
         if payload is None:
             await message.edit_text(_("No album information found for the current track."))
             return
@@ -164,40 +160,22 @@ class LastFMAlbumCallbackHandler(KoroneCallbackQueryHandler):
         link_preview_options = build_link_preview_options(payload.image_url)
         await message.edit_text(payload.text, reply_markup=keyboard, link_preview_options=link_preview_options)
 
-    async def _show_info(self, *, username: str) -> None:
-        message = cast("Message", self.event.message)
-        async with typing_action(bot=self.bot, message=message):
-            client = LastFMClient()
-            payload = await _build_album_payload(client, username=username)
-        if payload is None:
-            await self.event.answer(_("No album information found for the current track."), show_alert=True)
-            return
-
-        await self.event.answer(format_album_info_alert(payload.album_info), show_alert=True)
-
     async def handle(self) -> None:
         await self.check_for_message()
 
         callback_data = self.callback_data
-        username = ""
-        owner_id = 0
-
-        if isinstance(callback_data, (LastFMAlbumRefreshCallback, LastFMAlbumInfoCallback)):
-            username = callback_data.u
-            owner_id = callback_data.uid
-        else:
+        if not isinstance(callback_data, LastFMAlbumRefreshCallback):
             await self.event.answer()
             return
+
+        username = callback_data.u
+        owner_id = callback_data.uid
 
         if not can_use_buttons(callback_owner_id=owner_id, user_id=self.event.from_user.id):
             await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
             return
 
         try:
-            if isinstance(callback_data, LastFMAlbumInfoCallback):
-                await self._show_info(username=username)
-                return
-
             await self._refresh(username=username, owner_id=owner_id)
             await self.event.answer()
         except LastFMError as exc:

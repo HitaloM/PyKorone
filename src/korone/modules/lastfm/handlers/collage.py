@@ -215,16 +215,15 @@ class LastFMCollageCallbackHandler(KoroneCallbackQueryHandler):
 
         message = cast("Message", self.event.message)
         try:
-            async with upload_photo_action(bot=self.bot, message=message):
-                image_bytes = await _render_collage(username=username, options=options)
-                keyboard = _build_keyboard(owner_id=callback_data.uid, target_id=callback_data.tid, options=options)
-                caption = _build_caption(username=username, options=options)
-                await message.edit_media(
-                    media=InputMediaPhoto(
-                        media=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"), caption=caption
-                    ),
-                    reply_markup=keyboard,
-                )
+            image_bytes = await _render_collage(username=username, options=options)
+            keyboard = _build_keyboard(owner_id=callback_data.uid, target_id=callback_data.tid, options=options)
+            caption = _build_caption(username=username, options=options)
+            await message.edit_media(
+                media=InputMediaPhoto(
+                    media=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"), caption=caption
+                ),
+                reply_markup=keyboard,
+            )
             await self.event.answer()
         except LastFMError as exc:
             await self.event.answer(format_lastfm_error(exc), show_alert=True)

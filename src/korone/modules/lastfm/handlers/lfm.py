@@ -10,7 +10,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, WordArg
 
 from korone.filters.cmd import CMDFilter
-from korone.modules.lastfm.callbacks import LastFMInfoCallback, LastFMMode, LastFMRefreshCallback, LastFMViewCallback
+from korone.modules.lastfm.callbacks import LastFMMode, LastFMRefreshCallback, LastFMViewCallback
 from korone.modules.lastfm.handlers.common import (
     build_link_preview_options,
     can_use_buttons,
@@ -24,7 +24,6 @@ from korone.modules.lastfm.utils import (
     LastFMAPIError,
     LastFMClient,
     LastFMError,
-    format_info_alert,
     format_lastfm_error,
     format_status,
 )
@@ -71,10 +70,9 @@ def _build_keyboard(*, username: str, mode: LastFMMode, owner_id: int) -> Inline
             )
         )
 
-    row.extend((
-        InlineKeyboardButton(text="ℹ️", callback_data=LastFMInfoCallback(u=username, uid=owner_id).pack()),
-        InlineKeyboardButton(text="🔃", callback_data=LastFMRefreshCallback(u=username, m=mode, uid=owner_id).pack()),
-    ))
+    row.append(
+        InlineKeyboardButton(text="🔃", callback_data=LastFMRefreshCallback(u=username, m=mode, uid=owner_id).pack())
+    )
 
     builder.row(*row)
     return builder.as_markup()
@@ -176,41 +174,12 @@ class LastFMStatusCallbackHandler(KoroneCallbackQueryHandler):
     def register(cls, router: Router) -> None:
         router.callback_query.register(cls, LastFMViewCallback.filter())
         router.callback_query.register(cls, LastFMRefreshCallback.filter())
-        router.callback_query.register(cls, LastFMInfoCallback.filter())
-
-    async def _show_info(self, *, username: str) -> None:
-        message = cast("Message", self.event.message)
-        async with typing_action(bot=self.bot, message=message):
-            client = LastFMClient()
-            tracks = await client.get_recent_tracks(username=username, limit=1)
-            if not tracks:
-                await self.event.answer(_("No scrobbles found for this Last.fm user."), show_alert=True)
-                return
-
-            first_track = tracks[0]
-            track_info = None
-            artist_info = None
-
-            try:
-                track_info = await client.get_track_info(
-                    username=username, artist=first_track.artist, track=first_track.name
-                )
-            except LastFMAPIError:
-                track_info = None
-
-            try:
-                artist_info = await client.get_artist_info(username=username, artist=first_track.artist)
-            except LastFMAPIError:
-                artist_info = None
-
-        await self.event.answer(format_info_alert(first_track, track_info, artist_info), show_alert=True)
 
     async def _refresh_or_change_view(self, *, username: str, mode: LastFMMode, owner_id: int) -> None:
         message = cast("Message", self.event.message)
-        async with typing_action(bot=self.bot, message=message):
-            client = LastFMClient()
-            deezer_client = DeezerClient()
-            payload = await _build_status_payload(client, deezer_client, username=username, mode=mode)
+        client = LastFMClient()
+        deezer_client = DeezerClient()
+        payload = await _build_status_payload(client, deezer_client, username=username, mode=mode)
         if payload is None:
             await message.edit_text(_("No scrobbles found for this Last.fm user."))
             return
@@ -221,30 +190,19 @@ class LastFMStatusCallbackHandler(KoroneCallbackQueryHandler):
         await self.check_for_message()
 
         callback_data = self.callback_data
-        owner_id = 0
-        username = ""
-        mode = LastFMMode.COMPACT
-
-        if isinstance(callback_data, (LastFMViewCallback, LastFMRefreshCallback)):
-            owner_id = callback_data.uid
-            username = callback_data.u
-            mode = callback_data.m
-        elif isinstance(callback_data, LastFMInfoCallback):
-            owner_id = callback_data.uid
-            username = callback_data.u
-        else:
+        if not isinstance(callback_data, (LastFMViewCallback, LastFMRefreshCallback)):
             await self.event.answer()
             return
+
+        owner_id = callback_data.uid
+        username = callback_data.u
+        mode = callback_data.m
 
         if not can_use_buttons(callback_owner_id=owner_id, user_id=self.event.from_user.id):
             await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
             return
 
         try:
-            if isinstance(callback_data, LastFMInfoCallback):
-                await self._show_info(username=username)
-                return
-
             await self._refresh_or_change_view(username=username, mode=mode, owner_id=owner_id)
             await self.event.answer()
         except LastFMError as exc:
