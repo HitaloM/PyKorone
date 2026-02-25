@@ -14,6 +14,7 @@ from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.handlers.common import format_missing_lastfm_username, period_label
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token
+from korone.modules.utils_.message import is_real_reply
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -66,7 +67,11 @@ class LastFMCompatHandler(KoroneMessageHandler):
             await self.event.reply(_("Could not identify your Telegram user."))
             return
 
-        if not self.event.reply_to_message or not self.event.reply_to_message.from_user:
+        if (
+            not self.event.reply_to_message
+            or not is_real_reply(self.event)
+            or not self.event.reply_to_message.from_user
+        ):
             await self.event.reply(
                 Template(
                     _("Usage: {example}. Reply to someone's message in a group."), example=Code("/lfmcompat 1y")

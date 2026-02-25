@@ -7,6 +7,7 @@ from stfu_tg import Code, Template
 
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.lastfm.utils.periods import LastFMPeriod
+from korone.modules.utils_.message import is_real_reply
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -21,7 +22,7 @@ async def resolve_lastfm_username(message: Message, explicit_username: str | Non
     if explicit_username:
         return explicit_username
 
-    if message.reply_to_message and message.reply_to_message.from_user:
+    if message.reply_to_message and is_real_reply(message) and message.reply_to_message.from_user:
         return await LastFMRepository.get_username(message.reply_to_message.from_user.id)
 
     if message.from_user:

@@ -19,6 +19,7 @@ from korone.modules.lastfm.handlers.common import can_use_buttons, format_missin
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, create_album_collage, format_lastfm_error
 from korone.modules.lastfm.utils.collage import MAX_SIZE, MIN_SIZE, LastFMCollageError
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token
+from korone.modules.utils_.message import is_real_reply
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -136,7 +137,7 @@ class LastFMCollageHandler(KoroneMessageHandler):
         return (CMDFilter(("lfmcollage", "collage", "lcollage")),)
 
     async def _resolve_target_id(self) -> int | None:
-        if self.event.reply_to_message and self.event.reply_to_message.from_user:
+        if self.event.reply_to_message and is_real_reply(self.event) and self.event.reply_to_message.from_user:
             return self.event.reply_to_message.from_user.id
 
         if self.event.from_user:
