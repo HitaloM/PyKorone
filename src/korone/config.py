@@ -51,6 +51,7 @@ class Config(BaseSettings):
     class Config:
         env_file = "data/config.env"
         env_file_encoding = "utf-8"
+        extra = "ignore"
 
     @computed_field
     @property
