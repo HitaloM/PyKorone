@@ -1,14 +1,17 @@
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.modules.medias.utils.provider_base import MediaProvider
-from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost, MediaSource
+from korone.modules.medias.utils.types import MediaKind, MediaPost, MediaSource
 
 from . import client, parser
 from .constants import PATTERN, TIKTOK_MEDIA_HEADERS
+
+if TYPE_CHECKING:
+    from korone.modules.medias.utils.types import MediaItem
 
 _TNKTOK_OFFLOAD_BASE_URL = "https://offload.tnktok.com"
 
@@ -93,39 +96,44 @@ class TikTokProvider(MediaProvider):
         if media:
             return media
 
-        offload_media = cls._offload_media_fallback(post_id, sources)
+        offload_sources = cls._build_offload_sources(post_id, sources)
+        offload_media = await cls.download_media(
+            offload_sources,
+            filename_prefix="tiktok_media",
+            max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES,
+            log_label="TikTok Offload",
+        )
         if offload_media:
             await logger.adebug(
-                "[TikTok] Using offload fallback", source_count=len(offload_media), offload_url=_TNKTOK_OFFLOAD_BASE_URL
+                "[TikTok] Using downloaded offload fallback",
+                source_count=len(offload_media),
+                offload_url=_TNKTOK_OFFLOAD_BASE_URL,
             )
             return offload_media
 
         return []
 
     @classmethod
-    def _offload_media_fallback(cls, post_id: str, sources: list[MediaSource]) -> list[MediaItem]:
+    def _build_offload_sources(cls, post_id: str, sources: list[MediaSource]) -> list[MediaSource]:
         base_url = _TNKTOK_OFFLOAD_BASE_URL
         photo_index = 1
-        fallback: list[MediaItem] = []
+        fallback_sources: list[MediaSource] = []
 
-        for index, source in enumerate(sources, start=1):
+        for source in sources:
             if source.kind == MediaKind.VIDEO:
                 offload_url = f"{base_url}/generate/video/{post_id}.mp4"
             else:
                 offload_url = f"{base_url}/generate/image/{post_id}/{photo_index}"
                 photo_index += 1
 
-            extension = cls._guess_extension(offload_url, "", source.kind)
-            fallback.append(
-                MediaItem(
+            fallback_sources.append(
+                MediaSource(
                     kind=source.kind,
-                    file=offload_url,
-                    filename=f"tiktok_media_{index}{extension}",
-                    source_url=offload_url,
+                    url=offload_url,
                     duration=source.duration,
                     width=source.width,
                     height=source.height,
                 )
             )
 
-        return fallback
+        return fallback_sources
