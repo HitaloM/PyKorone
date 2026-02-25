@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.config import CONFIG
@@ -30,8 +29,9 @@ class StartGroupHandler(KoroneMessageHandler):
         await state.clear()
 
         buttons = InlineKeyboardBuilder()
-        buttons.add(InlineKeyboardButton(text=f"ℹ️ {_('Help')}", url=PMHelpStartUrlCallback().pack()))
-        buttons.add(InlineKeyboardButton(text=_("📢 Channel"), url=CONFIG.news_channel))
+        buttons.button(text=f"ℹ️ {_('Help')}", url=PMHelpStartUrlCallback().pack())
+        buttons.button(text=_("📢 Channel"), url=CONFIG.news_channel)
+        buttons.adjust(2)
 
         text = _(
             "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "

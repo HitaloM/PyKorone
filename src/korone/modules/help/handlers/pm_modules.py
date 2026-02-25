@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle
-from aiogram.types import CallbackQuery, InlineKeyboardButton
+from aiogram.types import CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Code, Doc, HList, Italic, Section, Template, Title, VList
 
@@ -35,27 +35,30 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
         modules = dict(sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name)))
 
         buttons = InlineKeyboardBuilder()
+        module_buttons_count = 0
 
-        buttons.row(
-            *(
-                InlineKeyboardButton(
-                    text=f"{module.icon} {module.name}",
-                    callback_data=PMHelpModule(
-                        module_name=module_name, back_to_start=bool(callback_data and callback_data.back_to_start)
-                    ).pack(),
-                )
-                for module_name, module in modules.items()
-                if not module.exclude_public
-            ),
-            width=2,
-        )
-
-        if callback_data and callback_data.back_to_start:
-            buttons.row(
-                InlineKeyboardButton(
-                    text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback().pack()
-                )
+        for module_name, module in modules.items():
+            if module.exclude_public:
+                continue
+            buttons.button(
+                text=f"{module.icon} {module.name}",
+                callback_data=PMHelpModule(
+                    module_name=module_name, back_to_start=bool(callback_data and callback_data.back_to_start)
+                ),
             )
+            module_buttons_count += 1
+
+        has_back_button = bool(callback_data and callback_data.back_to_start)
+        if callback_data and callback_data.back_to_start:
+            buttons.button(text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback())
+
+        widths = [2] * (module_buttons_count // 2)
+        if module_buttons_count % 2:
+            widths.append(1)
+        if has_back_button:
+            widths.append(1)
+        if widths:
+            buttons.adjust(*widths)
 
         doc = Doc(
             Title(_("Help")),
@@ -125,12 +128,10 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
 
         buttons = InlineKeyboardBuilder()
 
-        buttons.row(
-            InlineKeyboardButton(
-                text=_("⬅️ Back"),
-                style=ButtonStyle.PRIMARY,
-                callback_data=PMHelpModules(back_to_start=callback_data.back_to_start).pack(),
-            )
+        buttons.button(
+            text=_("⬅️ Back"),
+            style=ButtonStyle.PRIMARY,
+            callback_data=PMHelpModules(back_to_start=callback_data.back_to_start),
         )
 
         await self.check_for_message()

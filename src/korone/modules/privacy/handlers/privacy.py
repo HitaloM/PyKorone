@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle
-from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.config import CONFIG
@@ -29,13 +28,12 @@ class PrivacyMenu(KoroneMessageCallbackQueryHandler):
         callback_data: PrivacyMenuCallback | None = self.data.get("callback_data", None)
 
         text = _("The privacy policy of the bot is available on our wiki page.")
-        buttons = InlineKeyboardBuilder().add(InlineKeyboardButton(text=_("Privacy Policy"), url=CONFIG.privacy_link))
+        buttons = InlineKeyboardBuilder()
+        buttons.button(text=_("Privacy Policy"), url=CONFIG.privacy_link)
 
         if callback_data and callback_data.back_to_start:
-            buttons.row(
-                InlineKeyboardButton(
-                    text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback().pack()
-                )
-            )
+            buttons.button(text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback())
+
+        buttons.adjust(1)
 
         await self.answer(text, reply_markup=buttons.as_markup())

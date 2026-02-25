@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.filters.chat_status import GroupChatFilter
@@ -26,6 +25,6 @@ class HelpGroupHandler(KoroneMessageHandler):
         text = _("The help information available in the private messages with Korone")
 
         buttons = InlineKeyboardBuilder()
-        buttons.add(InlineKeyboardButton(text=f"ℹ️ {_('Help')}", url=PMHelpStartUrlCallback().pack()))
+        buttons.button(text=f"ℹ️ {_('Help')}", url=PMHelpStartUrlCallback().pack())
 
         await self.event.reply(str(text), reply_markup=buttons.as_markup())

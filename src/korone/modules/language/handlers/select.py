@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle, ChatType
-from aiogram.types import InlineKeyboardButton, Message
+from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 
@@ -36,6 +36,7 @@ def build_language_selection_keyboard(
             unique_locales.append(loc)
 
     selected_locale = i18n.current_locale
+    language_button_count = 0
 
     for language in unique_locales:
         locale = i18n.babels.get(language) or i18n.babel(language)
@@ -48,31 +49,31 @@ def build_language_selection_keyboard(
         keyboard.button(
             text=button_text, style=style, callback_data=SetLangCallback(lang=language, back_to_start=back_to_start)
         )
+        language_button_count += 1
 
-    keyboard.adjust(2)
+    extra_rows = 0
 
     if not is_private:
-        keyboard.row(
-            InlineKeyboardButton(
-                text=_("❌ Cancel"), style=ButtonStyle.DANGER, callback_data=CancelActionCallback().pack()
-            )
-        )
+        keyboard.button(text=_("❌ Cancel"), style=ButtonStyle.DANGER, callback_data=CancelActionCallback())
+        extra_rows += 1
 
     if is_private:
         if back_to_start:
-            keyboard.row(
-                InlineKeyboardButton(
-                    text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback().pack()
-                )
-            )
+            keyboard.button(text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback())
+            extra_rows += 1
         else:
-            keyboard.row(
-                InlineKeyboardButton(
-                    text=_("⬅️ Back"),
-                    style=ButtonStyle.PRIMARY,
-                    callback_data=LangMenuCallback(menu=LangMenu.Language, back_to_start=False).pack(),
-                )
+            keyboard.button(
+                text=_("⬅️ Back"),
+                style=ButtonStyle.PRIMARY,
+                callback_data=LangMenuCallback(menu=LangMenu.Language, back_to_start=False),
             )
+            extra_rows += 1
+
+    widths = [2] * (language_button_count // 2)
+    if language_button_count % 2:
+        widths.append(1)
+    widths.extend([1] * extra_rows)
+    keyboard.adjust(*widths)
 
     return keyboard
 

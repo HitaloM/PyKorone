@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING, Any, cast
 
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, WordArg
 
@@ -55,26 +54,15 @@ class LastFMStatusPayload:
 
 def _build_keyboard(*, username: str, mode: LastFMMode, owner_id: int) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    row: list[InlineKeyboardButton] = []
 
     if mode is LastFMMode.EXPANDED:
-        row.append(
-            InlineKeyboardButton(
-                text="➖", callback_data=LastFMViewCallback(u=username, m=LastFMMode.COMPACT, uid=owner_id).pack()
-            )
-        )
+        builder.button(text="➖", callback_data=LastFMViewCallback(u=username, m=LastFMMode.COMPACT, uid=owner_id))
     else:
-        row.append(
-            InlineKeyboardButton(
-                text="➕", callback_data=LastFMViewCallback(u=username, m=LastFMMode.EXPANDED, uid=owner_id).pack()
-            )
-        )
+        builder.button(text="➕", callback_data=LastFMViewCallback(u=username, m=LastFMMode.EXPANDED, uid=owner_id))
 
-    row.append(
-        InlineKeyboardButton(text="🔃", callback_data=LastFMRefreshCallback(u=username, m=mode, uid=owner_id).pack())
-    )
+    builder.button(text="🔃", callback_data=LastFMRefreshCallback(u=username, m=mode, uid=owner_id))
 
-    builder.row(*row)
+    builder.adjust(2)
     return builder.as_markup()
 
 

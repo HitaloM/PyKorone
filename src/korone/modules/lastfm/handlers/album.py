@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING, Any, cast
 
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, WordArg
 
@@ -63,9 +62,7 @@ class LastFMAlbumPayload:
 
 def _build_keyboard(*, username: str, owner_id: int) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    builder.row(
-        InlineKeyboardButton(text="🔃", callback_data=LastFMAlbumRefreshCallback(u=username, uid=owner_id).pack())
-    )
+    builder.button(text="🔃", callback_data=LastFMAlbumRefreshCallback(u=username, uid=owner_id))
     return builder.as_markup()
 
 

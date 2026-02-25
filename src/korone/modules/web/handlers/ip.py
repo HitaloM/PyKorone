@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING, Any, cast
 import aiohttp
 import orjson
 from aiogram import flags
-from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import TextArg
 from stfu_tg import Code, Doc, Italic, KeyValue, Template, Title
@@ -123,7 +122,8 @@ class IPInfoHandler(KoroneMessageHandler):
 
         builder = InlineKeyboardBuilder()
         for ip in ips:
-            builder.row(InlineKeyboardButton(text=ip, callback_data=GetIPCallback(ip=encode_ip(ip)).pack()))
+            builder.button(text=ip, callback_data=GetIPCallback(ip=encode_ip(ip)))
+        builder.adjust(1)
 
         await self.event.reply(_("Please select an IP address:"), reply_markup=builder.as_markup())
 

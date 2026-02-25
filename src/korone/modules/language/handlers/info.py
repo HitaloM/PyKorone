@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle, ChatType
-from aiogram.types import InlineKeyboardButton, Message
+from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 from stfu_tg import Code, KeyValue, Section
@@ -44,9 +44,9 @@ def build_keyboard(*, is_private: bool, back_to_start: bool = False) -> InlineKe
     )
 
     if is_private and back_to_start:
-        keyboard.row(
-            InlineKeyboardButton(text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback().pack())
-        )
+        keyboard.button(text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback())
+
+    keyboard.adjust(1)
 
     return keyboard
 

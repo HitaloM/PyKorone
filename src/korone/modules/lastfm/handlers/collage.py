@@ -6,7 +6,7 @@ from urllib.parse import quote_plus
 
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import BufferedInputFile, InlineKeyboardButton, InputMediaPhoto
+from aiogram.types import BufferedInputFile, InputMediaPhoto
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, TextArg
 from stfu_tg import Template, Url
@@ -85,38 +85,35 @@ def _build_caption(*, username: str, options: LastFMCollageOptions) -> str:
 
 def _build_keyboard(*, owner_id: int, target_id: int, options: LastFMCollageOptions) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    buttons: list[InlineKeyboardButton] = []
+    button_count = 0
 
     if options.size < MAX_SIZE:
-        buttons.append(
-            InlineKeyboardButton(
-                text="➕",
-                callback_data=LastFMCollageCallback(
-                    uid=owner_id, tid=target_id, s=options.size + 1, p=options.period, t=int(options.include_text)
-                ).pack(),
-            )
+        builder.button(
+            text="➕",
+            callback_data=LastFMCollageCallback(
+                uid=owner_id, tid=target_id, s=options.size + 1, p=options.period, t=int(options.include_text)
+            ),
         )
+        button_count += 1
 
     if options.size > MIN_SIZE:
-        buttons.append(
-            InlineKeyboardButton(
-                text="➖",
-                callback_data=LastFMCollageCallback(
-                    uid=owner_id, tid=target_id, s=options.size - 1, p=options.period, t=int(options.include_text)
-                ).pack(),
-            )
-        )
-
-    buttons.append(
-        InlineKeyboardButton(
-            text="Aa",
+        builder.button(
+            text="➖",
             callback_data=LastFMCollageCallback(
-                uid=owner_id, tid=target_id, s=options.size, p=options.period, t=0 if options.include_text else 1
-            ).pack(),
+                uid=owner_id, tid=target_id, s=options.size - 1, p=options.period, t=int(options.include_text)
+            ),
         )
-    )
+        button_count += 1
 
-    builder.row(*buttons)
+    builder.button(
+        text="Aa",
+        callback_data=LastFMCollageCallback(
+            uid=owner_id, tid=target_id, s=options.size, p=options.period, t=0 if options.include_text else 1
+        ),
+    )
+    button_count += 1
+
+    builder.adjust(button_count)
     return builder.as_markup()
 
 

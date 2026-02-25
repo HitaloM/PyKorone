@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import InlineKeyboardButton
 from aiogram.utils.chat_action import ChatActionSender
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.media_group import MediaGroupBuilder
@@ -397,9 +396,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     @staticmethod
     def _build_keyboard(post: MediaPost) -> InlineKeyboardMarkup | None:
         builder = InlineKeyboardBuilder()
-        builder.add(
-            InlineKeyboardButton(text=Template(_("Open in {website}"), website=post.website).to_html(), url=post.url)
-        )
+        builder.button(text=Template(_("Open in {website}"), website=post.website).to_html(), url=post.url)
         return builder.as_markup()
 
     async def _fetch_post(self, url: str) -> MediaPost | None:

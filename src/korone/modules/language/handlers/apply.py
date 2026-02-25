@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle
-from aiogram.types import InlineKeyboardButton, Message
+from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, Template
 
@@ -57,9 +57,9 @@ def build_keyboard(language: str, i18n: I18nNew, *, back_to_start: bool = False)
         keyboard.button(text=_("🌍 Help Translate"), url=CONFIG.translation_url)
 
     if back_to_start:
-        keyboard.row(
-            InlineKeyboardButton(text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback().pack())
-        )
+        keyboard.button(text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback())
+
+    keyboard.adjust(1)
 
     return keyboard
 
