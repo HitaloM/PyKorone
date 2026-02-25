@@ -7,13 +7,13 @@ from urllib.parse import quote_plus
 from aiogram import flags
 from aiogram.enums import ChatAction
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.filters import Command
 from aiogram.types import BufferedInputFile, InputMediaPhoto
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, TextArg
 from stfu_tg import Template, Url
 
 from korone.db.repositories.lastfm import LastFMRepository
-from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.callbacks import LastFMCollageCallback
 from korone.modules.lastfm.handlers.common import can_use_buttons, format_missing_lastfm_username, period_label
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, create_album_collage, format_lastfm_error
@@ -134,7 +134,7 @@ class LastFMCollageHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("lfmcollage", "collage", "lcollage")),)
+        return (Command("lfmcollage", "collage", "lcollage"),)
 
     async def _resolve_target_id(self) -> int | None:
         if self.event.reply_to_message and is_real_reply(self.event) and self.event.reply_to_message.from_user:

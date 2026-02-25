@@ -3,11 +3,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
+from aiogram.filters import Command
 from ass_tg.types import OptionalArg, TextArg
 from stfu_tg import Code, Template
 
 from korone.db.repositories.sticker_pack import StickerPackRepository
-from korone.filters.cmd import CMDFilter
 from korone.modules.stickers.utils import get_valid_user_packs
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -30,7 +30,7 @@ class StickerSwitchDefaultPackHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("switch"),)
+        return (Command("switch"),)
 
     async def handle(self) -> None:
         if not self.event.from_user:

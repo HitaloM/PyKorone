@@ -2,14 +2,13 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle
-from aiogram.filters import CommandStart
+from aiogram.filters import Command, CommandStart
 from aiogram.types import CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 from stfu_tg import Code, Doc, HList, Italic, Section, Template, Title, VList
 
 from korone.filters.chat_status import PrivateChatFilter
-from korone.filters.cmd import CMDFilter
 from korone.modules.help.callbacks import HELP_START_PAYLOAD, PMHelpModule, PMHelpModules
 from korone.modules.help.utils.extract_info import HELP_MODULES, get_aliased_cmds
 from korone.modules.help.utils.format_help import format_handlers, group_handlers
@@ -30,7 +29,7 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
         router.message.register(
             cls, CommandStart(deep_link=True, magic=F.args == HELP_START_PAYLOAD), PrivateChatFilter()
         )
-        router.message.register(cls, CMDFilter("help"), PrivateChatFilter())
+        router.message.register(cls, Command("help"), PrivateChatFilter())
         router.callback_query.register(cls, PMHelpModules.filter())
 
     async def handle(self) -> None:

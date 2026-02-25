@@ -2,13 +2,13 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle, ChatType
+from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 from stfu_tg import Code, KeyValue, Section
 
 from korone.filters.chat_status import PrivateChatFilter
-from korone.filters.cmd import CMDFilter
 from korone.modules.language.callbacks import LangMenu, LangMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
@@ -55,7 +55,7 @@ def build_keyboard(*, is_private: bool, back_to_start: bool = False) -> InlineKe
 class LanguageInfoHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(["language"]),)
+        return (Command("language"),)
 
     async def handle(self) -> None:
         is_private = self.event.chat.type == ChatType.PRIVATE

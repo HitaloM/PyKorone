@@ -28,12 +28,6 @@ class Config(BaseSettings):
     modules_load: list[str] = ["*"]
     modules_not_load: list[str] = []
 
-    commands_prefix: str = "/!"
-    commands_ignore_case: bool = True
-    commands_ignore_mention: bool = False
-    commands_ignore_forwarded: bool = True
-    commands_ignore_code: bool = True
-
     sentry_url: AnyHttpUrl | None = None
 
     devs_managed_languages: list[str] = ["en_US"]

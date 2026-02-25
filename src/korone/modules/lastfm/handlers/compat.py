@@ -6,11 +6,11 @@ from urllib.parse import quote_plus
 
 from aiogram import flags
 from aiogram.enums import ChatAction
+from aiogram.filters import Command
 from ass_tg.types import OptionalArg, WordArg
 from stfu_tg import Code, Template, Url
 
 from korone.db.repositories.lastfm import LastFMRepository
-from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.handlers.common import format_missing_lastfm_username, period_label
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token
@@ -60,7 +60,7 @@ class LastFMCompatHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("lfmcompat", "lcompat")),)
+        return (Command("lfmcompat", "lcompat"),)
 
     async def handle(self) -> None:
         if not self.event.from_user:

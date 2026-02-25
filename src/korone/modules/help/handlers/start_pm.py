@@ -2,12 +2,12 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle
+from aiogram.filters import CommandStart
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, Template, Url
 
 from korone.config import CONFIG
 from korone.filters.chat_status import PrivateChatFilter
-from korone.filters.cmd import CMDFilter
 from korone.modules.help.callbacks import PMHelpModules
 from korone.modules.privacy import PrivacyMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback, LanguageButtonCallback
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class StartPMHandler(KoroneMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
-        router.message.register(cls, CMDFilter("start"), PrivateChatFilter())
+        router.message.register(cls, CommandStart(), PrivateChatFilter())
         router.callback_query.register(cls, PrivateChatFilter(), GoToStartCallback.filter())
 
     async def handle(self) -> None:

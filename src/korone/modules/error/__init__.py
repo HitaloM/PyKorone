@@ -1,7 +1,6 @@
 from aiogram import Router
 from stfu_tg import Doc
 
-from korone.filters.cmd import CMDFilter as CMDFilter
 from korone.filters.user_status import IsOP as IsOP
 from korone.middlewares import try_localization_middleware
 

@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from aiogram.enums import ChatAction
+from aiogram.filters import Command
 from ass_tg.types import TextArg
 
-from korone.filters.cmd import CMDFilter
 from korone.modules.hifi.utils.client import HifiAPIError, search_tracks
 from korone.modules.hifi.utils.formatters import build_search_results_text
 from korone.modules.hifi.utils.keyboard import create_tracks_keyboard
@@ -32,7 +32,7 @@ class HifiSearchHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("song", "music", "hifi")),)
+        return (Command("song", "music", "hifi"),)
 
     async def handle(self) -> None:
         query = str(self.data.get("query") or "").strip()

@@ -6,11 +6,11 @@ from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.filters import Command
 from ass_tg.types import OptionalArg, TextArg
 from stfu_tg import Code, Doc, Template, Url
 
 from korone.db.repositories.sticker_pack import StickerPackRepository
-from korone.filters.cmd import CMDFilter
 from korone.modules.stickers.utils import (
     DEFAULT_EMOJI,
     StickerPrepareError,
@@ -44,7 +44,7 @@ class StickerStealHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("kang", "steal")),)
+        return (Command("kang", "steal"),)
 
     async def handle(self) -> None:
         if not self.event.from_user:

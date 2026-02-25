@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING, Any, cast
 from aiogram import flags
 from aiogram.enums import ChatAction
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, WordArg
 
-from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.callbacks import LastFMAlbumRefreshCallback
 from korone.modules.lastfm.handlers.common import (
     build_link_preview_options,
@@ -106,7 +106,7 @@ class LastFMAlbumHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("lfmalbum", "lalb")),)
+        return (Command("lfmalbum", "lalb"),)
 
     async def handle(self) -> None:
         explicit_username = str(self.data.get("username") or "").strip()

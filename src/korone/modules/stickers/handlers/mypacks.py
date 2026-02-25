@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.filters import Command
 from stfu_tg import Code, Section, Template, Url
 
-from korone.filters.cmd import CMDFilter
 from korone.modules.stickers.utils import get_valid_user_packs
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class StickerMyPacksHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("mypacks"),)
+        return (Command("mypacks"),)
 
     async def handle(self) -> None:
         if not self.event.from_user:

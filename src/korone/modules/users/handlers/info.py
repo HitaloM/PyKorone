@@ -4,12 +4,12 @@ from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from aiogram.enums import ChatType
+from aiogram.filters import Command
 from ass_tg.types import OptionalArg
 from stfu_tg import Doc, KeyValue, Section, Title, UserLink
 
 from korone.args.users import KoroneUserArg
 from korone.db.repositories.chat import ChatRepository, UserInGroupRepository
-from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.admin import is_chat_creator, is_user_admin
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -32,7 +32,7 @@ class UserInfoHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("info"),)
+        return (Command("info"),)
 
     async def handle(self) -> None:
         target_user: ChatModel | None = self.data.get("user")

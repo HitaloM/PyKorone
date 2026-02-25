@@ -4,10 +4,10 @@ from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from aiogram.enums import ChatAction
+from aiogram.filters import Command
 from ass_tg.types import TextArg
 from stfu_tg import Bold, Code, Doc, Template
 
-from korone.filters.cmd import CMDFilter
 from korone.logger import get_logger
 from korone.modules.gsm_arena.utils.device import get_device_text
 from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
@@ -37,7 +37,7 @@ class DeviceSearchHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("device", "specs", "d")),)
+        return (Command("device", "specs", "d"),)
 
     async def _handle_search_results(self, query: str, devices: list[PhoneSearchResult]) -> None:
         if not devices:

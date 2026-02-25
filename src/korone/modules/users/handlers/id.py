@@ -4,11 +4,11 @@ from typing import TYPE_CHECKING, Any
 
 from aiogram import Router, flags
 from aiogram.enums import ChatType
+from aiogram.filters import Command
 from ass_tg.types import OptionalArg
 from stfu_tg import Code, Doc, Template, UserLink
 
 from korone.args.users import KoroneUserArg
-from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.message import is_real_reply
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -26,7 +26,7 @@ router = Router(name="users")
 
 @flags.help(description=l_("Show user and chat IDs"))
 @flags.disableable(name="id")
-@router.message(CMDFilter("id"))
+@router.message(Command("id"))
 class ShowIDHandler(KoroneMessageHandler):
     @classmethod
     async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
@@ -34,7 +34,7 @@ class ShowIDHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("id"),)
+        return (Command("id"),)
 
     async def handle(self) -> None:
         user: ChatModel | None = self.data.get("user", None)

@@ -1,12 +1,12 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.filters import CommandStart
 from aiogram.utils.deep_linking import create_start_link
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.config import CONFIG
 from korone.filters.chat_status import GroupChatFilter
-from korone.filters.cmd import CMDFilter
 from korone.modules.help.callbacks import HELP_START_PAYLOAD
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 class StartGroupHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("start"), GroupChatFilter()
+        return CommandStart(), GroupChatFilter()
 
     async def handle(self) -> None:
         state: FSMContext = self.state

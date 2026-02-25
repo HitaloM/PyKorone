@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.filters import Command
 from stfu_tg import Section
 
-from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.utils.get_disabled import get_disabled_handlers
 from korone.modules.help.utils.format_help import format_handlers
 from korone.utils.handlers import KoroneMessageHandler
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 class ListDisabled(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("disabled"),)
+        return (Command("disabled"),)
 
     async def handle(self) -> None:
         disabled = await get_disabled_handlers(self.chat.chat_id)

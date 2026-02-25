@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardRemove
 from stfu_tg import Italic, Template
 
-from korone.filters.cmd import CMDFilter
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 class CancelState(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("cancel"),)
+        return (Command("cancel"),)
 
     async def handle(self) -> None:
         current_state = await self.state.get_state()

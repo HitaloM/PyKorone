@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.filters import Command
 from aiogram.types import FSInputFile
 from stfu_tg import Code, Doc, KeyValue, Template, Url
 
-from korone.filters.cmd import CMDFilter
 from korone.modules.stickers.utils import download_file, suffix_from_sticker
 from korone.modules.utils_.message import is_real_reply
 from korone.utils.handlers import KoroneMessageHandler
@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 class StickerGetStickerHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("getsticker"),)
+        return (Command("getsticker"),)
 
     async def handle(self) -> None:
         if not self.event.reply_to_message or not is_real_reply(self.event):

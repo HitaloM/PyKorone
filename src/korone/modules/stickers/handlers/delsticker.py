@@ -4,10 +4,10 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.filters import Command
 from stfu_tg import Code, Doc, Template
 
 from korone.db.repositories.sticker_pack import StickerPackRepository
-from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.message import is_real_reply
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 class StickerDeleteStickerHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("delsticker"),)
+        return (Command("delsticker"),)
 
     async def handle(self) -> None:
         if not self.event.from_user:

@@ -8,9 +8,9 @@ from typing import TYPE_CHECKING, cast
 import orjson
 from aiogram import flags
 from aiogram.enums import ChatType
+from aiogram.filters import Command
 from aiogram.types import BufferedInputFile
 
-from korone.filters.cmd import CMDFilter
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -59,7 +59,7 @@ def _make_serializable(obj: ExportValue | Enum | datetime | _date) -> ExportValu
 class TriggerExport(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("export"),)
+        return (Command("export"),)
 
     @staticmethod
     async def get_data(chat: ChatContext) -> list[dict[str, ExportValue]]:

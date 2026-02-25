@@ -3,10 +3,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
+from aiogram.filters import Command
 from ass_tg.types import WordArg
 from stfu_tg import Code, Doc, KeyValue, Template, Title
 
-from korone.filters.cmd import CMDFilter
 from korone.modules.web.utils.whois import normalize_domain, parse_whois_output, query_whois
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -27,7 +27,7 @@ class WhoisHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("whois"),)
+        return (Command("whois"),)
 
     async def handle(self) -> None:
         raw_domain = (self.data.get("domain") or "").strip()

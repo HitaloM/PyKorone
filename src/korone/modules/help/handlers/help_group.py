@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.filters import Command
 from aiogram.utils.deep_linking import create_start_link
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.filters.chat_status import GroupChatFilter
-from korone.filters.cmd import CMDFilter
 from korone.modules.help.callbacks import HELP_START_PAYLOAD
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class HelpGroupHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("help"), GroupChatFilter()
+        return Command("help"), GroupChatFilter()
 
     async def handle(self) -> None:
         text = _("The help information available in the private messages with Korone")

@@ -3,12 +3,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
+from aiogram.filters import Command
 from ass_tg.types import WordArg
 from stfu_tg import Code, Italic, KeyValue, Section, Template
 
 from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
-from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.utils.get_disabled import get_cmd_help_by_name, get_disabled_handlers
 from korone.modules.help.utils.format_help import format_cmd
 from korone.utils.handlers import KoroneMessageHandler
@@ -29,14 +29,14 @@ class DisableHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("disable"), UserRestricting(admin=True))
+        return (Command("disable"), UserRestricting(admin=True))
 
     @staticmethod
     async def disable_cmd(chat_id: int, cmd: str) -> None:
         await DisablingRepository.disable(chat_id, cmd)
 
     async def handle(self) -> None:
-        cmd_name: str = self.data["cmd"].lower().removeprefix("/").removeprefix("!")
+        cmd_name: str = self.data["cmd"].lower().removeprefix("/")
 
         handler = get_cmd_help_by_name(cmd_name)
 

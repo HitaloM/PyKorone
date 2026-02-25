@@ -5,11 +5,11 @@ from types import ModuleType
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.filters import Command
 from stfu_tg import Code, Doc, KeyValue, Section, Template
 
 from korone import aredis
 from korone.db.session import get_postgres_stats
-from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.modules import LOADED_MODULES
 from korone.utils.handlers import KoroneMessageHandler
@@ -49,7 +49,7 @@ async def get_system_stats() -> Doc:
 class StatsHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("stats",)), IsOP(is_op=True))
+        return (Command("stats"), IsOP(is_op=True))
 
     async def handle(self) -> None:
         sec = Doc()

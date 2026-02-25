@@ -1,13 +1,13 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.filters import Command
 from stfu_tg import Doc, Section, Template, Title, UserLink, VList
 
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
 from korone.db.repositories.chat import ChatRepository
 from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.filters.chat_status import GroupChatFilter
-from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.admin import get_admins_rights
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 class AdminListHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("adminlist", "admins")), GroupChatFilter(notify_on_fail=True))
+        return (Command("adminlist", "admins"), GroupChatFilter(notify_on_fail=True))
 
     async def handle(self) -> None:
         chat_model = await ChatRepository.get_by_chat_id(self.chat.chat_id)

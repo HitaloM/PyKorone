@@ -5,11 +5,11 @@ from typing import TYPE_CHECKING, Any, cast
 import aiohttp
 import orjson
 from aiogram import flags
+from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import TextArg
 from stfu_tg import Code, Doc, Italic, KeyValue, Template, Title
 
-from korone.filters.cmd import CMDFilter
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
 from korone.modules.web.utils.ip import fetch_ip_info, get_ips_from_string
 from korone.utils.aiohttp_session import HTTPClient
@@ -63,7 +63,7 @@ class IPInfoHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("ip", "ipinfo")),)
+        return (Command("ip", "ipinfo"),)
 
     async def fetch_ip_info(self, ip_or_domain: str) -> dict[str, Any] | None:
         url = self.IPINFO_URL.format(target=ip_or_domain)

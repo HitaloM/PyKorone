@@ -5,14 +5,13 @@ from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from aiogram.dispatcher.event.bases import SkipHandler
-from aiogram.filters import StateFilter
+from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import ForceReply
 from ass_tg.types import OptionalArg, WordArg
 from stfu_tg import Code, Template
 
 from korone.db.repositories.lastfm import LastFMRepository
-from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -79,7 +78,7 @@ class LastFMSetHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("setlfm"),)
+        return (Command("setlfm"),)
 
     async def handle(self) -> None:
         username = str(self.data.get("username") or "").strip()
@@ -98,7 +97,7 @@ class LastFMSetReplyHandler(KoroneMessageHandler):
         return (StateFilter(LastFMSetState.waiting_username),)
 
     async def handle(self) -> None:
-        if self.event.text and self.event.text.startswith(("/", "!")):
+        if self.event.text and self.event.text.startswith("/"):
             raise SkipHandler
 
         await self.state.clear()

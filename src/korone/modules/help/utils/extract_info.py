@@ -7,6 +7,7 @@ from inspect import isawaitable
 from itertools import chain
 from typing import TYPE_CHECKING, Any, cast
 
+from aiogram.filters import Command
 from aiogram.filters.logic import _InvertFilter
 from aiogram.types import Message
 from ass_tg.types.base_abc import ArgFabric
@@ -14,7 +15,6 @@ from ass_tg.types.logic import OptionalArg
 
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import GroupChatFilter, PrivateChatFilter
-from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.logger import get_logger
 from korone.utils.i18n import LazyProxy as KoroneLazyProxy
@@ -150,14 +150,29 @@ def _get_help_flags(flags: Mapping[str, object]) -> HelpFlags:
     return {}
 
 
-def _extract_cmds(filters: Sequence[Any], help_flags: HelpFlags) -> tuple[str, ...] | None:
-    for handler_filter in filters:
-        callback = getattr(handler_filter, "callback", None)
-        if isinstance(callback, CMDFilter):
-            return normalize_cmds(callback.cmd)
+def _extract_cmds_from_command_filters(command_filters: Sequence[object]) -> tuple[str, ...] | None:
+    cmds: list[str] = []
+    for command_filter in command_filters:
+        if not isinstance(command_filter, Command):
+            continue
+        cmds.extend(command for command in command_filter.commands if isinstance(command, str))
+    if not cmds:
+        return None
+    return tuple(dict.fromkeys(cmds))
 
+
+def _extract_cmds(filters: Sequence[Any], flags: Mapping[str, object], help_flags: HelpFlags) -> tuple[str, ...] | None:
     if "cmds" in help_flags:
         return normalize_cmds(help_flags["cmds"])
+
+    command_flags = flags.get("commands")
+    if isinstance(command_flags, Sequence) and (cmd_list := _extract_cmds_from_command_filters(command_flags)):
+        return cmd_list
+
+    for handler_filter in filters:
+        callback = getattr(handler_filter, "callback", None)
+        if isinstance(callback, Command) and (cmd_list := _extract_cmds_from_command_filters((callback,))):
+            return cmd_list
 
     return None
 
@@ -208,7 +223,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         if bool(help_flags.get("exclude")):
             continue
 
-        cmd_list = _extract_cmds(handler.filters, help_flags)
+        cmd_list = _extract_cmds(handler.filters, handler.flags, help_flags)
         if not cmd_list:
             continue
 

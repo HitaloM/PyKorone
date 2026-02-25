@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import orjson
 from aiogram import flags
+from aiogram.filters import Command
 from stfu_tg import Code
 
 from korone.constants import TELEGRAM_MESSAGE_LENGTH_LIMIT
-from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.utils.handlers import KoroneMessageHandler
 
@@ -14,7 +14,7 @@ from korone.utils.handlers import KoroneMessageHandler
 class EventHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple:
-        return (CMDFilter(("event",)), IsOP(is_op=True))
+        return (Command("event"), IsOP(is_op=True))
 
     async def handle(self) -> None:
         event_data = self.event.model_dump(mode="json")

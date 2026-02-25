@@ -2,13 +2,13 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle
+from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Italic, Template
 
 from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
-from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.callbacks import EnableAllCallback
 from korone.modules.utils_.callbacks import CancelActionCallback
 from korone.utils.exception import KoroneError
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class EnableAllHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("enableall"), UserRestricting(admin=True))
+        return (Command("enableall"), UserRestricting(admin=True))
 
     async def handle(self) -> None:
         if not self.event.from_user:
