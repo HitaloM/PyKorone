@@ -62,20 +62,36 @@ msgstr ""
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:116
+#: src/korone/filters/admin_rights.py:240
 msgid "I don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:118
+#: src/korone/filters/admin_rights.py:242
 msgid "You don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:123
+#: src/korone/filters/admin_rights.py:247
 msgid "I must be an administrator to use this command."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:125
+#: src/korone/filters/admin_rights.py:249
 msgid "You must be an administrator to use this command."
+msgstr ""
+
+#: src/korone/filters/admin_rights.py:266
+msgid "Anonymous admin must have a custom admin title to use this command."
+msgstr ""
+
+#: src/korone/filters/admin_rights.py:270
+msgid "Could not resolve this anonymous admin title. Refresh admin cache or use a unique title."
+msgstr ""
+
+#: src/korone/filters/admin_rights.py:278
+msgid "Multiple anonymous admins share this title, and not all of them can use this command. Use a unique title."
+msgstr ""
+
+#: src/korone/filters/admin_rights.py:285
+msgid "You must be the chat creator to use this command."
 msgstr ""
 
 #: src/korone/filters/chat_status.py:47

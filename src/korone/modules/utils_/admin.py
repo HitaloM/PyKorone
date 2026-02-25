@@ -51,51 +51,75 @@ async def _get_admin_data(chat_model: ChatModel, user_model: ChatModel) -> dict[
 
 
 async def check_user_admin_permissions(
-    chat: int, user: int, required_permissions: list[str] | None = None
+    chat: int,
+    user: int,
+    required_permissions: list[str] | None = None,
+    *,
+    require_creator: bool = False,
+    chat_model: ChatModel | None = None,
+    user_model: ChatModel | None = None,
 ) -> bool | list[str]:
-    await logger.adebug("check_user_admin_permissions", chat=chat, user=user, permissions=required_permissions)
+    await logger.adebug(
+        "check_user_admin_permissions",
+        chat=chat,
+        user=user,
+        permissions=required_permissions,
+        require_creator=require_creator,
+    )
 
-    if chat == user:
+    if chat == user and not require_creator:
         return True
 
-    if user in CONFIG.operators:
+    if user in CONFIG.operators and not require_creator:
         return True
 
-    if user == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
+    if user == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID and not require_creator:
         return True
 
-    chat_model = await _resolve_model(chat)
+    if not chat_model:
+        chat_model = await _resolve_model(chat)
     if not chat_model:
         return False
 
-    user_model = await _resolve_model(user)
+    if not user_model:
+        user_model = await _resolve_model(user)
     if not user_model:
         return False
 
-    if chat_model.chat_id == user_model.chat_id:
-        return True
-    if user_model.chat_id in CONFIG.operators:
-        return True
-    if user_model.chat_id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
-        return True
+    if not require_creator:
+        if chat_model.chat_id == user_model.chat_id:
+            return True
+        if user_model.chat_id in CONFIG.operators:
+            return True
+        if user_model.chat_id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
+            return True
 
     admin_data = await _get_admin_data(chat_model, user_model)
     if not admin_data:
         return False
 
+    if require_creator:
+        return _is_creator_status(admin_data.get("status"))
+
     if not required_permissions:
         return True
 
-    admin_status = admin_data.get("status")
-    try:
-        if admin_status and ChatMemberStatus(admin_status) == ChatMemberStatus.CREATOR:
-            return True
-    except ValueError:
-        return False
+    if _is_creator_status(admin_data.get("status")):
+        return True
 
     missing_permissions = [permission for permission in required_permissions if admin_data.get(permission) is not True]
 
     return missing_permissions or True
+
+
+def _is_creator_status(status: str | None) -> bool:
+    if status is None:
+        return False
+
+    try:
+        return ChatMemberStatus(status) == ChatMemberStatus.CREATOR
+    except ValueError:
+        return False
 
 
 async def is_user_admin(chat: int, user: int) -> bool:
