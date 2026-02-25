@@ -1,0 +1,256 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any, cast
+
+from aiogram import flags
+from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+from ass_tg.types import OptionalArg, WordArg
+
+from korone.filters.cmd import CMDFilter
+from korone.modules.lastfm.callbacks import LastFMInfoCallback, LastFMMode, LastFMRefreshCallback, LastFMViewCallback
+from korone.modules.lastfm.handlers.common import (
+    build_link_preview_options,
+    can_use_buttons,
+    format_missing_lastfm_username,
+    resolve_lastfm_username,
+    typing_action,
+)
+from korone.modules.lastfm.utils import (
+    DeezerClient,
+    DeezerError,
+    LastFMAPIError,
+    LastFMClient,
+    LastFMError,
+    format_info_alert,
+    format_lastfm_error,
+    format_status,
+)
+from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
+from korone.utils.i18n import gettext as _
+from korone.utils.i18n import lazy_gettext as l_
+
+if TYPE_CHECKING:
+    from aiogram import Router
+    from aiogram.dispatcher.event.handler import CallbackType
+    from aiogram.types import InlineKeyboardMarkup, Message
+    from ass_tg.types.base_abc import ArgFabric
+
+    from korone.modules.lastfm.utils import LastFMRecentTrack, LastFMTrackInfo
+
+
+@dataclass(slots=True, frozen=True)
+class LastFMStatusPayload:
+    mode: LastFMMode
+    username: str
+    image_url: str | None
+    tracks: list[LastFMRecentTrack]
+    track_info: LastFMTrackInfo | None
+
+    @property
+    def text(self) -> str:
+        return format_status(username=self.username, tracks=self.tracks, track_info=self.track_info)
+
+
+def _build_keyboard(*, username: str, mode: LastFMMode, owner_id: int) -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    row: list[InlineKeyboardButton] = []
+
+    if mode is LastFMMode.EXPANDED:
+        row.append(
+            InlineKeyboardButton(
+                text="➖", callback_data=LastFMViewCallback(u=username, m=LastFMMode.COMPACT, uid=owner_id).pack()
+            )
+        )
+    else:
+        row.append(
+            InlineKeyboardButton(
+                text="➕", callback_data=LastFMViewCallback(u=username, m=LastFMMode.EXPANDED, uid=owner_id).pack()
+            )
+        )
+
+    row.extend((
+        InlineKeyboardButton(text="ℹ️", callback_data=LastFMInfoCallback(u=username, uid=owner_id).pack()),
+        InlineKeyboardButton(text="🔃", callback_data=LastFMRefreshCallback(u=username, m=mode, uid=owner_id).pack()),
+    ))
+
+    builder.row(*row)
+    return builder.as_markup()
+
+
+def _mode_track_limit(mode: LastFMMode) -> int:
+    return 4 if mode is LastFMMode.EXPANDED else 1
+
+
+async def _build_status_payload(
+    client: LastFMClient, deezer_client: DeezerClient, *, username: str, mode: LastFMMode
+) -> LastFMStatusPayload | None:
+    tracks = await client.get_recent_tracks(username=username, limit=_mode_track_limit(mode))
+    if not tracks:
+        return None
+
+    first_track = tracks[0]
+    visible_tracks = tracks[:1] if mode is not LastFMMode.EXPANDED else tracks
+
+    track_info = None
+    try:
+        track_info = await client.get_track_info(username=username, artist=first_track.artist, track=first_track.name)
+    except LastFMAPIError:
+        track_info = None
+
+    image_url = first_track.image_url
+    try:
+        deezer_image_url = await deezer_client.get_track_album_image(
+            artist_name=first_track.artist, track_name=first_track.name
+        )
+    except DeezerError:
+        deezer_image_url = None
+
+    if deezer_image_url:
+        image_url = deezer_image_url
+
+    return LastFMStatusPayload(
+        mode=mode, username=username, image_url=image_url, tracks=visible_tracks, track_info=track_info
+    )
+
+
+async def _edit_status_message(message: Message, *, payload: LastFMStatusPayload, owner_id: int) -> None:
+    keyboard = _build_keyboard(username=payload.username, mode=payload.mode, owner_id=owner_id)
+    link_preview_options = build_link_preview_options(payload.image_url)
+
+    try:
+        await message.edit_text(payload.text, reply_markup=keyboard, link_preview_options=link_preview_options)
+    except TelegramBadRequest as err:
+        if "message is not modified" in err.message.lower():
+            return
+        raise
+
+
+@flags.help(description=l_("Shows your current Last.fm status."))
+@flags.disableable(name="lastfm")
+class LastFMStatusHandler(KoroneMessageHandler):
+    @classmethod
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
+        return {"username": OptionalArg(WordArg(l_("Username")))}
+
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (CMDFilter(("lfm", "lastfm", "lmu", "np")),)
+
+    async def handle(self) -> None:
+        explicit_username = str(self.data.get("username") or "").strip()
+        username = await resolve_lastfm_username(self.event, explicit_username)
+
+        if not username:
+            await self.event.reply(format_missing_lastfm_username())
+            return
+
+        try:
+            async with typing_action(bot=self.bot, message=self.event):
+                client = LastFMClient()
+                deezer_client = DeezerClient()
+                payload = await _build_status_payload(client, deezer_client, username=username, mode=LastFMMode.COMPACT)
+        except LastFMError as exc:
+            await self.event.reply(format_lastfm_error(exc))
+            return
+
+        if payload is None:
+            await self.event.reply(_("No scrobbles found for this Last.fm user."))
+            return
+
+        owner_id = self.event.from_user.id if self.event.from_user else 0
+        keyboard = _build_keyboard(username=username, mode=payload.mode, owner_id=owner_id)
+        link_preview_options = build_link_preview_options(payload.image_url)
+        await self.event.reply(payload.text, reply_markup=keyboard, link_preview_options=link_preview_options)
+
+
+@flags.help(exclude=True)
+class LastFMStatusCallbackHandler(KoroneCallbackQueryHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return ()
+
+    @classmethod
+    def register(cls, router: Router) -> None:
+        router.callback_query.register(cls, LastFMViewCallback.filter())
+        router.callback_query.register(cls, LastFMRefreshCallback.filter())
+        router.callback_query.register(cls, LastFMInfoCallback.filter())
+
+    async def _show_info(self, *, username: str) -> None:
+        message = cast("Message", self.event.message)
+        async with typing_action(bot=self.bot, message=message):
+            client = LastFMClient()
+            tracks = await client.get_recent_tracks(username=username, limit=1)
+            if not tracks:
+                await self.event.answer(_("No scrobbles found for this Last.fm user."), show_alert=True)
+                return
+
+            first_track = tracks[0]
+            track_info = None
+            artist_info = None
+
+            try:
+                track_info = await client.get_track_info(
+                    username=username, artist=first_track.artist, track=first_track.name
+                )
+            except LastFMAPIError:
+                track_info = None
+
+            try:
+                artist_info = await client.get_artist_info(username=username, artist=first_track.artist)
+            except LastFMAPIError:
+                artist_info = None
+
+        await self.event.answer(format_info_alert(first_track, track_info, artist_info), show_alert=True)
+
+    async def _refresh_or_change_view(self, *, username: str, mode: LastFMMode, owner_id: int) -> None:
+        message = cast("Message", self.event.message)
+        async with typing_action(bot=self.bot, message=message):
+            client = LastFMClient()
+            deezer_client = DeezerClient()
+            payload = await _build_status_payload(client, deezer_client, username=username, mode=mode)
+        if payload is None:
+            await message.edit_text(_("No scrobbles found for this Last.fm user."))
+            return
+
+        await _edit_status_message(message, payload=payload, owner_id=owner_id)
+
+    async def handle(self) -> None:
+        await self.check_for_message()
+
+        callback_data = self.callback_data
+        owner_id = 0
+        username = ""
+        mode = LastFMMode.COMPACT
+
+        if isinstance(callback_data, (LastFMViewCallback, LastFMRefreshCallback)):
+            owner_id = callback_data.uid
+            username = callback_data.u
+            mode = callback_data.m
+        elif isinstance(callback_data, LastFMInfoCallback):
+            owner_id = callback_data.uid
+            username = callback_data.u
+        else:
+            await self.event.answer()
+            return
+
+        if not can_use_buttons(callback_owner_id=owner_id, user_id=self.event.from_user.id):
+            await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
+            return
+
+        try:
+            if isinstance(callback_data, LastFMInfoCallback):
+                await self._show_info(username=username)
+                return
+
+            await self._refresh_or_change_view(username=username, mode=mode, owner_id=owner_id)
+            await self.event.answer()
+        except LastFMError as exc:
+            await self.event.answer(format_lastfm_error(exc), show_alert=True)
+        except TelegramBadRequest as exc:
+            if "message is not modified" in exc.message.lower():
+                await self.event.answer(_("No updates from your profile."))
+                return
+            raise

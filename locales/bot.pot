@@ -50,7 +50,10 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/set.py:59
+#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/album.py:111
+#: src/korone/modules/lastfm/handlers/artist.py:95
+#: src/korone/modules/lastfm/handlers/lfm.py:136
+#: src/korone/modules/lastfm/handlers/set.py:78
 #: src/korone/modules/users/handlers/info.py:67
 msgid "Username"
 msgstr ""
@@ -222,6 +225,10 @@ msgstr ""
 #: src/korone/modules/hifi/handlers/list.py:38
 #: src/korone/modules/hifi/handlers/preview.py:37
 #: src/korone/modules/hifi/handlers/send.py:65
+#: src/korone/modules/lastfm/handlers/album.py:195
+#: src/korone/modules/lastfm/handlers/artist.py:187
+#: src/korone/modules/lastfm/handlers/collage.py:206
+#: src/korone/modules/lastfm/handlers/lfm.py:242
 msgid "You are not allowed to use this button."
 msgstr ""
 
@@ -704,271 +711,292 @@ msgstr ""
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:21
+#: src/korone/modules/lastfm/__init__.py:18
 msgid "Last.fm"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:23
-msgid "Last.fm scrobble statistics"
+#: src/korone/modules/lastfm/__init__.py:20
+msgid "Show your Last.fm status"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:26
-msgid "Shows your Last.fm stats, now playing, and top music charts."
+#: src/korone/modules/lastfm/__init__.py:21
+msgid "Show your current or last played track from Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:27
-msgid "Includes collage generation and compatibility checks."
+#: src/korone/modules/lastfm/handlers/album.py:106
+msgid "Shows album info for your current Last.fm track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:26
-msgid "Shows the album info for your current track on Last.fm."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/album.py:45
+#: src/korone/modules/lastfm/handlers/album.py:135
+#: src/korone/modules/lastfm/handlers/album.py:162
+#: src/korone/modules/lastfm/handlers/album.py:175
 msgid "No album information found for the current track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/artist.py:27
-msgid "Shows the artist info for your current track on Last.fm."
+#: src/korone/modules/lastfm/handlers/album.py:209
+#: src/korone/modules/lastfm/handlers/artist.py:201
+#: src/korone/modules/lastfm/handlers/collage.py:235
+#: src/korone/modules/lastfm/handlers/lfm.py:256
+msgid "No updates from your profile."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:35
-msgid "Generates a Last.fm collage of your top albums."
+#: src/korone/modules/lastfm/handlers/artist.py:90
+msgid "Shows artist info for your current Last.fm track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:42
-#: src/korone/modules/lastfm/handlers/top.py:37
-msgid "Args"
+#: src/korone/modules/lastfm/handlers/artist.py:119
+#: src/korone/modules/lastfm/handlers/artist.py:146
+#: src/korone/modules/lastfm/handlers/artist.py:159
+msgid "No artist information found for the current track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:58
-msgid "No top albums found for your Last.fm account."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:29
-msgid "Checks compatibility between two Last.fm users."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:44
-#: src/korone/modules/lastfm/utils/commons.py:35
+#: src/korone/modules/lastfm/handlers/collage.py:79
 #, python-brace-format
-msgid "You need to set your Last.fm username first! Example: {example}."
+msgid "{username}'s {period} album collage ({size}x{size})"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:53
+#: src/korone/modules/lastfm/handlers/collage.py:127
+msgid "No top albums found for this Last.fm user and period."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:133
+msgid "Creates an album collage from Last.fm top albums."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:138
+msgid "Options"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:156
+msgid "Could not identify the target user."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:211
+msgid "Last.fm username not found for this user."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/common.py:36
 #, python-brace-format
-msgid "The user you replied to doesn't have a Last.fm account linked! Hint them to set it using {example}."
+msgid "Last.fm username not found. Use {example}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:82
-#, python-brace-format
-msgid "No common artists in {period}"
+#: src/korone/modules/lastfm/handlers/common.py:41
+msgid "1 week"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:85
+#: src/korone/modules/lastfm/handlers/common.py:43
+msgid "1 month"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/common.py:45
+msgid "3 months"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/common.py:47
+msgid "6 months"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/common.py:49
+msgid "1 year"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/common.py:50
+msgid "all-time"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:38
 #, python-brace-format
 msgid ""
-"{user1} and {user2} listen to {mutual}...\n"
+"{user_a} and {user_b} listen to {artists}\n"
 "\n"
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:95
-msgid "Reply to a message to get the compatibility!"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:102
-msgid "Could not identify both users."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:106
-msgid "You can't get the compatibility with yourself!"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:110
-msgid "Bots won't have music taste!"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:130
-msgid "No top artists found for your Last.fm account."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/now.py:25
-msgid "Shows your now playing track from Last.fm."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/recent.py:27
-msgid "Shows your recent tracks from Last.fm."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/recent.py:44
+#: src/korone/modules/lastfm/handlers/compat.py:48
 #, python-brace-format
-msgid "{user} is listening to:\n"
+msgid "No common artists in {period}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:48
-msgid ""
-"\n"
-"Last 5 plays:"
+#: src/korone/modules/lastfm/handlers/compat.py:51
+msgid "Shows your Last.fm compatibility with a replied user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:52
+#: src/korone/modules/lastfm/handlers/compat.py:56
+msgid "Period"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:64
+#: src/korone/modules/lastfm/handlers/set.py:48
+msgid "Could not identify your Telegram user."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:70
 #, python-brace-format
-msgid "{user} was listening to:\n"
+msgid "Usage: {example}. Reply to someone's message in a group."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:80
-msgid "No recent tracks found."
+#: src/korone/modules/lastfm/handlers/compat.py:79
+msgid "Lookie, it's me!!!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:35
-msgid "Last.fm username must not contain spaces or special characters!"
+#: src/korone/modules/lastfm/handlers/compat.py:83
+msgid "Bots don't listen to music."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:39
-#: src/korone/modules/lastfm/utils/commons.py:28
-#: src/korone/modules/stickers/handlers/delsticker.py:29
-#: src/korone/modules/stickers/handlers/mypacks.py:27
-#: src/korone/modules/stickers/handlers/steal.py:51
-#: src/korone/modules/stickers/handlers/stealpack.py:84
-#: src/korone/modules/stickers/handlers/switch.py:37
-msgid "Could not identify your user."
+#: src/korone/modules/lastfm/handlers/compat.py:93
+msgid "This user needs to set Last.fm first with /setlfm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:50
-msgid "Last.fm username set successfully!"
+#: src/korone/modules/lastfm/handlers/lfm.py:131
+msgid "Shows your current Last.fm status."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:54
+#: src/korone/modules/lastfm/handlers/lfm.py:162
+#: src/korone/modules/lastfm/handlers/lfm.py:189
+#: src/korone/modules/lastfm/handlers/lfm.py:217
+#: src/korone/modules/lastfm/utils/formatters.py:86
+msgid "No scrobbles found for this Last.fm user."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:44
+#: src/korone/modules/lastfm/handlers/set.py:107
+msgid "Invalid Last.fm username format."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:59
+#: src/korone/modules/lastfm/utils/formatters.py:266
+msgid "Last.fm user not found."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:65
+#, python-brace-format
+msgid "Last.fm username set to {username}. Use {command} to check your status."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:73
 msgid "Set your Last.fm username."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:71
+#: src/korone/modules/lastfm/handlers/set.py:90
 msgid "Reply with your Last.fm username."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:32
-msgid "Shows your top artists, tracks, or albums from Last.fm."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/top.py:56
-msgid "Invalid entry type! Use one of the following: artist, track, album"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/top.py:67
-msgid "No top items found."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/top.py:86
-msgid "artists"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/top.py:86
-msgid "tracks"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/top.py:86
-msgid "albums"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/top.py:91
-#, python-brace-format
-msgid ""
-"{user}'s top 5 {entry} for {period}:\n"
-"\n"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/top.py:104
-#, python-brace-format
-msgid "{entry_text} -> {scrobbles} plays\n"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/user.py:26
-msgid "Shows your Last.fm profile statistics."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/user.py:54
-#, python-brace-format
-msgid ""
-"User: {user}\n"
-"\n"
-"Total scrobbles: {playcount}\n"
-"Tracks scrobbled: {track_count}\n"
-"Artists scrobbled: {artist_count}\n"
-"Albums scrobbled: {album_count}\n"
-"\n"
-"Registered: {registered}"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:24
-#: src/korone/modules/lastfm/utils/commons.py:47
-msgid "Last.fm API key is not configured. Please contact the bot owner."
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:45
-msgid "Your Last.fm username was not found! Try setting it again."
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:62
-msgid "No recent tracks found for your Last.fm account."
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:76
-#, python-brace-format
-msgid "{user}'s is listening to:\n"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:78
-#, python-brace-format
-msgid "{user}'s was listening to:\n"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:83
-#, python-brace-format
-msgid " ∙ {playcount} plays"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:19
-msgid "1 week"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:20
-msgid "1 month"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:21
-msgid "3 months"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:22
-msgid "6 months"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:23
-msgid "1 year"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:24
-msgid "All time"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:37
+#: src/korone/modules/lastfm/utils/formatters.py:32
 #, python-brace-format
 msgid ", {days} day(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:41
+#: src/korone/modules/lastfm/utils/formatters.py:37
 #, python-brace-format
 msgid ", {hours} hour(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:44
+#: src/korone/modules/lastfm/utils/formatters.py:41
 #, python-brace-format
 msgid ", {minutes} minute(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:44
-msgid ", Just now"
+#: src/korone/modules/lastfm/utils/formatters.py:43
+msgid ", just now"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:92
+#, python-brace-format
+msgid "{user} is now listening to"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:92
+#, python-brace-format
+msgid "{user} was listening to"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:101
+#, python-brace-format
+msgid ", [{album}]"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:103
+msgid ", loved"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:106
+#: src/korone/modules/lastfm/utils/formatters.py:138
+#: src/korone/modules/lastfm/utils/formatters.py:167
+#, python-brace-format
+msgid ", {plays} plays"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:128
+#, python-brace-format
+msgid "{user} is now listening to album"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:128
+#, python-brace-format
+msgid "{user} was listening to album"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:132
+msgid "Unknown album"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:157
+#, python-brace-format
+msgid "{user} is now listening to artist"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:157
+#, python-brace-format
+msgid "{user} was listening to artist"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:184
+msgid "No additional album info found."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:188
+#, python-brace-format
+msgid "Plays: {plays} | Tracks: {tracks} | Listeners: {listeners}"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:193
+#, python-brace-format
+msgid "Scrobbles: {scrobbles}"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:204
+msgid "No additional artist info found."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:208
+#: src/korone/modules/lastfm/utils/formatters.py:231
+#: src/korone/modules/lastfm/utils/formatters.py:241
+#, python-brace-format
+msgid "Plays: {plays} | Listeners: {listeners} | Scrobbles: {scrobbles}"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:249
+msgid "No additional info found."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:259
+msgid "Last.fm API key is not configured on this bot."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:262
+msgid "Could not reach Last.fm right now. Please try again later."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:268
+msgid "This Last.fm profile is private."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:270
+msgid "Last.fm rate limit exceeded. Please try again in a moment."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:273
+msgid "Unexpected Last.fm error."
 msgstr ""
 
 #: src/korone/modules/medias/__init__.py:16
@@ -1127,6 +1155,14 @@ msgstr ""
 
 #: src/korone/modules/stickers/handlers/delsticker.py:20
 msgid "Delete a sticker from one of your tracked packs."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delsticker.py:29
+#: src/korone/modules/stickers/handlers/mypacks.py:27
+#: src/korone/modules/stickers/handlers/steal.py:51
+#: src/korone/modules/stickers/handlers/stealpack.py:84
+#: src/korone/modules/stickers/handlers/switch.py:37
+msgid "Could not identify your user."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/delsticker.py:36

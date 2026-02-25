@@ -3,73 +3,271 @@ from __future__ import annotations
 import re
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
+from urllib.parse import quote_plus
 
-from stfu_tg import Template, Url
+from stfu_tg import Bold, Italic, Template, Url
 
 from korone.utils.i18n import gettext as _
 
-from .lastfm_api import TimePeriod
+from .errors import LastFMAPIError, LastFMConfigurationError, LastFMRequestError
 
 if TYPE_CHECKING:
-    from .types import LastFMAlbum, LastFMArtist, LastFMTrack
+    from collections.abc import Sequence
+
+    from .errors import LastFMError
+    from .types import LastFMAlbumInfo, LastFMArtistInfo, LastFMRecentTrack, LastFMTrackInfo
+
+TAG_SANITIZER_RE = re.compile(r"[^a-z0-9]+")
+CALLBACK_ALERT_MAX_LENGTH = 190
 
 
-TAG_CLEAN_RE = re.compile(r"[(),.;\"\'\-/ ]")
-PERIOD_LABELS = {
-    TimePeriod.OneWeek: _("1 week"),
-    TimePeriod.OneMonth: _("1 month"),
-    TimePeriod.ThreeMonths: _("3 months"),
-    TimePeriod.SixMonths: _("6 months"),
-    TimePeriod.OneYear: _("1 year"),
-    TimePeriod.AllTime: _("All time"),
-}
-
-
-def get_time_elapsed_str(track: LastFMTrack) -> str:
-    if not track.played_at:
+def _format_elapsed_time(played_at: int | None) -> str:
+    if played_at is None:
         return ""
 
-    played_at_datetime = datetime.fromtimestamp(track.played_at, tz=UTC)
-    current_datetime = datetime.now(tz=UTC)
-    time_elapsed = current_datetime - played_at_datetime
+    played_at_datetime = datetime.fromtimestamp(played_at, tz=UTC)
+    elapsed = datetime.now(tz=UTC) - played_at_datetime
 
-    if time_elapsed.days > 0:
-        return Template(_(", {days} day(s) ago"), days=time_elapsed.days).to_html()
+    if elapsed.days > 0:
+        return Template(_(", {days} day(s) ago"), days=elapsed.days).to_html()
 
-    hours, remainder = divmod(time_elapsed.seconds, 3600)
+    elapsed_seconds = int(elapsed.total_seconds())
+    hours, remainder = divmod(max(elapsed_seconds, 0), 3600)
     if hours > 0:
         return Template(_(", {hours} hour(s) ago"), hours=hours).to_html()
 
-    minutes, __ = divmod(remainder, 60)
-    return Template(_(", {minutes} minute(s) ago"), minutes=minutes).to_html() if minutes > 0 else _(", Just now")
+    minutes, _seconds = divmod(remainder, 60)
+    if minutes > 0:
+        return Template(_(", {minutes} minute(s) ago"), minutes=minutes).to_html()
+
+    return _(", just now")
 
 
-def clean_tag_name(tag: str) -> str:
-    return "#" + TAG_CLEAN_RE.sub("_", tag.lower())
-
-
-def format_tags(item: LastFMTrack | LastFMAlbum | LastFMArtist) -> str:
-    if not item or not hasattr(item, "tags") or not item.tags:
-        return ""
-
-    raw_tags = item.tags if isinstance(item.tags, list) else [item.tags]
+def _format_tags(tags: tuple[str, ...]) -> str:
+    parsed_tags: list[str] = []
     seen: set[str] = set()
-    cleaned_tags: list[str] = []
-    for tag in raw_tags:
-        if not tag:
+
+    for raw_tag in tags:
+        normalized = TAG_SANITIZER_RE.sub("_", raw_tag.strip().lower()).strip("_")
+        if not normalized or normalized in seen:
             continue
-        cleaned = clean_tag_name(tag)
-        if cleaned in seen:
-            continue
-        seen.add(cleaned)
-        cleaned_tags.append(cleaned)
+        seen.add(normalized)
+        parsed_tags.append(f"#{normalized}")
 
-    return " ".join(cleaned_tags)
+    return " ".join(parsed_tags)
 
 
-def period_to_str(period: TimePeriod) -> str:
-    return PERIOD_LABELS.get(period, PERIOD_LABELS[TimePeriod.AllTime])
+def _build_spotify_search_url(artist: str, track: str) -> str:
+    query = quote_plus(f"{artist} - {track}")
+    return f"https://open.spotify.com/search/{query}"
 
 
-def name_with_link(name: str, username: str) -> str:
-    return Url(name, f"https://www.last.fm/user/{username}").to_html()
+def _format_duration(duration_ms: int | None) -> str | None:
+    if duration_ms is None or duration_ms <= 0:
+        return None
+
+    total_seconds = duration_ms // 1000 if duration_ms > 1000 else duration_ms
+    minutes, seconds = divmod(total_seconds, 60)
+    return f"{minutes}:{seconds:02d}"
+
+
+def _format_number(value: int) -> str:
+    return f"{max(value, 0):,}"
+
+
+def _truncate(value: str, limit: int) -> str:
+    if len(value) <= limit:
+        return value
+    return f"{value[: limit - 3]}..."
+
+
+def format_status(username: str, tracks: Sequence[LastFMRecentTrack], track_info: LastFMTrackInfo | None) -> str:
+    if not tracks:
+        return _("No scrobbles found for this Last.fm user.")
+
+    first_track = tracks[0]
+    profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
+
+    header = Template(
+        _("{user} is now listening to") if first_track.now_playing else _("{user} was listening to"),
+        user=Url(username, profile_url),
+    ).to_html()
+
+    tags_text = _format_tags(track_info.tags) if track_info else ""
+
+    lines: list[str] = []
+    for index, track in enumerate(tracks):
+        spotify_search_url = _build_spotify_search_url(track.artist, track.name)
+        album_text = Template(_(", [{album}]"), album=track.album).to_html() if track.album else ""
+        elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
+        loved_text = _(", loved") if track.loved else ""
+
+        user_playcount = track_info.user_playcount if index == 0 and track_info else 0
+        playcount_text = Template(_(", {plays} plays"), plays=user_playcount).to_html() if user_playcount > 0 else ""
+        tags_block = f"\n\n{tags_text}\n" if index == 0 and tags_text else ""
+
+        lines.append(
+            Template(
+                "🎧 {artist} — {track}{album}{elapsed}{loved}{playcount}{tags}",
+                artist=Italic(track.artist),
+                track=Url(Bold(track.name), spotify_search_url),
+                album=album_text,
+                elapsed=elapsed,
+                loved=loved_text,
+                playcount=playcount_text,
+                tags=tags_block,
+            ).to_html()
+        )
+
+    return f"{header}\n" + "\n".join(lines)
+
+
+def format_album_status(username: str, track: LastFMRecentTrack, album_info: LastFMAlbumInfo | None) -> str:
+    profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
+    header = Template(
+        _("{user} is now listening to album") if track.now_playing else _("{user} was listening to album"),
+        user=Url(username, profile_url),
+    ).to_html()
+
+    album_name = album_info.name if album_info else (track.album or _("Unknown album"))
+    album_artist = album_info.artist if album_info else track.artist
+    spotify_search_url = _build_spotify_search_url(album_artist, album_name)
+
+    elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
+    playcount = album_info.user_playcount if album_info else 0
+    playcount_text = Template(_(", {plays} plays"), plays=playcount).to_html() if playcount > 0 else ""
+
+    tags_text = _format_tags(album_info.tags) if album_info else ""
+    tags_suffix = f"\n\n{tags_text}" if tags_text else ""
+
+    line = Template(
+        "💽 {artist} — {album}{elapsed}{playcount}",
+        artist=Italic(album_artist),
+        album=Url(Bold(album_name), spotify_search_url),
+        elapsed=elapsed,
+        playcount=playcount_text,
+    ).to_html()
+
+    return f"{header}\n{line}{tags_suffix}"
+
+
+def format_artist_status(username: str, track: LastFMRecentTrack, artist_info: LastFMArtistInfo | None) -> str:
+    profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
+    header = Template(
+        _("{user} is now listening to artist") if track.now_playing else _("{user} was listening to artist"),
+        user=Url(username, profile_url),
+    ).to_html()
+
+    artist_name = artist_info.name if artist_info else track.artist
+    spotify_search_url = quote_plus(artist_name)
+    artist_url = f"https://open.spotify.com/search/{spotify_search_url}"
+
+    elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
+    playcount = artist_info.user_playcount if artist_info else 0
+    playcount_text = Template(_(", {plays} plays"), plays=playcount).to_html() if playcount > 0 else ""
+
+    tags_text = _format_tags(artist_info.tags) if artist_info else ""
+    tags_suffix = f"\n\n{tags_text}" if tags_text else ""
+
+    line = Template(
+        "🎙️ {artist}{elapsed}{playcount}",
+        artist=Url(Bold(artist_name), artist_url),
+        elapsed=elapsed,
+        playcount=playcount_text,
+    ).to_html()
+
+    return f"{header}\n{line}{tags_suffix}"
+
+
+def format_album_info_alert(album_info: LastFMAlbumInfo | None) -> str:
+    if album_info is None:
+        return _("No additional album info found.")
+
+    chunks: list[str] = [
+        f"💽 {_truncate(album_info.artist, 26)} — {_truncate(album_info.name, 24)}",
+        _("Plays: {plays} | Tracks: {tracks} | Listeners: {listeners}").format(
+            plays=_format_number(album_info.user_playcount),
+            tracks=_format_number(album_info.track_count),
+            listeners=_format_number(album_info.listeners),
+        ),
+        _("Scrobbles: {scrobbles}").format(scrobbles=_format_number(album_info.playcount)),
+    ]
+
+    text = "\n".join(chunks)
+    if len(text) > CALLBACK_ALERT_MAX_LENGTH:
+        return f"{text[: CALLBACK_ALERT_MAX_LENGTH - 3]}..."
+    return text
+
+
+def format_artist_info_alert(artist_info: LastFMArtistInfo | None) -> str:
+    if artist_info is None:
+        return _("No additional artist info found.")
+
+    chunks: list[str] = [
+        f"🎙️ {_truncate(artist_info.name, 36)}",
+        _("Plays: {plays} | Listeners: {listeners} | Scrobbles: {scrobbles}").format(
+            plays=_format_number(artist_info.user_playcount),
+            listeners=_format_number(artist_info.listeners),
+            scrobbles=_format_number(artist_info.playcount),
+        ),
+    ]
+
+    text = "\n".join(chunks)
+    if len(text) > CALLBACK_ALERT_MAX_LENGTH:
+        return f"{text[: CALLBACK_ALERT_MAX_LENGTH - 3]}..."
+    return text
+
+
+def format_info_alert(
+    track: LastFMRecentTrack, track_info: LastFMTrackInfo | None, artist_info: LastFMArtistInfo | None
+) -> str:
+    chunks: list[str] = []
+
+    if track_info:
+        duration = _format_duration(track_info.duration_ms)
+        duration_suffix = f" ({duration})" if duration else ""
+        chunks.extend((
+            f"🎵 {_truncate(track.name, 34)}{duration_suffix}",
+            _("Plays: {plays} | Listeners: {listeners} | Scrobbles: {scrobbles}").format(
+                plays=_format_number(track_info.user_playcount),
+                listeners=_format_number(track_info.listeners),
+                scrobbles=_format_number(track_info.playcount),
+            ),
+        ))
+
+    if artist_info:
+        chunks.extend((
+            f"🎙️ {_truncate(artist_info.name, 34)}",
+            _("Plays: {plays} | Listeners: {listeners} | Scrobbles: {scrobbles}").format(
+                plays=_format_number(artist_info.user_playcount),
+                listeners=_format_number(artist_info.listeners),
+                scrobbles=_format_number(artist_info.playcount),
+            ),
+        ))
+
+    if not chunks:
+        return _("No additional info found.")
+
+    text = "\n".join(chunks)
+    if len(text) > CALLBACK_ALERT_MAX_LENGTH:
+        return f"{text[: CALLBACK_ALERT_MAX_LENGTH - 3]}..."
+    return text
+
+
+def format_lastfm_error(error: LastFMError) -> str:
+    if isinstance(error, LastFMConfigurationError):
+        return _("Last.fm API key is not configured on this bot.")
+
+    if isinstance(error, LastFMRequestError):
+        return _("Could not reach Last.fm right now. Please try again later.")
+
+    if isinstance(error, LastFMAPIError):
+        if error.error_code == 6:
+            return _("Last.fm user not found.")
+        if error.error_code == 17:
+            return _("This Last.fm profile is private.")
+        if error.error_code == 29:
+            return _("Last.fm rate limit exceeded. Please try again in a moment.")
+        return str(error)
+
+    return _("Unexpected Last.fm error.")
