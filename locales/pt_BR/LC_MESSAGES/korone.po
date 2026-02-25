@@ -50,9 +50,9 @@ msgstr "Usuários: 'IDs de usuário (numéricos) / Nomes de usuário (começam c
 msgid "User ID"
 msgstr "ID do usuário"
 
-#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/album.py:104
-#: src/korone/modules/lastfm/handlers/artist.py:90
-#: src/korone/modules/lastfm/handlers/lfm.py:122
+#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/album.py:105
+#: src/korone/modules/lastfm/handlers/artist.py:91
+#: src/korone/modules/lastfm/handlers/lfm.py:123
 #: src/korone/modules/lastfm/handlers/set.py:78
 #: src/korone/modules/users/handlers/info.py:67 types/user.py:129
 msgid "Username"
@@ -208,15 +208,15 @@ msgstr "ID de referência"
 msgid "🐞 Open GitHub Issues"
 msgstr "🐞 Abrir issues no GitHub"
 
-#: src/korone/modules/gsm_arena/__init__.py:15
+#: src/korone/modules/gsm_arena/__init__.py:16
 msgid "GSM Arena"
 msgstr "GSM Arena"
 
-#: src/korone/modules/gsm_arena/__init__.py:17
+#: src/korone/modules/gsm_arena/__init__.py:18
 msgid "Search device specifications on GSMArena"
 msgstr "Pesquisar especificações de dispositivos no GSMArena"
 
-#: src/korone/modules/gsm_arena/__init__.py:19
+#: src/korone/modules/gsm_arena/__init__.py:20
 msgid "Search for smartphones and get a quick overview of their specifications directly from GSMArena."
 msgstr "Pesquise smartphones e obtenha uma visão geral rápida das especificações diretamente do GSMArena."
 
@@ -227,7 +227,7 @@ msgstr "Pesquise smartphones e obtenha uma visão geral rápida das especificaç
 #: src/korone/modules/hifi/handlers/send.py:65
 #: src/korone/modules/lastfm/handlers/album.py:172
 #: src/korone/modules/lastfm/handlers/artist.py:158
-#: src/korone/modules/lastfm/handlers/collage.py:203
+#: src/korone/modules/lastfm/handlers/collage.py:197
 #: src/korone/modules/lastfm/handlers/lfm.py:190
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
@@ -257,29 +257,29 @@ msgstr "Nenhum dispositivo encontrado"
 msgid "Search device specifications on GSMArena."
 msgstr "Pesquise especificações de dispositivos no GSMArena."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:35
+#: src/korone/modules/gsm_arena/handlers/search.py:36
 msgid "Device"
 msgstr "Dispositivo"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:43
+#: src/korone/modules/gsm_arena/handlers/search.py:44
 msgid "No devices found."
 msgstr "Nenhum dispositivo encontrado."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:51
+#: src/korone/modules/gsm_arena/handlers/search.py:52
 msgid "Error fetching device details. Please try again later."
 msgstr "Erro ao buscar detalhes do dispositivo. Tente novamente mais tarde."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:61
+#: src/korone/modules/gsm_arena/handlers/search.py:62
 #, python-brace-format
 msgid "Search results for: {query}"
 msgstr "Resultados da pesquisa para: {query}"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:62
+#: src/korone/modules/gsm_arena/handlers/search.py:63
 #, python-brace-format
 msgid "Found {count} devices. Select one from the list below."
 msgstr "Encontrados {count} dispositivos. Selecione um da lista abaixo."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:72
+#: src/korone/modules/gsm_arena/handlers/search.py:73
 #, python-brace-format
 msgid "You should provide a device name to search. Example: {example}."
 msgstr "Você deve fornecer o nome de um dispositivo para pesquisar. Exemplo: {example}."
@@ -488,19 +488,19 @@ msgstr "canal de notícias"
 msgid "Commands"
 msgstr "Comandos"
 
-#: src/korone/modules/hifi/__init__.py:17
+#: src/korone/modules/hifi/__init__.py:18
 msgid "HiFi"
 msgstr "HiFi"
 
-#: src/korone/modules/hifi/__init__.py:19
+#: src/korone/modules/hifi/__init__.py:20
 msgid "Search, download, and send tracks with HiFi"
 msgstr "Pesquise, baixe e envie faixas com HiFi"
 
-#: src/korone/modules/hifi/__init__.py:22
+#: src/korone/modules/hifi/__init__.py:23
 msgid "Download and send tracks with HiFi."
 msgstr "Baixe e envie faixas com HiFi."
 
-#: src/korone/modules/hifi/__init__.py:23
+#: src/korone/modules/hifi/__init__.py:24
 msgid "Search for tracks, preview them, and get high-quality audio files."
 msgstr "Pesquise faixas, visualize uma prévia e obtenha arquivos de áudio em alta qualidade."
 
@@ -511,7 +511,7 @@ msgid "Search session expired. Please run /song again."
 msgstr "A sessão de pesquisa expirou. Execute /song novamente."
 
 #: src/korone/modules/hifi/handlers/list.py:42
-#: src/korone/modules/hifi/handlers/search.py:53
+#: src/korone/modules/hifi/handlers/search.py:51
 msgid "No tracks found."
 msgstr "Nenhuma faixa encontrada."
 
@@ -528,12 +528,12 @@ msgstr "⬇️ Baixar"
 msgid "Search music with HiFi API."
 msgstr "Pesquisa músicas com a API HiFi."
 
-#: src/korone/modules/hifi/handlers/search.py:30
+#: src/korone/modules/hifi/handlers/search.py:31
 #: src/korone/modules/hifi/utils/formatters.py:56
 msgid "Query"
 msgstr "Consulta"
 
-#: src/korone/modules/hifi/handlers/search.py:49
+#: src/korone/modules/hifi/handlers/search.py:47
 msgid "Could not fetch tracks right now. Please try again later."
 msgstr "Não foi possível buscar faixas agora. Tente novamente mais tarde."
 
@@ -711,15 +711,15 @@ msgstr "Mostra os idiomas disponíveis para seleção."
 msgid "Please select the language you want to use for the chat."
 msgstr "Selecione o idioma que você quer usar para o chat."
 
-#: src/korone/modules/lastfm/__init__.py:18
+#: src/korone/modules/lastfm/__init__.py:19
 msgid "Last.fm"
 msgstr "Last.fm"
 
-#: src/korone/modules/lastfm/__init__.py:20
+#: src/korone/modules/lastfm/__init__.py:21
 msgid "Show your Last.fm status"
 msgstr "Mostra seu status no Last.fm."
 
-#: src/korone/modules/lastfm/__init__.py:21
+#: src/korone/modules/lastfm/__init__.py:22
 msgid "Show your current or last played track from Last.fm."
 msgstr "Mostra sua faixa atual ou a última reproduzida no Last.fm."
 
@@ -734,7 +734,7 @@ msgstr "Nenhuma informação de álbum encontrada para a faixa atual."
 
 #: src/korone/modules/lastfm/handlers/album.py:182
 #: src/korone/modules/lastfm/handlers/artist.py:168
-#: src/korone/modules/lastfm/handlers/collage.py:231
+#: src/korone/modules/lastfm/handlers/collage.py:225
 #: src/korone/modules/lastfm/handlers/lfm.py:200
 msgid "No updates from your profile."
 msgstr "Sem atualizações no seu perfil."
@@ -748,61 +748,61 @@ msgstr "Mostra informações do artista da sua faixa atual no Last.fm."
 msgid "No artist information found for the current track."
 msgstr "Nenhuma informação de artista encontrada para a faixa atual."
 
-#: src/korone/modules/lastfm/handlers/collage.py:79
+#: src/korone/modules/lastfm/handlers/collage.py:75
 #, python-brace-format
 msgid "{username}'s {period} album collage ({size}x{size})"
 msgstr "Colagem de álbuns de {username} ({period}) ({size}x{size})"
 
-#: src/korone/modules/lastfm/handlers/collage.py:124
+#: src/korone/modules/lastfm/handlers/collage.py:120
 msgid "No top albums found for this Last.fm user and period."
 msgstr "Nenhum álbum mais ouvido encontrado para este usuário do Last.fm nesse período."
 
-#: src/korone/modules/lastfm/handlers/collage.py:130
+#: src/korone/modules/lastfm/handlers/collage.py:126
 msgid "Creates an album collage from Last.fm top albums."
 msgstr "Cria uma colagem de álbuns a partir dos álbuns mais ouvidos do Last.fm."
 
-#: src/korone/modules/lastfm/handlers/collage.py:135
+#: src/korone/modules/lastfm/handlers/collage.py:132
 msgid "Options"
 msgstr "Opções"
 
-#: src/korone/modules/lastfm/handlers/collage.py:153
+#: src/korone/modules/lastfm/handlers/collage.py:150
 msgid "Could not identify the target user."
 msgstr "Não foi possível identificar o usuário alvo."
 
-#: src/korone/modules/lastfm/handlers/collage.py:208
+#: src/korone/modules/lastfm/handlers/collage.py:202
 msgid "Last.fm username not found for this user."
 msgstr "Nome de usuário do Last.fm não encontrado para este usuário."
 
-#: src/korone/modules/lastfm/handlers/common.py:36
+#: src/korone/modules/lastfm/handlers/common.py:34
 #, python-brace-format
 msgid "Last.fm username not found. Use {example}."
 msgstr "Nome de usuário do Last.fm não encontrado. Use {example}."
 
-#: src/korone/modules/lastfm/handlers/common.py:41
+#: src/korone/modules/lastfm/handlers/common.py:39
 msgid "1 week"
 msgstr "1 semana"
 
-#: src/korone/modules/lastfm/handlers/common.py:43
+#: src/korone/modules/lastfm/handlers/common.py:41
 msgid "1 month"
 msgstr "1 mês"
 
-#: src/korone/modules/lastfm/handlers/common.py:45
+#: src/korone/modules/lastfm/handlers/common.py:43
 msgid "3 months"
 msgstr "3 meses"
 
-#: src/korone/modules/lastfm/handlers/common.py:47
+#: src/korone/modules/lastfm/handlers/common.py:45
 msgid "6 months"
 msgstr "6 meses"
 
-#: src/korone/modules/lastfm/handlers/common.py:49
+#: src/korone/modules/lastfm/handlers/common.py:47
 msgid "1 year"
 msgstr "1 ano"
 
-#: src/korone/modules/lastfm/handlers/common.py:50
+#: src/korone/modules/lastfm/handlers/common.py:48
 msgid "all-time"
 msgstr "todo o período"
 
-#: src/korone/modules/lastfm/handlers/compat.py:38
+#: src/korone/modules/lastfm/handlers/compat.py:39
 #, python-brace-format
 msgid ""
 "{user_a} and {user_b} listen to {artists}\n"
@@ -813,38 +813,38 @@ msgstr ""
 "\n"
 "A pontuação de compatibilidade é {score}%, com base em {period}"
 
-#: src/korone/modules/lastfm/handlers/compat.py:48
+#: src/korone/modules/lastfm/handlers/compat.py:49
 #, python-brace-format
 msgid "No common artists in {period}."
 msgstr "Nenhum artista em comum em {period}."
 
-#: src/korone/modules/lastfm/handlers/compat.py:51
+#: src/korone/modules/lastfm/handlers/compat.py:52
 msgid "Shows your Last.fm compatibility with a replied user."
 msgstr "Mostra sua compatibilidade no Last.fm com o usuário da mensagem respondida."
 
-#: src/korone/modules/lastfm/handlers/compat.py:56
+#: src/korone/modules/lastfm/handlers/compat.py:58
 msgid "Period"
 msgstr "Período"
 
-#: src/korone/modules/lastfm/handlers/compat.py:64
+#: src/korone/modules/lastfm/handlers/compat.py:66
 #: src/korone/modules/lastfm/handlers/set.py:48
 msgid "Could not identify your Telegram user."
 msgstr "Não foi possível identificar seu usuário do Telegram."
 
-#: src/korone/modules/lastfm/handlers/compat.py:70
+#: src/korone/modules/lastfm/handlers/compat.py:72
 #, python-brace-format
 msgid "Usage: {example}. Reply to someone's message in a group."
 msgstr "Uso: {example}. Responda à mensagem de alguém em um grupo."
 
-#: src/korone/modules/lastfm/handlers/compat.py:79
+#: src/korone/modules/lastfm/handlers/compat.py:81
 msgid "Lookie, it's me!!!"
 msgstr "Olha, sou eu!!!"
 
-#: src/korone/modules/lastfm/handlers/compat.py:83
+#: src/korone/modules/lastfm/handlers/compat.py:85
 msgid "Bots don't listen to music."
 msgstr "Bots não ouvem música."
 
-#: src/korone/modules/lastfm/handlers/compat.py:93
+#: src/korone/modules/lastfm/handlers/compat.py:95
 msgid "This user needs to set Last.fm first with /setlfm."
 msgstr "Este usuário precisa configurar o Last.fm primeiro com /setlfm."
 

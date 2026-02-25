@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from aiogram.types import LinkPreviewOptions
-from aiogram.utils.chat_action import ChatActionSender
 from stfu_tg import Code, Template
 
 from korone.db.repositories.lastfm import LastFMRepository
@@ -11,7 +10,6 @@ from korone.modules.lastfm.utils.periods import LastFMPeriod
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
-    from aiogram import Bot
     from aiogram.types import Message
 
 
@@ -48,14 +46,6 @@ def period_label(period: LastFMPeriod) -> str:
     if period is LastFMPeriod.ONE_YEAR:
         return _("1 year")
     return _("all-time")
-
-
-def typing_action(*, bot: Bot, message: Message) -> ChatActionSender:
-    return ChatActionSender.typing(chat_id=message.chat.id, bot=bot, message_thread_id=message.message_thread_id)
-
-
-def upload_photo_action(*, bot: Bot, message: Message) -> ChatActionSender:
-    return ChatActionSender.upload_photo(chat_id=message.chat.id, bot=bot, message_thread_id=message.message_thread_id)
 
 
 def build_link_preview_options(image_url: str | None) -> LinkPreviewOptions | None:

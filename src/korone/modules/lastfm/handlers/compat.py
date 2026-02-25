@@ -5,12 +5,13 @@ from typing import TYPE_CHECKING, Any
 from urllib.parse import quote_plus
 
 from aiogram import flags
+from aiogram.enums import ChatAction
 from ass_tg.types import OptionalArg, WordArg
 from stfu_tg import Code, Template, Url
 
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.filters.cmd import CMDFilter
-from korone.modules.lastfm.handlers.common import format_missing_lastfm_username, period_label, typing_action
+from korone.modules.lastfm.handlers.common import format_missing_lastfm_username, period_label
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token
 from korone.utils.handlers import KoroneMessageHandler
@@ -49,6 +50,7 @@ def _build_no_common_message(period: LastFMPeriod) -> str:
 
 
 @flags.help(description=l_("Shows your Last.fm compatibility with a replied user."))
+@flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmcompat")
 class LastFMCompatHandler(KoroneMessageHandler):
     @classmethod
@@ -97,10 +99,9 @@ class LastFMCompatHandler(KoroneMessageHandler):
         period = parse_period_token(raw_period, default=LastFMPeriod.ONE_YEAR)
 
         try:
-            async with typing_action(bot=self.bot, message=self.event):
-                client = LastFMClient()
-                artists_a = await client.get_top_artists(username=source_username, period=period.value, limit=100)
-                artists_b = await client.get_top_artists(username=target_username, period=period.value, limit=100)
+            client = LastFMClient()
+            artists_a = await client.get_top_artists(username=source_username, period=period.value, limit=100)
+            artists_b = await client.get_top_artists(username=target_username, period=period.value, limit=100)
         except LastFMError as exc:
             await self.event.reply(format_lastfm_error(exc))
             return

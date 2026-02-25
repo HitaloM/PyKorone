@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
-from aiogram.utils.chat_action import ChatActionSender
+from aiogram.enums import ChatAction
 from ass_tg.types import TextArg
 
 from korone.filters.cmd import CMDFilter
@@ -23,6 +23,7 @@ if TYPE_CHECKING:
 
 
 @flags.help(description=l_("Search music with HiFi API."))
+@flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="hifi")
 class HifiSearchHandler(KoroneMessageHandler):
     @classmethod
@@ -41,10 +42,7 @@ class HifiSearchHandler(KoroneMessageHandler):
             raise RuntimeError(msg)
 
         try:
-            async with ChatActionSender.typing(
-                chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
-            ):
-                tracks = await search_tracks(query)
+            tracks = await search_tracks(query)
         except HifiAPIError:
             await self.event.reply(_("Could not fetch tracks right now. Please try again later."))
             return

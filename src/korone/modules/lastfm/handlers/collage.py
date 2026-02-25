@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import quote_plus
 
 from aiogram import flags
+from aiogram.enums import ChatAction
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import BufferedInputFile, InputMediaPhoto
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -14,12 +15,7 @@ from stfu_tg import Template, Url
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.callbacks import LastFMCollageCallback
-from korone.modules.lastfm.handlers.common import (
-    can_use_buttons,
-    format_missing_lastfm_username,
-    period_label,
-    upload_photo_action,
-)
+from korone.modules.lastfm.handlers.common import can_use_buttons, format_missing_lastfm_username, period_label
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, create_album_collage, format_lastfm_error
 from korone.modules.lastfm.utils.collage import MAX_SIZE, MIN_SIZE, LastFMCollageError
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token
@@ -128,6 +124,7 @@ async def _render_collage(*, username: str, options: LastFMCollageOptions) -> by
 
 
 @flags.help(description=l_("Creates an album collage from Last.fm top albums."))
+@flags.chat_action(action=ChatAction.UPLOAD_PHOTO, initial_sleep=0.2, interval=4.0)
 @flags.disableable(name="lfmcollage")
 class LastFMCollageHandler(KoroneMessageHandler):
     @classmethod
@@ -162,17 +159,14 @@ class LastFMCollageHandler(KoroneMessageHandler):
         options = _parse_options(raw_options)
 
         try:
-            async with upload_photo_action(bot=self.bot, message=self.event):
-                image_bytes = await _render_collage(username=username, options=options)
-                owner_id = self.event.from_user.id if self.event.from_user else 0
-                keyboard = _build_keyboard(owner_id=owner_id, target_id=target_id, options=options)
-                caption = _build_caption(username=username, options=options)
+            image_bytes = await _render_collage(username=username, options=options)
+            owner_id = self.event.from_user.id if self.event.from_user else 0
+            keyboard = _build_keyboard(owner_id=owner_id, target_id=target_id, options=options)
+            caption = _build_caption(username=username, options=options)
 
-                await self.event.reply_photo(
-                    photo=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"),
-                    caption=caption,
-                    reply_markup=keyboard,
-                )
+            await self.event.reply_photo(
+                photo=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"), caption=caption, reply_markup=keyboard
+            )
         except LastFMError as exc:
             await self.event.reply(format_lastfm_error(exc))
             return

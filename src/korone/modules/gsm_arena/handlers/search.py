@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
-from aiogram.utils.chat_action import ChatActionSender
+from aiogram.enums import ChatAction
 from ass_tg.types import TextArg
 from stfu_tg import Bold, Code, Doc, Template
 
@@ -28,6 +28,7 @@ logger = get_logger(__name__)
 
 
 @flags.help(description=l_("Search device specifications on GSMArena."))
+@flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="device")
 class DeviceSearchHandler(KoroneMessageHandler):
     @classmethod
@@ -75,8 +76,5 @@ class DeviceSearchHandler(KoroneMessageHandler):
             )
             return
 
-        async with ChatActionSender.typing(
-            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
-        ):
-            devices = await search_phone(query)
-            await self._handle_search_results(query, devices)
+        devices = await search_phone(query)
+        await self._handle_search_results(query, devices)

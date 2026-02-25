@@ -1,4 +1,5 @@
 from aiogram import Router
+from aiogram.utils.chat_action import ChatActionMiddleware
 from stfu_tg import Doc
 
 from korone.utils.i18n import LazyProxy
@@ -38,3 +39,7 @@ __handlers__ = (
 )
 
 __stats__ = lastfm_stats
+
+
+def __pre_setup__() -> None:
+    router.message.middleware(ChatActionMiddleware())

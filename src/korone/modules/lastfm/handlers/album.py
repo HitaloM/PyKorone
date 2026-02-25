@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, cast
 
 from aiogram import flags
+from aiogram.enums import ChatAction
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, WordArg
@@ -15,7 +16,6 @@ from korone.modules.lastfm.handlers.common import (
     can_use_buttons,
     format_missing_lastfm_username,
     resolve_lastfm_username,
-    typing_action,
 )
 from korone.modules.lastfm.utils import (
     DeezerClient,
@@ -97,6 +97,7 @@ async def _build_album_payload(
 
 
 @flags.help(description=l_("Shows album info for your current Last.fm track."))
+@flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmalbum")
 class LastFMAlbumHandler(KoroneMessageHandler):
     @classmethod
@@ -116,10 +117,9 @@ class LastFMAlbumHandler(KoroneMessageHandler):
             return
 
         try:
-            async with typing_action(bot=self.bot, message=self.event):
-                client = LastFMClient()
-                deezer_client = DeezerClient()
-                payload = await _build_album_payload(client, deezer_client, username=username)
+            client = LastFMClient()
+            deezer_client = DeezerClient()
+            payload = await _build_album_payload(client, deezer_client, username=username)
         except LastFMError as exc:
             await self.event.reply(format_lastfm_error(exc))
             return
