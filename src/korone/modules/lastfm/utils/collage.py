@@ -20,6 +20,7 @@ MAX_SIZE = 7
 JPEG_QUALITY = 90
 DOWNLOAD_TIMEOUT_SECONDS = 20
 MAX_PARALLEL_DOWNLOADS = 12
+LASTFM_FALLBACK_IMAGE_URL = "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png"
 
 FontType = ImageFont.FreeTypeFont | ImageFont.ImageFont
 
@@ -154,12 +155,12 @@ def _compose_collage_sync(
 async def create_album_collage(*, albums: Sequence[LastFMTopAlbum], size: int, include_text: bool) -> bytes:
     valid_size = max(MIN_SIZE, min(MAX_SIZE, size))
 
-    selectable = [album for album in albums if album.image_url][: valid_size * valid_size]
+    selectable = list(albums[: valid_size * valid_size])
     if not selectable:
         msg = "No album covers found for this collage."
         raise LastFMCollageError(msg)
 
-    payloads = await _download_covers([album.image_url for album in selectable if album.image_url])
+    payloads = await _download_covers([album.image_url or LASTFM_FALLBACK_IMAGE_URL for album in selectable])
     if not any(payloads):
         msg = "Could not download album covers for this collage."
         raise LastFMCollageError(msg)

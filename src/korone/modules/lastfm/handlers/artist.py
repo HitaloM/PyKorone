@@ -12,10 +12,11 @@ from ass_tg.types import OptionalArg, WordArg
 
 from korone.modules.lastfm.callbacks import LastFMArtistRefreshCallback
 from korone.modules.lastfm.handlers.common import (
-    build_link_preview_options,
     can_use_buttons,
+    edit_lastfm_response,
     format_missing_lastfm_username,
     resolve_lastfm_username,
+    send_lastfm_response,
 )
 from korone.modules.lastfm.utils import (
     DeezerClient,
@@ -116,8 +117,7 @@ class LastFMArtistHandler(KoroneMessageHandler):
 
         owner_id = self.event.from_user.id if self.event.from_user else 0
         keyboard = _build_keyboard(username=username, owner_id=owner_id)
-        link_preview_options = build_link_preview_options(payload.image_url)
-        await self.event.reply(payload.text, reply_markup=keyboard, link_preview_options=link_preview_options)
+        await send_lastfm_response(self.event, text=payload.text, image_url=payload.image_url, reply_markup=keyboard)
 
 
 @flags.help(exclude=True)
@@ -140,8 +140,7 @@ class LastFMArtistCallbackHandler(KoroneCallbackQueryHandler):
             return
 
         keyboard = _build_keyboard(username=username, owner_id=owner_id)
-        link_preview_options = build_link_preview_options(payload.image_url)
-        await message.edit_text(payload.text, reply_markup=keyboard, link_preview_options=link_preview_options)
+        await edit_lastfm_response(message, text=payload.text, image_url=payload.image_url, reply_markup=keyboard)
 
     async def handle(self) -> None:
         await self.check_for_message()

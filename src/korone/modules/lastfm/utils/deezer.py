@@ -107,8 +107,8 @@ class DeezerClient:
 
         return _extract_image_url(artist_node, keys=DEEZER_ARTIST_IMAGE_KEYS)
 
-    async def get_track_album_image(self, *, artist_name: str, track_name: str) -> str | None:
-        query = _build_query(artist=artist_name, track=track_name)
+    async def get_track_image(self, *, artist_name: str, track_name: str, album_name: str | None = None) -> str | None:
+        query = _build_query(artist=artist_name, track=track_name, album=album_name)
         if not query:
             return None
 
@@ -117,13 +117,15 @@ class DeezerClient:
         if not track_node:
             return None
 
+        image_url = _extract_image_url(track_node, keys=DEEZER_COVER_IMAGE_KEYS)
+        if image_url:
+            return image_url
+
         album_node = _as_dict(track_node.get("album"))
         if album_node:
-            image_url = _extract_image_url(album_node, keys=DEEZER_COVER_IMAGE_KEYS)
-            if image_url:
-                return image_url
+            return _extract_image_url(album_node, keys=DEEZER_COVER_IMAGE_KEYS)
 
-        return _extract_image_url(track_node, keys=DEEZER_COVER_IMAGE_KEYS)
+        return None
 
     async def get_album_image(self, *, artist_name: str, album_name: str) -> str | None:
         query = _build_query(artist=artist_name, album=album_name)

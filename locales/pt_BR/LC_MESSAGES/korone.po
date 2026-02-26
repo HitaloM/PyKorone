@@ -50,8 +50,8 @@ msgstr "Usuários: 'IDs de usuário (numéricos) / Nomes de usuário (começam c
 msgid "User ID"
 msgstr "ID do usuário"
 
-#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/album.py:105
-#: src/korone/modules/lastfm/handlers/artist.py:91
+#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/album.py:106
+#: src/korone/modules/lastfm/handlers/artist.py:92
 #: src/korone/modules/lastfm/handlers/lfm.py:123
 #: src/korone/modules/lastfm/handlers/set.py:77
 #: src/korone/modules/users/handlers/info.py:67 types/user.py:129
@@ -241,10 +241,10 @@ msgstr "Pesquise smartphones e obtenha uma visão geral rápida das especificaç
 #: src/korone/modules/hifi/handlers/list.py:38
 #: src/korone/modules/hifi/handlers/preview.py:37
 #: src/korone/modules/hifi/handlers/send.py:65
-#: src/korone/modules/lastfm/handlers/album.py:172
-#: src/korone/modules/lastfm/handlers/artist.py:158
+#: src/korone/modules/lastfm/handlers/album.py:171
+#: src/korone/modules/lastfm/handlers/artist.py:157
 #: src/korone/modules/lastfm/handlers/collage.py:198
-#: src/korone/modules/lastfm/handlers/lfm.py:190
+#: src/korone/modules/lastfm/handlers/lfm.py:189
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
 
@@ -739,27 +739,27 @@ msgstr "Mostra seu status no Last.fm."
 msgid "Show your current or last played track from Last.fm."
 msgstr "Mostra sua faixa atual ou a última reproduzida no Last.fm."
 
-#: src/korone/modules/lastfm/handlers/album.py:99
+#: src/korone/modules/lastfm/handlers/album.py:100
 msgid "Shows album info for your current Last.fm track."
 msgstr "Mostra informações do álbum da sua faixa atual no Last.fm."
 
-#: src/korone/modules/lastfm/handlers/album.py:128
+#: src/korone/modules/lastfm/handlers/album.py:129
 #: src/korone/modules/lastfm/handlers/album.py:153
 msgid "No album information found for the current track."
 msgstr "Nenhuma informação de álbum encontrada para a faixa atual."
 
-#: src/korone/modules/lastfm/handlers/album.py:182
-#: src/korone/modules/lastfm/handlers/artist.py:168
+#: src/korone/modules/lastfm/handlers/album.py:181
+#: src/korone/modules/lastfm/handlers/artist.py:167
 #: src/korone/modules/lastfm/handlers/collage.py:226
-#: src/korone/modules/lastfm/handlers/lfm.py:200
+#: src/korone/modules/lastfm/handlers/lfm.py:199
 msgid "No updates from your profile."
 msgstr "Sem atualizações no seu perfil."
 
-#: src/korone/modules/lastfm/handlers/artist.py:85
+#: src/korone/modules/lastfm/handlers/artist.py:86
 msgid "Shows artist info for your current Last.fm track."
 msgstr "Mostra informações do artista da sua faixa atual no Last.fm."
 
-#: src/korone/modules/lastfm/handlers/artist.py:114
+#: src/korone/modules/lastfm/handlers/artist.py:115
 #: src/korone/modules/lastfm/handlers/artist.py:139
 msgid "No artist information found for the current track."
 msgstr "Nenhuma informação de artista encontrada para a faixa atual."
@@ -789,32 +789,32 @@ msgstr "Não foi possível identificar o usuário alvo."
 msgid "Last.fm username not found for this user."
 msgstr "Nome de usuário do Last.fm não encontrado para este usuário."
 
-#: src/korone/modules/lastfm/handlers/common.py:35
+#: src/korone/modules/lastfm/handlers/common.py:37
 #, python-brace-format
 msgid "Last.fm username not found. Use {example}."
 msgstr "Nome de usuário do Last.fm não encontrado. Use {example}."
 
-#: src/korone/modules/lastfm/handlers/common.py:40
+#: src/korone/modules/lastfm/handlers/common.py:42
 msgid "1 week"
 msgstr "1 semana"
 
-#: src/korone/modules/lastfm/handlers/common.py:42
+#: src/korone/modules/lastfm/handlers/common.py:44
 msgid "1 month"
 msgstr "1 mês"
 
-#: src/korone/modules/lastfm/handlers/common.py:44
+#: src/korone/modules/lastfm/handlers/common.py:46
 msgid "3 months"
 msgstr "3 meses"
 
-#: src/korone/modules/lastfm/handlers/common.py:46
+#: src/korone/modules/lastfm/handlers/common.py:48
 msgid "6 months"
 msgstr "6 meses"
 
-#: src/korone/modules/lastfm/handlers/common.py:48
+#: src/korone/modules/lastfm/handlers/common.py:50
 msgid "1 year"
 msgstr "1 ano"
 
-#: src/korone/modules/lastfm/handlers/common.py:49
+#: src/korone/modules/lastfm/handlers/common.py:51
 msgid "all-time"
 msgstr "todo o período"
 
@@ -869,7 +869,7 @@ msgid "Shows your current Last.fm status."
 msgstr "Mostra seu status atual no Last.fm."
 
 #: src/korone/modules/lastfm/handlers/lfm.py:146
-#: src/korone/modules/lastfm/handlers/lfm.py:172
+#: src/korone/modules/lastfm/handlers/lfm.py:171
 #: src/korone/modules/lastfm/utils/formatters.py:66
 msgid "No scrobbles found for this Last.fm user."
 msgstr "Nenhum scrobble encontrado para este usuário do Last.fm."

@@ -12,10 +12,11 @@ from ass_tg.types import OptionalArg, WordArg
 
 from korone.modules.lastfm.callbacks import LastFMMode, LastFMRefreshCallback, LastFMViewCallback
 from korone.modules.lastfm.handlers.common import (
-    build_link_preview_options,
     can_use_buttons,
+    edit_lastfm_response,
     format_missing_lastfm_username,
     resolve_lastfm_username,
+    send_lastfm_response,
 )
 from korone.modules.lastfm.utils import (
     DeezerClient,
@@ -88,8 +89,8 @@ async def _build_status_payload(
 
     image_url = first_track.image_url
     try:
-        deezer_image_url = await deezer_client.get_track_album_image(
-            artist_name=first_track.artist, track_name=first_track.name
+        deezer_image_url = await deezer_client.get_track_image(
+            artist_name=first_track.artist, track_name=first_track.name, album_name=first_track.album
         )
     except DeezerError:
         deezer_image_url = None
@@ -104,10 +105,9 @@ async def _build_status_payload(
 
 async def _edit_status_message(message: Message, *, payload: LastFMStatusPayload, owner_id: int) -> None:
     keyboard = _build_keyboard(username=payload.username, mode=payload.mode, owner_id=owner_id)
-    link_preview_options = build_link_preview_options(payload.image_url)
 
     try:
-        await message.edit_text(payload.text, reply_markup=keyboard, link_preview_options=link_preview_options)
+        await edit_lastfm_response(message, text=payload.text, image_url=payload.image_url, reply_markup=keyboard)
     except TelegramBadRequest as err:
         if "message is not modified" in err.message.lower():
             return
@@ -148,8 +148,7 @@ class LastFMStatusHandler(KoroneMessageHandler):
 
         owner_id = self.event.from_user.id if self.event.from_user else 0
         keyboard = _build_keyboard(username=username, mode=payload.mode, owner_id=owner_id)
-        link_preview_options = build_link_preview_options(payload.image_url)
-        await self.event.reply(payload.text, reply_markup=keyboard, link_preview_options=link_preview_options)
+        await send_lastfm_response(self.event, text=payload.text, image_url=payload.image_url, reply_markup=keyboard)
 
 
 @flags.help(exclude=True)
