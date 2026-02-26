@@ -22,8 +22,13 @@ async def fetch_json(url: str) -> dict[str, Any] | None:
                 await logger.adebug("[FXTwitter] Non-200 response", status=response.status, url=url)
                 return None
 
-            data = await response.json(loads=orjson.loads)
+            payload = await response.read()
+            data = orjson.loads(payload)
+            if not isinstance(data, dict):
+                await logger.adebug("[FXTwitter] Unexpected payload shape", payload_type=type(data).__name__, url=url)
+                return None
+
             return cast("dict[str, Any]", data)
-    except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
+    except (aiohttp.ClientError, orjson.JSONDecodeError) as exc:
         await logger.aerror("[FXTwitter] Request error", error=str(exc), url=url)
         return None
