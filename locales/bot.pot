@@ -172,7 +172,7 @@ msgstr ""
 msgid "No disabled commands found."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:31
+#: src/korone/modules/disabling/handlers/disabled.py:41
 msgid "Disabled commands"
 msgstr ""
 

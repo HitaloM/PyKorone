@@ -172,7 +172,7 @@ msgstr "Lista todos os comandos desativados."
 msgid "No disabled commands found."
 msgstr "Nenhum comando desativado encontrado."
 
-#: src/korone/modules/disabling/handlers/disabled.py:31
+#: src/korone/modules/disabling/handlers/disabled.py:41
 msgid "Disabled commands"
 msgstr "Comandos desativados"
 

@@ -28,4 +28,17 @@ class ListDisabled(KoroneMessageHandler):
             await self.event.reply(_("No disabled commands found."))
             return
 
-        await self.event.reply(str(Section(format_handlers(disabled), title=_("Disabled commands"))))
+        await self.event.reply(
+            str(
+                Section(
+                    format_handlers(
+                        disabled,
+                        show_only_in_groups=False,
+                        show_disable_able=False,
+                        show_description=False,
+                        show_args=False,
+                    ),
+                    title=_("Disabled commands"),
+                )
+            )
+        )
