@@ -127,27 +127,67 @@ def extract_media_sources(tweet: dict[str, Any]) -> list[MediaSource]:
 
 
 def pick_video_url(video: dict[str, Any]) -> str | None:
-    direct_url = video.get("url") or video.get("src") or video.get("source")
-    if isinstance(direct_url, str):
+    direct_url = _pick_direct_video_url(video.get("url") or video.get("src") or video.get("source"))
+    if direct_url:
         return direct_url
 
+    video_info = video.get("video_info")
+    if isinstance(video_info, dict):
+        direct_url = _pick_direct_video_url(video_info.get("url") or video_info.get("src") or video_info.get("source"))
+        if direct_url:
+            return direct_url
+
     variants = video.get("variants")
+    if not isinstance(variants, list) and isinstance(video_info, dict):
+        variants = video_info.get("variants")
+
     if not isinstance(variants, list):
         return None
 
     best_url = None
     best_bitrate = -1
+    fallback_url = None
+
     for variant in variants:
-        url = variant.get("url")
-        if not isinstance(url, str):
+        if not isinstance(variant, dict):
             continue
+
+        url = _pick_direct_video_url(variant.get("url") or variant.get("src") or variant.get("source"))
+        if not url:
+            continue
+
+        content_type = variant.get("content_type") or variant.get("mime_type") or variant.get("type")
+        is_mp4 = isinstance(content_type, str) and "mp4" in content_type.lower()
         bitrate = variant.get("bitrate")
-        if isinstance(bitrate, int) and bitrate > best_bitrate:
+
+        if is_mp4 and isinstance(bitrate, int) and bitrate > best_bitrate:
             best_bitrate = bitrate
             best_url = url
-        if best_url is None:
+            continue
+
+        if is_mp4 and best_url is None:
             best_url = url
-    return best_url
+            continue
+
+        if fallback_url is None:
+            fallback_url = url
+
+    return best_url or fallback_url
+
+
+def _pick_direct_video_url(value: object) -> str | None:
+    if not isinstance(value, str):
+        return None
+
+    candidate = value.strip()
+    if not candidate:
+        return None
+
+    lowered = candidate.lower()
+    if ".m3u8" in lowered:
+        return None
+
+    return candidate
 
 
 def coerce_int(value: object) -> int | None:
