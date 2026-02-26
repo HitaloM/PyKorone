@@ -1637,17 +1637,17 @@ msgstr "Ativado"
 msgid "Disabled"
 msgstr "Desativado"
 
-#: src/korone/modules/web/__init__.py:13
+#: src/korone/modules/web/__init__.py:14
 msgid "Web"
 msgstr "Web"
 
-#: src/korone/modules/web/__init__.py:15
-msgid "Lookup IP and WHOIS information"
-msgstr "Consultar informações de IP e WHOIS"
-
 #: src/korone/modules/web/__init__.py:16
-msgid "Get IP details and WHOIS information for domains."
-msgstr "Obtenha detalhes de IP e informações WHOIS para domínios."
+msgid "Lookup IP and WHOIS information and normalize URLs"
+msgstr "Consultar informações de IP e WHOIS e normalizar URLs"
+
+#: src/korone/modules/web/__init__.py:17
+msgid "Get IP details, WHOIS information for domains, and normalize URLs."
+msgstr "Obtenha detalhes de IP, informações WHOIS para domínios e normalize URLs."
 
 #: src/korone/modules/web/handlers/ip.py:27
 #: src/korone/modules/web/handlers/ip.py:49
@@ -1722,6 +1722,41 @@ msgstr "Nenhum endereço IP ou domínio válido foi encontrado na entrada fornec
 #: src/korone/modules/web/handlers/ip.py:128
 msgid "Please select an IP address:"
 msgstr "Selecione um endereço IP:"
+
+#: src/korone/modules/web/handlers/url.py:21
+msgid "Normalizes a URL."
+msgstr "Normaliza uma URL."
+
+#: src/korone/modules/web/handlers/url.py:26
+msgid "URL"
+msgstr "URL"
+
+#: src/korone/modules/web/handlers/url.py:38
+#, python-brace-format
+msgid "You should provide a URL. Example: {example}."
+msgstr "Você deve fornecer uma URL. Exemplo: {example}."
+
+#: src/korone/modules/web/handlers/url.py:46
+#, python-brace-format
+msgid "I couldn't normalize this URL: {url}"
+msgstr "Não foi possível normalizar esta URL: {url}"
+
+#: src/korone/modules/web/handlers/url.py:50
+#, python-brace-format
+msgid "This URL is already normalized: {url}"
+msgstr "Esta URL já está normalizada: {url}"
+
+#: src/korone/modules/web/handlers/url.py:53
+msgid "URL Normalization"
+msgstr "Normalização de URL"
+
+#: src/korone/modules/web/handlers/url.py:54
+msgid "Input"
+msgstr "Entrada"
+
+#: src/korone/modules/web/handlers/url.py:55
+msgid "Normalized"
+msgstr "Normalizada"
 
 #: src/korone/modules/web/handlers/whois.py:21
 msgid "Shows WHOIS information about a domain."

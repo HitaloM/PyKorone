@@ -10,7 +10,7 @@ def normalize_media_url(url: str) -> str | None:
         return None
 
     try:
-        normalized = url_normalize(candidate, default_scheme="https")
+        normalized = url_normalize(candidate, default_scheme="https", filter_params=True)
     except ValueError:
         return None
 

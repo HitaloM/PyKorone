@@ -18,9 +18,24 @@ class MediaUrlFilter(BaseFilter):
         self.pattern = pattern
         self.check_enabled = check_enabled
 
+    @staticmethod
+    def _is_url_command(text: str) -> bool:
+        if not text:
+            return False
+
+        command_token = text.lstrip().split(maxsplit=1)[0]
+        if not command_token.startswith("/"):
+            return False
+
+        command = command_token[1:].split("@", maxsplit=1)[0].casefold()
+        return command == "url"
+
     async def __call__(self, message: Message) -> bool | dict[str, Any]:
         text = message.text or message.caption or ""
         if not text:
+            return False
+
+        if self._is_url_command(text):
             return False
 
         urls: list[str] = []

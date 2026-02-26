@@ -1631,16 +1631,16 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: src/korone/modules/web/__init__.py:13
+#: src/korone/modules/web/__init__.py:14
 msgid "Web"
 msgstr ""
 
-#: src/korone/modules/web/__init__.py:15
-msgid "Lookup IP and WHOIS information"
+#: src/korone/modules/web/__init__.py:16
+msgid "Lookup IP and WHOIS information and normalize URLs"
 msgstr ""
 
-#: src/korone/modules/web/__init__.py:16
-msgid "Get IP details and WHOIS information for domains."
+#: src/korone/modules/web/__init__.py:17
+msgid "Get IP details, WHOIS information for domains, and normalize URLs."
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:27
@@ -1715,6 +1715,41 @@ msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:128
 msgid "Please select an IP address:"
+msgstr ""
+
+#: src/korone/modules/web/handlers/url.py:21
+msgid "Normalizes a URL."
+msgstr ""
+
+#: src/korone/modules/web/handlers/url.py:26
+msgid "URL"
+msgstr ""
+
+#: src/korone/modules/web/handlers/url.py:38
+#, python-brace-format
+msgid "You should provide a URL. Example: {example}."
+msgstr ""
+
+#: src/korone/modules/web/handlers/url.py:46
+#, python-brace-format
+msgid "I couldn't normalize this URL: {url}"
+msgstr ""
+
+#: src/korone/modules/web/handlers/url.py:50
+#, python-brace-format
+msgid "This URL is already normalized: {url}"
+msgstr ""
+
+#: src/korone/modules/web/handlers/url.py:53
+msgid "URL Normalization"
+msgstr ""
+
+#: src/korone/modules/web/handlers/url.py:54
+msgid "Input"
+msgstr ""
+
+#: src/korone/modules/web/handlers/url.py:55
+msgid "Normalized"
 msgstr ""
 
 #: src/korone/modules/web/handlers/whois.py:21
@@ -2294,4 +2329,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "No additional info found."
+#~ msgstr ""
+
+#~ msgid "Lookup IP and WHOIS information"
+#~ msgstr ""
+
+#~ msgid "Get IP details and WHOIS information for domains."
 #~ msgstr ""
