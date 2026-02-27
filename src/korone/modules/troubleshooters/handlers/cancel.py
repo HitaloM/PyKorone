@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("Cancel current state, use if Korone is not responding on your message"))
+@flags.help(description=l_("Cancel the current interaction state."))
 class CancelState(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

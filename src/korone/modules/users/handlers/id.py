@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 router = Router(name="users")
 
 
-@flags.help(description=l_("Show user and chat IDs"))
+@flags.help(description=l_("Show user, chat, and topic IDs."))
 @flags.disableable(name="id")
 @router.message(Command("id"))
 class ShowIDHandler(KoroneMessageHandler):

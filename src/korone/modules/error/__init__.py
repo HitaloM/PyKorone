@@ -11,10 +11,9 @@ router = Router(name="error")
 
 __module_name__ = "Error"
 __module_emoji__ = "🚫"
-__module_description__ = "Error handling and reporting"
+__module_description__ = "Error handling and diagnostics"
 __module_info__ = Doc(
-    "Handles errors and exceptions that occur during bot operation.",
-    "Provides error reporting and recovery mechanisms.",
+    "Internal handlers for runtime exceptions and recovery.", "Includes an operator-only crash command for testing."
 )
 
 __exclude_public__ = True

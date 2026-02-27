@@ -51,7 +51,7 @@ def format_ip_info(ip: str, info: dict[str, Any]) -> Doc:
     return doc
 
 
-@flags.help(description=l_("Shows information about an IP or domain."))
+@flags.help(description=l_("Look up information for an IP address or domain."))
 @flags.disableable(name="ip")
 class IPInfoHandler(KoroneMessageHandler):
     IPINFO_URL = "https://ipinfo.io/{target}/json"

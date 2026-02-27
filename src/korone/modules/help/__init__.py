@@ -24,11 +24,11 @@ router = Router(name="info")
 
 __module_name__ = l_("Help")
 __module_emoji__ = "ℹ️"
-__module_description__ = l_("Provides helpful information")
+__module_description__ = l_("Command guide and module reference")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_("Provides help and documentation for all bot commands and features."),
-        l_("Includes command lists, usage instructions, and feature explanations."),
+        l_("Browse modules, command usage, and availability rules in one place."),
+        l_("Use private chat to access the full interactive help menu."),
     )
 )
 

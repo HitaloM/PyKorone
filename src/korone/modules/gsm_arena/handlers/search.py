@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
-@flags.help(description=l_("Search device specifications on GSMArena."))
+@flags.help(description=l_("Search GSMArena for device specifications."))
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="device")
 class DeviceSearchHandler(KoroneMessageHandler):

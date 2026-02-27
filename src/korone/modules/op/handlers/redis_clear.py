@@ -9,7 +9,7 @@ from korone.filters.user_status import IsOP
 from korone.utils.handlers import KoroneMessageHandler
 
 
-@flags.help(description="Clear Redis cache for the bot.")
+@flags.help(description="Clear the bot Redis cache.")
 class RedisClearHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple:

@@ -45,7 +45,7 @@ async def get_system_stats() -> Doc:
     return doc
 
 
-@flags.help(description="Show bot statistics.")
+@flags.help(description="Show bot and module statistics.")
 class StatsHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

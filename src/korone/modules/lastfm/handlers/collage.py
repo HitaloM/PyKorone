@@ -124,7 +124,7 @@ async def _render_collage(*, username: str, options: LastFMCollageOptions) -> by
     return await create_album_collage(albums=albums, size=options.size, include_text=options.include_text)
 
 
-@flags.help(description=l_("Creates an album collage from Last.fm top albums."))
+@flags.help(description=l_("Create an album collage from Last.fm top albums."))
 @flags.chat_action(action=ChatAction.UPLOAD_PHOTO, initial_sleep=0.2, interval=4.0)
 @flags.disableable(name="lfmcollage")
 class LastFMCollageHandler(KoroneMessageHandler):
@@ -134,7 +134,7 @@ class LastFMCollageHandler(KoroneMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (Command("lfmcollage", "collage", "lcollage"),)
+        return (Command("lfmcollage", "lcollage"),)
 
     async def _resolve_target_id(self) -> int | None:
         if self.event.reply_to_message and is_real_reply(self.event) and self.event.reply_to_message.from_user:

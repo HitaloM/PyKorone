@@ -15,8 +15,8 @@ router = Router(name="language")
 
 __module_name__ = l_("Language")
 __module_emoji__ = "🌎"
-__module_description__ = l_("Language and localization settings")
-__module_info__ = LazyProxy(lambda: Doc(l_("Allows users to set their preferred language for bot interactions.")))
+__module_description__ = l_("Language preferences and localization")
+__module_info__ = LazyProxy(lambda: Doc(l_("Check and change the bot language for private chats or groups.")))
 
 __handlers__ = (
     LanguageInfoHandler,

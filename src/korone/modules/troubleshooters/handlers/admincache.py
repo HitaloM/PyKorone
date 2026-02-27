@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("Reset admin rights cache, use if Korone didn't get the recently added admin"))
+@flags.help(description=l_("Refresh cached admin rights for this chat."))
 class ResetAdminCache(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

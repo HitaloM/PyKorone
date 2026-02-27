@@ -10,10 +10,10 @@ router = Router(name="regex")
 
 __module_name__ = l_("Regex")
 __module_emoji__ = "🧪"
-__module_description__ = l_("Apply regex substitutions to replied messages.")
+__module_description__ = l_("Regex substitutions for replied messages")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_("Use sed-like syntax to replace text in a replied message. Example: s/old/new/g; escape slashes as \\/.")
+        l_("Use sed-style syntax to edit replied text. Example: s/old/new/g; escape slashes as \\/ and chain with ';'.")
     )
 )
 

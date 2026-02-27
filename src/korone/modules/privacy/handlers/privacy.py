@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from aiogram import Router
 
 
-@flags.help(description=l_("Shows the privacy policy of the bot"))
+@flags.help(description=l_("Show the bot privacy policy."))
 class PrivacyMenu(KoroneMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:

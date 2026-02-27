@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
 
-@flags.help(description=l_("Normalizes a URL."))
+@flags.help(description=l_("Normalize a URL."))
 @flags.disableable(name="url")
 class URLNormalizeHandler(KoroneMessageHandler):
     @classmethod

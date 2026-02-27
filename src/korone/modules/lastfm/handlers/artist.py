@@ -83,7 +83,7 @@ async def _build_artist_payload(
     return LastFMArtistPayload(username=username, track=track, artist_info=artist_info, image_url=image_url)
 
 
-@flags.help(description=l_("Shows artist info for your current Last.fm track."))
+@flags.help(description=l_("Show artist details for the current Last.fm track."))
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmartist")
 class LastFMArtistHandler(KoroneMessageHandler):

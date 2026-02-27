@@ -97,7 +97,7 @@ async def _build_album_payload(
     return LastFMAlbumPayload(username=username, track=track, album_info=album_info, deezer_image_url=deezer_image_url)
 
 
-@flags.help(description=l_("Shows album info for your current Last.fm track."))
+@flags.help(description=l_("Show album details for the current Last.fm track."))
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmalbum")
 class LastFMAlbumHandler(KoroneMessageHandler):

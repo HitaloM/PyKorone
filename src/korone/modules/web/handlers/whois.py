@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
 
-@flags.help(description=l_("Shows WHOIS information about a domain."))
+@flags.help(description=l_("Look up WHOIS information for a domain."))
 @flags.disableable(name="whois")
 class WhoisHandler(KoroneMessageHandler):
     @classmethod

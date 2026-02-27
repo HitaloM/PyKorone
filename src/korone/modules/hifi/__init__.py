@@ -17,13 +17,8 @@ router = Router(name="hifi")
 
 __module_name__ = l_("HiFi")
 __module_emoji__ = "🎧"
-__module_description__ = l_("Search, download, and send tracks with HiFi")
-__module_info__ = LazyProxy(
-    lambda: Doc(
-        l_("Download and send tracks with HiFi."),
-        l_("Search for tracks, preview them, and get high-quality audio files."),
-    )
-)
+__module_description__ = l_("HiFi music search and delivery")
+__module_info__ = LazyProxy(lambda: Doc(l_("Search tracks, preview results, and send high-quality audio files.")))
 
 __handlers__ = (
     HifiSearchHandler,

@@ -111,19 +111,19 @@ msgid "Disabling"
 msgstr ""
 
 #: src/korone/modules/disabling/__init__.py:18
-msgid "Disable commands in chats"
+msgid "Command toggles for group chats"
 msgstr ""
 
 #: src/korone/modules/disabling/__init__.py:21
-msgid "Allows administrators to disable specific commands in their chats."
+msgid "Let admins disable specific commands per chat."
 msgstr ""
 
 #: src/korone/modules/disabling/__init__.py:22
-msgid "Useful for restricting bot functionality to only necessary commands."
+msgid "Useful for keeping only the features your group actually needs."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:24
-msgid "Disables the command."
+msgid "Disable a command in this chat."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:28
@@ -157,15 +157,15 @@ msgid "Command disabled"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable_able.py:19
-msgid "Lists all commands that can be disabled."
+msgid "List commands that can be disabled in this chat."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable_able.py:41
-msgid "Disable-able commands"
+msgid "Toggleable commands"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disabled.py:17
-msgid "Lists all disabled commands."
+msgid "List commands currently disabled in this chat."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disabled.py:28
@@ -177,7 +177,7 @@ msgid "Disabled commands"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable.py:24
-msgid "Enables previously disabled command."
+msgid "Re-enable a command in this chat."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable.py:59
@@ -185,7 +185,7 @@ msgid "Command enabled"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:23
-msgid "Enable all commands in the chat"
+msgid "Re-enable all disabled commands in this chat."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:36
@@ -229,11 +229,11 @@ msgid "GSM Arena"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:18
-msgid "Search device specifications on GSMArena"
+msgid "Device specs from GSMArena"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/__init__.py:20
-msgid "Search for smartphones and get a quick overview of their specifications directly from GSMArena."
+#: src/korone/modules/gsm_arena/__init__.py:19
+msgid "Search phones and browse key specifications without leaving Telegram."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/get.py:34
@@ -270,7 +270,7 @@ msgid "No devices found"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/search.py:30
-msgid "Search device specifications on GSMArena."
+msgid "Search GSMArena for device specifications."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/search.py:36
@@ -372,27 +372,27 @@ msgid "Help"
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:27
-msgid "Provides helpful information"
+msgid "Command guide and module reference"
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:30
-msgid "Provides help and documentation for all bot commands and features."
+msgid "Browse modules, command usage, and availability rules in one place."
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:31
-msgid "Includes command lists, usage instructions, and feature explanations."
+msgid "Use private chat to access the full interactive help menu."
 msgstr ""
 
 #: src/korone/modules/help/handlers/help_group.py:19
-msgid "Shows the help message"
+msgid "Open help in private chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/help_group.py:26
-msgid "The help information available in the private messages with Korone"
+msgid "Detailed help is available in private chat with Korone."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:37
-msgid "Shows help overview for all modules"
+msgid "Show the help menu with all modules."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:62
@@ -407,16 +407,16 @@ msgid "⬅️ Back"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:74
-msgid "Select a module to see its commands and information!"
+msgid "Select a module to view commands and usage details."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:78
 #, python-brace-format
-msgid "Arguments: {required} is required and {optional} is optional."
+msgid "Arguments: {required} is required, {optional} is optional."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:82
-msgid "means it works only in group chats."
+msgid "indicates commands available only in groups."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:82
@@ -425,7 +425,7 @@ msgid "— Only in groups"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:83
-msgid "lists commands that only work in private chat."
+msgid "lists commands available only in private chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:83
@@ -444,29 +444,29 @@ msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:86
 #: src/korone/modules/help/utils/format_help.py:48
-msgid "Disable-able"
+msgid "Toggleable"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:88
 #, python-brace-format
-msgid "means the command can be toggled with {disable} and {enable}."
+msgid "means admins can disable or re-enable the command with {disable} and {enable}."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:94
-msgid "How to read /help"
+msgid "/help legend"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:115
-msgid "Module not found"
+msgid "Module not found."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:135
 #, python-brace-format
-msgid "Aliased commands from {module}"
+msgid "Shared commands from {module}"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:20
-msgid "Shows the start message"
+msgid "Show the start message."
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:35
@@ -474,8 +474,7 @@ msgid "📢 Channel"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:39
-#: src/korone/modules/help/handlers/start_pm.py:47
-msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
+msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:39
@@ -491,9 +490,13 @@ msgstr ""
 msgid "ℹ️ Help"
 msgstr ""
 
+#: src/korone/modules/help/handlers/start_pm.py:47
+msgid "Hi, I'm Korone, your all-in-one assistant. Use the buttons below to open help, privacy, and language settings."
+msgstr ""
+
 #: src/korone/modules/help/handlers/start_pm.py:51
 #, python-brace-format
-msgid "Join my {channel} to get information on all the latest updates."
+msgid "Join my {channel} for update announcements and feature news."
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:52
@@ -509,15 +512,11 @@ msgid "HiFi"
 msgstr ""
 
 #: src/korone/modules/hifi/__init__.py:20
-msgid "Search, download, and send tracks with HiFi"
+msgid "HiFi music search and delivery"
 msgstr ""
 
-#: src/korone/modules/hifi/__init__.py:23
-msgid "Download and send tracks with HiFi."
-msgstr ""
-
-#: src/korone/modules/hifi/__init__.py:24
-msgid "Search for tracks, preview them, and get high-quality audio files."
+#: src/korone/modules/hifi/__init__.py:21
+msgid "Search tracks, preview results, and send high-quality audio files."
 msgstr ""
 
 #: src/korone/modules/hifi/handlers/list.py:34
@@ -541,7 +540,7 @@ msgid "⬇️ Download"
 msgstr ""
 
 #: src/korone/modules/hifi/handlers/search.py:25
-msgid "Search music with HiFi API."
+msgid "Search tracks with the HiFi provider."
 msgstr ""
 
 #: src/korone/modules/hifi/handlers/search.py:31
@@ -640,11 +639,11 @@ msgid "Track sent"
 msgstr ""
 
 #: src/korone/modules/language/__init__.py:18
-msgid "Language and localization settings"
+msgid "Language preferences and localization"
 msgstr ""
 
 #: src/korone/modules/language/__init__.py:19
-msgid "Allows users to set their preferred language for bot interactions."
+msgid "Check and change the bot language for private chats or groups."
 msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:32
@@ -714,11 +713,11 @@ msgid "🌍 Change group language"
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:54
-msgid "Shows the current language settings."
+msgid "Show current language settings for this chat."
 msgstr ""
 
 #: src/korone/modules/language/handlers/select.py:81
-msgid "Shows the available languages for selection."
+msgid "Open the language selection menu for this chat."
 msgstr ""
 
 #: src/korone/modules/language/handlers/select.py:91
@@ -732,15 +731,15 @@ msgid "Last.fm"
 msgstr ""
 
 #: src/korone/modules/lastfm/__init__.py:21
-msgid "Show your Last.fm status"
+msgid "Last.fm now-playing and profile tools"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:22
-msgid "Show your current or last played track from Last.fm."
+#: src/korone/modules/lastfm/__init__.py:23
+msgid "Show current scrobbles and fetch album, artist, compatibility, and collage views."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/album.py:100
-msgid "Shows album info for your current Last.fm track."
+msgid "Show album details for the current Last.fm track."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/album.py:129
@@ -756,7 +755,7 @@ msgid "No updates from your profile."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/artist.py:86
-msgid "Shows artist info for your current Last.fm track."
+msgid "Show artist details for the current Last.fm track."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/artist.py:115
@@ -774,7 +773,7 @@ msgid "No top albums found for this Last.fm user and period."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/collage.py:127
-msgid "Creates an album collage from Last.fm top albums."
+msgid "Create an album collage from Last.fm top albums."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/collage.py:133
@@ -832,7 +831,7 @@ msgid "No common artists in {period}."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/compat.py:53
-msgid "Shows your Last.fm compatibility with a replied user."
+msgid "Show Last.fm compatibility with the replied user."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/compat.py:59
@@ -862,7 +861,7 @@ msgid "This user needs to set Last.fm first with /setlfm."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/lfm.py:117
-msgid "Shows your current Last.fm status."
+msgid "Show the current Last.fm listening status."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/lfm.py:146
@@ -887,7 +886,7 @@ msgid "Last.fm username set to {username}. Use {command} to check your status."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:72
-msgid "Set your Last.fm username."
+msgid "Set your Last.fm username for status commands."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:89
@@ -988,14 +987,15 @@ msgid "Medias"
 msgstr ""
 
 #: src/korone/modules/medias/__init__.py:18
-msgid "Download media from supported websites in group chats"
+msgid "Automatic media downloads from supported links"
+msgstr ""
+
+#: src/korone/modules/medias/__init__.py:21
+msgid "Fetch media when supported links are posted in group chats."
 msgstr ""
 
 #: src/korone/modules/medias/__init__.py:22
-msgid ""
-"Automatically fetches photos and videos from supported links posted in the group.\n"
-"\n"
-"Currently supports: Twitter, Bluesky, Instagram, Reddit, TikTok."
+msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."
 msgstr ""
 
 #: src/korone/modules/medias/handlers/base.py:344
@@ -1005,7 +1005,7 @@ msgid "Open in {website}"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/status.py:19
-msgid "Enable or disable automatic media downloads in this chat."
+msgid "Toggle automatic media downloads for this chat."
 msgstr ""
 
 #: src/korone/modules/medias/handlers/status.py:22
@@ -1017,19 +1017,16 @@ msgid "Privacy"
 msgstr ""
 
 #: src/korone/modules/privacy/__init__.py:21
-msgid "Data protection"
+msgid "Privacy and data controls"
 msgstr ""
 
 #: src/korone/modules/privacy/__init__.py:24
-msgid "Manages user privacy and data protection settings."
+msgid "View the bot privacy policy and review how data is handled."
 msgstr ""
 
 #: src/korone/modules/privacy/__init__.py:25
-msgid "Allows users to export their data and control privacy preferences."
-msgstr ""
-
 #: src/korone/modules/privacy/handlers/export.py:58
-msgid "Exports your data to a JSON file"
+msgid "Export your available data as a JSON file."
 msgstr ""
 
 #: src/korone/modules/privacy/handlers/export.py:80
@@ -1041,7 +1038,7 @@ msgid "Export is done."
 msgstr ""
 
 #: src/korone/modules/privacy/handlers/privacy.py:20
-msgid "Shows the privacy policy of the bot"
+msgid "Show the bot privacy policy."
 msgstr ""
 
 #: src/korone/modules/privacy/handlers/privacy.py:30
@@ -1057,35 +1054,35 @@ msgid "Regex"
 msgstr ""
 
 #: src/korone/modules/regex/__init__.py:13
-msgid "Apply regex substitutions to replied messages."
+msgid "Regex substitutions for replied messages"
 msgstr ""
 
 #: src/korone/modules/regex/__init__.py:16
-msgid "Use sed-like syntax to replace text in a replied message. Example: s/old/new/g; escape slashes as \\/."
+msgid "Use sed-style syntax to edit replied text. Example: s/old/new/g; escape slashes as \\/ and chain with ';'."
 msgstr ""
 
 #: src/korone/modules/regex/handlers/sed.py:19
-msgid "Apply a regex substitution to a replied message."
+msgid "Apply a sed-style regex substitution to a replied message."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:34
+#: src/korone/modules/regex/handlers/sed.py:36
 msgid "No message to apply the substitution."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:39
+#: src/korone/modules/regex/handlers/sed.py:41
 msgid "No text to apply the substitution."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:56
+#: src/korone/modules/regex/handlers/sed.py:58
 msgid "Invalid command data."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:64
+#: src/korone/modules/regex/handlers/sed.py:66
 #, python-brace-format
 msgid "Regex error: {e}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:68
+#: src/korone/modules/regex/handlers/sed.py:70
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
@@ -1108,19 +1105,19 @@ msgid "Stickers"
 msgstr ""
 
 #: src/korone/modules/stickers/__init__.py:21
-msgid "Steal and manage personal sticker packs"
+msgid "Personal sticker pack management"
 msgstr ""
 
 #: src/korone/modules/stickers/__init__.py:24
-msgid "Clone stickers and media into your own sticker packs."
+msgid "Copy stickers and supported media into your own packs."
 msgstr ""
 
 #: src/korone/modules/stickers/__init__.py:25
-msgid "Includes pack listing, default pack switching, and sticker management commands."
+msgid "Manage tracked packs, set a default pack, and remove stickers."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/delpack.py:17
-msgid "Explain how to delete sticker packs."
+msgid "Show how to delete sticker packs and refresh your tracked list."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/delpack.py:26
@@ -1138,7 +1135,7 @@ msgid "Tip: use {command} to switch your default pack."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/delsticker.py:20
-msgid "Delete a sticker from one of your tracked packs."
+msgid "Remove a sticker from one of your tracked packs."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/delsticker.py:29
@@ -1178,7 +1175,7 @@ msgid "Sticker deleted successfully from {pack}."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:24
-msgid "Send a replied sticker as a document with basic sticker information."
+msgid "Send the replied sticker as a file with basic metadata."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:34
@@ -1228,7 +1225,7 @@ msgid "Pack"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/mypacks.py:18
-msgid "List your tracked sticker packs."
+msgid "List sticker packs currently tracked for your account."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/mypacks.py:32
@@ -1247,7 +1244,7 @@ msgid "{name}'s sticker packs"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/steal.py:38
-msgid "Steal a sticker or media from a reply into your sticker pack."
+msgid "Copy a replied sticker or media item into one of your packs."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/steal.py:43
@@ -1284,7 +1281,7 @@ msgid "Sticker saved successfully."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/stealpack.py:38
-msgid "Steal an entire sticker set into your own pack."
+msgid "Copy an entire sticker set into one of your packs."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/stealpack.py:43
@@ -1341,7 +1338,7 @@ msgid "Sticker pack copied successfully."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/switch.py:24
-msgid "Switch your default sticker pack by index or name."
+msgid "Set your default sticker pack by index or name."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/switch.py:29
@@ -1434,16 +1431,24 @@ msgstr ""
 msgid "Could not save the sticker due to a Telegram API error."
 msgstr ""
 
-#: src/korone/modules/troubleshooters/__init__.py:14
+#: src/korone/modules/troubleshooters/__init__.py:15
 msgid "Troubleshooters"
 msgstr ""
 
-#: src/korone/modules/troubleshooters/__init__.py:16
-msgid "Tools for fixing problems and issues"
+#: src/korone/modules/troubleshooters/__init__.py:17
+msgid "Recovery and troubleshooting tools"
+msgstr ""
+
+#: src/korone/modules/troubleshooters/__init__.py:20
+msgid "Fix common state and permission cache issues when commands stop behaving as expected."
+msgstr ""
+
+#: src/korone/modules/troubleshooters/__init__.py:21
+msgid "Includes interaction reset and admin cache refresh tools."
 msgstr ""
 
 #: src/korone/modules/troubleshooters/handlers/admincache.py:17
-msgid "Reset admin rights cache, use if Korone didn't get the recently added admin"
+msgid "Refresh cached admin rights for this chat."
 msgstr ""
 
 #: src/korone/modules/troubleshooters/handlers/admincache.py:25
@@ -1451,7 +1456,7 @@ msgid "Admin rights cache has been reset."
 msgstr ""
 
 #: src/korone/modules/troubleshooters/handlers/cancel.py:16
-msgid "Cancel current state, use if Korone is not responding on your message"
+msgid "Cancel the current interaction state."
 msgstr ""
 
 #: src/korone/modules/troubleshooters/handlers/cancel.py:26
@@ -1484,19 +1489,19 @@ msgid "Users"
 msgstr ""
 
 #: src/korone/modules/users/__init__.py:15
-msgid "User information and management"
+msgid "User and member lookup tools"
 msgstr ""
 
 #: src/korone/modules/users/__init__.py:18
-msgid "Provides commands to get information about users and chat members."
+msgid "Inspect IDs, chat admins, and detailed user information."
 msgstr ""
 
 #: src/korone/modules/users/__init__.py:19
-msgid "Includes admin list, user IDs, and detailed user information."
+msgid "Works with replies, direct users, and explicit mentions."
 msgstr ""
 
 #: src/korone/modules/users/handlers/adminlist.py:21
-msgid "Lists all the chats admins."
+msgid "List visible administrators in the current chat."
 msgstr ""
 
 #: src/korone/modules/users/handlers/adminlist.py:31
@@ -1522,7 +1527,7 @@ msgid "Admins"
 msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:27
-msgid "Show user and chat IDs"
+msgid "Show user, chat, and topic IDs."
 msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:33
@@ -1556,7 +1561,7 @@ msgid "{user}'s ID: {id}"
 msgstr ""
 
 #: src/korone/modules/users/handlers/info.py:26
-msgid "Shows the additional information about the user."
+msgid "Show detailed information about a user."
 msgstr ""
 
 #: src/korone/modules/users/handlers/info.py:52
@@ -1636,11 +1641,11 @@ msgid "Web"
 msgstr ""
 
 #: src/korone/modules/web/__init__.py:16
-msgid "Lookup IP and WHOIS information and normalize URLs"
+msgid "IP, WHOIS, and URL utilities"
 msgstr ""
 
 #: src/korone/modules/web/__init__.py:17
-msgid "Get IP details, WHOIS information for domains, and normalize URLs."
+msgid "Look up IP/domain details, query WHOIS records, and normalize URLs."
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:27
@@ -1685,7 +1690,7 @@ msgid "IP Information"
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:54
-msgid "Shows information about an IP or domain."
+msgid "Look up information for an IP address or domain."
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:62
@@ -1718,7 +1723,7 @@ msgid "Please select an IP address:"
 msgstr ""
 
 #: src/korone/modules/web/handlers/url.py:21
-msgid "Normalizes a URL."
+msgid "Normalize a URL."
 msgstr ""
 
 #: src/korone/modules/web/handlers/url.py:26
@@ -1753,7 +1758,7 @@ msgid "Normalized"
 msgstr ""
 
 #: src/korone/modules/web/handlers/whois.py:21
-msgid "Shows WHOIS information about a domain."
+msgid "Look up WHOIS information for a domain."
 msgstr ""
 
 #: src/korone/modules/web/handlers/whois.py:26

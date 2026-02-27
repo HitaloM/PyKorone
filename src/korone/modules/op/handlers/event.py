@@ -10,7 +10,7 @@ from korone.filters.user_status import IsOP
 from korone.utils.handlers import KoroneMessageHandler
 
 
-@flags.help(description="Prints the message event as JSON.")
+@flags.help(description="Print the incoming message event as JSON.")
 class EventHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple:

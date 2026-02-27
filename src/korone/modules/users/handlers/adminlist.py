@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from stfu_tg.doc import Element
 
 
-@flags.help(description=l_("Lists all the chats admins."))
+@flags.help(description=l_("List visible administrators in the current chat."))
 @flags.disableable(name="adminlist")
 class AdminListHandler(KoroneMessageHandler):
     @staticmethod

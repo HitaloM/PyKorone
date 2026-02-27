@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description="Causes the bot to crash (for testing purposes).")
+@flags.help(description=("Crash the bot intentionally for operator testing."))
 class CrashHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

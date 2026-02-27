@@ -78,7 +78,7 @@ def build_language_selection_keyboard(
     return keyboard
 
 
-@flags.help(description=l_("Shows the available languages for selection."))
+@flags.help(description=l_("Open the language selection menu for this chat."))
 class LanguageSelectHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

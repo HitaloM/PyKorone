@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
 
-@flags.help(description=l_("Search music with HiFi API."))
+@flags.help(description=l_("Search tracks with the HiFi provider."))
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="hifi")
 class HifiSearchHandler(KoroneMessageHandler):

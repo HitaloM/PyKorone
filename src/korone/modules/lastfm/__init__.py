@@ -18,8 +18,10 @@ router = Router(name="lastfm")
 
 __module_name__ = l_("Last.fm")
 __module_emoji__ = "🎵"
-__module_description__ = l_("Show your Last.fm status")
-__module_info__ = LazyProxy(lambda: Doc(l_("Show your current or last played track from Last.fm.")))
+__module_description__ = l_("Last.fm now-playing and profile tools")
+__module_info__ = LazyProxy(
+    lambda: Doc(l_("Show current scrobbles and fetch album, artist, compatibility, and collage views."))
+)
 
 __export_private_only__ = True
 __export__ = export_lastfm

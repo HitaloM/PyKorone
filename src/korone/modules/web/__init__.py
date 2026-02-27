@@ -13,7 +13,7 @@ router = Router(name="web")
 
 __module_name__ = l_("Web")
 __module_emoji__ = "🌐"
-__module_description__ = l_("Lookup IP and WHOIS information and normalize URLs")
-__module_info__ = LazyProxy(lambda: Doc(l_("Get IP details, WHOIS information for domains, and normalize URLs.")))
+__module_description__ = l_("IP, WHOIS, and URL utilities")
+__module_info__ = LazyProxy(lambda: Doc(l_("Look up IP/domain details, query WHOIS records, and normalize URLs.")))
 
 __handlers__ = (IPInfoHandler, IPInfoCallbackHandler, WhoisHandler, URLNormalizeHandler)

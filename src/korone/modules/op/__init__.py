@@ -9,11 +9,8 @@ router = Router(name="op")
 
 __module_name__ = "Operator"
 __module_emoji__ = "👑"
-__module_description__ = "Operator-only commands and tools"
-__module_info__ = Doc(
-    "Provides operator-only commands and tools for bot administration.",
-    "Includes system stats, job management, and other administrative functions.",
-)
+__module_description__ = "Operator-only administration commands"
+__module_info__ = Doc("Maintenance tools for diagnostics, cache control, and event inspection.")
 
 
 __exclude_public__ = True

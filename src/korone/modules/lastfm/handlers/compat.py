@@ -50,7 +50,7 @@ def _build_no_common_message(period: LastFMPeriod) -> str:
     return _("No common artists in {period}.").format(period=period_label(period))
 
 
-@flags.help(description=l_("Shows your Last.fm compatibility with a replied user."))
+@flags.help(description=l_("Show Last.fm compatibility with the replied user."))
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmcompat")
 class LastFMCompatHandler(KoroneMessageHandler):

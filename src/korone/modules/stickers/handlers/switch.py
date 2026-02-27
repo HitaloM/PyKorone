@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from korone.db.models.sticker_pack import StickerPackModel
 
 
-@flags.help(description=l_("Switch your default sticker pack by index or name."))
+@flags.help(description=l_("Set your default sticker pack by index or name."))
 @flags.disableable(name="switch")
 class StickerSwitchDefaultPackHandler(KoroneMessageHandler):
     @classmethod

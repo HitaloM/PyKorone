@@ -18,11 +18,11 @@ router = Router(name="stickers")
 
 __module_name__ = l_("Stickers")
 __module_emoji__ = "🧩"
-__module_description__ = l_("Steal and manage personal sticker packs")
+__module_description__ = l_("Personal sticker pack management")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_("Clone stickers and media into your own sticker packs."),
-        l_("Includes pack listing, default pack switching, and sticker management commands."),
+        l_("Copy stickers and supported media into your own packs."),
+        l_("Manage tracked packs, set a default pack, and remove stickers."),
     )
 )
 

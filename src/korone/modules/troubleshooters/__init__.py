@@ -1,4 +1,5 @@
 from aiogram import Router
+from stfu_tg import Doc
 
 from korone.filters.admin_rights import UserRestricting as UserRestricting
 from korone.filters.user_status import IsOP as IsOP
@@ -13,7 +14,13 @@ router = Router(name="troubleshooters")
 
 __module_name__ = l_("Troubleshooters")
 __module_emoji__ = "🧰"
-__module_description__ = l_("Tools for fixing problems and issues")
+__module_description__ = l_("Recovery and troubleshooting tools")
+__module_info__ = LazyProxy(
+    lambda: Doc(
+        l_("Fix common state and permission cache issues when commands stop behaving as expected."),
+        l_("Includes interaction reset and admin cache refresh tools."),
+    )
+)
 
 __handlers__ = (
     CancelCallbackHandler,

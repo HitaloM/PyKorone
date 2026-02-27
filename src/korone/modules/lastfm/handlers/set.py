@@ -69,7 +69,7 @@ async def _set_lastfm_username(message: Message, raw_username: str) -> bool:
     return True
 
 
-@flags.help(description=l_("Set your Last.fm username."))
+@flags.help(description=l_("Set your Last.fm username for status commands."))
 @flags.disableable(name="setlfm")
 class LastFMSetHandler(KoroneMessageHandler):
     @classmethod

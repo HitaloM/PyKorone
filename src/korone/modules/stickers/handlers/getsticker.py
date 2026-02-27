@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from aiogram.types import Sticker
 
 
-@flags.help(description=l_("Send a replied sticker as a document with basic sticker information."))
+@flags.help(description=l_("Send the replied sticker as a file with basic metadata."))
 @flags.disableable(name="getsticker")
 class StickerGetStickerHandler(KoroneMessageHandler):
     @staticmethod

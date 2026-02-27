@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description="Shows a list of all OP-only commands")
+@flags.help(description="List operator-only commands.")
 class OpCMDSList(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

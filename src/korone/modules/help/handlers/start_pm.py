@@ -44,11 +44,11 @@ class StartPMHandler(KoroneMessageCallbackQueryHandler):
 
         text = Doc(
             _(
-                "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
-                "Just click on the buttons below to get started."
+                "Hi, I'm Korone, your all-in-one assistant. "
+                "Use the buttons below to open help, privacy, and language settings."
             ),
             Template(
-                _("Join my {channel} to get information on all the latest updates."),
+                _("Join my {channel} for update announcements and feature news."),
                 channel=Url(_("news channel"), CONFIG.news_channel),
             ),
         )

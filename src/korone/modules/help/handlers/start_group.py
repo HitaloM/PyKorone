@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from aiogram.fsm.context import FSMContext
 
 
-@flags.help(description=l_("Shows the start message"))
+@flags.help(description=l_("Show the start message."))
 @flags.disableable(name="start")
 class StartGroupHandler(KoroneMessageHandler):
     @staticmethod
@@ -36,8 +36,7 @@ class StartGroupHandler(KoroneMessageHandler):
         buttons.adjust(2)
 
         text = _(
-            "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
-            "Just click on the buttons below to get started."
+            "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
         )
 
         await self.event.reply(text, reply_markup=buttons.as_markup())

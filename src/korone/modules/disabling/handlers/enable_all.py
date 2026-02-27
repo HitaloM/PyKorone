@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("Enable all commands in the chat"))
+@flags.help(description=l_("Re-enable all disabled commands in this chat."))
 class EnableAllHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

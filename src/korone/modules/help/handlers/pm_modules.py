@@ -34,7 +34,7 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
             cls,
             Command("help"),
             PrivateChatFilter(),
-            flags={"help": {"description": l_("Shows help overview for all modules")}},
+            flags={"help": {"description": l_("Show the help menu with all modules.")}},
         )
         router.callback_query.register(cls, PMHelpModules.filter())
 
@@ -71,27 +71,27 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
 
         doc = Doc(
             Title(_("Help")),
-            _("Select a module to see its commands and information!"),
+            _("Select a module to view commands and usage details."),
             Section(
                 VList(
                     Template(
-                        _("Arguments: {required} is required and {optional} is optional."),
+                        _("Arguments: {required} is required, {optional} is optional."),
                         required=Code("<arg>"),
                         optional=Code("<?arg>"),
                     ),
-                    HList(Italic(_("— Only in groups")), _("means it works only in group chats.")),
-                    HList(Italic(_("PM-only")), _("lists commands that only work in private chat.")),
+                    HList(Italic(_("— Only in groups")), _("indicates commands available only in groups.")),
+                    HList(Italic(_("PM-only")), _("lists commands available only in private chat.")),
                     HList(Italic(_("Only admins")), _("lists commands that require admin rights.")),
                     HList(
-                        Italic(Template("({label})", label=_("Disable-able"))),
+                        Italic(Template("({label})", label=_("Toggleable"))),
                         Template(
-                            _("means the command can be toggled with {disable} and {enable}."),
+                            _("means admins can disable or re-enable the command with {disable} and {enable}."),
                             disable=Code("/disable"),
                             enable=Code("/enable"),
                         ),
                     ),
                 ),
-                title=_("How to read /help"),
+                title=_("/help legend"),
             ),
         )
 
@@ -112,7 +112,7 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
         module = HELP_MODULES[module_name]
 
         if not module:
-            await self.event.answer(_("Module not found"))
+            await self.event.answer(_("Module not found."))
             return
 
         cmds = list(filter(lambda x: not x.only_op, module.handlers))
@@ -132,7 +132,7 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
             a_module = HELP_MODULES[a_mod_name]
             doc += Section(
                 format_handlers(a_cmds),
-                title=Template(_("Aliased commands from {module}"), module=f"{a_module.icon} {a_module.name}"),
+                title=Template(_("Shared commands from {module}"), module=f"{a_module.icon} {a_module.name}"),
             )
 
         buttons = InlineKeyboardBuilder()

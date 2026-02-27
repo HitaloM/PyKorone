@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from korone.modules.help.utils.extract_info import HandlerHelp
 
 
-@flags.help(description=l_("Lists all commands that can be disabled."))
+@flags.help(description=l_("List commands that can be disabled in this chat."))
 @flags.disableable(name="disableable")
 class ListDisableable(KoroneMessageHandler):
     @staticmethod
@@ -38,7 +38,7 @@ class ListDisableable(KoroneMessageHandler):
                         show_description=False,
                         show_args=False,
                     ),
-                    title=_("Disable-able commands"),
+                    title=_("Toggleable commands"),
                 )
             )
         )

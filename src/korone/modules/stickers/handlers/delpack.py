@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("Explain how to delete sticker packs."))
+@flags.help(description=l_("Show how to delete sticker packs and refresh your tracked list."))
 @flags.disableable(name="delpack")
 class StickerDeletePackHandler(KoroneMessageHandler):
     @staticmethod

@@ -16,7 +16,9 @@ if TYPE_CHECKING:
 
 
 @flags.help(
-    description=l_("Apply a regex substitution to a replied message."), cmds=("s/old/new/flags",), raw_cmds=True
+    description=l_("Apply a sed-style regex substitution to a replied message."),
+    cmds=("s/old/new/flags",),
+    raw_cmds=True,
 )
 @flags.disableable(name="sed")
 class SedHandler(KoroneMessageHandler):

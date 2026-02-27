@@ -51,7 +51,7 @@ def build_keyboard(*, is_private: bool, back_to_start: bool = False) -> InlineKe
     return keyboard
 
 
-@flags.help(description=l_("Shows the current language settings."))
+@flags.help(description=l_("Show current language settings for this chat."))
 class LanguageInfoHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

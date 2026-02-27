@@ -15,11 +15,11 @@ router = Router(name="Disable")
 
 __module_name__ = l_("Disabling")
 __module_emoji__ = "🚫"
-__module_description__ = l_("Disable commands in chats")
+__module_description__ = l_("Command toggles for group chats")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_("Allows administrators to disable specific commands in their chats."),
-        l_("Useful for restricting bot functionality to only necessary commands."),
+        l_("Let admins disable specific commands per chat."),
+        l_("Useful for keeping only the features your group actually needs."),
     )
 )
 

@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("Lists all disabled commands."))
+@flags.help(description=l_("List commands currently disabled in this chat."))
 @flags.disableable(name="disabled")
 class ListDisabled(KoroneMessageHandler):
     @staticmethod

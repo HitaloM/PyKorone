@@ -35,7 +35,7 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
 
-@flags.help(description=l_("Steal an entire sticker set into your own pack."))
+@flags.help(description=l_("Copy an entire sticker set into one of your packs."))
 @flags.disableable(name="stealpack")
 class StickerStealPackHandler(KoroneMessageHandler):
     @classmethod

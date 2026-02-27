@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("List your tracked sticker packs."))
+@flags.help(description=l_("List sticker packs currently tracked for your account."))
 @flags.disableable(name="mypacks")
 class StickerMyPacksHandler(KoroneMessageHandler):
     @staticmethod

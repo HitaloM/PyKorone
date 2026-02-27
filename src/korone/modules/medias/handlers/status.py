@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("Enable or disable automatic media downloads in this chat."))
+@flags.help(description=l_("Toggle automatic media downloads for this chat."))
 @flags.disableable(name="medias")
 class MediaAutoDownloadStatus(StatusBoolHandlerABC):
     header_text = l_("Media auto-download")

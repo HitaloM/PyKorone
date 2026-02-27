@@ -18,11 +18,11 @@ router = Router(name="info")
 
 __module_name__ = l_("Privacy")
 __module_emoji__ = "🕵️‍♂️️"
-__module_description__ = l_("Data protection")
+__module_description__ = l_("Privacy and data controls")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_("Manages user privacy and data protection settings."),
-        l_("Allows users to export their data and control privacy preferences."),
+        l_("View the bot privacy policy and review how data is handled."),
+        l_("Export your available data as a JSON file."),
     )
 )
 

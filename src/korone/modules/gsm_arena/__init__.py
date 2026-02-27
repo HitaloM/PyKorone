@@ -15,10 +15,8 @@ router = Router(name="gsm_arena")
 
 __module_name__ = l_("GSM Arena")
 __module_emoji__ = "📱"
-__module_description__ = l_("Search device specifications on GSMArena")
-__module_info__ = LazyProxy(
-    lambda: Doc(l_("Search for smartphones and get a quick overview of their specifications directly from GSMArena."))
-)
+__module_description__ = l_("Device specs from GSMArena")
+__module_info__ = LazyProxy(lambda: Doc(l_("Search phones and browse key specifications without leaving Telegram.")))
 
 __handlers__ = (DeviceSearchHandler, DeviceListCallbackHandler, DeviceGetCallbackHandler)
 

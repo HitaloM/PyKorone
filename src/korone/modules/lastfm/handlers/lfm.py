@@ -114,7 +114,7 @@ async def _edit_status_message(message: Message, *, payload: LastFMStatusPayload
         raise
 
 
-@flags.help(description=l_("Shows your current Last.fm status."))
+@flags.help(description=l_("Show the current Last.fm listening status."))
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lastfm")
 class LastFMStatusHandler(KoroneMessageHandler):

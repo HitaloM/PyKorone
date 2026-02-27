@@ -23,7 +23,7 @@ if TYPE_CHECKING:
     from korone.db.models.chat import ChatModel
 
 
-@flags.help(description=l_("Shows the additional information about the user."))
+@flags.help(description=l_("Show detailed information about a user."))
 @flags.disableable(name="info")
 class UserInfoHandler(KoroneMessageHandler):
     @classmethod

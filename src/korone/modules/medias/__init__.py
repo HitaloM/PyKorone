@@ -15,13 +15,11 @@ router = Router(name="medias")
 
 __module_name__ = l_("Medias")
 __module_emoji__ = "🖼️"
-__module_description__ = l_("Download media from supported websites in group chats")
+__module_description__ = l_("Automatic media downloads from supported links")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_(
-            "Automatically fetches photos and videos from supported links posted in the group.\n\n"
-            "Currently supports: Twitter, Bluesky, Instagram, Reddit, TikTok."
-        )
+        l_("Fetch media when supported links are posted in group chats."),
+        l_("Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."),
     )
 )
 
