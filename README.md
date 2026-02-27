@@ -2,9 +2,10 @@
 
 <img src="https://github.com/HitaloM/PyKorone/assets/40531911/d971b149-72b5-4411-9ea5-21b5c44e5061" style="width: 96px;" alt="logo">
 
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Telegram](https://img.shields.io/badge/Telegram-blue.svg?logo=telegram)](https://t.me/PyKorone)
-[![License](https://img.shields.io/github/license/HitaloM/PyKorone?logo=bsd)](/LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 _PyKorone_ is a comprehensive, state-of-the-art Telegram bot that offers a variety of features to enhance your Telegram experience. It is designed to be flexible and adaptable to meet a wide range of user needs. The bot is built in Python and is designed for high efficiency and reliability.
 
