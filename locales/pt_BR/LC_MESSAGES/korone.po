@@ -860,7 +860,7 @@ msgstr "1 ano"
 msgid "all-time"
 msgstr "todo o período"
 
-#: src/korone/modules/lastfm/handlers/compat.py:40
+#: src/korone/modules/lastfm/handlers/compat.py:39
 #, python-brace-format
 msgid ""
 "{user_a} and {user_b} listen to {artists}\n"
@@ -868,38 +868,38 @@ msgid ""
 "Compatibility score is {score}%, based on {period}"
 msgstr "{user_a} e {user_b} escutam {artists}\\n\\nA pontuação de compatibilidade é {score}%, com base em {period}"
 
-#: src/korone/modules/lastfm/handlers/compat.py:50
+#: src/korone/modules/lastfm/handlers/compat.py:49
 #, python-brace-format
 msgid "No common artists in {period}."
 msgstr "Nenhum artista em comum em {period}."
 
-#: src/korone/modules/lastfm/handlers/compat.py:53
+#: src/korone/modules/lastfm/handlers/compat.py:52
 msgid "Show Last.fm compatibility with the replied user."
 msgstr "Mostre a compatibilidade do Last.fm com o usuário respondido."
 
-#: src/korone/modules/lastfm/handlers/compat.py:59
+#: src/korone/modules/lastfm/handlers/compat.py:58
 msgid "Period"
 msgstr "Período"
 
-#: src/korone/modules/lastfm/handlers/compat.py:67
+#: src/korone/modules/lastfm/handlers/compat.py:66
 #: src/korone/modules/lastfm/handlers/set.py:47
 msgid "Could not identify your Telegram user."
 msgstr "Não foi possível identificar seu usuário do Telegram."
 
-#: src/korone/modules/lastfm/handlers/compat.py:77
+#: src/korone/modules/lastfm/handlers/compat.py:76
 #, python-brace-format
 msgid "Usage: {example}. Reply to someone's message in a group."
 msgstr "Uso: {example}. Responda à mensagem de alguém em um grupo."
 
-#: src/korone/modules/lastfm/handlers/compat.py:86
+#: src/korone/modules/lastfm/handlers/compat.py:85
 msgid "Lookie, it's me!!!"
 msgstr "Olha, sou eu!!!"
 
-#: src/korone/modules/lastfm/handlers/compat.py:90
+#: src/korone/modules/lastfm/handlers/compat.py:89
 msgid "Bots don't listen to music."
 msgstr "Bots não ouvem música."
 
-#: src/korone/modules/lastfm/handlers/compat.py:100
+#: src/korone/modules/lastfm/handlers/compat.py:99
 msgid "This user needs to set Last.fm first with /setlfm."
 msgstr "Este usuário precisa configurar o Last.fm primeiro com /setlfm."
 

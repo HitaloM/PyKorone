@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-02-26 21:42-0300\n"
+"POT-Creation-Date: 2026-02-27 11:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -859,7 +859,7 @@ msgstr ""
 msgid "all-time"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:40
+#: src/korone/modules/lastfm/handlers/compat.py:39
 #, python-brace-format
 msgid ""
 "{user_a} and {user_b} listen to {artists}\n"
@@ -867,38 +867,38 @@ msgid ""
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:50
+#: src/korone/modules/lastfm/handlers/compat.py:49
 #, python-brace-format
 msgid "No common artists in {period}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:53
+#: src/korone/modules/lastfm/handlers/compat.py:52
 msgid "Show Last.fm compatibility with the replied user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:59
+#: src/korone/modules/lastfm/handlers/compat.py:58
 msgid "Period"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:67
+#: src/korone/modules/lastfm/handlers/compat.py:66
 #: src/korone/modules/lastfm/handlers/set.py:47
 msgid "Could not identify your Telegram user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:77
+#: src/korone/modules/lastfm/handlers/compat.py:76
 #, python-brace-format
 msgid "Usage: {example}. Reply to someone's message in a group."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:86
+#: src/korone/modules/lastfm/handlers/compat.py:85
 msgid "Lookie, it's me!!!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:90
+#: src/korone/modules/lastfm/handlers/compat.py:89
 msgid "Bots don't listen to music."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:100
+#: src/korone/modules/lastfm/handlers/compat.py:99
 msgid "This user needs to set Last.fm first with /setlfm."
 msgstr ""
 

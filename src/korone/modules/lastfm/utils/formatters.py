@@ -78,12 +78,12 @@ def format_status(username: str, tracks: Sequence[LastFMRecentTrack], track_info
     lines: list[str] = []
     for index, track in enumerate(tracks):
         spotify_search_url = _build_spotify_search_url(track.artist, track.name)
-        album_text = Template(_(", [{album}]"), album=track.album).to_html() if track.album else ""
+        album_text = Template(_(", [{album}]"), album=track.album) if track.album else ""
         elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
         loved_text = _(", loved") if track.loved else ""
 
         user_playcount = track_info.user_playcount if index == 0 and track_info else 0
-        playcount_text = Template(_(", {plays} plays"), plays=user_playcount).to_html() if user_playcount > 0 else ""
+        playcount_text = Template(_(", {plays} plays"), plays=user_playcount) if user_playcount > 0 else ""
         tags_block = f"\n\n{tags_text}\n" if index == 0 and tags_text else ""
 
         lines.append(
@@ -115,7 +115,7 @@ def format_album_status(username: str, track: LastFMRecentTrack, album_info: Las
 
     elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
     playcount = album_info.user_playcount if album_info else 0
-    playcount_text = Template(_(", {plays} plays"), plays=playcount).to_html() if playcount > 0 else ""
+    playcount_text = Template(_(", {plays} plays"), plays=playcount) if playcount > 0 else ""
 
     tags_text = _format_tags(album_info.tags) if album_info else ""
     tags_suffix = f"\n\n{tags_text}" if tags_text else ""
@@ -144,7 +144,7 @@ def format_artist_status(username: str, track: LastFMRecentTrack, artist_info: L
 
     elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
     playcount = artist_info.user_playcount if artist_info else 0
-    playcount_text = Template(_(", {plays} plays"), plays=playcount).to_html() if playcount > 0 else ""
+    playcount_text = Template(_(", {plays} plays"), plays=playcount) if playcount > 0 else ""
 
     tags_text = _format_tags(artist_info.tags) if artist_info else ""
     tags_suffix = f"\n\n{tags_text}" if tags_text else ""

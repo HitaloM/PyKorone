@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from html import escape
 from typing import TYPE_CHECKING, Any
 from urllib.parse import quote_plus
 
@@ -35,7 +34,7 @@ def _build_profile_url(username: str) -> str:
 def _format_compat_result(
     *, username_a: str, username_b: str, mutual_artists: list[str], score: int, period: LastFMPeriod
 ) -> str:
-    artists = ", ".join(escape(artist) for artist in mutual_artists) + "..."
+    artists = ", ".join(mutual_artists) + "..."
     return Template(
         _("{user_a} and {user_b} listen to {artists}\n\nCompatibility score is {score}%, based on {period}"),
         user_a=Url(username_a, _build_profile_url(username_a)),

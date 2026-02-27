@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 from typing import TYPE_CHECKING
 
 import aiohttp
@@ -43,8 +44,10 @@ def _as_dict_nodes(value: object) -> list[dict[str, object]]:
 
 
 def _as_non_empty_str(value: object) -> str | None:
-    if isinstance(value, str) and value.strip():
-        return value.strip()
+    if isinstance(value, str):
+        decoded = html.unescape(value).strip()
+        if decoded:
+            return decoded
     return None
 
 
