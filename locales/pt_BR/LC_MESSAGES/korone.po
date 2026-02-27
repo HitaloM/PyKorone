@@ -419,7 +419,7 @@ msgstr "Abra a ajuda no chat privado."
 
 #: src/korone/modules/help/handlers/help_group.py:26
 msgid "Detailed help is available in private chat with Korone."
-msgstr "A ajuda detalhada est disponvel no chat privado com a Korone."
+msgstr "A ajuda detalhada est disponvel no chat privado com o Korone."
 
 #: src/korone/modules/help/handlers/pm_modules.py:37
 msgid "Show the help menu with all modules."
@@ -512,7 +512,7 @@ msgid ""
 "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to "
 "open help and follow updates."
 msgstr ""
-"Oi, sou a Korone, seu bot tudo-em-um para este chat. Use os botes abaixo "
+"Oi, sou o Korone, seu bot tudo-em-um para este chat. Use os botes abaixo "
 "para abrir a ajuda e acompanhar atualizaes."
 
 #: src/korone/modules/help/handlers/start_pm.py:39
@@ -533,7 +533,7 @@ msgid ""
 "Hi, I'm Korone, your all-in-one assistant. Use the buttons below to open "
 "help, privacy, and language settings."
 msgstr ""
-"Oi, sou a Korone, sua assistente tudo-em-um. Use os botes abaixo para abrir "
+"Oi, sou o Korone, seu assistente tudo-em-um. Use os botes abaixo para abrir "
 "ajuda, privacidade e configuraes de idioma."
 
 #: src/korone/modules/help/handlers/start_pm.py:51
