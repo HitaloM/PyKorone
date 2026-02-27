@@ -205,7 +205,7 @@ msgstr "Liste os comandos que podem ser desativados neste chat."
 
 #: src/korone/modules/disabling/handlers/disable_able.py:41
 msgid "Toggleable commands"
-msgstr "Comandos desativveis"
+msgstr "Comandos desativáveis"
 
 #: src/korone/modules/disabling/handlers/disabled.py:17
 msgid "List commands currently disabled in this chat."
@@ -460,7 +460,7 @@ msgstr "Argumentos: {required} é obrigatório e {optional} é opcional."
 
 #: src/korone/modules/help/handlers/pm_modules.py:82
 msgid "indicates commands available only in groups."
-msgstr "indica comandos disponveis apenas em grupos."
+msgstr "indica comandos disponíveis apenas em grupos."
 
 #: src/korone/modules/help/handlers/pm_modules.py:82
 #: src/korone/modules/help/utils/format_help.py:47
@@ -474,7 +474,7 @@ msgstr "Somente PM"
 
 #: src/korone/modules/help/handlers/pm_modules.py:83
 msgid "lists commands available only in private chat."
-msgstr "lista comandos disponveis apenas no chat privado."
+msgstr "lista comandos disponíveis apenas no chat privado."
 
 #: src/korone/modules/help/handlers/pm_modules.py:84
 #: src/korone/modules/help/utils/format_help.py:85
@@ -488,7 +488,7 @@ msgstr "lista comandos que exigem permissões de administrador."
 #: src/korone/modules/help/handlers/pm_modules.py:86
 #: src/korone/modules/help/utils/format_help.py:48
 msgid "Toggleable"
-msgstr "Desativvel"
+msgstr "Desativável"
 
 #: src/korone/modules/help/handlers/pm_modules.py:88
 #, python-brace-format
@@ -905,7 +905,7 @@ msgstr "Este usuário precisa configurar o Last.fm primeiro com /setlfm."
 
 #: src/korone/modules/lastfm/handlers/lfm.py:117
 msgid "Show the current Last.fm listening status."
-msgstr "Mostre o status atual de audio no Last.fm."
+msgstr "Mostre o status atual de áudio no Last.fm."
 
 #: src/korone/modules/lastfm/handlers/lfm.py:146
 #: src/korone/modules/lastfm/handlers/lfm.py:171
@@ -1039,7 +1039,7 @@ msgstr "Baixe mídia quando links compatíveis forem enviados em grupos."
 
 #: src/korone/modules/medias/__init__.py:22
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."
-msgstr "Plataformas compatveis atualmente: Twitter, Bluesky, Instagram, Reddit e TikTok."
+msgstr "Plataformas compatíveis atualmente: Twitter, Bluesky, Instagram, Reddit e TikTok."
 
 #: src/korone/modules/medias/handlers/base.py:344
 #: src/korone/modules/medias/handlers/base.py:399
@@ -1070,7 +1070,7 @@ msgstr "Veja a política de privacidade do bot e como os dados são tratados."
 #: src/korone/modules/privacy/__init__.py:25
 #: src/korone/modules/privacy/handlers/export.py:58
 msgid "Export your available data as a JSON file."
-msgstr "Exporte seus dados disponveis em um arquivo JSON."
+msgstr "Exporte seus dados disponíveis em um arquivo JSON."
 
 #: src/korone/modules/privacy/handlers/export.py:80
 msgid "Export is started, this may take a while."
@@ -1098,7 +1098,7 @@ msgstr "Regex"
 
 #: src/korone/modules/regex/__init__.py:13
 msgid "Regex substitutions for replied messages"
-msgstr "Substituies regex para mensagens respondidas"
+msgstr "Substituições regex para mensagens respondidas"
 
 #: src/korone/modules/regex/__init__.py:16
 msgid "Use sed-style syntax to edit replied text. Example: s/old/new/g; escape slashes as \\/ and chain with ';'."
@@ -1153,7 +1153,7 @@ msgstr "Gerenciamento de pacotes pessoais de figurinhas"
 
 #: src/korone/modules/stickers/__init__.py:24
 msgid "Copy stickers and supported media into your own packs."
-msgstr "Copie figurinhas e mdias compatveis para seus prprios pacotes."
+msgstr "Copie figurinhas e mídias compatíveis para seus próprios pacotes."
 
 #: src/korone/modules/stickers/__init__.py:25
 msgid "Manage tracked packs, set a default pack, and remove stickers."
@@ -1488,7 +1488,7 @@ msgstr "Corrija problemas comuns de estado e cache de permissões quando os coma
 
 #: src/korone/modules/troubleshooters/__init__.py:21
 msgid "Includes interaction reset and admin cache refresh tools."
-msgstr "Inclui ferramentas para resetar interaes e atualizar o cache de admins."
+msgstr "Inclui ferramentas para resetar interações e atualizar o cache de admins."
 
 #: src/korone/modules/troubleshooters/handlers/admincache.py:17
 msgid "Refresh cached admin rights for this chat."
@@ -1545,7 +1545,7 @@ msgstr "Funciona com respostas, usuários diretos e menções explícitas."
 
 #: src/korone/modules/users/handlers/adminlist.py:21
 msgid "List visible administrators in the current chat."
-msgstr "Liste os administradores visveis no chat atual."
+msgstr "Liste os administradores visíveis no chat atual."
 
 #: src/korone/modules/users/handlers/adminlist.py:31
 msgid "Chat not found."
