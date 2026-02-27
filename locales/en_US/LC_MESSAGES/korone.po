@@ -1,8 +1,51 @@
-#: src/korone/args/users.py:29 types/user.py:17
+# English (United States) translations for Korone.
+# Copyright (C) 2026 Hitalo M.
+# This file is distributed under the same license as the Korone project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Korone 0.0.1\n"
+"Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
+"POT-Creation-Date: 2026-02-26 21:41-0300\n"
+"PO-Revision-Date: 2026-02-26 21:41-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en_US\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: exceptions.py:33
+msgid "Examples"
+msgstr ""
+
+#: exceptions.py:61
+#, python-brace-format
+msgid "The argument {description} has an invalid type"
+msgstr ""
+
+#: exceptions.py:65 exceptions.py:120
+msgid "Needed type"
+msgstr ""
+
+#: exceptions.py:116
+#, python-brace-format
+msgid "The required argument {description} wasn't provided!"
+msgstr ""
+
+#: exceptions.py:164
+#, python-brace-format
+msgid "The argument {description} has an invalid formatting!"
+msgstr ""
+
+#: src/korone/args/users.py:29
 msgid "User ID (Numeric)"
 msgstr ""
 
-#: src/korone/args/users.py:29 types/user.py:17
+#: src/korone/args/users.py:29
 msgid "User IDs (Numeric)"
 msgstr ""
 
@@ -10,7 +53,7 @@ msgstr ""
 msgid "Could not find the requested User ID in the database."
 msgstr ""
 
-#: src/korone/args/users.py:54 types/user.py:37
+#: src/korone/args/users.py:54
 msgid "Username (starts with @)"
 msgstr ""
 
@@ -38,19 +81,15 @@ msgstr ""
 msgid "Could not find the mentioned user in the database."
 msgstr ""
 
-#: src/korone/args/users.py:121 types/user.py:120
-msgid ""
-"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
-"users)'"
+#: src/korone/args/users.py:121
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: src/korone/args/users.py:122 types/user.py:122
-msgid ""
-"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to "
-"users)'"
+#: src/korone/args/users.py:122
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
-#: src/korone/args/users.py:130 types/user.py:128
+#: src/korone/args/users.py:130
 msgid "User ID"
 msgstr ""
 
@@ -58,11 +97,11 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/artist.py:92
 #: src/korone/modules/lastfm/handlers/lfm.py:123
 #: src/korone/modules/lastfm/handlers/set.py:77
-#: src/korone/modules/users/handlers/info.py:67 types/user.py:129
+#: src/korone/modules/users/handlers/info.py:67
 msgid "Username"
 msgstr ""
 
-#: src/korone/args/users.py:133 types/user.py:134
+#: src/korone/args/users.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
@@ -87,15 +126,11 @@ msgid "Anonymous admin must have a custom admin title to use this command."
 msgstr ""
 
 #: src/korone/filters/admin_rights.py:270
-msgid ""
-"Could not resolve this anonymous admin title. Refresh admin cache or use a "
-"unique title."
+msgid "Could not resolve this anonymous admin title. Refresh admin cache or use a unique title."
 msgstr ""
 
 #: src/korone/filters/admin_rights.py:278
-msgid ""
-"Multiple anonymous admins share this title, and not all of them can use this "
-"command. Use a unique title."
+msgid "Multiple anonymous admins share this title, and not all of them can use this command. Use a unique title."
 msgstr ""
 
 #: src/korone/filters/admin_rights.py:285
@@ -197,12 +232,12 @@ msgid "Re-enable all disabled commands in this chat."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:36
-msgid " Enable all"
+msgid "✅ Enable all"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:40
 #: src/korone/modules/language/handlers/select.py:57
-msgid " Cancel"
+msgid "❌ Cancel"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:45
@@ -216,12 +251,11 @@ msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:73
 #, python-brace-format
-msgid ""
-" All the commands ({removed_count}) have been enabled in the {chat_name}"
+msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
 
 #: src/korone/modules/error/utils/error_message.py:33
-msgid " I've got an error trying to process this update"
+msgid "😞 I've got an error trying to process this update"
 msgstr ""
 
 #: src/korone/modules/error/utils/error_message.py:40
@@ -230,7 +264,7 @@ msgstr ""
 
 #: src/korone/modules/error/utils/error_message.py:44
 #: src/korone/modules/language/handlers/apply.py:55
-msgid " Open GitHub Issues"
+msgid "🐞 Open GitHub Issues"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:16
@@ -334,11 +368,11 @@ msgid "Memory"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:87
-msgid "Rear Camera"
+msgid "Front Camera"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:87
-msgid "Front Camera"
+msgid "Rear Camera"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:89
@@ -362,15 +396,15 @@ msgid "Charging"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:97
-msgid "Overview"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:97
 msgid "Cameras"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:97
 msgid "Connectivity and Power"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:97
+msgid "Overview"
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:25
@@ -412,7 +446,7 @@ msgstr ""
 #: src/korone/modules/language/handlers/select.py:62
 #: src/korone/modules/language/handlers/select.py:66
 #: src/korone/modules/privacy/handlers/privacy.py:35
-msgid " Back"
+msgid "⬅️ Back"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:74
@@ -430,11 +464,7 @@ msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:82
 #: src/korone/modules/help/utils/format_help.py:47
-msgid " Only in groups"
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:83
-msgid "lists commands available only in private chat."
+msgid "— Only in groups"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:83
@@ -442,13 +472,17 @@ msgstr ""
 msgid "PM-only"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:84
-msgid "lists commands that require admin rights."
+#: src/korone/modules/help/handlers/pm_modules.py:83
+msgid "lists commands available only in private chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:84
 #: src/korone/modules/help/utils/format_help.py:85
 msgid "Only admins"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:84
+msgid "lists commands that require admin rights."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:86
@@ -458,9 +492,7 @@ msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:88
 #, python-brace-format
-msgid ""
-"means admins can disable or re-enable the command with {disable} and "
-"{enable}."
+msgid "means admins can disable or re-enable the command with {disable} and {enable}."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:94
@@ -481,17 +513,15 @@ msgid "Show the start message."
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:35
-msgid " Channel"
+msgid "📢 Channel"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:39
-msgid ""
-"Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to "
-"open help and follow updates."
+msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:39
-msgid " Privacy"
+msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:40
@@ -500,13 +530,11 @@ msgid "Language"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:41
-msgid " Help"
+msgid "ℹ️ Help"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:47
-msgid ""
-"Hi, I'm Korone, your all-in-one assistant. Use the buttons below to open "
-"help, privacy, and language settings."
+msgid "Hi, I'm Korone, your all-in-one assistant. Use the buttons below to open help, privacy, and language settings."
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:51
@@ -551,7 +579,7 @@ msgid "Invalid track selected."
 msgstr ""
 
 #: src/korone/modules/hifi/handlers/preview.py:50
-msgid " Download"
+msgid "⬇️ Download"
 msgstr ""
 
 #: src/korone/modules/hifi/handlers/search.py:25
@@ -592,11 +620,11 @@ msgid "Could not send this track right now."
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:56
-msgid "HiFi search"
+msgid "Found tracks"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:56
-msgid "Found tracks"
+msgid "HiFi search"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:59
@@ -613,7 +641,8 @@ msgid "Unknown"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:81
-msgid "Track preview"
+#: src/korone/modules/hifi/utils/formatters.py:100
+msgid "Artist"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:81
@@ -622,8 +651,7 @@ msgid "Track"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:81
-#: src/korone/modules/hifi/utils/formatters.py:100
-msgid "Artist"
+msgid "Track preview"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:84
@@ -680,18 +708,15 @@ msgid "The language is {percent}% translated."
 msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:42
-msgid ""
-"In case you find any errors, please file an issue in the GitHub Repository."
+msgid "In case you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:44
-msgid ""
-"Please help us translate this language by completing it on our translations "
-"platform."
+msgid "Please help us translate this language by completing it on our translations platform."
 msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:57
-msgid " Help Translate"
+msgid "🌍 Help Translate"
 msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:75
@@ -723,11 +748,11 @@ msgid "Strings requiring review"
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:39
-msgid " Change your language"
+msgid "🌍 Change group language"
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:39
-msgid " Change group language"
+msgid "👤 Change your language"
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:54
@@ -753,9 +778,7 @@ msgid "Last.fm now-playing and profile tools"
 msgstr ""
 
 #: src/korone/modules/lastfm/__init__.py:23
-msgid ""
-"Show current scrobbles and fetch album, artist, compatibility, and collage "
-"views."
+msgid "Show current scrobbles and fetch album, artist, compatibility, and collage views."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/album.py:100
@@ -1015,9 +1038,7 @@ msgid "Fetch media when supported links are posted in group chats."
 msgstr ""
 
 #: src/korone/modules/medias/__init__.py:22
-msgid ""
-"Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and "
-"TikTok."
+msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."
 msgstr ""
 
 #: src/korone/modules/medias/handlers/base.py:344
@@ -1080,9 +1101,7 @@ msgid "Regex substitutions for replied messages"
 msgstr ""
 
 #: src/korone/modules/regex/__init__.py:16
-msgid ""
-"Use sed-style syntax to edit replied text. Example: s/old/new/g; escape "
-"slashes as \\/ and chain with ';'."
+msgid "Use sed-style syntax to edit replied text. Example: s/old/new/g; escape slashes as \\/ and chain with ';'."
 msgstr ""
 
 #: src/korone/modules/regex/handlers/sed.py:19
@@ -1150,8 +1169,7 @@ msgstr ""
 
 #: src/korone/modules/stickers/handlers/delpack.py:28
 #, python-brace-format
-msgid ""
-"Delete packs manually via {bot}, then run {command} to refresh your list."
+msgid "Delete packs manually via {bot}, then run {command} to refresh your list."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/delpack.py:32
@@ -1221,10 +1239,6 @@ msgid "Could not fetch this sticker file."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:67
-msgid "video"
-msgstr ""
-
-#: src/korone/modules/stickers/handlers/getsticker.py:67
 msgid "animated"
 msgstr ""
 
@@ -1232,17 +1246,21 @@ msgstr ""
 msgid "static"
 msgstr ""
 
+#: src/korone/modules/stickers/handlers/getsticker.py:67
+msgid "video"
+msgstr ""
+
 #: src/korone/modules/stickers/handlers/getsticker.py:68
 msgid "Emoji"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:68
-msgid "none"
+#: src/korone/modules/users/handlers/info.py:60
+msgid "ID"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:68
-#: src/korone/modules/users/handlers/info.py:60
-msgid "ID"
+msgid "none"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:72
@@ -1395,14 +1413,12 @@ msgid "Could not process this file as an image sticker."
 msgstr ""
 
 #: src/korone/modules/stickers/utils/media.py:138
-msgid ""
-"Video conversion is unavailable because ffmpeg/ffprobe are not installed."
+msgid "Video conversion is unavailable because ffmpeg/ffprobe are not installed."
 msgstr ""
 
 #: src/korone/modules/stickers/utils/media.py:143
 #, python-brace-format
-msgid ""
-"Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."
+msgid "Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."
 msgstr ""
 
 #: src/korone/modules/stickers/utils/media.py:174
@@ -1411,9 +1427,7 @@ msgstr ""
 
 #: src/korone/modules/stickers/utils/media.py:179
 #, python-brace-format
-msgid ""
-"Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 "
-"KB."
+msgid "Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB."
 msgstr ""
 
 #: src/korone/modules/stickers/utils/media.py:204
@@ -1453,8 +1467,7 @@ msgid "Sticker pack limit exceeded."
 msgstr ""
 
 #: src/korone/modules/stickers/utils/telegram.py:42
-msgid ""
-"I cannot create a sticker pack for you yet. Start the bot in private first."
+msgid "I cannot create a sticker pack for you yet. Start the bot in private first."
 msgstr ""
 
 #: src/korone/modules/stickers/utils/telegram.py:43
@@ -1470,9 +1483,7 @@ msgid "Recovery and troubleshooting tools"
 msgstr ""
 
 #: src/korone/modules/troubleshooters/__init__.py:20
-msgid ""
-"Fix common state and permission cache issues when commands stop behaving as "
-"expected."
+msgid "Fix common state and permission cache issues when commands stop behaving as expected."
 msgstr ""
 
 #: src/korone/modules/troubleshooters/__init__.py:21
@@ -1508,7 +1519,7 @@ msgstr ""
 
 #: src/korone/modules/troubleshooters/handlers/cancel_callback.py:35
 #: src/korone/modules/troubleshooters/handlers/cancel_callback.py:55
-msgid " Cancelled."
+msgid "❌ Cancelled."
 msgstr ""
 
 #: src/korone/modules/troubleshooters/handlers/cancel_callback.py:76
@@ -1661,11 +1672,11 @@ msgid "New state"
 msgstr ""
 
 #: src/korone/modules/utils_/status_handler.py:90
-msgid "Enabled"
+msgid "Disabled"
 msgstr ""
 
 #: src/korone/modules/utils_/status_handler.py:90
-msgid "Disabled"
+msgid "Enabled"
 msgstr ""
 
 #: src/korone/modules/web/__init__.py:14
@@ -1738,9 +1749,7 @@ msgstr ""
 #: src/korone/modules/web/handlers/ip.py:92
 #: src/korone/modules/web/handlers/ip.py:153
 #, python-brace-format
-msgid ""
-"The provided IP address {ip} is a {bogon} IP address, meaning it is either "
-"not in use or reserved for special use."
+msgid "The provided IP address {ip} is a {bogon} IP address, meaning it is either not in use or reserved for special use."
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:109
@@ -1814,29 +1823,6 @@ msgstr ""
 msgid "WHOIS Information"
 msgstr ""
 
-#: exceptions.py:33
-msgid "Examples"
-msgstr ""
-
-#: exceptions.py:61
-#, python-brace-format
-msgid "The argument {description} has an invalid type"
-msgstr ""
-
-#: exceptions.py:65 exceptions.py:120
-msgid "Needed type"
-msgstr ""
-
-#: exceptions.py:116
-#, python-brace-format
-msgid "The required argument {description} wasn't provided!"
-msgstr ""
-
-#: exceptions.py:164
-#, python-brace-format
-msgid "The argument {description} has an invalid formatting!"
-msgstr ""
-
 #: types/keyvalue.py:31
 #, python-brace-format
 msgid "Key-value of {}"
@@ -1881,8 +1867,7 @@ msgid "The list is empty!"
 msgstr ""
 
 #: types/lists.py:97
-msgid ""
-" The start prefix text of the lists cannot have the overlapping formatting"
+msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
 msgstr ""
 
 #: types/lists.py:153 types/lists.py:171
@@ -1959,21 +1944,21 @@ msgstr ""
 
 #: types/text_rules.py:27
 #, python-brace-format
-msgid " The Argument should start with {}!"
+msgid "➡️ The Argument should start with {}!"
 msgstr ""
 
 #: types/text_rules.py:31
 #, python-brace-format
-msgid " The Argument should end with {}!"
+msgid "⬅️️ The Argument should end with {}!"
 msgstr ""
 
 #: types/text_rules.py:49
-msgid " The start text cannot have the overlapping formatting"
+msgid "➡️ The start text cannot have the overlapping formatting"
 msgstr ""
 
 #: types/text_rules.py:75
 #, python-brace-format
-msgid " Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
 #: types/text_rules.py:91 types/text_rules.py:95
@@ -2052,11 +2037,69 @@ msgid "Should start with mention!"
 msgstr ""
 
 #: types/user.py:107
-msgid ""
-"Unexpected error while trying to get the user! Please report this in the "
-"support chat!"
+msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
 msgstr ""
 
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr ""
+
+#~ msgid " Enable all"
+#~ msgstr ""
+
+#~ msgid " Cancel"
+#~ msgstr ""
+
+#~ msgid " All the commands ({removed_count}) have been enabled in the {chat_name}"
+#~ msgstr ""
+
+#~ msgid " I've got an error trying to process this update"
+#~ msgstr ""
+
+#~ msgid " Open GitHub Issues"
+#~ msgstr ""
+
+#~ msgid " Back"
+#~ msgstr ""
+
+#~ msgid " Only in groups"
+#~ msgstr ""
+
+#~ msgid " Channel"
+#~ msgstr ""
+
+#~ msgid " Privacy"
+#~ msgstr ""
+
+#~ msgid " Help"
+#~ msgstr ""
+
+#~ msgid " Download"
+#~ msgstr ""
+
+#~ msgid " Help Translate"
+#~ msgstr ""
+
+#~ msgid " Change your language"
+#~ msgstr ""
+
+#~ msgid " Change group language"
+#~ msgstr ""
+
+#~ msgid " Cancelled."
+#~ msgstr ""
+
+#~ msgid " The start prefix text of the lists cannot have the overlapping formatting"
+#~ msgstr ""
+
+#~ msgid " The Argument should start with {}!"
+#~ msgstr ""
+
+#~ msgid " The Argument should end with {}!"
+#~ msgstr ""
+
+#~ msgid " The start text cannot have the overlapping formatting"
+#~ msgstr ""
+
+#~ msgid " Argument '{arg_text}' was parsed, but it has unknown text after it!"
+#~ msgstr ""

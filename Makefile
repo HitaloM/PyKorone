@@ -5,6 +5,10 @@ PYBABEL := uv run pybabel
 ALEMBIC := uv run alembic
 
 ASS_PATH := $(shell $(PYTHON) -c "import ass_tg as _; print(_.__path__[0])")
+BABEL_PROJECT := Korone
+BABEL_VERSION := $(shell $(PYTHON) -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
+BABEL_COPYRIGHT_HOLDER := Hitalo M.
+BABEL_MSGID_BUGS_ADDRESS := https://github.com/HitaloM/PyKorone/issues
 
 LOCALES_DIR := $(CURDIR)/locales
 
@@ -17,19 +21,29 @@ new_lang:
 
 extract_lang:
 	$(PYBABEL) extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
-	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" --omit-header --sort-by-file --no-wrap $(PROJECT_DIR)
+	--add-comments="NOTE: " \
+	--project "$(BABEL_PROJECT)" \
+	--version "$(BABEL_VERSION)" \
+	--copyright-holder "$(BABEL_COPYRIGHT_HOLDER)" \
+	--msgid-bugs-address "$(BABEL_MSGID_BUGS_ADDRESS)" \
+	-o "$(LOCALES_DIR)/bot.pot" --sort-by-file --no-wrap $(PROJECT_DIR)
 
 	cd "$(ASS_PATH)" && \
 	$(PYBABEL) extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
-	--add-comments="NOTE: " -o "$(LOCALES_DIR)/ass.pot" --omit-header --sort-by-file --no-wrap .
+	--add-comments="NOTE: " \
+	--project "$(BABEL_PROJECT)" \
+	--version "$(BABEL_VERSION)" \
+	--copyright-holder "$(BABEL_COPYRIGHT_HOLDER)" \
+	--msgid-bugs-address "$(BABEL_MSGID_BUGS_ADDRESS)" \
+	-o "$(LOCALES_DIR)/ass.pot" --sort-by-file --no-wrap .
 
 	# Merge
-	cp "$(LOCALES_DIR)/bot.pot" "$(LOCALES_DIR)/korone.pot"
-	cat "$(LOCALES_DIR)/ass.pot" >> "$(LOCALES_DIR)/korone.pot"
+	msgcat --use-first --sort-by-file --no-wrap \
+		-o "$(LOCALES_DIR)/korone.pot" "$(LOCALES_DIR)/bot.pot" "$(LOCALES_DIR)/ass.pot"
 
 update_lang: extract_lang
 	$(PYBABEL) update -d "$(LOCALES_DIR)" -D "korone" -i "$(LOCALES_DIR)/korone.pot" \
-	--ignore-pot-creation-date --omit-header --no-wrap
+	--ignore-pot-creation-date --no-wrap
 
 compile_lang:
 	$(PYBABEL) compile -d "$(LOCALES_DIR)" -D "korone" --use-fuzzy --statistics

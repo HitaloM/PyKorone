@@ -1,3 +1,45 @@
+# Translations template for Korone.
+# Copyright (C) 2026 Hitalo M.
+# This file is distributed under the same license as the Korone project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Korone 0.0.1\n"
+"Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
+"POT-Creation-Date: 2026-02-26 21:42-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: exceptions.py:33
+msgid "Examples"
+msgstr ""
+
+#: exceptions.py:61
+#, python-brace-format
+msgid "The argument {description} has an invalid type"
+msgstr ""
+
+#: exceptions.py:65 exceptions.py:120
+msgid "Needed type"
+msgstr ""
+
+#: exceptions.py:116
+#, python-brace-format
+msgid "The required argument {description} wasn't provided!"
+msgstr ""
+
+#: exceptions.py:164
+#, python-brace-format
+msgid "The argument {description} has an invalid formatting!"
+msgstr ""
+
 #: src/korone/args/users.py:29
 msgid "User ID (Numeric)"
 msgstr ""
@@ -325,11 +367,11 @@ msgid "Memory"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:87
-msgid "Rear Camera"
+msgid "Front Camera"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:87
-msgid "Front Camera"
+msgid "Rear Camera"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:89
@@ -353,15 +395,15 @@ msgid "Charging"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:97
-msgid "Overview"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:97
 msgid "Cameras"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:97
 msgid "Connectivity and Power"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:97
+msgid "Overview"
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:25
@@ -425,21 +467,21 @@ msgid "— Only in groups"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:83
-msgid "lists commands available only in private chat."
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:83
 #: src/korone/modules/help/utils/format_help.py:83
 msgid "PM-only"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:84
-msgid "lists commands that require admin rights."
+#: src/korone/modules/help/handlers/pm_modules.py:83
+msgid "lists commands available only in private chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:84
 #: src/korone/modules/help/utils/format_help.py:85
 msgid "Only admins"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:84
+msgid "lists commands that require admin rights."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:86
@@ -577,11 +619,11 @@ msgid "Could not send this track right now."
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:56
-msgid "HiFi search"
+msgid "Found tracks"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:56
-msgid "Found tracks"
+msgid "HiFi search"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:59
@@ -598,7 +640,8 @@ msgid "Unknown"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:81
-msgid "Track preview"
+#: src/korone/modules/hifi/utils/formatters.py:100
+msgid "Artist"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:81
@@ -607,8 +650,7 @@ msgid "Track"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:81
-#: src/korone/modules/hifi/utils/formatters.py:100
-msgid "Artist"
+msgid "Track preview"
 msgstr ""
 
 #: src/korone/modules/hifi/utils/formatters.py:84
@@ -705,11 +747,11 @@ msgid "Strings requiring review"
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:39
-msgid "👤 Change your language"
+msgid "🌍 Change group language"
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:39
-msgid "🌍 Change group language"
+msgid "👤 Change your language"
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:54
@@ -1196,10 +1238,6 @@ msgid "Could not fetch this sticker file."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:67
-msgid "video"
-msgstr ""
-
-#: src/korone/modules/stickers/handlers/getsticker.py:67
 msgid "animated"
 msgstr ""
 
@@ -1207,17 +1245,21 @@ msgstr ""
 msgid "static"
 msgstr ""
 
+#: src/korone/modules/stickers/handlers/getsticker.py:67
+msgid "video"
+msgstr ""
+
 #: src/korone/modules/stickers/handlers/getsticker.py:68
 msgid "Emoji"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:68
-msgid "none"
+#: src/korone/modules/users/handlers/info.py:60
+msgid "ID"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:68
-#: src/korone/modules/users/handlers/info.py:60
-msgid "ID"
+msgid "none"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/getsticker.py:72
@@ -1629,11 +1671,11 @@ msgid "New state"
 msgstr ""
 
 #: src/korone/modules/utils_/status_handler.py:90
-msgid "Enabled"
+msgid "Disabled"
 msgstr ""
 
 #: src/korone/modules/utils_/status_handler.py:90
-msgid "Disabled"
+msgid "Enabled"
 msgstr ""
 
 #: src/korone/modules/web/__init__.py:14
@@ -1778,29 +1820,6 @@ msgstr ""
 
 #: src/korone/modules/web/handlers/whois.py:58
 msgid "WHOIS Information"
-msgstr ""
-
-#: exceptions.py:33
-msgid "Examples"
-msgstr ""
-
-#: exceptions.py:61
-#, python-brace-format
-msgid "The argument {description} has an invalid type"
-msgstr ""
-
-#: exceptions.py:65 exceptions.py:120
-msgid "Needed type"
-msgstr ""
-
-#: exceptions.py:116
-#, python-brace-format
-msgid "The required argument {description} wasn't provided!"
-msgstr ""
-
-#: exceptions.py:164
-#, python-brace-format
-msgid "The argument {description} has an invalid formatting!"
 msgstr ""
 
 #: types/keyvalue.py:31
@@ -1992,18 +2011,6 @@ msgstr ""
 msgid "Action times"
 msgstr ""
 
-#: types/user.py:17
-msgid "User ID (Numeric)"
-msgstr ""
-
-#: types/user.py:17
-msgid "User IDs (Numeric)"
-msgstr ""
-
-#: types/user.py:37
-msgid "Username (starts with @)"
-msgstr ""
-
 #: types/user.py:47
 msgid "Should start with a prefix"
 msgstr ""
@@ -2034,24 +2041,4 @@ msgstr ""
 
 #: types/user.py:108
 msgid "Could not find the user mention"
-msgstr ""
-
-#: types/user.py:120
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr ""
-
-#: types/user.py:122
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr ""
-
-#: types/user.py:128
-msgid "User ID"
-msgstr ""
-
-#: types/user.py:129
-msgid "Username"
-msgstr ""
-
-#: types/user.py:134
-msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
