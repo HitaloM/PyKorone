@@ -93,10 +93,7 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/album.py:106
-#: src/korone/modules/lastfm/handlers/artist.py:92
-#: src/korone/modules/lastfm/handlers/lfm.py:123
-#: src/korone/modules/lastfm/handlers/set.py:77
+#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/set.py:77
 #: src/korone/modules/users/handlers/info.py:67
 msgid "Username"
 msgstr ""
@@ -284,10 +281,8 @@ msgstr ""
 #: src/korone/modules/hifi/handlers/list.py:38
 #: src/korone/modules/hifi/handlers/preview.py:37
 #: src/korone/modules/hifi/handlers/send.py:65
-#: src/korone/modules/lastfm/handlers/album.py:171
-#: src/korone/modules/lastfm/handlers/artist.py:157
-#: src/korone/modules/lastfm/handlers/collage.py:198
-#: src/korone/modules/lastfm/handlers/lfm.py:189
+#: src/korone/modules/lastfm/handlers/base.py:178
+#: src/korone/modules/lastfm/handlers/collage.py:192
 msgid "You are not allowed to use this button."
 msgstr ""
 
@@ -781,86 +776,58 @@ msgstr ""
 msgid "Show current scrobbles and fetch album, artist, compatibility, and collage views."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:100
-msgid "Show album details for the current Last.fm track."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/album.py:129
-#: src/korone/modules/lastfm/handlers/album.py:153
+#: src/korone/modules/lastfm/handlers/album.py:83
 msgid "No album information found for the current track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:181
-#: src/korone/modules/lastfm/handlers/artist.py:167
-#: src/korone/modules/lastfm/handlers/collage.py:226
-#: src/korone/modules/lastfm/handlers/lfm.py:199
-msgid "No updates from your profile."
+#: src/korone/modules/lastfm/handlers/album.py:94
+msgid "Show album details for the current Last.fm track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/artist.py:86
-msgid "Show artist details for the current Last.fm track."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/artist.py:115
-#: src/korone/modules/lastfm/handlers/artist.py:139
+#: src/korone/modules/lastfm/handlers/artist.py:68
 msgid "No artist information found for the current track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:76
-#, python-brace-format
-msgid "{username}'s {period} album collage ({size}x{size})"
+#: src/korone/modules/lastfm/handlers/artist.py:79
+msgid "Show artist details for the current Last.fm track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:121
-msgid "No top albums found for this Last.fm user and period."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/collage.py:127
-msgid "Create an album collage from Last.fm top albums."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/collage.py:133
-msgid "Options"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/collage.py:151
-msgid "Could not identify the target user."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/collage.py:203
-msgid "Last.fm username not found for this user."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/common.py:37
+#: src/korone/modules/lastfm/handlers/base.py:58
 #, python-brace-format
 msgid "Last.fm username not found. Use {example}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/common.py:42
-msgid "1 week"
+#: src/korone/modules/lastfm/handlers/base.py:154
+#: src/korone/modules/lastfm/handlers/collage.py:222
+msgid "No updates from your profile."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/common.py:44
-msgid "1 month"
+#: src/korone/modules/lastfm/handlers/collage.py:81
+#, python-brace-format
+msgid "{username}'s {period} album collage ({size}x{size})"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/common.py:46
-msgid "3 months"
+#: src/korone/modules/lastfm/handlers/collage.py:124
+msgid "No top albums found for this Last.fm user and period."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/common.py:48
-msgid "6 months"
+#: src/korone/modules/lastfm/handlers/collage.py:130
+msgid "Create an album collage from Last.fm top albums."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/common.py:50
-msgid "1 year"
+#: src/korone/modules/lastfm/handlers/collage.py:136
+msgid "Options"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/common.py:51
-msgid "all-time"
+#: src/korone/modules/lastfm/handlers/collage.py:146
+msgid "Could not identify the target user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:39
+#: src/korone/modules/lastfm/handlers/collage.py:199
+msgid "Last.fm username not found for this user."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:42
 #, python-brace-format
 msgid ""
 "{user_a} and {user_b} listen to {artists}\n"
@@ -868,49 +835,48 @@ msgid ""
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:49
+#: src/korone/modules/lastfm/handlers/compat.py:52
 #, python-brace-format
 msgid "No common artists in {period}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:52
+#: src/korone/modules/lastfm/handlers/compat.py:55
 msgid "Show Last.fm compatibility with the replied user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:58
+#: src/korone/modules/lastfm/handlers/compat.py:61
 msgid "Period"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:66
+#: src/korone/modules/lastfm/handlers/compat.py:71
 #: src/korone/modules/lastfm/handlers/set.py:47
 msgid "Could not identify your Telegram user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:76
+#: src/korone/modules/lastfm/handlers/compat.py:81
 #, python-brace-format
 msgid "Usage: {example}. Reply to someone's message in a group."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:85
+#: src/korone/modules/lastfm/handlers/compat.py:90
 msgid "Lookie, it's me!!!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:89
+#: src/korone/modules/lastfm/handlers/compat.py:94
 msgid "Bots don't listen to music."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:99
+#: src/korone/modules/lastfm/handlers/compat.py:104
 msgid "This user needs to set Last.fm first with /setlfm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/lfm.py:117
-msgid "Show the current Last.fm listening status."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/lfm.py:146
-#: src/korone/modules/lastfm/handlers/lfm.py:171
+#: src/korone/modules/lastfm/handlers/lfm.py:96
 #: src/korone/modules/lastfm/utils/formatters.py:66
 msgid "No scrobbles found for this Last.fm user."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/lfm.py:114
+msgid "Show the current Last.fm listening status."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:43
@@ -1023,6 +989,30 @@ msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:178
 msgid "Unexpected Last.fm error."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/periods.py:52
+msgid "1 week"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/periods.py:54
+msgid "1 month"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/periods.py:56
+msgid "3 months"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/periods.py:58
+msgid "6 months"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/periods.py:60
+msgid "1 year"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/periods.py:62
+msgid "all-time"
 msgstr ""
 
 #: src/korone/modules/medias/__init__.py:16

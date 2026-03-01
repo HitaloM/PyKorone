@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from enum import StrEnum
 
+from korone.utils.i18n import gettext as _
+
 
 class LastFMPeriod(StrEnum):
     OVERALL = "overall"
@@ -42,3 +44,19 @@ _PERIOD_ALIASES: dict[str, LastFMPeriod] = {
 def parse_period_token(raw_value: str, *, default: LastFMPeriod) -> LastFMPeriod:
     normalized = raw_value.strip().lower()
     return _PERIOD_ALIASES.get(normalized, default)
+
+
+def period_label(period: LastFMPeriod) -> str:
+    match period:
+        case LastFMPeriod.ONE_WEEK:
+            return _("1 week")
+        case LastFMPeriod.ONE_MONTH:
+            return _("1 month")
+        case LastFMPeriod.THREE_MONTHS:
+            return _("3 months")
+        case LastFMPeriod.SIX_MONTHS:
+            return _("6 months")
+        case LastFMPeriod.ONE_YEAR:
+            return _("1 year")
+        case _:
+            return _("all-time")
