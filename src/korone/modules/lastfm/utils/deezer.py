@@ -9,7 +9,7 @@ from korone.utils.aiohttp_session import HTTPClient
 
 DEEZER_BASE_URL = "https://api.deezer.com"
 DEEZER_TIMEOUT_SECONDS = 12
-DEEZER_SEARCH_LIMIT = 5
+DEEZER_SEARCH_LIMIT = 1
 DEEZER_RETRY_ATTEMPTS = 2
 DEEZER_RETRYABLE_STATUSES = frozenset({429, 500, 502, 503, 504})
 DEEZER_RETRY_BACKOFF_SECONDS = (0.4, 1.0)
@@ -92,7 +92,7 @@ def _build_track_queries(*, artist_name: str, track_name: str, album_name: str |
 
 
 class DeezerError(Exception):
-    """Raised when Deezer requests fail."""
+    pass
 
 
 class DeezerClient:
@@ -167,12 +167,16 @@ class DeezerClient:
 
     async def get_track_image(self, *, artist_name: str, track_name: str, album_name: str | None = None) -> str | None:
         queries = _build_track_queries(artist_name=artist_name, track_name=track_name, album_name=album_name)
+
         for query in queries:
-            payload = await self._request("search", params={"q": query, "limit": DEEZER_SEARCH_LIMIT})
+            payload = await self._request("search/track", params={"q": query, "limit": DEEZER_SEARCH_LIMIT})
             for track_node in self._data_nodes(payload):
                 image_url = _extract_track_image(track_node)
                 if image_url:
                     return image_url
+
+        if album_name:
+            return await self.get_album_image(artist_name=artist_name, album_name=album_name)
 
         return None
 
@@ -184,18 +188,6 @@ class DeezerClient:
         payload = await self._request("search/album", params={"q": query, "limit": DEEZER_SEARCH_LIMIT})
         for album_node in self._data_nodes(payload):
             image_url = _extract_image_url(album_node, keys=DEEZER_COVER_IMAGE_KEYS)
-            if image_url:
-                return image_url
-
-        fallback_payload = await self._request("search", params={"q": query, "limit": DEEZER_SEARCH_LIMIT})
-        for track_node in self._data_nodes(fallback_payload):
-            fallback_album_node = _as_dict(track_node.get("album"))
-            if fallback_album_node:
-                image_url = _extract_image_url(fallback_album_node, keys=DEEZER_COVER_IMAGE_KEYS)
-                if image_url:
-                    return image_url
-
-            image_url = _extract_image_url(track_node, keys=DEEZER_COVER_IMAGE_KEYS)
             if image_url:
                 return image_url
 
