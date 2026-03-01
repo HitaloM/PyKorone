@@ -33,19 +33,34 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
     def build_profile_url(username: str) -> str:
         return f"https://www.last.fm/user/{quote_plus(username)}"
 
+    @staticmethod
+    def build_artists_preview(mutual_artists: list[str], *, common_artists_total: int) -> str:
+        artists = ", ".join(mutual_artists)
+        if common_artists_total > len(mutual_artists):
+            return f"{artists}..."
+        return artists
+
     @classmethod
     def format_result(
-        cls, *, username_a: str, username_b: str, mutual_artists: list[str], score: int, period: LastFMPeriod
+        cls,
+        *,
+        username_a: str,
+        username_b: str,
+        mutual_artists: list[str],
+        common_artists_total: int,
+        score: int,
+        period: LastFMPeriod,
     ) -> str:
-        artists = ", ".join(mutual_artists) + "..."
-        return Template(
-            _("{user_a} and {user_b} listen to {artists}\n\nCompatibility score is {score}%, based on {period}"),
-            user_a=Url(username_a, cls.build_profile_url(username_a)),
-            user_b=Url(username_b, cls.build_profile_url(username_b)),
-            artists=artists,
-            score=max(0, min(score, 100)),
-            period=period_label(period),
-        ).to_html()
+        return str(
+            Template(
+                _("{user_a} and {user_b} listen to {artists}\n\nCompatibility score is {score}%, based on {period}"),
+                user_a=Url(username_a, cls.build_profile_url(username_a)),
+                user_b=Url(username_b, cls.build_profile_url(username_b)),
+                artists=cls.build_artists_preview(mutual_artists, common_artists_total=common_artists_total),
+                score=max(0, min(score, 100)),
+                period=period_label(period),
+            )
+        )
 
     @classmethod
     def no_common_message(cls, period: LastFMPeriod) -> str:
@@ -77,9 +92,11 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
             or not self.event.reply_to_message.from_user
         ):
             await self.event.reply(
-                Template(
-                    _("Usage: {example}. Reply to someone's message in a group."), example=Code("/lfmcompat 1y")
-                ).to_html()
+                str(
+                    Template(
+                        _("Usage: {example}. Reply to someone's message in a group."), example=Code("/lfmcompat 1y")
+                    )
+                )
             )
             return
 
@@ -141,6 +158,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
                 username_a=source_username,
                 username_b=target_username,
                 mutual_artists=mutual_artists,
+                common_artists_total=numerator,
                 score=score,
                 period=period,
             )

@@ -60,11 +60,13 @@ async def _set_lastfm_username(message: Message, raw_username: str) -> bool:
 
     await LastFMRepository.set_username(chat_id=message.from_user.id, username=username)
     await message.reply(
-        Template(
-            _("Last.fm username set to {username}. Use {command} to check your status."),
-            username=Code(username),
-            command=Code("/lfm"),
-        ).to_html()
+        str(
+            Template(
+                _("Last.fm username set to {username}. Use {command} to check your status."),
+                username=Code(username),
+                command=Code("/lfm"),
+            )
+        )
     )
     return True
 

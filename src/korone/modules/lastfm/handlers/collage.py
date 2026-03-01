@@ -77,12 +77,14 @@ class LastFMCollageSupport(LastFMHandlerSupport):
     @classmethod
     def build_caption(cls, *, username: str, options: LastFMCollageOptions) -> str:
         profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
-        return Template(
-            _("{username}'s {period} album collage ({size}x{size})"),
-            username=Url(username, profile_url),
-            period=period_label(options.period),
-            size=options.size,
-        ).to_html()
+        return str(
+            Template(
+                _("{username}'s {period} album collage ({size}x{size})"),
+                username=Url(username, profile_url),
+                period=period_label(options.period),
+                size=options.size,
+            )
+        )
 
     @classmethod
     def build_keyboard(cls, *, owner_id: int, target_id: int, options: LastFMCollageOptions) -> InlineKeyboardMarkup:

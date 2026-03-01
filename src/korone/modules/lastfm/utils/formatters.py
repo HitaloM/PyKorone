@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 from urllib.parse import quote_plus
 
-from stfu_tg import Bold, Italic, Template, Url
+from stfu_tg import Bold, HList, Italic, Template, Url
 
 from korone.utils.i18n import gettext as _
 
@@ -20,29 +20,33 @@ if TYPE_CHECKING:
 TAG_SANITIZER_RE = re.compile(r"[^a-z0-9]+")
 
 
-def _format_elapsed_time(played_at: int | None) -> str:
+def _build_profile_link(username: str) -> Url:
+    return Url(username, f"https://www.last.fm/user/{quote_plus(username)}")
+
+
+def _format_elapsed_time(played_at: int | None) -> str | None:
     if played_at is None:
-        return ""
+        return None
 
     played_at_datetime = datetime.fromtimestamp(played_at, tz=UTC)
     elapsed = datetime.now(tz=UTC) - played_at_datetime
 
     if elapsed.days > 0:
-        return Template(_(", {days} day(s) ago"), days=elapsed.days).to_html()
+        return str(Template(_(", {days} day(s) ago"), days=elapsed.days))
 
     elapsed_seconds = int(elapsed.total_seconds())
     hours, remainder = divmod(max(elapsed_seconds, 0), 3600)
     if hours > 0:
-        return Template(_(", {hours} hour(s) ago"), hours=hours).to_html()
+        return str(Template(_(", {hours} hour(s) ago"), hours=hours))
 
     minutes, _seconds = divmod(remainder, 60)
     if minutes > 0:
-        return Template(_(", {minutes} minute(s) ago"), minutes=minutes).to_html()
+        return str(Template(_(", {minutes} minute(s) ago"), minutes=minutes))
 
     return _(", just now")
 
 
-def _format_tags(tags: tuple[str, ...]) -> str:
+def _build_tags_text(tags: tuple[str, ...]) -> str | None:
     parsed_tags: list[str] = []
     seen: set[str] = set()
 
@@ -53,12 +57,75 @@ def _format_tags(tags: tuple[str, ...]) -> str:
         seen.add(normalized)
         parsed_tags.append(f"#{normalized}")
 
-    return " ".join(parsed_tags)
+    if not parsed_tags:
+        return None
+
+    return str(HList(*parsed_tags, divider=" "))
 
 
-def _build_spotify_search_url(artist: str, track: str) -> str:
-    query = quote_plus(f"{artist} - {track}")
+def _build_spotify_search_url(*parts: str) -> str:
+    query = quote_plus(" - ".join(part for part in parts if part))
     return f"https://open.spotify.com/search/{query}"
+
+
+def _build_inline_text(*parts: str | Bold | Italic | Template | Url | None) -> str:
+    return str(HList(*(part for part in parts if part), divider=""))
+
+
+def _build_playcount_text(playcount: int) -> str | None:
+    if playcount <= 0:
+        return None
+
+    return str(Template(_(", {plays} plays"), plays=playcount))
+
+
+def _build_track_line(track: LastFMRecentTrack, *, user_playcount: int = 0) -> str:
+    album_text = Template(_(", [{album}]"), album=track.album) if track.album else None
+    elapsed_text = None if track.now_playing else _format_elapsed_time(track.played_at)
+    loved_text = _(", loved") if track.loved else None
+
+    return _build_inline_text(
+        "🎧 ",
+        Italic(track.artist),
+        " — ",
+        Url(Bold(track.name), _build_spotify_search_url(track.artist, track.name)),
+        album_text,
+        elapsed_text,
+        loved_text,
+        _build_playcount_text(user_playcount),
+    )
+
+
+def _build_album_line(track: LastFMRecentTrack, *, album_name: str, album_artist: str, playcount: int) -> str:
+    elapsed_text = None if track.now_playing else _format_elapsed_time(track.played_at)
+
+    return _build_inline_text(
+        "💽 ",
+        Italic(album_artist),
+        " — ",
+        Url(Bold(album_name), _build_spotify_search_url(album_artist, album_name)),
+        elapsed_text,
+        _build_playcount_text(playcount),
+    )
+
+
+def _build_artist_line(track: LastFMRecentTrack, *, artist_name: str, playcount: int) -> str:
+    elapsed_text = None if track.now_playing else _format_elapsed_time(track.played_at)
+
+    return _build_inline_text(
+        "🎙️ ",
+        Url(Bold(artist_name), _build_spotify_search_url(artist_name)),
+        elapsed_text,
+        _build_playcount_text(playcount),
+    )
+
+
+def _append_tags_block(lines: list[str], tags: tuple[str, ...]) -> None:
+    tags_text = _build_tags_text(tags)
+    if not tags_text:
+        return
+
+    lines.extend(("", tags_text, ""))
 
 
 def format_status(username: str, tracks: Sequence[LastFMRecentTrack], track_info: LastFMTrackInfo | None) -> str:
@@ -66,97 +133,71 @@ def format_status(username: str, tracks: Sequence[LastFMRecentTrack], track_info
         return _("No scrobbles found for this Last.fm user.")
 
     first_track = tracks[0]
-    profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
-
-    header = Template(
-        _("{user} is now listening to") if first_track.now_playing else _("{user} was listening to"),
-        user=Url(username, profile_url),
-    ).to_html()
-
-    tags_text = _format_tags(track_info.tags) if track_info else ""
-
-    lines: list[str] = []
-    for index, track in enumerate(tracks):
-        spotify_search_url = _build_spotify_search_url(track.artist, track.name)
-        album_text = Template(_(", [{album}]"), album=track.album) if track.album else ""
-        elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
-        loved_text = _(", loved") if track.loved else ""
-
-        user_playcount = track_info.user_playcount if index == 0 and track_info else 0
-        playcount_text = Template(_(", {plays} plays"), plays=user_playcount) if user_playcount > 0 else ""
-        tags_block = f"\n\n{tags_text}\n" if index == 0 and tags_text else ""
-
-        lines.append(
+    lines = [
+        str(
             Template(
-                "🎧 {artist} — {track}{album}{elapsed}{loved}{playcount}{tags}",
-                artist=Italic(track.artist),
-                track=Url(Bold(track.name), spotify_search_url),
-                album=album_text,
-                elapsed=elapsed,
-                loved=loved_text,
-                playcount=playcount_text,
-                tags=tags_block,
-            ).to_html()
+                _("{user} is now listening to") if first_track.now_playing else _("{user} was listening to"),
+                user=_build_profile_link(username),
+            )
         )
+    ]
 
-    return f"{header}\n" + "\n".join(lines)
+    for index, track in enumerate(tracks):
+        user_playcount = track_info.user_playcount if index == 0 and track_info else 0
+        lines.append(_build_track_line(track, user_playcount=user_playcount))
+
+        if index == 0 and track_info:
+            _append_tags_block(lines, track_info.tags)
+
+    return "\n".join(lines)
 
 
 def format_album_status(username: str, track: LastFMRecentTrack, album_info: LastFMAlbumInfo | None) -> str:
-    profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
-    header = Template(
-        _("{user} is now listening to album") if track.now_playing else _("{user} was listening to album"),
-        user=Url(username, profile_url),
-    ).to_html()
-
     album_name = album_info.name if album_info else (track.album or _("Unknown album"))
     album_artist = album_info.artist if album_info else track.artist
-    spotify_search_url = _build_spotify_search_url(album_artist, album_name)
 
-    elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
-    playcount = album_info.user_playcount if album_info else 0
-    playcount_text = Template(_(", {plays} plays"), plays=playcount) if playcount > 0 else ""
+    lines = [
+        str(
+            Template(
+                _("{user} is now listening to album") if track.now_playing else _("{user} was listening to album"),
+                user=_build_profile_link(username),
+            )
+        ),
+        _build_album_line(
+            track,
+            album_name=album_name,
+            album_artist=album_artist,
+            playcount=album_info.user_playcount if album_info else 0,
+        ),
+    ]
 
-    tags_text = _format_tags(album_info.tags) if album_info else ""
-    tags_suffix = f"\n\n{tags_text}" if tags_text else ""
+    if album_info:
+        tags_text = _build_tags_text(album_info.tags)
+        if tags_text:
+            lines.extend(("", tags_text))
 
-    line = Template(
-        "💽 {artist} — {album}{elapsed}{playcount}",
-        artist=Italic(album_artist),
-        album=Url(Bold(album_name), spotify_search_url),
-        elapsed=elapsed,
-        playcount=playcount_text,
-    ).to_html()
-
-    return f"{header}\n{line}{tags_suffix}"
+    return "\n".join(lines)
 
 
 def format_artist_status(username: str, track: LastFMRecentTrack, artist_info: LastFMArtistInfo | None) -> str:
-    profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
-    header = Template(
-        _("{user} is now listening to artist") if track.now_playing else _("{user} was listening to artist"),
-        user=Url(username, profile_url),
-    ).to_html()
-
     artist_name = artist_info.name if artist_info else track.artist
-    spotify_search_url = quote_plus(artist_name)
-    artist_url = f"https://open.spotify.com/search/{spotify_search_url}"
 
-    elapsed = "" if track.now_playing else _format_elapsed_time(track.played_at)
-    playcount = artist_info.user_playcount if artist_info else 0
-    playcount_text = Template(_(", {plays} plays"), plays=playcount) if playcount > 0 else ""
+    lines = [
+        str(
+            Template(
+                _("{user} is now listening to artist") if track.now_playing else _("{user} was listening to artist"),
+                user=_build_profile_link(username),
+            )
+        ),
+        _build_artist_line(track, artist_name=artist_name, playcount=artist_info.user_playcount if artist_info else 0),
+    ]
 
-    tags_text = _format_tags(artist_info.tags) if artist_info else ""
-    tags_suffix = f"\n\n{tags_text}" if tags_text else ""
+    if artist_info:
+        tags_text = _build_tags_text(artist_info.tags)
+        if tags_text:
+            lines.extend(("", tags_text))
 
-    line = Template(
-        "🎙️ {artist}{elapsed}{playcount}",
-        artist=Url(Bold(artist_name), artist_url),
-        elapsed=elapsed,
-        playcount=playcount_text,
-    ).to_html()
-
-    return f"{header}\n{line}{tags_suffix}"
+    return "\n".join(lines)
 
 
 def format_lastfm_error(error: LastFMError) -> str:

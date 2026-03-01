@@ -54,9 +54,7 @@ class LastFMHandlerSupport:
 
     @staticmethod
     def missing_username_text() -> str:
-        return Template(
-            _("Last.fm username not found. Use {example}."), example=Code("/setlfm your_username")
-        ).to_html()
+        return str(Template(_("Last.fm username not found. Use {example}."), example=Code("/setlfm your_username")))
 
     @staticmethod
     def resolve_image_url(image_url: str | None) -> str:
