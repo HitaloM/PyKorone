@@ -8,7 +8,7 @@ from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.modules.medias.utils.types import MediaKind, MediaPost, MediaSource
 
 from . import client, parser
-from .constants import PATTERN, TIKTOK_MEDIA_HEADERS
+from .constants import PATTERN, TIKTOK_MEDIA_HEADERS, TIKTOK_TIMEOUT
 
 if TYPE_CHECKING:
     from korone.modules.medias.utils.types import MediaItem
@@ -23,6 +23,7 @@ class TikTokProvider(MediaProvider):
     website = "TikTok"
     pattern = PATTERN
     _DEFAULT_HEADERS: ClassVar[dict[str, str]] = dict(TIKTOK_MEDIA_HEADERS)
+    _DEFAULT_TIMEOUT = TIKTOK_TIMEOUT
 
     @classmethod
     async def fetch(cls, url: str) -> MediaPost | None:

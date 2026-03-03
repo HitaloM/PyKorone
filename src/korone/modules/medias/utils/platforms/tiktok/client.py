@@ -10,9 +10,10 @@ from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.utils.aiohttp_session import HTTPClient
 
 from . import parser
-from .constants import MAX_REDIRECTS, TIKTOK_MEDIA_HEADERS, TIKTOK_WEB_HEADERS, WEB_VIDEO_DETAIL_URL
+from .constants import MAX_REDIRECTS, TIKTOK_MEDIA_HEADERS, TIKTOK_TIMEOUT, TIKTOK_WEB_HEADERS, WEB_VIDEO_DETAIL_URL
 
 logger = get_logger(__name__)
+
 
 _REDIRECT_STATUSES = {301, 302}
 
@@ -22,7 +23,7 @@ async def resolve_redirect_url(url: str) -> str | None:
         session = await HTTPClient.get_session()
         async with session.get(
             url,
-            timeout=MediaProvider._DEFAULT_TIMEOUT,
+            timeout=TIKTOK_TIMEOUT,
             headers={**MediaProvider._DEFAULT_HEADERS, **TIKTOK_WEB_HEADERS},
             allow_redirects=True,
             max_redirects=MAX_REDIRECTS,
@@ -39,9 +40,7 @@ async def fetch_item_struct(post_id: str) -> dict[str, Any] | None:
     try:
         session = await HTTPClient.get_session()
         async with session.get(
-            page_url,
-            timeout=MediaProvider._DEFAULT_TIMEOUT,
-            headers={**MediaProvider._DEFAULT_HEADERS, **TIKTOK_WEB_HEADERS},
+            page_url, timeout=TIKTOK_TIMEOUT, headers={**MediaProvider._DEFAULT_HEADERS, **TIKTOK_WEB_HEADERS}
         ) as response:
             if response.status != 200:
                 await logger.adebug("[TikTok] Non-200 page response", status=response.status, post_id=post_id)
@@ -68,11 +67,7 @@ async def resolve_media_url(url: str) -> str | None:
     try:
         session = await HTTPClient.get_session()
         async with session.get(
-            url,
-            timeout=MediaProvider._DEFAULT_TIMEOUT,
-            headers=dict(TIKTOK_MEDIA_HEADERS),
-            allow_redirects=False,
-            cookies={},
+            url, timeout=TIKTOK_TIMEOUT, headers=dict(TIKTOK_MEDIA_HEADERS), allow_redirects=False, cookies={}
         ) as response:
             if response.status in _REDIRECT_STATUSES:
                 location = response.headers.get("Location")

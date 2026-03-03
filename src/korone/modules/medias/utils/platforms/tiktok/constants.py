@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import re
 
+import aiohttp
+
 WEB_VIDEO_DETAIL_URL = "https://www.tiktok.com/@i/video/{post_id}"
 UNIVERSAL_DATA_SCRIPT_ID = "__UNIVERSAL_DATA_FOR_REHYDRATION__"
 WEBAPP_DEFAULT_SCOPE_KEY = "__DEFAULT_SCOPE__"
@@ -42,3 +44,5 @@ UNIVERSAL_DATA_SCRIPT_PATTERN = re.compile(
     rf"<script[^>]*id=[\"']{re.escape(UNIVERSAL_DATA_SCRIPT_ID)}[\"'][^>]*>(?P<payload>.*?)</script>",
     re.IGNORECASE | re.DOTALL,
 )
+
+TIKTOK_TIMEOUT = aiohttp.ClientTimeout(total=120)
