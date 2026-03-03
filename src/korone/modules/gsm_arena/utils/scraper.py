@@ -11,6 +11,7 @@ from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
 from korone.utils.i18n import gettext as _
 
+from .errors import GSMArenaRequestError
 from .types import Phone, PhoneSearchResult
 
 if TYPE_CHECKING:
@@ -44,19 +45,30 @@ HEADERS = {
 
 @Cached(ttl=CACHE_TTL, key="gsmarena:html")
 async def fetch_html(url: str) -> str:
+    proxy_url = f"{CONFIG.cors_bypass_url.rstrip('/')}/{url}"
+    timeout = aiohttp.ClientTimeout(total=60)
+    session = await HTTPClient.get_session()
+
     try:
-        proxy_url = f"{CONFIG.cors_bypass_url.rstrip('/')}/{url}"
-        timeout = aiohttp.ClientTimeout(total=60)
-        session = await HTTPClient.get_session()
         async with session.get(proxy_url, headers=HEADERS, timeout=timeout) as response:
             response.raise_for_status()
             return await response.text()
     except aiohttp.ClientResponseError as err:
-        await logger.aerror("[GSM Arena] HTTP error occurred", error=str(err))
-        raise
+        await logger.aerror(
+            "[GSM Arena] HTTP error occurred",
+            target_url=url,
+            status_code=err.status,
+            error_type=type(err).__name__,
+            error_message=err.message or None,
+        )
+        raise GSMArenaRequestError(status_code=err.status, target_url=url) from None
+    except TimeoutError as err:
+        await logger.aerror("[GSM Arena] Request timed out", target_url=url, error_type=type(err).__name__)
+        msg = "GSMArena request timed out"
+        raise GSMArenaRequestError(msg, target_url=url) from None
     except aiohttp.ClientError as err:
-        await logger.aerror("[GSM Arena] Request error occurred", error=str(err))
-        raise
+        await logger.aerror("[GSM Arena] Request error occurred", target_url=url, error_type=type(err).__name__)
+        raise GSMArenaRequestError(target_url=url) from None
 
 
 def _normalize_spec_value(value: str) -> str:

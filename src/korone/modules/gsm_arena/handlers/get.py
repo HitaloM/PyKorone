@@ -8,6 +8,7 @@ from aiogram.types import LinkPreviewOptions
 from korone.logger import get_logger
 from korone.modules.gsm_arena.callbacks import GetDeviceCallback
 from korone.modules.gsm_arena.utils.device import get_device_text
+from korone.modules.gsm_arena.utils.errors import GSMArenaError
 from korone.modules.gsm_arena.utils.session import get_search_session
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
@@ -45,7 +46,17 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
 
         await self.event.answer(_("Fetching device details..."))
 
-        text = await get_device_text(devices[callback_data.index].url)
+        try:
+            text = await get_device_text(devices[callback_data.index].url)
+        except GSMArenaError as exc:
+            await logger.awarning(
+                "[GSM Arena] Device details callback failed",
+                device_url=devices[callback_data.index].url,
+                error_type=type(exc).__name__,
+            )
+            await self.event.answer(_("Error fetching device details"), show_alert=True)
+            return
+
         if not text:
             await self.event.answer(_("Error fetching device details"), show_alert=True)
             return

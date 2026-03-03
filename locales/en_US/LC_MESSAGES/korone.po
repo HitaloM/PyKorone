@@ -276,7 +276,7 @@ msgstr ""
 msgid "Search phones and browse key specifications without leaving Telegram."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:34
+#: src/korone/modules/gsm_arena/handlers/get.py:35
 #: src/korone/modules/gsm_arena/handlers/list.py:32
 #: src/korone/modules/hifi/handlers/list.py:38
 #: src/korone/modules/hifi/handlers/preview.py:37
@@ -286,20 +286,21 @@ msgstr ""
 msgid "You are not allowed to use this button."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:39
+#: src/korone/modules/gsm_arena/handlers/get.py:40
 #: src/korone/modules/gsm_arena/handlers/list.py:37
 msgid "Search session expired. Please run /device again."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:43
+#: src/korone/modules/gsm_arena/handlers/get.py:44
 msgid "Invalid device selected."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:46
+#: src/korone/modules/gsm_arena/handlers/get.py:47
 msgid "Fetching device details..."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:50
+#: src/korone/modules/gsm_arena/handlers/get.py:57
+#: src/korone/modules/gsm_arena/handlers/get.py:61
 msgid "Error fetching device details"
 msgstr ""
 
@@ -307,98 +308,103 @@ msgstr ""
 msgid "No devices found"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:30
+#: src/korone/modules/gsm_arena/handlers/search.py:31
 msgid "Search GSMArena for device specifications."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:36
+#: src/korone/modules/gsm_arena/handlers/search.py:37
 msgid "Device"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:44
+#: src/korone/modules/gsm_arena/handlers/search.py:45
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:52
-msgid "Error fetching device details. Please try again later."
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/search.py:62
-#, python-brace-format
-msgid "Search results for: {query}"
-msgstr ""
-
+#: src/korone/modules/gsm_arena/handlers/search.py:57
 #: src/korone/modules/gsm_arena/handlers/search.py:63
-#, python-brace-format
-msgid "Found {count} devices. Select one from the list below."
+msgid "Error fetching device details. Please try again later."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/search.py:73
 #, python-brace-format
+msgid "Search results for: {query}"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:74
+#, python-brace-format
+msgid "Found {count} devices. Select one from the list below."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:84
+#, python-brace-format
 msgid "You should provide a device name to search. Example: {example}."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:80
-msgid "Status"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:81
-msgid "Network"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:82
-msgid "Weight"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:83
-msgid "Display"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:84
-msgid "Chipset"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:85
-msgid "Memory"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:87
-msgid "Front Camera"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:87
-msgid "Rear Camera"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:89
-msgid "3.5mm jack"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:90
-msgid "USB"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:91
-msgid "Sensors"
+#: src/korone/modules/gsm_arena/handlers/search.py:94
+msgid "Error searching GSMArena. Please try again later."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:92
-msgid "Battery"
+msgid "Status"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:93
+msgid "Network"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:94
+msgid "Weight"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:95
+msgid "Display"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:96
+msgid "Chipset"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:97
+msgid "Memory"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:99
+msgid "Front Camera"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:99
+msgid "Rear Camera"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:101
+msgid "3.5mm jack"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:102
+msgid "USB"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:103
+msgid "Sensors"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:104
+msgid "Battery"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:105
 msgid "Charging"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:97
+#: src/korone/modules/gsm_arena/utils/scraper.py:109
 msgid "Cameras"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:97
+#: src/korone/modules/gsm_arena/utils/scraper.py:109
 msgid "Connectivity and Power"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:97
+#: src/korone/modules/gsm_arena/utils/scraper.py:109
 msgid "Overview"
 msgstr ""
 
