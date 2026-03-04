@@ -11,6 +11,7 @@ import aiohttp
 from aiogram.types import BufferedInputFile
 
 from korone.logger import get_logger
+from korone.modules.medias.utils.error_reporting import capture_media_exception
 from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import get_cached_file_payload, make_file_id_cache_key
 from korone.utils.aiohttp_session import HTTPClient
@@ -55,6 +56,16 @@ class MediaProvider(ABC):
         raise NotImplementedError
 
     @classmethod
+    async def safe_fetch(cls, url: str) -> MediaPost | None:
+        try:
+            return await cls.fetch(url)
+        except asyncio.CancelledError:
+            raise
+        except Exception as error:  # noqa: BLE001
+            await capture_media_exception(error, stage="provider.fetch", provider=cls.name, source_url=url)
+            return None
+
+    @classmethod
     async def download_media(
         cls,
         sources: Sequence[MediaSource],
@@ -94,8 +105,16 @@ class MediaProvider(ABC):
         try:
             item = await cls._download_source(source, index + 1, prefix, max_size, label)
             results_list[index] = item
-        except Exception as e:  # noqa: BLE001
-            await logger.aerror(f"[{label}] Unexpected worker error", error=str(e), url=source.url)
+        except asyncio.CancelledError:
+            raise
+        except Exception as error:  # noqa: BLE001
+            await capture_media_exception(
+                error,
+                stage="provider.download_worker",
+                provider=label,
+                source_url=source.url,
+                extras={"source_index": index + 1, "source_kind": source.kind.value},
+            )
 
     @classmethod
     async def _download_source(
@@ -135,8 +154,25 @@ class MediaProvider(ABC):
                 content_type = response.headers.get("Content-Type", "")
                 extension = cls._guess_extension(source.url, content_type, source.kind)
 
-        except aiohttp.ClientError as exc:
-            await logger.aerror(f"[{label}] Network error", error=str(exc))
+        except aiohttp.ClientError as error:
+            await capture_media_exception(
+                error,
+                stage="provider.download_source.network",
+                provider=label,
+                source_url=source.url,
+                extras={"source_kind": source.kind.value},
+            )
+            return None
+        except asyncio.CancelledError:
+            raise
+        except Exception as error:  # noqa: BLE001
+            await capture_media_exception(
+                error,
+                stage="provider.download_source.unexpected",
+                provider=label,
+                source_url=source.url,
+                extras={"source_kind": source.kind.value},
+            )
             return None
 
         thumbnail: InputFile | None = None
@@ -173,7 +209,25 @@ class MediaProvider(ABC):
                 ext = cls._guess_extension(url, response.headers.get("Content-Type", ""), MediaKind.PHOTO)
                 filename = f"{prefix}_{index}_thumb{ext}"
                 return BufferedInputFile(payload, filename)
-        except aiohttp.ClientError:
+        except aiohttp.ClientError as error:
+            await capture_media_exception(
+                error,
+                stage="provider.download_thumbnail.network",
+                provider=label,
+                source_url=url,
+                extras={"source_index": index},
+            )
+            return None
+        except asyncio.CancelledError:
+            raise
+        except Exception as error:  # noqa: BLE001
+            await capture_media_exception(
+                error,
+                stage="provider.download_thumbnail.unexpected",
+                provider=label,
+                source_url=url,
+                extras={"source_index": index},
+            )
             return None
 
     @staticmethod

@@ -20,7 +20,9 @@ from korone.constants import (
     TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES,
 )
 from korone.filters.chat_status import GroupChatFilter
+from korone.logger import get_logger
 from korone.modules.medias.filters import MediaUrlFilter
+from korone.modules.medias.utils.error_reporting import capture_media_exception
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
 from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import (
@@ -43,6 +45,8 @@ if TYPE_CHECKING:
     from korone.modules.medias.utils.provider_base import MediaProvider
 
 type CachePayload = dict[str, Any]
+
+logger = get_logger(__name__)
 
 
 class BaseMediaHandler(KoroneMessageHandler):
@@ -688,7 +692,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     async def _fetch_post(self, url: str) -> MediaPost | None:
         async with ChatActionSender.typing(**self._chat_action_kwargs()):
-            return await self.PROVIDER.fetch(url)
+            return await self.PROVIDER.safe_fetch(url)
 
     async def _send_post(self, post: MediaPost) -> list[CachePayload]:
         media_items = post.media[: self.MEDIA_GROUP_LIMIT]
@@ -732,21 +736,47 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not self.bot:
             return
 
-        match self.data.get("media_urls"):
-            case [str() as source_url, *_]:
-                pass
-            case _:
+        source_url: str | None = None
+        try:
+            match self.data.get("media_urls"):
+                case [str() as source_url, *_]:
+                    pass
+                case _:
+                    return
+
+            if await self._try_send_cached_post(source_url):
+                await logger.adebug("[Medias] Cached post sent", provider=self.PROVIDER.name, source_url=source_url)
                 return
 
-        if await self._try_send_cached_post(source_url):
-            return
+            post = await self._fetch_post(source_url)
+            if not post:
+                await logger.adebug("[Medias] Could not fetch post", provider=self.PROVIDER.name, source_url=source_url)
+                return
 
-        post = await self._fetch_post(source_url)
-        if not post:
-            return
+            cached_media_payload = await self._send_post(post)
+            if not cached_media_payload:
+                await logger.adebug(
+                    "[Medias] Could not send media",
+                    provider=self.PROVIDER.name,
+                    source_url=source_url,
+                    post_url=post.url,
+                    media_count=len(post.media),
+                )
+                return
 
-        cached_media_payload = await self._send_post(post)
-        if not cached_media_payload:
-            return
-
-        await self._set_post_cache(source_url, post, cached_media_payload)
+            await self._set_post_cache(source_url, post, cached_media_payload)
+        except asyncio.CancelledError:
+            raise
+        except Exception as error:  # noqa: BLE001
+            await capture_media_exception(
+                error,
+                stage="handler.handle",
+                provider=self.PROVIDER.name,
+                source_url=source_url,
+                extras={
+                    "chat_id": self.event.chat.id,
+                    "message_id": self.event.message_id,
+                    "message_thread_id": self.event.message_thread_id,
+                    "handler": self.__class__.__name__,
+                },
+            )

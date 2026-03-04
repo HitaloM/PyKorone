@@ -1038,8 +1038,8 @@ msgstr "Baixe mídia quando links compatíveis forem enviados em grupos."
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."
 msgstr "Plataformas compatíveis atualmente: Twitter, Bluesky, Instagram, Reddit e TikTok."
 
-#: src/korone/modules/medias/handlers/base.py:344
-#: src/korone/modules/medias/handlers/base.py:399
+#: src/korone/modules/medias/handlers/base.py:635
+#: src/korone/modules/medias/handlers/base.py:690
 #, python-brace-format
 msgid "Open in {website}"
 msgstr "Abrir em {website}"
