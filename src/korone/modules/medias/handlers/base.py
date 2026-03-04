@@ -1,13 +1,24 @@
 from __future__ import annotations
 
+import asyncio
+from dataclasses import replace
+from io import BytesIO
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.media_group import MediaGroupBuilder
+from PIL import Image, ImageOps
 from stfu_tg import Bold, Code, Italic, Template, Url
 
+from korone.constants import (
+    TELEGRAM_PHOTO_MAX_ASPECT_RATIO,
+    TELEGRAM_PHOTO_MAX_DIMENSIONS_SUM,
+    TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES,
+)
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.medias.filters import MediaUrlFilter
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
@@ -37,6 +48,9 @@ type CachePayload = dict[str, Any]
 class BaseMediaHandler(KoroneMessageHandler):
     CAPTION_LIMIT = 1024
     MEDIA_GROUP_LIMIT = 10
+    PHOTO_SAFE_LIMIT_BYTES = TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES - 32 * 1024
+    PHOTO_MAX_DIMENSIONS_SUM = TELEGRAM_PHOTO_MAX_DIMENSIONS_SUM
+    PHOTO_MAX_ASPECT_RATIO = TELEGRAM_PHOTO_MAX_ASPECT_RATIO
     POST_CACHE_NAMESPACE: ClassVar[str] = "media-post"
     MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
 
@@ -48,6 +62,28 @@ class BaseMediaHandler(KoroneMessageHandler):
     def _is_missing_reply_error(error: TelegramBadRequest) -> bool:
         normalized_message = error.message.lower()
         return REPLIED_NOT_FOUND in normalized_message or "replied message not found" in normalized_message
+
+    @staticmethod
+    def _is_photo_too_large_error(error: TelegramBadRequest) -> bool:
+        normalized_message = error.message.lower()
+        return "too big for a photo" in normalized_message
+
+    @staticmethod
+    def _is_photo_invalid_dimensions_error(error: TelegramBadRequest) -> bool:
+        normalized_message = error.message.lower()
+        return "photo_invalid_dimensions" in normalized_message or "invalid dimensions" in normalized_message
+
+    @classmethod
+    def _is_retryable_photo_send_error(cls, error: TelegramBadRequest) -> bool:
+        return cls._is_photo_too_large_error(error) or cls._is_photo_invalid_dimensions_error(error)
+
+    @classmethod
+    def _is_oversized_buffered_photo(cls, media: MediaItem) -> bool:
+        return (
+            media.kind == MediaKind.PHOTO
+            and isinstance(media.file, BufferedInputFile)
+            and len(media.file.data) > cls.PHOTO_SAFE_LIMIT_BYTES
+        )
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
@@ -212,10 +248,250 @@ class BaseMediaHandler(KoroneMessageHandler):
                 msg = f"Unsupported media kind: {kind!r}"
                 raise ValueError(msg)
 
+    @classmethod
+    def _compressed_photo_filename(cls, original_name: str) -> str:
+        stem = Path(original_name).stem or "photo"
+        return f"{stem}_compressed.jpg"
+
+    @classmethod
+    def _target_photo_dimensions(cls, width: int, height: int) -> tuple[int, int]:
+        if width < 1 or height < 1:
+            return width, height
+
+        if width >= height:
+            height = max(height, 1, (width + cls.PHOTO_MAX_ASPECT_RATIO - 1) // cls.PHOTO_MAX_ASPECT_RATIO)
+        else:
+            width = max(width, 1, (height + cls.PHOTO_MAX_ASPECT_RATIO - 1) // cls.PHOTO_MAX_ASPECT_RATIO)
+
+        dimensions_sum = width + height
+        if dimensions_sum <= cls.PHOTO_MAX_DIMENSIONS_SUM:
+            return width, height
+
+        scale = cls.PHOTO_MAX_DIMENSIONS_SUM / dimensions_sum
+        width = max(1, int(width * scale))
+        height = max(1, int(height * scale))
+
+        if width >= height:
+            height = max(height, 1, (width + cls.PHOTO_MAX_ASPECT_RATIO - 1) // cls.PHOTO_MAX_ASPECT_RATIO)
+            if width + height > cls.PHOTO_MAX_DIMENSIONS_SUM:
+                width = max(1, cls.PHOTO_MAX_DIMENSIONS_SUM - height)
+        else:
+            width = max(width, 1, (height + cls.PHOTO_MAX_ASPECT_RATIO - 1) // cls.PHOTO_MAX_ASPECT_RATIO)
+            if width + height > cls.PHOTO_MAX_DIMENSIONS_SUM:
+                height = max(1, cls.PHOTO_MAX_DIMENSIONS_SUM - width)
+
+        return width, height
+
+    @classmethod
+    def _constrain_photo_dimensions(cls, image: Image.Image) -> Image.Image:
+        width, height = image.size
+        target_width, target_height = cls._target_photo_dimensions(width, height)
+        if target_width == width and target_height == height:
+            return image
+
+        constrained = image
+
+        if target_width > width or target_height > height:
+            expanded_width = max(width, target_width)
+            expanded_height = max(height, target_height)
+            expanded = Image.new("RGB", (expanded_width, expanded_height), "white")
+            offset_x = (expanded_width - width) // 2
+            offset_y = (expanded_height - height) // 2
+            expanded.paste(constrained, (offset_x, offset_y))
+            constrained = expanded
+            width, height = constrained.size
+
+        if width != target_width or height != target_height:
+            resized = constrained.resize((target_width, target_height), Image.Resampling.LANCZOS)
+            if constrained is not image:
+                constrained.close()
+            constrained = resized
+
+        return constrained
+
+    @classmethod
+    def _encode_candidate_jpeg(
+        cls, image: Image.Image, quality_steps: tuple[int, ...], best: bytes | None
+    ) -> tuple[bytes | None, bytes | None, bytes | None]:
+        smallest_for_pass: bytes | None = None
+
+        for quality in quality_steps:
+            buffer = BytesIO()
+            image.save(buffer, format="JPEG", quality=quality, optimize=False, progressive=False)
+            encoded = buffer.getvalue()
+
+            if best is None or len(encoded) < len(best):
+                best = encoded
+            if smallest_for_pass is None or len(encoded) < len(smallest_for_pass):
+                smallest_for_pass = encoded
+            if len(encoded) <= cls.PHOTO_SAFE_LIMIT_BYTES:
+                return encoded, smallest_for_pass, best
+
+        return None, smallest_for_pass, best
+
+    @classmethod
+    def _convert_to_jpeg_bytes_sync(cls, payload: bytes) -> bytes | None:
+        quality_steps = (88, 76, 64, 52, 40)
+        max_passes = 6
+        best: bytes | None = None
+
+        with Image.open(BytesIO(payload)) as source_image:
+            base = ImageOps.exif_transpose(source_image)
+            if base.mode not in {"RGB", "L"}:
+                # Flatten alpha/extra channels so JPEG encoding works consistently.
+                rgba = base.convert("RGBA")
+                background = Image.new("RGBA", rgba.size, "white")
+                background.alpha_composite(rgba)
+                base = background.convert("RGB")
+            elif base.mode == "L":
+                base = base.convert("RGB")
+
+            constrained_base = cls._constrain_photo_dimensions(base)
+            try:
+                base_width, base_height = constrained_base.size
+                if base_width < 1 or base_height < 1:
+                    return None
+
+                width, height = base_width, base_height
+                for _ in range(max_passes):
+                    if width == base_width and height == base_height:
+                        candidate_image = constrained_base
+                    else:
+                        candidate_image = constrained_base.resize((width, height), Image.Resampling.LANCZOS)
+
+                    try:
+                        encoded, smallest_for_pass, best = cls._encode_candidate_jpeg(
+                            candidate_image, quality_steps, best
+                        )
+                    finally:
+                        if candidate_image is not constrained_base:
+                            candidate_image.close()
+
+                    if encoded is not None:
+                        return encoded
+                    if not smallest_for_pass:
+                        break
+
+                    ratio = cls.PHOTO_SAFE_LIMIT_BYTES / len(smallest_for_pass)
+                    if ratio >= 1:
+                        break
+
+                    # Scale area proportionally to size ratio for fast convergence.
+                    shrink = max(0.55, min(0.9, (ratio**0.5) * 0.97))
+                    next_width = max(1, int(width * shrink))
+                    next_height = max(1, int(height * shrink))
+                    if next_width == width and next_height == height:
+                        next_width = max(1, int(width * 0.9))
+                        next_height = max(1, int(height * 0.9))
+
+                    width, height = next_width, next_height
+            finally:
+                if constrained_base is not base:
+                    constrained_base.close()
+
+        return best if best and len(best) <= cls.PHOTO_SAFE_LIMIT_BYTES else None
+
+    async def _compress_photo(self, media: MediaItem, *, force: bool = False) -> MediaItem:
+        if media.kind != MediaKind.PHOTO or not isinstance(media.file, BufferedInputFile):
+            return media
+        if not force and len(media.file.data) <= self.PHOTO_SAFE_LIMIT_BYTES:
+            return media
+
+        try:
+            compressed_payload = await asyncio.to_thread(self._convert_to_jpeg_bytes_sync, media.file.data)
+        except Exception:  # noqa: BLE001
+            return media
+
+        if not compressed_payload:
+            return media
+
+        filename = self._compressed_photo_filename(media.filename)
+        return replace(media, file=BufferedInputFile(compressed_payload, filename), filename=filename)
+
+    async def _prepare_media_items_for_send(self, media_items: list[MediaItem]) -> list[MediaItem]:
+        prepared = media_items.copy()
+        indexes_to_process = [
+            index for index, item in enumerate(media_items) if self._is_oversized_buffered_photo(item)
+        ]
+        if not indexes_to_process:
+            return prepared
+
+        tasks: dict[int, asyncio.Task[MediaItem]] = {}
+        async with asyncio.TaskGroup() as tg:
+            for index in indexes_to_process:
+                tasks[index] = tg.create_task(self._compress_photo(media_items[index]))
+
+        for index, task in tasks.items():
+            prepared[index] = task.result()
+        return prepared
+
+    async def _force_prepare_photos_for_send(self, media_items: list[MediaItem]) -> list[MediaItem]:
+        prepared = media_items.copy()
+        indexes_to_process = [
+            index
+            for index, item in enumerate(media_items)
+            if item.kind == MediaKind.PHOTO and isinstance(item.file, BufferedInputFile)
+        ]
+        if not indexes_to_process:
+            return prepared
+
+        tasks: dict[int, asyncio.Task[MediaItem]] = {}
+        async with asyncio.TaskGroup() as tg:
+            for index in indexes_to_process:
+                tasks[index] = tg.create_task(self._compress_photo(media_items[index], force=True))
+
+        for index, task in tasks.items():
+            prepared[index] = task.result()
+        return prepared
+
+    async def _reply_photo_with_resize_fallback(
+        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
+    ) -> Message:
+        try:
+            return await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
+        except TelegramBadRequest as error:
+            if not self._is_retryable_photo_send_error(error):
+                raise
+            oversized_error = error
+
+        compressed = await self._compress_photo(media, force=True)
+        if compressed is media:
+            raise oversized_error
+
+        return await self.event.reply_photo(compressed.file, caption=caption, reply_markup=keyboard)
+
+    async def _send_photo_with_resize_fallback(
+        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
+    ) -> Message:
+        try:
+            return await self.bot.send_photo(
+                chat_id=self.event.chat.id,
+                photo=media.file,
+                caption=caption,
+                reply_markup=keyboard,
+                message_thread_id=self.event.message_thread_id,
+            )
+        except TelegramBadRequest as error:
+            if not self._is_retryable_photo_send_error(error):
+                raise
+            oversized_error = error
+
+        compressed = await self._compress_photo(media, force=True)
+        if compressed is media:
+            raise oversized_error
+
+        return await self.bot.send_photo(
+            chat_id=self.event.chat.id,
+            photo=compressed.file,
+            caption=caption,
+            reply_markup=keyboard,
+            message_thread_id=self.event.message_thread_id,
+        )
+
     async def _reply_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> Message:
         match media.kind:
             case MediaKind.PHOTO:
-                return await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
+                return await self._reply_photo_with_resize_fallback(media, caption, keyboard)
             case MediaKind.VIDEO:
                 return await self.event.reply_video(
                     media.file,
@@ -233,13 +509,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     async def _send_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> Message:
         match media.kind:
             case MediaKind.PHOTO:
-                return await self.bot.send_photo(
-                    chat_id=self.event.chat.id,
-                    photo=media.file,
-                    caption=caption,
-                    reply_markup=keyboard,
-                    message_thread_id=self.event.message_thread_id,
-                )
+                return await self._send_photo_with_resize_fallback(media, caption, keyboard)
             case MediaKind.VIDEO:
                 return await self.bot.send_video(
                     chat_id=self.event.chat.id,
@@ -317,13 +587,30 @@ class BaseMediaHandler(KoroneMessageHandler):
             )
 
     async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> list[CachePayload]:
-        builder = MediaGroupBuilder()
-        last_index = len(media_items) - 1
-        for index, item in enumerate(media_items):
-            self._add_group_item(builder, item, caption if index == last_index else None)
+        try:
+            builder = MediaGroupBuilder()
+            last_index = len(media_items) - 1
+            for index, item in enumerate(media_items):
+                self._add_group_item(builder, item, caption if index == last_index else None)
 
-        media_group = builder.build()
-        sent_messages = await self._send_media_group_messages(media_group)
+            media_group = builder.build()
+            sent_messages = await self._send_media_group_messages(media_group)
+        except TelegramBadRequest as error:
+            if not self._is_retryable_photo_send_error(error):
+                raise
+
+            forced_media_items = await self._force_prepare_photos_for_send(media_items)
+            if forced_media_items == media_items:
+                raise
+
+            builder = MediaGroupBuilder()
+            last_index = len(forced_media_items) - 1
+            for index, item in enumerate(forced_media_items):
+                self._add_group_item(builder, item, caption if index == last_index else None)
+
+            media_group = builder.build()
+            sent_messages = await self._send_media_group_messages(media_group)
+            media_items = forced_media_items
 
         cached_media_payload: list[CachePayload] = []
         for item, sent in zip(media_items, sent_messages, strict=False):
@@ -408,6 +695,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not media_items:
             return []
 
+        media_items = await self._prepare_media_items_for_send(media_items)
         caption = self._build_caption(post, include_link=False)
         keyboard = self._build_keyboard(post)
 
