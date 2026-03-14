@@ -27,6 +27,7 @@ AdminPermission = Literal[
     "can_change_info",
     "can_invite_users",
     "can_pin_messages",
+    "can_manage_tags",
 ]
 
 

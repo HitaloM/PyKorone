@@ -36,6 +36,7 @@ class UserRestricting(Filter):
     can_change_info: bool = False
     can_invite_users: bool = False
     can_pin_messages: bool = False
+    can_manage_tags: bool = False
 
     ARGUMENTS: ClassVar[dict[str, str]] = {
         "user_admin": "admin",
@@ -48,6 +49,7 @@ class UserRestricting(Filter):
         "user_can_change_info": "can_change_info",
         "user_can_invite_users": "can_invite_users",
         "user_can_pin_messages": "can_pin_messages",
+        "user_can_manage_tags": "can_manage_tags",
     }
     PAYLOAD_ARGUMENT_NAME: ClassVar[str] = "user_member"
 
@@ -72,6 +74,7 @@ class UserRestricting(Filter):
             "user_can_change_info": "can_change_info",
             "user_can_invite_users": "can_invite_users",
             "user_can_pin_messages": "can_pin_messages",
+            "user_can_manage_tags": "can_manage_tags",
         }
         for alias, argument in arguments.items():
             if alias in full_config:
@@ -320,6 +323,7 @@ class BotHasPermissions(UserRestricting):
         "bot_can_change_info": "can_change_info",
         "bot_can_invite_users": "can_invite_users",
         "bot_can_pin_messages": "can_pin_messages",
+        "bot_can_manage_tags": "can_manage_tags",
     }
     PAYLOAD_ARGUMENT_NAME = "bot_member"
 
