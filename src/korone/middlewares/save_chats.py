@@ -10,6 +10,7 @@ from aiogram.types import Chat, Update, User
 from korone.config import CONFIG
 from korone.db.repositories.chat import ChatRepository
 from korone.logger import get_logger
+from korone.modules.utils_.chat_member import update_chat_members
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable, Iterable
@@ -125,6 +126,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         data["new_users"] = await self._handle_new_chat_members(message, chat, user)
 
         await self._handle_left_chat_member(message, chat)
+        await self._handle_chat_owner_updates(message, chat)
 
     @staticmethod
     async def _handle_migration(data: dict[str, Any], message: Message) -> bool:
@@ -216,6 +218,54 @@ class SaveChatsMiddleware(BaseMiddleware):
             await ChatRepository.delete_chat(group)
         else:
             await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group)
+
+    @staticmethod
+    async def _refresh_admin_cache(group: ChatModel, *, reason: str) -> None:
+        await logger.adebug(
+            "SaveChatsMiddleware: Refreshing admin cache after ownership update", chat_id=group.chat_id, reason=reason
+        )
+        try:
+            await update_chat_members(group)
+        except TelegramAPIError as error:
+            await logger.awarning(
+                "SaveChatsMiddleware: Failed to refresh admin cache after ownership update",
+                chat_id=group.chat_id,
+                reason=reason,
+                error=str(error),
+            )
+
+    async def _handle_chat_owner_updates(self, message: Message, group: ChatModel) -> None:
+        if owner_changed := message.chat_owner_changed:
+            new_owner = owner_changed.new_owner
+            await logger.adebug(
+                "SaveChatsMiddleware: Handling chat owner changed",
+                chat_id=group.chat_id,
+                new_owner_user_id=new_owner.id,
+            )
+            new_owner_db = await ChatRepository.upsert_user(new_owner)
+            await ChatRepository.ensure_user_in_group(new_owner_db, group)
+            await self._refresh_admin_cache(group, reason="chat_owner_changed")
+            return
+
+        if not (owner_left := message.chat_owner_left):
+            return
+
+        new_owner = owner_left.new_owner
+        await logger.adebug(
+            "SaveChatsMiddleware: Handling chat owner left",
+            chat_id=group.chat_id,
+            old_owner_user_id=message.from_user.id if message.from_user else None,
+            new_owner_user_id=new_owner.id if new_owner else None,
+        )
+
+        if message.from_user and message.from_user.id != CONFIG.bot_id:
+            await self._delete_user_in_chat_by_user_id(message.from_user.id, group)
+
+        if new_owner:
+            new_owner_db = await ChatRepository.upsert_user(new_owner)
+            await ChatRepository.ensure_user_in_group(new_owner_db, group)
+
+        await self._refresh_admin_cache(group, reason="chat_owner_left")
 
     @staticmethod
     async def save_from_user(data: dict[str, Any]) -> None:
