@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import mimetypes
+import random
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
@@ -45,6 +46,10 @@ class MediaProvider(ABC):
     }
     _DEFAULT_TIMEOUT: ClassVar[aiohttp.ClientTimeout] = aiohttp.ClientTimeout(total=60)
     _MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
+    _DOWNLOAD_RETRY_ATTEMPTS: ClassVar[int] = 3
+    _DOWNLOAD_RETRY_BASE_DELAY_SECONDS: ClassVar[float] = 0.35
+    _DOWNLOAD_RETRY_JITTER_SECONDS: ClassVar[float] = 0.2
+    _TRANSIENT_HTTP_STATUS: ClassVar[tuple[int, ...]] = (408, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524)
 
     @classmethod
     def extract_urls(cls, text: str) -> list[str]:
@@ -61,6 +66,9 @@ class MediaProvider(ABC):
             return await cls.fetch(url)
         except asyncio.CancelledError:
             raise
+        except TimeoutError:
+            await logger.awarning("[Medias] Provider fetch timed out", provider=cls.name, source_url=url)
+            return None
         except Exception as error:  # noqa: BLE001
             await capture_media_exception(error, stage="provider.fetch", provider=cls.name, source_url=url)
             return None
@@ -107,6 +115,14 @@ class MediaProvider(ABC):
             results_list[index] = item
         except asyncio.CancelledError:
             raise
+        except TimeoutError:
+            await logger.awarning(
+                "[Medias] Download source timed out",
+                provider=label,
+                source_url=source.url,
+                source_index=index + 1,
+                source_kind=source.kind.value,
+            )
         except Exception as error:  # noqa: BLE001
             await capture_media_exception(
                 error,
@@ -135,45 +151,66 @@ class MediaProvider(ABC):
                     height=source.height,
                 )
 
-        try:
-            session = await HTTPClient.get_session()
-            async with session.get(source.url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response:
-                if response.status != 200:
-                    await logger.adebug(f"[{label}] HTTP {response.status}", url=source.url)
-                    return None
+        session = await HTTPClient.get_session()
+        for attempt in range(1, cls._DOWNLOAD_RETRY_ATTEMPTS + 1):
+            try:
+                async with session.get(
+                    source.url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT
+                ) as response:
+                    if response.status != 200:
+                        if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS and cls._should_retry_status(response.status):
+                            await cls._sleep_before_retry(attempt)
+                            continue
+                        await logger.adebug(f"[{label}] HTTP {response.status}", url=source.url)
+                        return None
 
-                if max_size and (content_len := response.content_length) and content_len > max_size:
-                    await logger.adebug(f"[{label}] Media too large", size=content_len)
-                    return None
+                    if max_size and (content_len := response.content_length) and content_len > max_size:
+                        await logger.adebug(f"[{label}] Media too large", size=content_len)
+                        return None
 
-                payload = await response.read()
+                    payload = await response.read()
 
-                if max_size and len(payload) > max_size:
-                    return None
+                    if max_size and len(payload) > max_size:
+                        return None
 
-                content_type = response.headers.get("Content-Type", "")
-                extension = cls._guess_extension(source.url, content_type, source.kind)
-
-        except aiohttp.ClientError as error:
-            await capture_media_exception(
-                error,
-                stage="provider.download_source.network",
-                provider=label,
-                source_url=source.url,
-                extras={"source_kind": source.kind.value},
-            )
-            return None
-        except asyncio.CancelledError:
-            raise
-        except Exception as error:  # noqa: BLE001
-            await capture_media_exception(
-                error,
-                stage="provider.download_source.unexpected",
-                provider=label,
-                source_url=source.url,
-                extras={"source_kind": source.kind.value},
-            )
-            return None
+                    content_type = response.headers.get("Content-Type", "")
+                    extension = cls._guess_extension(source.url, content_type, source.kind)
+                    break
+            except asyncio.CancelledError:
+                raise
+            except TimeoutError:
+                if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
+                    await cls._sleep_before_retry(attempt)
+                    continue
+                await logger.awarning(
+                    "[Medias] Download source timed out",
+                    provider=label,
+                    source_url=source.url,
+                    source_kind=source.kind.value,
+                    attempts=attempt,
+                )
+                return None
+            except aiohttp.ClientError as error:
+                if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
+                    await cls._sleep_before_retry(attempt)
+                    continue
+                await capture_media_exception(
+                    error,
+                    stage="provider.download_source.network",
+                    provider=label,
+                    source_url=source.url,
+                    extras={"source_kind": source.kind.value},
+                )
+                return None
+            except Exception as error:  # noqa: BLE001
+                await capture_media_exception(
+                    error,
+                    stage="provider.download_source.unexpected",
+                    provider=label,
+                    source_url=source.url,
+                    extras={"source_kind": source.kind.value},
+                )
+                return None
 
         thumbnail: InputFile | None = None
         if source.thumbnail_url and source.kind == MediaKind.VIDEO:
@@ -198,37 +235,68 @@ class MediaProvider(ABC):
         return make_file_id_cache_key(cls._MEDIA_SOURCE_CACHE_NAMESPACE, cache_identifier)
 
     @classmethod
-    async def _download_thumbnail(cls, url: str, label: str, index: int, prefix: str) -> InputFile | None:
-        try:
-            session = await HTTPClient.get_session()
-            async with session.get(url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response:
-                if response.status != 200:
-                    return None
-                payload = await response.read()
+    def _should_retry_status(cls, status_code: int) -> bool:
+        return status_code in cls._TRANSIENT_HTTP_STATUS
 
-                ext = cls._guess_extension(url, response.headers.get("Content-Type", ""), MediaKind.PHOTO)
-                filename = f"{prefix}_{index}_thumb{ext}"
-                return BufferedInputFile(payload, filename)
-        except aiohttp.ClientError as error:
-            await capture_media_exception(
-                error,
-                stage="provider.download_thumbnail.network",
-                provider=label,
-                source_url=url,
-                extras={"source_index": index},
-            )
-            return None
-        except asyncio.CancelledError:
-            raise
-        except Exception as error:  # noqa: BLE001
-            await capture_media_exception(
-                error,
-                stage="provider.download_thumbnail.unexpected",
-                provider=label,
-                source_url=url,
-                extras={"source_index": index},
-            )
-            return None
+    @classmethod
+    async def _sleep_before_retry(cls, attempt: int) -> None:
+        backoff = cls._DOWNLOAD_RETRY_BASE_DELAY_SECONDS * (2 ** max(0, attempt - 1))
+        jitter = random.uniform(0.0, cls._DOWNLOAD_RETRY_JITTER_SECONDS)
+        await asyncio.sleep(backoff + jitter)
+
+    @classmethod
+    async def _download_thumbnail(cls, url: str, label: str, index: int, prefix: str) -> InputFile | None:
+        session = await HTTPClient.get_session()
+        for attempt in range(1, cls._DOWNLOAD_RETRY_ATTEMPTS + 1):
+            try:
+                async with session.get(url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response:
+                    if response.status != 200:
+                        if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS and cls._should_retry_status(response.status):
+                            await cls._sleep_before_retry(attempt)
+                            continue
+                        return None
+
+                    payload = await response.read()
+                    ext = cls._guess_extension(url, response.headers.get("Content-Type", ""), MediaKind.PHOTO)
+                    filename = f"{prefix}_{index}_thumb{ext}"
+                    return BufferedInputFile(payload, filename)
+            except asyncio.CancelledError:
+                raise
+            except TimeoutError:
+                if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
+                    await cls._sleep_before_retry(attempt)
+                    continue
+                await logger.awarning(
+                    "[Medias] Download thumbnail timed out",
+                    provider=label,
+                    source_url=url,
+                    source_index=index,
+                    attempts=attempt,
+                )
+                return None
+            except aiohttp.ClientError as error:
+                if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
+                    await cls._sleep_before_retry(attempt)
+                    continue
+                await capture_media_exception(
+                    error,
+                    stage="provider.download_thumbnail.network",
+                    provider=label,
+                    source_url=url,
+                    extras={"source_index": index},
+                )
+                return None
+            except Exception as error:  # noqa: BLE001
+                await capture_media_exception(
+                    error,
+                    stage="provider.download_thumbnail.unexpected",
+                    provider=label,
+                    source_url=url,
+                    extras={"source_index": index},
+                )
+                return None
+
+        return None
 
     @staticmethod
     def _guess_extension(url: str, content_type: str, kind: MediaKind) -> str:
