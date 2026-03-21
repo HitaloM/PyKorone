@@ -3,7 +3,17 @@ from __future__ import annotations
 import re
 from urllib.parse import urlparse
 
-REDLIB_INSTANCES = ("https://redlib.catsarch.com", "https://redlib.4o1x5.dev", "https://l.opnxng.com")
+REDLIB_INSTANCES = (
+    "https://l.opnxng.com",
+    "https://redlib.catsarch.com",
+    "https://redlib.perennialte.ch",
+    "https://redlib.r4fo.com",
+    "https://red.artemislena.eu",
+    "https://redlib.privacyredirect.com",
+    "https://redlib.nadeko.net",
+    "https://redlib.privadency.com",
+    "https://redlib.4o1x5.dev",
+)
 REDDIT_PATTERN_HOSTS = tuple(urlparse(instance).netloc for instance in REDLIB_INSTANCES)
 REDDIT_PATTERN_HOSTS_REGEX = "|".join(re.escape(host) for host in REDDIT_PATTERN_HOSTS)
 ANUBIS_PASS_CHALLENGE_PATH = "/.within.website/x/cmd/anubis/api/pass-challenge"

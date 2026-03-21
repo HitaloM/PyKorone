@@ -37,6 +37,7 @@ logger = get_logger(__name__)
 class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
     name = "Reddit"
     website = "Reddit"
+    _DEFAULT_TIMEOUT = aiohttp.ClientTimeout(total=90, connect=20, sock_read=60)
 
     pattern = PATTERN
     _post_type_regex = POST_TYPE_REGEX
@@ -176,6 +177,9 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             )
             if solved_payload:
                 return solved_payload
+        except TimeoutError:
+            await logger.awarning("[Reddit] Timeout while fetching Redlib page", url=redlib_url)
+            return None
         except aiohttp.ClientError as exc:
             await logger.aerror("[Reddit] Failed to fetch Redlib page", error=str(exc), url=redlib_url)
             return None
@@ -456,7 +460,12 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
     @classmethod
     async def _fetch_text(cls, url: str) -> str | None:
         try:
-            text = await client.fetch_text(url, headers=cls._DEFAULT_HEADERS, cookies=REDLIB_REQUEST_COOKIES)
+            text = await client.fetch_text(
+                url, headers=cls._DEFAULT_HEADERS, cookies=REDLIB_REQUEST_COOKIES, request_timeout=cls._DEFAULT_TIMEOUT
+            )
+        except TimeoutError:
+            await logger.awarning("[Reddit] Playlist request timed out", url=url)
+            return None
         except aiohttp.ClientError as exc:
             await logger.aerror("[Reddit] Playlist request failed", error=str(exc), url=url)
             return None

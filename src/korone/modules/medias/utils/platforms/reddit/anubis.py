@@ -75,37 +75,45 @@ class RedlibAnubisBypassMixin:
             await logger.adebug("[Reddit] Unsupported Anubis challenge", algorithm=info.algorithm, url=challenge_url)
             return None
 
-        try:
-            async with session.get(
-                info.pass_url,
-                headers=headers,
-                cookies=REDLIB_REQUEST_COOKIES,
-                params=params,
-                allow_redirects=True,
-                timeout=cls._DEFAULT_TIMEOUT,
-            ) as response:
-                if response.status != 200:
-                    await logger.adebug(
-                        "[Reddit] Failed to pass Anubis challenge",
-                        status=response.status,
-                        url=info.pass_url,
-                        algorithm=info.algorithm,
-                    )
-                    return None
+        for attempt in range(1, 3):
+            try:
+                async with session.get(
+                    info.pass_url,
+                    headers=headers,
+                    cookies=REDLIB_REQUEST_COOKIES,
+                    params=params,
+                    allow_redirects=True,
+                    timeout=cls._DEFAULT_TIMEOUT,
+                ) as response:
+                    if response.status != 200:
+                        await logger.adebug(
+                            "[Reddit] Failed to pass Anubis challenge",
+                            status=response.status,
+                            url=info.pass_url,
+                            algorithm=info.algorithm,
+                        )
+                        return None
 
-                html_content = await response.text()
-                if cls._looks_like_block_page(html_content):
-                    await logger.adebug(
-                        "[Reddit] Anubis challenge solved but page still blocked",
-                        url=info.pass_url,
-                        algorithm=info.algorithm,
-                    )
-                    return None
+                    html_content = await response.text()
+                    if cls._looks_like_block_page(html_content):
+                        await logger.adebug(
+                            "[Reddit] Anubis challenge solved but page still blocked",
+                            url=info.pass_url,
+                            algorithm=info.algorithm,
+                        )
+                        return None
 
-                return {"html": html_content, "base_url": str(response.url)}
-        except aiohttp.ClientError as exc:
-            await logger.aerror("[Reddit] Failed during Anubis challenge solve", error=str(exc), url=info.pass_url)
-            return None
+                    return {"html": html_content, "base_url": str(response.url)}
+            except TimeoutError:
+                if attempt >= 2:
+                    await logger.awarning("[Reddit] Timeout during Anubis challenge solve", url=info.pass_url)
+                    return None
+                await asyncio.sleep(0.4)
+            except aiohttp.ClientError as exc:
+                await logger.aerror("[Reddit] Failed during Anubis challenge solve", error=str(exc), url=info.pass_url)
+                return None
+
+        return None
 
     @classmethod
     def _extract_anubis_challenge_info(cls, html_content: str, challenge_url: str) -> _AnubisChallengeInfo | None:
