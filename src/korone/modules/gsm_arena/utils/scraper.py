@@ -54,7 +54,8 @@ async def fetch_html(url: str) -> str:
             response.raise_for_status()
             return await response.text()
     except aiohttp.ClientResponseError as err:
-        await logger.aerror(
+        log = logger.awarning if err.status >= 500 else logger.aerror
+        await log(
             "[GSM Arena] HTTP error occurred",
             target_url=url,
             status_code=err.status,
