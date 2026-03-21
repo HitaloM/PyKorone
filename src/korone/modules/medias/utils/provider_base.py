@@ -194,6 +194,15 @@ class MediaProvider(ABC):
                 if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
                     await cls._sleep_before_retry(attempt)
                     continue
+                if isinstance(error, aiohttp.ClientPayloadError):
+                    await logger.awarning(
+                        "[Medias] Download source payload truncated",
+                        provider=label,
+                        source_url=source.url,
+                        source_kind=source.kind.value,
+                        attempts=attempt,
+                    )
+                    return None
                 await capture_media_exception(
                     error,
                     stage="provider.download_source.network",
@@ -278,6 +287,15 @@ class MediaProvider(ABC):
                 if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
                     await cls._sleep_before_retry(attempt)
                     continue
+                if isinstance(error, aiohttp.ClientPayloadError):
+                    await logger.awarning(
+                        "[Medias] Download thumbnail payload truncated",
+                        provider=label,
+                        source_url=url,
+                        source_index=index,
+                        attempts=attempt,
+                    )
+                    return None
                 await capture_media_exception(
                     error,
                     stage="provider.download_thumbnail.network",
