@@ -77,9 +77,18 @@ class BaseMediaHandler(KoroneMessageHandler):
         normalized_message = error.message.lower()
         return "photo_invalid_dimensions" in normalized_message or "invalid dimensions" in normalized_message
 
+    @staticmethod
+    def _is_image_process_failed_error(error: TelegramBadRequest) -> bool:
+        normalized_message = error.message.lower()
+        return "image_process_failed" in normalized_message
+
     @classmethod
     def _is_retryable_photo_send_error(cls, error: TelegramBadRequest) -> bool:
-        return cls._is_photo_too_large_error(error) or cls._is_photo_invalid_dimensions_error(error)
+        return (
+            cls._is_photo_too_large_error(error)
+            or cls._is_photo_invalid_dimensions_error(error)
+            or cls._is_image_process_failed_error(error)
+        )
 
     @classmethod
     def _is_oversized_buffered_photo(cls, media: MediaItem) -> bool:
