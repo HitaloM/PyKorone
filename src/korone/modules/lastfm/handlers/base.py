@@ -9,6 +9,7 @@ from aiogram.types import InputMediaPhoto
 from stfu_tg import Code, Template
 
 from korone.db.repositories.lastfm import LastFMRepository
+from korone.logger import get_logger
 from korone.modules.lastfm.utils import LastFMError, format_lastfm_error
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -17,6 +18,7 @@ if TYPE_CHECKING:
     from aiogram.types import InlineKeyboardMarkup, Message
 
 LASTFM_FALLBACK_IMAGE_URL = "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png"
+logger = get_logger(__name__)
 
 
 class LastFMResponsePayload(Protocol):
@@ -149,7 +151,7 @@ class BaseLastFMCallbackHandler[C: LastFMCallbackContext, P: LastFMResponsePaylo
         return None
 
     async def handle_not_modified(self) -> None:
-        await self.event.answer(_("No updates from your profile."))
+        await self._answer_callback_safely(_("No updates from your profile."))
 
     async def render_response(self, message: Message, *, context: C, payload: P) -> None:
         reply_markup = type(self).build_reply_markup_for_owner(
@@ -163,29 +165,44 @@ class BaseLastFMCallbackHandler[C: LastFMCallbackContext, P: LastFMResponsePaylo
     def _is_message_not_modified(exc: TelegramBadRequest) -> bool:
         return "message is not modified" in exc.message.lower()
 
+    @staticmethod
+    def _is_callback_query_expired(exc: TelegramBadRequest) -> bool:
+        message = exc.message.lower()
+        return "query is too old" in message or "query id is invalid" in message
+
+    async def _answer_callback_safely(self, text: str | None = None, *, show_alert: bool = False) -> None:
+        try:
+            await self.event.answer(text=text, show_alert=show_alert)
+        except TelegramBadRequest as exc:
+            if not self._is_callback_query_expired(exc):
+                raise
+            await logger.adebug(
+                "LastFM callback query expired while answering", callback_query_id=self.event.id, error=exc.message
+            )
+
     @override
     async def handle(self) -> None:
         await self.check_for_message()
 
         context = await self.resolve_context()
         if context is None:
-            await self.event.answer()
+            await self._answer_callback_safely()
             return
 
         if not self.can_use_buttons(callback_owner_id=context.owner_id, user_id=self.event.from_user.id):
-            await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
+            await self._answer_callback_safely(_("You are not allowed to use this button."), show_alert=True)
             return
 
         message = cast("Message", self.event.message)
+        await self._answer_callback_safely()
         try:
             payload = await type(self).build_payload(context=context)
             if payload is None:
                 await message.edit_text(type(self).empty_state_text())
             else:
                 await self.render_response(message, context=context, payload=payload)
-            await self.event.answer()
         except LastFMError as exc:
-            await self.event.answer(format_lastfm_error(exc), show_alert=True)
+            await self._answer_callback_safely(format_lastfm_error(exc), show_alert=True)
         except TelegramBadRequest as exc:
             if self._is_message_not_modified(exc):
                 await self.handle_not_modified()

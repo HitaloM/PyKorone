@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, cast
 
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import CallbackQuery, InaccessibleMessage, Message
 
 from korone.utils.exception import KoroneError
@@ -23,6 +24,11 @@ async def reply_or_edit(
 
         return await event.message.edit_text(str(text), **cast("Any", kwargs))
     if isinstance(event, Message):
-        return await event.reply(str(text), **cast("Any", kwargs))
+        try:
+            return await event.reply(str(text), **cast("Any", kwargs))
+        except TelegramBadRequest as exc:
+            if "message to be replied not found" not in exc.message.lower():
+                raise
+            return await event.answer(str(text), **cast("Any", kwargs))
     msg = "answer: Wrong event type"
     raise ValueError(msg)

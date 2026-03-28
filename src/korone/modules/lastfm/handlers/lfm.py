@@ -148,4 +148,4 @@ class LastFMStatusCallbackHandler(
 
     @override
     async def handle_not_modified(self) -> None:
-        await self.event.answer()
+        await self._answer_callback_safely()
