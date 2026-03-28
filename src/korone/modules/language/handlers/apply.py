@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle
-from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, Template
 
@@ -17,6 +16,7 @@ from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
+    from aiogram.types import Message
 
     from korone.utils.i18n import I18nNew
 
@@ -79,9 +79,8 @@ class ApplyLanguageHandler(KoroneCallbackQueryHandler):
         language = callback_data.lang
         back_to_start = callback_data.back_to_start
 
-        message = self.event.message
-        if not isinstance(message, Message) or not message.chat:
-            return
+        await self.check_for_message()
+        message = cast("Message", self.event.message)
 
         chat_id = message.chat.id
 
@@ -91,4 +90,4 @@ class ApplyLanguageHandler(KoroneCallbackQueryHandler):
         text = build_language_changed_message(language, i18n)
         keyboard = build_keyboard(language, i18n, back_to_start=back_to_start)
 
-        await message.edit_text(text, reply_markup=keyboard.as_markup(), disable_web_page_preview=True)
+        await self.edit_text(text, reply_markup=keyboard.as_markup(), disable_web_page_preview=True)

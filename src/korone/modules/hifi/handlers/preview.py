@@ -14,7 +14,6 @@ from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
 
 
 @flags.help(exclude=True)
@@ -71,9 +70,8 @@ class HifiTrackPreviewCallbackHandler(KoroneCallbackQueryHandler):
             else LinkPreviewOptions(is_disabled=True)
         )
 
-        message = cast("Message", self.event.message)
         try:
-            await message.edit_text(text, reply_markup=keyboard, link_preview_options=link_preview_options)
+            await self.edit_text(text, reply_markup=keyboard, link_preview_options=link_preview_options)
         except TelegramBadRequest as err:
             if "message is not modified" not in err.message:
                 raise

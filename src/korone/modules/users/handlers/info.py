@@ -9,8 +9,11 @@ from ass_tg.types import OptionalArg
 from stfu_tg import Doc, KeyValue, Section, Title, UserLink
 
 from korone.args.users import KoroneUserArg
+from korone.db.models.chat import ChatModel
 from korone.db.repositories.chat import ChatRepository, UserInGroupRepository
 from korone.modules.utils_.admin import is_chat_creator, is_user_admin
+from korone.modules.utils_.get_user import get_arg_or_reply_user
+from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -19,8 +22,6 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import Message
     from ass_tg.types.base_abc import ArgFabric
-
-    from korone.db.models.chat import ChatModel
 
 
 @flags.help(description=l_("Show detailed information about a user."))
@@ -35,18 +36,22 @@ class UserInfoHandler(KoroneMessageHandler):
         return (Command("info"),)
 
     async def handle(self) -> None:
-        target_user: ChatModel | None = self.data.get("user")
-        if not target_user:
-            reply_user = None
-            if self.event.reply_to_message:
-                reply_user = self.event.reply_to_message.from_user
+        target_user: ChatModel | None = None
+        try:
+            selected_user = get_arg_or_reply_user(self.event, self.data)
+        except KoroneError:
+            selected_user = None
 
-            if reply_user:
-                target_user = await ChatRepository.upsert_user(reply_user)
-            else:
-                user = getattr(self.event, "from_user", None)
-                if user:
-                    target_user = await ChatRepository.get_by_chat_id(user.id) or await ChatRepository.upsert_user(user)
+        if isinstance(selected_user, ChatModel):
+            target_user = selected_user
+        elif selected_user:
+            target_user = await ChatRepository.get_by_chat_id(selected_user.id) or await ChatRepository.upsert_user(
+                selected_user
+            )
+        elif self.event.from_user:
+            target_user = await ChatRepository.get_by_chat_id(
+                self.event.from_user.id
+            ) or await ChatRepository.upsert_user(self.event.from_user)
 
         if not target_user:
             await self.event.reply(_("Could not identify user."))

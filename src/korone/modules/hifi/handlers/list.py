@@ -15,7 +15,6 @@ from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
 
 
 @flags.help(exclude=True)
@@ -48,12 +47,8 @@ class HifiTrackListCallbackHandler(KoroneCallbackQueryHandler):
             session=search_session, token=callback_data.token, page=page, user_id=search_session.user_id
         )
 
-        message = cast("Message", self.event.message)
-
         try:
-            await message.edit_text(
-                text, reply_markup=keyboard, link_preview_options=LinkPreviewOptions(is_disabled=True)
-            )
+            await self.edit_text(text, reply_markup=keyboard, link_preview_options=LinkPreviewOptions(is_disabled=True))
         except TelegramBadRequest as err:
             if "message is not modified" not in err.message:
                 raise

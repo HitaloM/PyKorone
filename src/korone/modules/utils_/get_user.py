@@ -26,13 +26,15 @@ def get_arg_or_reply_user(message: Message, data: dict[str, Any]) -> User | Chat
         msg = "No from_user"
         raise KoroneError(msg)
 
-    if message.reply_to_message and is_real_reply(message) and message.reply_to_message.from_user:
-        return message.reply_to_message.from_user
     if db_user := data.get("user"):
         if isinstance(db_user, ChatModel):
             return db_user
         msg = "Invalid user data"
         raise KoroneError(msg)
+
+    if message.reply_to_message and is_real_reply(message) and message.reply_to_message.from_user:
+        return message.reply_to_message.from_user
+
     msg = "No user found"
     raise KoroneError(msg)
 
@@ -42,7 +44,7 @@ def get_union_user(user: User | ChatModel) -> UnionUser:
         return UnionUser(chat_id=user.id, first_name=user.first_name, last_name=user.last_name, username=user.username)
     if isinstance(user, ChatModel):
         return UnionUser(
-            chat_id=user.id,
+            chat_id=user.chat_id,
             first_name=user.first_name_or_title or "User",
             last_name=user.last_name,
             username=user.username,

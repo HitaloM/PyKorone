@@ -6,6 +6,7 @@ from urllib.parse import quote_plus
 from aiogram import flags
 from aiogram.enums import ChatAction
 from aiogram.filters import Command
+from aiogram.types import User
 from ass_tg.types import OptionalArg, WordArg
 from stfu_tg import Code, Template, Url
 
@@ -13,7 +14,8 @@ from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
-from korone.modules.utils_.message import is_real_reply
+from korone.modules.utils_.get_user import get_arg_or_reply_user
+from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -86,11 +88,12 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
             await self.event.reply(_("Could not identify your Telegram user."))
             return
 
-        if (
-            not self.event.reply_to_message
-            or not is_real_reply(self.event)
-            or not self.event.reply_to_message.from_user
-        ):
+        try:
+            target_candidate = get_arg_or_reply_user(self.event, {})
+        except KoroneError:
+            target_candidate = None
+
+        if not isinstance(target_candidate, User):
             await self.event.reply(
                 str(
                     Template(
@@ -101,7 +104,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
             return
 
         source_user = self.event.from_user
-        target_user = self.event.reply_to_message.from_user
+        target_user = target_candidate
 
         if source_user.id == target_user.id:
             await self.event.reply(_("Lookie, it's me!!!"))

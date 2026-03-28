@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 from aiogram import flags
 from aiogram.enums import ButtonStyle
 from aiogram.filters import Command
-from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Italic, Template
 
@@ -65,15 +64,12 @@ class DisableAllCbHandler(KoroneCallbackQueryHandler):
 
         removed_count: int = len(model.cmds) if model else 0
 
-        message = self.event.message
-        if isinstance(message, Message):
-            await message.edit_text(
-                str(
-                    Template(
-                        _("✅ All the commands ({removed_count}) have been enabled in the {chat_name}"),
-                        removed_count=Italic(removed_count),
-                        chat_name=self.chat.title,
-                    )
+        await self.edit_text(
+            str(
+                Template(
+                    _("✅ All the commands ({removed_count}) have been enabled in the {chat_name}"),
+                    removed_count=Italic(removed_count),
+                    chat_name=self.chat.title,
                 )
             )
-            return
+        )

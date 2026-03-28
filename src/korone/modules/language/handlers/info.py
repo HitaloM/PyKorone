@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING, cast
 from aiogram import flags
 from aiogram.enums import ButtonStyle, ChatType
 from aiogram.filters import Command
-from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 from stfu_tg import Code, KeyValue, Section
@@ -81,7 +80,4 @@ class LanguageInfoCallbackHandler(KoroneCallbackQueryHandler):
         back_to_start = callback_data.back_to_start
 
         keyboard = build_keyboard(is_private=True, back_to_start=back_to_start)
-
-        message = self.event.message
-        if isinstance(message, Message):
-            await message.edit_text(text, reply_markup=keyboard.as_markup())
+        await self.edit_text(text, reply_markup=keyboard.as_markup())

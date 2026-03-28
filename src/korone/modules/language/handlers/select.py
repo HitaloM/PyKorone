@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING, cast
 from aiogram import flags
 from aiogram.enums import ButtonStyle, ChatType
 from aiogram.filters import Command
-from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 
@@ -18,6 +17,7 @@ from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
+    from aiogram.types import Message
 
     from korone.utils.i18n import I18nNew
 
@@ -101,9 +101,8 @@ class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
         return (LangMenuCallback.filter(F.menu == LangMenu.Languages), UserRestricting(admin=True))
 
     async def handle(self) -> None:
-        message = self.event.message
-        if not isinstance(message, Message) or not message.chat:
-            return
+        await self.check_for_message()
+        message = cast("Message", self.event.message)
 
         is_private = message.chat.type == ChatType.PRIVATE
 
@@ -114,7 +113,7 @@ class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
         text = _("Please select the language you want to use for the chat.")
         keyboard = build_language_selection_keyboard(i18n, is_private=is_private, back_to_start=back_to_start)
 
-        await message.edit_text(text, reply_markup=keyboard.as_markup())
+        await self.edit_text(text, reply_markup=keyboard.as_markup())
 
 
 @flags.help(exclude=True)
@@ -127,7 +126,4 @@ class LanguageSelectPMHandler(KoroneCallbackQueryHandler):
         i18n = get_i18n()
         text = _("Please select the language you want to use for the chat.")
         keyboard = build_language_selection_keyboard(i18n, is_private=True, back_to_start=True)
-
-        message = self.event.message
-        if isinstance(message, Message):
-            await message.edit_text(text, reply_markup=keyboard.as_markup())
+        await self.edit_text(text, reply_markup=keyboard.as_markup())

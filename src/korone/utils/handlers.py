@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.filters.callback_data import CallbackData
     from aiogram.fsm.context import FSMContext
-    from aiogram.types import InlineKeyboardMarkup, InputFile, ReplyKeyboardMarkup
+    from aiogram.types import InputFile
     from ass_tg.types.base_abc import ArgFabric
     from stfu_tg.doc import Element
 
@@ -83,7 +83,7 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
             raise KoroneError(_("The message is inaccessible. Please write the command again"))
 
-    async def edit_text(self, text: Element | str, **kwargs: dict[str, Any] | bool | InlineKeyboardMarkup) -> None:
+    async def edit_text(self, text: Element | str, **kwargs: object) -> None:
         await self.check_for_message()
         message = cast("Message", self.event.message)
         await message.edit_text(str(text), **cast("Any", kwargs))
@@ -122,7 +122,5 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
         msg = "answer_media: Wrong event type"
         raise ValueError(msg)
 
-    async def answer(
-        self, text: Element | str, **kwargs: dict[str, Any] | InlineKeyboardMarkup | ReplyKeyboardMarkup
-    ) -> Message | bool:
-        return await reply_or_edit(self.event, text, **kwargs)
+    async def answer(self, text: Element | str, **kwargs: object) -> Message | bool:
+        return await reply_or_edit(self.event, text, **cast("Any", kwargs))

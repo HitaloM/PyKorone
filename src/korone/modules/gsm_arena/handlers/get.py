@@ -69,7 +69,7 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
             )
         else:
             try:
-                await message.edit_text(
+                await self.edit_text(
                     text=text,
                     link_preview_options=LinkPreviewOptions(disable_web_page_preview=False, prefer_large_media=True),
                 )

@@ -152,6 +152,8 @@ class MediaProvider(ABC):
                 )
 
         session = await HTTPClient.get_session()
+        payload: bytes | None = None
+        extension = ""
         for attempt in range(1, cls._DOWNLOAD_RETRY_ATTEMPTS + 1):
             try:
                 async with session.get(
@@ -220,6 +222,12 @@ class MediaProvider(ABC):
                     extras={"source_kind": source.kind.value},
                 )
                 return None
+
+        if payload is None:
+            return None
+
+        if not extension:
+            extension = cls._guess_extension(source.url, "", source.kind)
 
         thumbnail: InputFile | None = None
         if source.thumbnail_url and source.kind == MediaKind.VIDEO:

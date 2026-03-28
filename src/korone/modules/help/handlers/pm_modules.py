@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram.enums import ButtonStyle
 from aiogram.filters import Command, CommandStart
-from aiogram.types import CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 from stfu_tg import Code, Doc, HList, Italic, Section, Template, Title, VList
@@ -95,10 +94,7 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
             ),
         )
 
-        if isinstance(self.event, CallbackQuery):
-            await self.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)
-        else:
-            await self.event.reply(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)
+        await self.answer(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)
 
 
 class PMModuleHelp(KoroneCallbackQueryHandler):
