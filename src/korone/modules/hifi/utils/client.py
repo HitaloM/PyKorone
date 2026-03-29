@@ -15,6 +15,8 @@ from .types import HifiTrack, HifiTrackStream
 logger = get_logger(__name__)
 
 HIFI_API_BASE_URLS = (
+    "https://hifi-one.spotisaver.net",
+    "https://hifi-two.spotisaver.net",
     "https://wolf.qqdl.site",
     "https://maus.qqdl.site",
     "https://vogel.qqdl.site",
