@@ -12,17 +12,17 @@ Apply these rules when changing repository tooling, developer workflow, build pi
 
 ## Package and Environment Management
 
-- Keep uv as the standard workflow tool for dependency and command execution.
-- Prefer uv-based commands in project automation and docs:
+- uv is the required workflow tool for dependency and command execution.
+- Use uv-based commands in project automation and docs:
   - uv sync --locked
   - uv run python
   - uv run alembic
   - uv run pybabel
-- Do not introduce parallel package manager workflows (pip-only, poetry, pipenv) unless the project is explicitly migrating.
+- Do not introduce parallel package manager workflows (pip-only, poetry, pipenv) unless there is an explicit repository migration decision.
 
 ## Linting, Formatting, and Type Checking
 
-- Ruff is the canonical formatter and linter for this repository.
+- Ruff is the required formatter and linter for this repository.
 - Keep line length and lint policy aligned with ruff.toml.
 - When changing Ruff behavior, verify compatibility with pre-commit hooks.
 - Preserve pre-commit hook intent:
@@ -30,6 +30,8 @@ Apply these rules when changing repository tooling, developer workflow, build pi
   - ruff-format
 - Keep Pyright as a local static type checker dependency.
 - Avoid broad ignore patterns for type checking; prefer targeted and justified suppressions.
+
+Treat uv and Ruff alignment as hard rules, not optional style preferences.
 
 ## Migration Tooling (Alembic)
 
@@ -52,6 +54,7 @@ Apply these rules when changing repository tooling, developer workflow, build pi
   - update_lang
   - compile_lang
 - Avoid changing localization command semantics unless all dependent locale artifacts are updated accordingly.
+- Follow manual translation review rules in `.github/instructions/localization-manual-translation.instructions.md` when strings or locale catalogs change.
 
 ## Docker and Runtime Tooling
 

@@ -1819,13 +1819,12 @@ msgid "The message is inaccessible. Please write the command again"
 msgstr "A mensagem está inacessível. Escreva o comando novamente"
 
 #: src/korone/utils/exception.py:28
-#, fuzzy
 msgid "Could not identify the user that triggered this action. Please try again."
-msgstr "Não foi possível buscar faixas agora. Tente novamente mais tarde."
+msgstr "Não foi possível identificar o usuário que disparou esta ação. Tente novamente."
 
 #: src/korone/utils/exception.py:32
 msgid "Could not identify user. Reply to a message or provide a valid user."
-msgstr ""
+msgstr "Não foi possível identificar o usuário. Responda a uma mensagem ou forneça um usuário válido."
 
 #: types/keyvalue.py:31
 #, python-brace-format

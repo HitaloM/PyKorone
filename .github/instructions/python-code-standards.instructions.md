@@ -12,6 +12,7 @@ Module package wiring and loader contract in `.github/instructions/korone-module
 Aiogram-specific conventions are documented in `.github/instructions/aiogram-project-patterns.instructions.md`.
 Media module conventions are documented in `.github/instructions/medias-module-patterns.instructions.md`.
 Development tooling conventions are documented in `.github/instructions/development-tooling.instructions.md`.
+Manual locale update and translation review conventions are documented in `.github/instructions/localization-manual-translation.instructions.md`.
 
 ## Type Hints & Annotations
 
