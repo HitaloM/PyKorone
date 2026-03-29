@@ -27,8 +27,7 @@ class EnableAllHandler(KoroneMessageHandler):
 
     async def handle(self) -> None:
         if not self.event.from_user:
-            msg = "Not a user clicked a button"
-            raise KoroneError(msg)
+            raise KoroneError.user_context_unavailable()
 
         buttons = InlineKeyboardBuilder()
         buttons.button(

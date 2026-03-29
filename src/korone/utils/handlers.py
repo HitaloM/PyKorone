@@ -9,7 +9,6 @@ from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, M
 from korone import bot
 from korone.modules.utils_.reply_or_edit import reply_or_edit
 from korone.utils.exception import KoroneError
-from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram import Router
@@ -77,11 +76,10 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
 
     async def check_for_message(self) -> None:
         if not self.event.from_user:
-            msg = "Not a user clicked a button"
-            raise KoroneError(msg)
+            raise KoroneError.user_context_unavailable()
 
         if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
-            raise KoroneError(_("The message is inaccessible. Please write the command again"))
+            raise KoroneError.inaccessible_message()
 
     async def edit_text(self, text: Element | str, **kwargs: object) -> None:
         await self.check_for_message()
@@ -95,12 +93,11 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
         msg = self.event if isinstance(self.event, Message) else getattr(self.event, "message", None)
 
         if not msg:
-            msg = "No message in the event"
-            raise KoroneError(msg)
+            raise KoroneError.inaccessible_message()
         if isinstance(msg, InaccessibleMessage):
-            raise KoroneError(_("The message is inaccessible. Please write the command again"))
+            raise KoroneError.inaccessible_message()
         if not isinstance(msg, Message):
-            raise KoroneError(_("The message is inaccessible. Please write the command again"))
+            raise KoroneError.inaccessible_message()
         return msg
 
     @property
@@ -109,7 +106,7 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
 
     async def answer_media(self, f: InputFile, caption: str | None = None, **kwargs: dict[str, Any]) -> Message | bool:
         if isinstance(self.event, InaccessibleMessage):
-            raise KoroneError(_("The message is inaccessible. Please write the command again"))
+            raise KoroneError.inaccessible_message()
         if isinstance(self.event, CallbackQuery) and self.event.message:
             return await bot.edit_message_media(
                 media=InputMediaPhoto(media=f, caption=caption),

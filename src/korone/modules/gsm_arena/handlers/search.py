@@ -14,6 +14,7 @@ from korone.modules.gsm_arena.utils.errors import GSMArenaError
 from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
 from korone.modules.gsm_arena.utils.scraper import search_phone
 from korone.modules.gsm_arena.utils.session import create_search_session
+from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -64,8 +65,7 @@ class DeviceSearchHandler(KoroneMessageHandler):
             return
 
         if not self.event.from_user:
-            msg = "User information is not available in the handler context."
-            raise RuntimeError(msg)
+            raise KoroneError.user_context_unavailable()
 
         session_token = await create_search_session(devices)
         keyboard = create_pagination_layout(devices, session_token, 1, self.event.from_user.id)

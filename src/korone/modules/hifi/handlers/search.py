@@ -12,6 +12,7 @@ from korone.modules.hifi.utils.formatters import build_search_results_text
 from korone.modules.hifi.utils.keyboard import create_tracks_keyboard
 from korone.modules.hifi.utils.session import create_search_session
 from korone.modules.hifi.utils.types import HifiSearchSession
+from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -38,8 +39,7 @@ class HifiSearchHandler(KoroneMessageHandler):
         query = str(self.data.get("query") or "").strip()
 
         if not self.event.from_user:
-            msg = "User information is not available in the handler context."
-            raise RuntimeError(msg)
+            raise KoroneError.user_context_unavailable()
 
         try:
             tracks = await search_tracks(query)

@@ -23,20 +23,17 @@ class UnionUser:
 
 def get_arg_or_reply_user(message: Message, data: dict[str, Any]) -> User | ChatModel:
     if not message.from_user:
-        msg = "No from_user"
-        raise KoroneError(msg)
+        raise KoroneError.user_context_unavailable()
 
     if db_user := data.get("user"):
         if isinstance(db_user, ChatModel):
             return db_user
-        msg = "Invalid user data"
-        raise KoroneError(msg)
+        raise KoroneError.user_context_unavailable()
 
     if message.reply_to_message and is_real_reply(message) and message.reply_to_message.from_user:
         return message.reply_to_message.from_user
 
-    msg = "No user found"
-    raise KoroneError(msg)
+    raise KoroneError.user_not_found()
 
 
 def get_union_user(user: User | ChatModel) -> UnionUser:

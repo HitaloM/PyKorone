@@ -228,38 +228,38 @@ msgstr "Comando ativado"
 msgid "Re-enable all disabled commands in this chat."
 msgstr "Reative todos os comandos desativados neste chat."
 
-#: src/korone/modules/disabling/handlers/enable_all.py:35
+#: src/korone/modules/disabling/handlers/enable_all.py:34
 msgid "✅ Enable all"
 msgstr "✅ Ativar todos"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:39
+#: src/korone/modules/disabling/handlers/enable_all.py:38
 #: src/korone/modules/language/handlers/select.py:57
 msgid "❌ Cancel"
 msgstr "❌ Cancelar"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:44
+#: src/korone/modules/disabling/handlers/enable_all.py:43
 #, python-brace-format
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr "Você deseja ativar todos os comandos em {chat_name}?"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:60
+#: src/korone/modules/disabling/handlers/enable_all.py:59
 msgid "Only the initiator can confirm disabling all commands"
 msgstr "Somente quem iniciou pode confirmar a desativação de todos os comandos"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:70
+#: src/korone/modules/disabling/handlers/enable_all.py:69
 #, python-brace-format
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr "✅ Todos os comandos ({removed_count}) foram ativados em {chat_name}"
 
-#: src/korone/modules/error/utils/error_message.py:33
+#: src/korone/modules/error/utils/error_message.py:35
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 Ocorreu um erro ao tentar processar esta atualização"
 
-#: src/korone/modules/error/utils/error_message.py:40
+#: src/korone/modules/error/utils/error_message.py:42
 msgid "Reference ID"
 msgstr "ID de referência"
 
-#: src/korone/modules/error/utils/error_message.py:44
+#: src/korone/modules/error/utils/error_message.py:46
 #: src/korone/modules/language/handlers/apply.py:55
 msgid "🐞 Open GitHub Issues"
 msgstr "🐞 Abrir issues no GitHub"
@@ -308,20 +308,20 @@ msgstr "Erro ao buscar detalhes do dispositivo"
 msgid "No devices found"
 msgstr "Nenhum dispositivo encontrado"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:31
+#: src/korone/modules/gsm_arena/handlers/search.py:32
 msgid "Search GSMArena for device specifications."
 msgstr "Pesquise especificações de dispositivos no GSMArena."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:37
+#: src/korone/modules/gsm_arena/handlers/search.py:38
 msgid "Device"
 msgstr "Dispositivo"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:45
+#: src/korone/modules/gsm_arena/handlers/search.py:46
 msgid "No devices found."
 msgstr "Nenhum dispositivo encontrado."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:57
-#: src/korone/modules/gsm_arena/handlers/search.py:63
+#: src/korone/modules/gsm_arena/handlers/search.py:58
+#: src/korone/modules/gsm_arena/handlers/search.py:64
 msgid "Error fetching device details. Please try again later."
 msgstr "Erro ao buscar detalhes do dispositivo. Tente novamente mais tarde."
 
@@ -583,11 +583,11 @@ msgstr "Faixa selecionada inválida."
 msgid "⬇️ Download"
 msgstr "⬇️ Baixar"
 
-#: src/korone/modules/hifi/handlers/search.py:25
+#: src/korone/modules/hifi/handlers/search.py:26
 msgid "Search tracks with the HiFi provider."
 msgstr "Pesquise faixas com o provedor HiFi."
 
-#: src/korone/modules/hifi/handlers/search.py:31
+#: src/korone/modules/hifi/handlers/search.py:32
 #: src/korone/modules/hifi/utils/formatters.py:56
 msgid "Query"
 msgstr "Consulta"
@@ -1636,12 +1636,6 @@ msgstr "Este usuário é um admin neste chat."
 msgid "Shared Chats"
 msgstr "Chats em comum"
 
-#: src/korone/modules/utils_/reply_or_edit.py:23
-#: src/korone/utils/handlers.py:84 src/korone/utils/handlers.py:101
-#: src/korone/utils/handlers.py:103 src/korone/utils/handlers.py:112
-msgid "The message is inaccessible. Please write the command again"
-msgstr "A mensagem está inacessível. Escreva o comando novamente"
-
 #: src/korone/modules/utils_/status_handler.py:33
 msgid "New status"
 msgstr "Novo status"
@@ -1819,6 +1813,19 @@ msgstr "Nenhuma informação WHOIS encontrada para {domain}."
 #: src/korone/modules/web/handlers/whois.py:58
 msgid "WHOIS Information"
 msgstr "Informações WHOIS"
+
+#: src/korone/utils/exception.py:24
+msgid "The message is inaccessible. Please write the command again"
+msgstr "A mensagem está inacessível. Escreva o comando novamente"
+
+#: src/korone/utils/exception.py:28
+#, fuzzy
+msgid "Could not identify the user that triggered this action. Please try again."
+msgstr "Não foi possível buscar faixas agora. Tente novamente mais tarde."
+
+#: src/korone/utils/exception.py:32
+msgid "Could not identify user. Reply to a message or provide a valid user."
+msgstr ""
 
 #: types/keyvalue.py:31
 #, python-brace-format

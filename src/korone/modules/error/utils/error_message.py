@@ -17,7 +17,9 @@ if TYPE_CHECKING:
 
 def get_error_message(exception: Exception) -> tuple[str | Element, ...]:
     if isinstance(exception, KoroneError):
-        return exception.docs
+        if exception.docs:
+            return exception.docs
+        return (Italic(exception.__class__.__name__),)
 
     if not exception.args:
         return (Italic(exception.__class__.__name__),)
