@@ -8,8 +8,9 @@ applyTo: "src/korone/**/*.py"
 
 This project maintains strict code quality standards using Ruff (line length: 120), Pyright, and comprehensive type hints. These rules apply only to Python application code in `src/korone/`. Match the existing code first, then these conventions.
 
-Module package wiring and loader contract are documented in a dedicated instructions file for `src/korone/modules/*/__init__.py`.
+Module package wiring and loader contract in `.github/instructions/korone-modules-plugin.instructions.md` must be followed for top-level module packages.
 Aiogram-specific conventions are documented in `.github/instructions/aiogram-project-patterns.instructions.md`.
+Media module conventions are documented in `.github/instructions/medias-module-patterns.instructions.md`.
 
 ## Type Hints & Annotations
 
