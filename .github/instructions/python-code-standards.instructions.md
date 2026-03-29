@@ -11,6 +11,7 @@ This project maintains strict code quality standards using Ruff (line length: 12
 Module package wiring and loader contract in `.github/instructions/korone-modules-plugin.instructions.md` must be followed for top-level module packages.
 Aiogram-specific conventions are documented in `.github/instructions/aiogram-project-patterns.instructions.md`.
 Media module conventions are documented in `.github/instructions/medias-module-patterns.instructions.md`.
+Development tooling conventions are documented in `.github/instructions/development-tooling.instructions.md`.
 
 ## Type Hints & Annotations
 
