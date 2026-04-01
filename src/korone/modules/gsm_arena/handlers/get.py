@@ -35,23 +35,51 @@ def _is_text_send_fallback_error(error: TelegramBadRequest) -> bool:
 class _PlainTextExtractor(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
-        self._parts: list[str] = []
+        self._text_fragments: list[str] = []
 
     def handle_data(self, data: str) -> None:
-        self._parts.append(data)
+        self._text_fragments.append(data)
 
     def get_text(self) -> str:
-        return "".join(self._parts).strip()
+        return "".join(self._text_fragments).strip()
 
 
 def _to_plain_text(html_text: str) -> str:
     parser = _PlainTextExtractor()
-    parser.feed(html_text)
+    try:
+        parser.feed(html_text)
+        parser.close()
+    except ValueError:
+        return ""
     return parser.get_text()
 
 
 def _chunk_text(value: str, chunk_size: int) -> list[str]:
-    return [value[i : i + chunk_size] for i in range(0, len(value), chunk_size)]
+    if not value:
+        return []
+
+    words = value.split()
+    chunks: list[str] = []
+    current_chunk = ""
+
+    for word in words:
+        candidate = word if not current_chunk else f"{current_chunk} {word}"
+        if len(candidate) <= chunk_size:
+            current_chunk = candidate
+            continue
+
+        if current_chunk:
+            chunks.append(current_chunk)
+        if len(word) > chunk_size:
+            chunks.extend(word[i : i + chunk_size] for i in range(0, len(word), chunk_size))
+            current_chunk = ""
+            continue
+        current_chunk = word
+
+    if current_chunk:
+        chunks.append(current_chunk)
+
+    return chunks
 
 
 @flags.help(exclude=True)
@@ -113,7 +141,7 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
         plain_text = _to_plain_text(text)
         if not plain_text:
             await logger.awarning(
-                "[GSM Arena] Empty plain-text fallback",
+                "gsm_arena_empty_plain_text_fallback",
                 device_url=devices[callback_data.index].url,
                 original_text_length=len(text),
             )
