@@ -1,3 +1,4 @@
+import re
 from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
@@ -5,6 +6,7 @@ from aiogram.enums import ChatType
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import LinkPreviewOptions
 
+from korone.constants import TELEGRAM_MESSAGE_LENGTH_LIMIT
 from korone.logger import get_logger
 from korone.modules.gsm_arena.callbacks import GetDeviceCallback
 from korone.modules.gsm_arena.utils.device import get_device_text
@@ -18,6 +20,24 @@ if TYPE_CHECKING:
     from aiogram.types import Message
 
 logger = get_logger(__name__)
+
+
+def _is_message_not_modified(error: TelegramBadRequest) -> bool:
+    return "message is not modified" in error.message.lower()
+
+
+def _is_text_send_fallback_error(error: TelegramBadRequest) -> bool:
+    lowered_message = error.message.lower()
+    return "message is too long" in lowered_message or "can't parse entities" in lowered_message
+
+
+def _to_plain_text(html_text: str) -> str:
+    plain_text = re.sub(r"<[^>]+>", "", html_text)
+    return plain_text.strip()
+
+
+def _chunk_text(value: str, chunk_size: int) -> list[str]:
+    return [value[i : i + chunk_size] for i in range(0, len(value), chunk_size)]
 
 
 @flags.help(exclude=True)
@@ -62,17 +82,25 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
             return
 
         message = cast("Message", self.event.message)
-        if message.chat.type == ChatType.PRIVATE:
-            await message.reply(
-                text=text,
-                link_preview_options=LinkPreviewOptions(disable_web_page_preview=False, prefer_large_media=True),
-            )
-        else:
-            try:
-                await self.edit_text(
-                    text=text,
-                    link_preview_options=LinkPreviewOptions(disable_web_page_preview=False, prefer_large_media=True),
-                )
-            except TelegramBadRequest as err:
-                if "message is not modified" not in err.message:
-                    raise
+        link_preview_options = LinkPreviewOptions(disable_web_page_preview=False, prefer_large_media=True)
+
+        try:
+            if message.chat.type == ChatType.PRIVATE:
+                await message.reply(text=text, link_preview_options=link_preview_options)
+            else:
+                await self.edit_text(text=text, link_preview_options=link_preview_options)
+            return
+        except TelegramBadRequest as err:
+            if _is_message_not_modified(err):
+                return
+            if not _is_text_send_fallback_error(err):
+                raise
+
+        plain_text = _to_plain_text(text)
+        if not plain_text:
+            await self.event.answer(_("Error fetching device details"), show_alert=True)
+            return
+
+        chunk_size = TELEGRAM_MESSAGE_LENGTH_LIMIT - 50
+        for chunk in _chunk_text(plain_text, chunk_size):
+            await message.reply(text=chunk, link_preview_options=link_preview_options)
