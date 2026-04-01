@@ -1,5 +1,5 @@
 from html.parser import HTMLParser
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Final, cast
 
 from aiogram import flags
 from aiogram.enums import ChatType
@@ -20,11 +20,12 @@ if TYPE_CHECKING:
     from aiogram.types import Message
 
 logger = get_logger(__name__)
-TELEGRAM_MESSAGE_SAFE_MARGIN = 50
+MESSAGE_NOT_MODIFIED_ERROR: Final[str] = "message is not modified"
+TELEGRAM_MESSAGE_SAFE_MARGIN: Final[int] = 50
 
 
 def _is_message_not_modified(error: TelegramBadRequest) -> bool:
-    return "message is not modified" in error.message.lower()
+    return MESSAGE_NOT_MODIFIED_ERROR in error.message.lower()
 
 
 def _is_text_send_fallback_error(error: TelegramBadRequest) -> bool:
@@ -49,7 +50,12 @@ def _to_plain_text(html_text: str) -> str:
     try:
         parser.feed(html_text)
         parser.close()
-    except ValueError:
+    except ValueError as exc:
+        logger.warning(
+            "gsm_arena_html_plain_text_parser_failed",
+            error_type=type(exc).__name__,
+            original_text_length=len(html_text),
+        )
         return ""
     return parser.get_text()
 
