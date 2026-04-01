@@ -1,4 +1,4 @@
-import re
+from html.parser import HTMLParser
 from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from aiogram.types import Message
 
 logger = get_logger(__name__)
+TELEGRAM_MESSAGE_SAFE_MARGIN = 50
 
 
 def _is_message_not_modified(error: TelegramBadRequest) -> bool:
@@ -31,9 +32,22 @@ def _is_text_send_fallback_error(error: TelegramBadRequest) -> bool:
     return "message is too long" in lowered_message or "can't parse entities" in lowered_message
 
 
+class _PlainTextExtractor(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self._parts: list[str] = []
+
+    def handle_data(self, data: str) -> None:
+        self._parts.append(data)
+
+    def get_text(self) -> str:
+        return "".join(self._parts).strip()
+
+
 def _to_plain_text(html_text: str) -> str:
-    plain_text = re.sub(r"<[^>]+>", "", html_text)
-    return plain_text.strip()
+    parser = _PlainTextExtractor()
+    parser.feed(html_text)
+    return parser.get_text()
 
 
 def _chunk_text(value: str, chunk_size: int) -> list[str]:
@@ -98,9 +112,14 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
 
         plain_text = _to_plain_text(text)
         if not plain_text:
+            await logger.awarning(
+                "[GSM Arena] Empty plain-text fallback",
+                device_url=devices[callback_data.index].url,
+                original_text_length=len(text),
+            )
             await self.event.answer(_("Error fetching device details"), show_alert=True)
             return
 
-        chunk_size = TELEGRAM_MESSAGE_LENGTH_LIMIT - 50
+        chunk_size = TELEGRAM_MESSAGE_LENGTH_LIMIT - TELEGRAM_MESSAGE_SAFE_MARGIN
         for chunk in _chunk_text(plain_text, chunk_size):
             await message.reply(text=chunk, link_preview_options=link_preview_options)
