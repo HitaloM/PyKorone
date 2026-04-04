@@ -15,7 +15,7 @@ from korone.modules.utils_.chat_member import update_chat_members
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable, Iterable
 
-    from aiogram.types import ChatMemberUpdated, Message, TelegramObject
+    from aiogram.types import ChatJoinRequest, ChatMemberUpdated, Message, TelegramObject
 
     from korone.db.models.chat import ChatModel, UserInGroupModel
 
@@ -290,6 +290,18 @@ class SaveChatsMiddleware(BaseMiddleware):
         data["chat_db"] = data["user_db"] = user
 
     @staticmethod
+    async def save_chat_join_request(join_request: ChatJoinRequest, data: dict[str, Any]) -> None:
+        await logger.adebug(
+            "SaveChatsMiddleware: Saving chat join request",
+            chat_id=join_request.chat.id,
+            user_id=join_request.from_user.id,
+        )
+        chat = await ChatRepository.upsert_group(join_request.chat)
+        user = await ChatRepository.upsert_user(join_request.from_user)
+        data["chat_db"] = data["group_db"] = chat
+        data["user_db"] = user
+
+    @staticmethod
     async def save_my_chat_member(event: ChatMemberUpdated) -> bool:
         status = event.new_chat_member.status
         await logger.adebug("SaveChatsMiddleware: Handling my_chat_member update", status=status, chat_id=event.chat.id)
@@ -334,6 +346,8 @@ class SaveChatsMiddleware(BaseMiddleware):
             await self.handle_message(event.message, data)
         elif any([event.callback_query, event.inline_query, event.poll_answer]):
             await self.save_from_user(data)
+        elif event.chat_join_request:
+            await self.save_chat_join_request(event.chat_join_request, data)
         elif event.my_chat_member:
             continue_ = await self.save_my_chat_member(event.my_chat_member)
 

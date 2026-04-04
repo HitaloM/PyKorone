@@ -33,5 +33,5 @@ dependencies = [
 dev = ["pre-commit>=4.5.1", "ruff>=0.14.14", "pyright>=1.1.408"]
 
 [build-system]
-requires = ["uv_build>=0.10"]
+requires = ["uv_build>=0.11,<0.12"]
 build-backend = "uv_build"
