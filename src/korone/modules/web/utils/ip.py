@@ -73,11 +73,14 @@ def _resolve_hostname_system(hostname: str) -> list[str]:
         return []
 
     resolved: list[str] = []
+    seen: set[str] = set()
     for info in infos:
         sockaddr = info[4]
         ip = str(sockaddr[0])
-        if ip not in resolved:
-            resolved.append(ip)
+        if ip in seen:
+            continue
+        seen.add(ip)
+        resolved.append(ip)
     return resolved
 
 
@@ -95,6 +98,14 @@ async def get_ips_from_string(value: str) -> list[str]:
             return [str(ip)]
         except ValueError:
             ips = await resolve_hostname(host)
-            ipv4s = [ip for ip in ips if ipaddress.ip_address(ip).version == 4]
-            ipv6s = [ip for ip in ips if ipaddress.ip_address(ip).version == 6]
+            normalized_ips: list[tuple[str, int]] = []
+            for raw_ip in ips:
+                try:
+                    parsed_ip = ipaddress.ip_address(raw_ip)
+                except ValueError:
+                    continue
+                normalized_ips.append((str(parsed_ip), parsed_ip.version))
+
+            ipv4s = [ip for ip, version in normalized_ips if version == 4]
+            ipv6s = [ip for ip, version in normalized_ips if version == 6]
             return ipv6s + ipv4s

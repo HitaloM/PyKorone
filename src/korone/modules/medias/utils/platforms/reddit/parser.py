@@ -4,6 +4,9 @@ import html
 import re
 from urllib.parse import urldefrag, urljoin
 
+from korone.modules.medias.utils import parsing as shared_parsing
+from korone.modules.medias.utils.parsing import coerce_str
+
 
 def normalize_post_id(post_id: str) -> str | None:
     candidate = post_id.strip()
@@ -15,9 +18,7 @@ def normalize_post_id(post_id: str) -> str | None:
 
 
 def ensure_url_scheme(url: str) -> str:
-    if url.startswith(("http://", "https://")):
-        return url
-    return f"https://{url.lstrip('/')}"
+    return shared_parsing.ensure_url_scheme(url)
 
 
 def looks_like_block_page(html_content: str, markers: tuple[str, ...]) -> bool:
@@ -29,32 +30,17 @@ def normalize_media_url(base_url: str, candidate: str | None) -> str:
     if not candidate:
         return ""
 
-    decoded = html.unescape(candidate.strip())
+    decoded = coerce_str(html.unescape(candidate))
     if not decoded:
         return ""
 
     absolute = urljoin(base_url, decoded)
     absolute, _ = urldefrag(absolute)
-    return absolute.strip()
+    return coerce_str(absolute) or ""
 
 
 def first_non_empty(values: list[str]) -> str | None:
     for value in values:
-        if isinstance(value, str) and value.strip():
-            return value.strip()
-    return None
-
-
-def coerce_int(value: object) -> int | None:
-    if isinstance(value, bool):
-        return None
-    if isinstance(value, int):
-        return value
-    if isinstance(value, float):
-        return int(value)
-    if isinstance(value, str):
-        try:
-            return int(float(value))
-        except ValueError:
-            return None
+        if normalized := coerce_str(value):
+            return normalized
     return None

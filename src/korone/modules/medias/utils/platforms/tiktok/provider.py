@@ -1,17 +1,18 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING, ClassVar
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.modules.medias.utils.provider_base import MediaProvider
-from korone.modules.medias.utils.types import MediaKind, MediaPost, MediaSource
+from korone.modules.medias.utils.types import MediaKind, MediaPost
 
 from . import client, parser
 from .constants import PATTERN, TIKTOK_MEDIA_HEADERS, TIKTOK_TIMEOUT
 
 if TYPE_CHECKING:
-    from korone.modules.medias.utils.types import MediaItem
+    from korone.modules.medias.utils.types import MediaItem, MediaSource
 
 _TNKTOK_OFFLOAD_BASE_URL = "https://offload.tnktok.com"
 
@@ -76,16 +77,7 @@ class TikTokProvider(MediaProvider):
             source = sources[0]
             resolved_url = await client.resolve_media_url(source.url)
             if resolved_url and resolved_url != source.url:
-                return [
-                    MediaSource(
-                        kind=source.kind,
-                        url=resolved_url,
-                        thumbnail_url=source.thumbnail_url,
-                        duration=source.duration,
-                        width=source.width,
-                        height=source.height,
-                    )
-                ]
+                return [replace(source, url=resolved_url)]
 
         return sources
 
@@ -127,15 +119,6 @@ class TikTokProvider(MediaProvider):
                 offload_url = f"{base_url}/generate/image/{post_id}/{photo_index}"
                 photo_index += 1
 
-            fallback_sources.append(
-                MediaSource(
-                    kind=source.kind,
-                    url=offload_url,
-                    thumbnail_url=source.thumbnail_url,
-                    duration=source.duration,
-                    width=source.width,
-                    height=source.height,
-                )
-            )
+            fallback_sources.append(replace(source, url=offload_url))
 
         return fallback_sources

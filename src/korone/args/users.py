@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, cast, override
+from typing import TYPE_CHECKING, override
 
 from ass_tg.exceptions import ArgStrictError
 from ass_tg.types import OrArg
@@ -79,11 +79,10 @@ class KoroneUserMentionArg(ArgFabric):
         return any(e.offset == 0 and e.type in self._allowed_entities for e in entities)
 
     async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, ChatModel]:
-        mention_entities = [e for e in entities if e.offset == offset and e.type in self._allowed_entities]
-        if not mention_entities:
+        entity = next((e for e in entities if e.offset == offset and e.type in self._allowed_entities), None)
+        if entity is None:
             raise ArgStrictError(_("No mention entity found at offset."))
 
-        entity = mention_entities[0]
         mention_text = text[entity.offset : entity.offset + entity.length]
         length = entity.length
 
@@ -124,13 +123,10 @@ class KoroneUserArg(OrArg):
 
     @property
     def examples(self) -> dict[str, BabelLazyProxy | None] | None:
-        return cast(
-            "dict[str, BabelLazyProxy | None]",
-            {
-                "1111224224": l_("User ID"),
-                "@ofoxr_bot": l_("Username"),
-                str(UserLink(user_id=1111224224, name="OrangeFox BOT")): l_(
-                    "A link to user, usually creates by mentioning a user without username."
-                ),
-            },
-        )
+        return {
+            "1111224224": l_("User ID"),
+            "@ofoxr_bot": l_("Username"),
+            str(UserLink(user_id=1111224224, name="OrangeFox BOT")): l_(
+                "A link to user, usually creates by mentioning a user without username."
+            ),
+        }

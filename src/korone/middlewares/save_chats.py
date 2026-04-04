@@ -10,6 +10,7 @@ from aiogram.types import Chat, Update, User
 from korone.config import CONFIG
 from korone.db.repositories.chat import ChatRepository
 from korone.logger import get_logger
+from korone.middlewares.context_data import as_korone_context
 from korone.modules.utils_.chat_member import update_chat_members
 
 if TYPE_CHECKING:
@@ -106,6 +107,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         return current_user, user_in_group
 
     async def handle_message(self, message: Message, data: dict[str, Any]) -> None:
+        context = as_korone_context(data)
         await logger.adebug(
             "SaveChatsMiddleware: Handling message", message_id=message.message_id, chat_id=message.chat.id
         )
@@ -119,24 +121,25 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         chats_to_update = await self._handle_message_update(message, chat)
         await self._chats_update(chats_to_update)
-        data["updated_chats"] = chats_to_update
+        context["updated_chats"] = chats_to_update
 
         await self.save_topic(message, chat)
 
-        data["new_users"] = await self._handle_new_chat_members(message, chat, user)
+        context["new_users"] = await self._handle_new_chat_members(message, chat, user)
 
         await self._handle_left_chat_member(message, chat)
         await self._handle_chat_owner_updates(message, chat)
 
     @staticmethod
     async def _handle_migration(data: dict[str, Any], message: Message) -> bool:
+        context = as_korone_context(data)
         if message.migrate_from_chat_id:
             await logger.adebug(
                 "SaveChatsMiddleware: Handling migration from chat",
                 old_id=message.migrate_from_chat_id,
                 new_id=message.chat.id,
             )
-            data["chat_db"] = data["group_db"] = await ChatRepository.do_chat_migrate(
+            context["chat_db"] = context["group_db"] = await ChatRepository.do_chat_migrate(
                 old_id=message.migrate_from_chat_id, new_chat=message.chat
             )
             return True
@@ -147,24 +150,26 @@ class SaveChatsMiddleware(BaseMiddleware):
                 new_id=message.migrate_to_chat_id,
             )
             current_group = await ChatRepository.upsert_group(message.chat)
-            data["chat_db"] = data["group_db"] = current_group
+            context["chat_db"] = context["group_db"] = current_group
             return True
         return False
 
     async def _handle_private_and_group_message(
         self, data: dict[str, Any], message: Message
     ) -> tuple[ChatModel, ChatModel]:
+        context = as_korone_context(data)
         if message.chat.type == ChatType.PRIVATE and message.from_user:
             await logger.adebug("SaveChatsMiddleware: Handling private message", user_id=message.from_user.id)
             user = await ChatRepository.upsert_user(message.from_user)
-            data["chat_db"] = data["user_db"] = user
+            context["chat_db"] = context["user_db"] = user
             return user, user
         await logger.adebug("SaveChatsMiddleware: Handling group message", chat_id=message.chat.id)
         current_group = await ChatRepository.upsert_group(message.chat)
-        data["chat_db"] = data["group_db"] = current_group
+        context["chat_db"] = context["group_db"] = current_group
 
-        current_user, data["user_in_group"] = await self.update_from_user(message, current_group)
-        data["user_db"] = current_user
+        current_user, user_in_group = await self.update_from_user(message, current_group)
+        context["user_in_group"] = user_in_group
+        context["user_db"] = current_user
 
         return current_group, current_user or current_group
 
@@ -269,28 +274,30 @@ class SaveChatsMiddleware(BaseMiddleware):
 
     @staticmethod
     async def save_from_user(data: dict[str, Any]) -> None:
-        from_user = data.get("event_from_user")
+        context = as_korone_context(data)
+        from_user = context.get("event_from_user")
         if not isinstance(from_user, User):
             return
 
         await logger.adebug("SaveChatsMiddleware: Saving from user", user_id=from_user.id)
         user = await ChatRepository.upsert_user(from_user)
-        data["user_db"] = user
+        context["user_db"] = user
 
-        event_chat = data.get("event_chat")
+        event_chat = context.get("event_chat")
         if isinstance(event_chat, Chat):
             chat_type = ChatType(event_chat.type)
             if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
                 await logger.adebug("SaveChatsMiddleware: Saving callback event chat", chat_id=event_chat.id)
                 group = await ChatRepository.upsert_group(event_chat)
-                data["chat_db"] = data["group_db"] = group
-                data["user_in_group"] = await ChatRepository.ensure_user_in_group(user, group)
+                context["chat_db"] = context["group_db"] = group
+                context["user_in_group"] = await ChatRepository.ensure_user_in_group(user, group)
                 return
 
-        data["chat_db"] = data["user_db"] = user
+        context["chat_db"] = context["user_db"] = user
 
     @staticmethod
     async def save_chat_join_request(join_request: ChatJoinRequest, data: dict[str, Any]) -> None:
+        context = as_korone_context(data)
         await logger.adebug(
             "SaveChatsMiddleware: Saving chat join request",
             chat_id=join_request.chat.id,
@@ -298,8 +305,8 @@ class SaveChatsMiddleware(BaseMiddleware):
         )
         chat = await ChatRepository.upsert_group(join_request.chat)
         user = await ChatRepository.upsert_user(join_request.from_user)
-        data["chat_db"] = data["group_db"] = chat
-        data["user_db"] = user
+        context["chat_db"] = context["group_db"] = chat
+        context["user_db"] = user
 
     @staticmethod
     async def save_my_chat_member(event: ChatMemberUpdated) -> bool:
@@ -344,7 +351,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         await logger.adebug("SaveChatsMiddleware: Incoming update", update_id=event.update_id)
         if event.message:
             await self.handle_message(event.message, data)
-        elif any([event.callback_query, event.inline_query, event.poll_answer]):
+        elif event.callback_query or event.inline_query or event.poll_answer:
             await self.save_from_user(data)
         elif event.chat_join_request:
             await self.save_chat_join_request(event.chat_join_request, data)

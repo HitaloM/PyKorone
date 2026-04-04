@@ -6,6 +6,7 @@ from aiogram.handlers import ErrorHandler
 from aiogram.types import Chat
 
 from korone.logger import get_logger
+from korone.middlewares.context_data import as_korone_context
 from korone.modules.error.utils.backoff import compute_error_signature, should_notify
 from korone.modules.error.utils.capture import capture_sentry
 from korone.modules.error.utils.error_message import generic_error_message
@@ -22,6 +23,7 @@ logger = get_logger(__name__)
 
 class KoroneErrorHandler(ErrorHandler):
     async def handle(self) -> None:
+        context = as_korone_context(self.data)
         event_exception = getattr(self.event, "exception", None)
         exception = event_exception if isinstance(event_exception, Exception) else self.event
         update: Update = self.update
@@ -30,7 +32,7 @@ class KoroneErrorHandler(ErrorHandler):
             return
 
         if is_no_rights_error(exception):
-            chat = self.data.get("event_chat")
+            chat = context.get("event_chat")
             handled = await handle_no_rights_error(self.bot, chat, exception)
             if handled:
                 return
@@ -47,13 +49,13 @@ class KoroneErrorHandler(ErrorHandler):
         elif type(exception) is not type(sys_exception) or str(exception) != str(sys_exception):
             await logger.awarning("Mismatched exception seeking", from_aiogram=exception, from_sys=sys_exception)
 
-        if isinstance(state := self.data.get("state"), FSMContext):
+        if isinstance(state := context.get("state"), FSMContext):
             await state.clear()
 
         if update and update.inline_query:
             return
 
-        chat = self.data.get("event_chat")
+        chat = context.get("event_chat")
         if not isinstance(chat, Chat):
             await logger.awarning("Error update has no event chat attached")
             return

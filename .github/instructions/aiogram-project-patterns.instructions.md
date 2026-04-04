@@ -69,6 +69,8 @@ applyTo: "src/korone/**/*.py"
 
 - Middlewares should subclass `BaseMiddleware`.
 - Pass computed context through the shared `data` dict so handlers and filters can consume it.
+- Prefer the shared typed context helper in `src/korone/middlewares/context_data.py` when reading or writing middleware payload fields.
+- Avoid ad hoc `dict[str, Any]` casts at middleware or handler boundaries when the context shape is known.
 - Register middlewares in one central place and preserve established order.
 - Use outer middleware only when logic must wrap full update processing.
 

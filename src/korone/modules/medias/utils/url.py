@@ -1,12 +1,22 @@
 from __future__ import annotations
 
+from functools import lru_cache
 from urllib.parse import urldefrag, urlsplit, urlunsplit
 
 from url_normalize import url_normalize
 
 
 def normalize_media_url(url: str) -> str | None:
-    if not (candidate := url.strip()):
+    candidate = url.strip()
+    if not candidate:
+        return None
+
+    return _normalize_media_url_cached(candidate)
+
+
+@lru_cache(maxsize=4096)
+def _normalize_media_url_cached(candidate: str) -> str | None:
+    if not candidate:
         return None
 
     try:

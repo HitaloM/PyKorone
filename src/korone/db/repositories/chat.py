@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 from datetime import UTC, datetime, timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 from aiogram.enums import ChatType
 from sqlalchemy import func, select
@@ -16,7 +16,13 @@ if TYPE_CHECKING:
     from aiogram.types import Chat, User
 
 
-type ChatData = dict[str, ChatType | str | bool | datetime | None]
+class ChatData(TypedDict):
+    type: ChatType
+    first_name_or_title: str
+    last_name: str | None
+    username: str | None
+    is_bot: bool
+    last_saw: datetime
 
 
 class UserInGroupRepository:
@@ -112,7 +118,7 @@ class ChatRepository:
     def _group_data(chat: Chat) -> ChatData:
         return {
             "type": ChatType(chat.type),
-            "first_name_or_title": chat.title,
+            "first_name_or_title": chat.title or "Group",
             "last_name": None,
             "username": chat.username,
             "is_bot": False,

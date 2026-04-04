@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import hashlib
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import orjson
 
 from korone import aredis
 from korone.constants import CACHE_FILE_ID_TTL_SECONDS
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
 
 _CACHE_PREFIX = "telegram:file-id"
 
@@ -33,7 +36,7 @@ async def get_cached_file_payload(cache_key: str) -> dict[str, Any] | None:
 
 
 async def set_cached_file_payload(
-    cache_key: str, payload: dict[str, Any], *, ttl: int = CACHE_FILE_ID_TTL_SECONDS
+    cache_key: str, payload: Mapping[str, Any], *, ttl: int = CACHE_FILE_ID_TTL_SECONDS
 ) -> None:
     await aredis.set(cache_key, orjson.dumps(payload), ex=ttl)
 

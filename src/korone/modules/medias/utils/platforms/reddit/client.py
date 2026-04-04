@@ -34,6 +34,30 @@ def _is_transient_status(status: int, transient_statuses: Iterable[int]) -> bool
 async def request_redlib_page(
     url: str, *, headers: dict[str, str], cookies: dict[str, str], request_timeout: aiohttp.ClientTimeout
 ) -> dict[str, str] | None:
+    response_payload = await _fetch_text_with_retry(
+        url, headers=headers, cookies=cookies, request_timeout=request_timeout
+    )
+    if not response_payload:
+        return None
+
+    html_content, resolved_url = response_payload
+    return {"html": html_content, "base_url": resolved_url}
+
+
+async def fetch_text(
+    url: str, *, headers: dict[str, str], cookies: dict[str, str], request_timeout: aiohttp.ClientTimeout
+) -> str | None:
+    response_payload = await _fetch_text_with_retry(
+        url, headers=headers, cookies=cookies, request_timeout=request_timeout
+    )
+    if not response_payload:
+        return None
+    return response_payload[0]
+
+
+async def _fetch_text_with_retry(
+    url: str, *, headers: dict[str, str], cookies: dict[str, str], request_timeout: aiohttp.ClientTimeout
+) -> tuple[str, str] | None:
     session = await HTTPClient.get_session()
     for attempt in range(1, _RETRY_ATTEMPTS + 1):
         try:
@@ -46,29 +70,7 @@ async def request_redlib_page(
                         continue
                     return None
 
-                html_content = await response.text()
-                return {"html": html_content, "base_url": str(response.url)}
-        except TimeoutError, aiohttp.ClientError:
-            if attempt >= _RETRY_ATTEMPTS:
-                raise
-            await _sleep_before_retry(attempt)
-
-    return None
-
-
-async def fetch_text(
-    url: str, *, headers: dict[str, str], cookies: dict[str, str], request_timeout: aiohttp.ClientTimeout
-) -> str | None:
-    session = await HTTPClient.get_session()
-    for attempt in range(1, _RETRY_ATTEMPTS + 1):
-        try:
-            async with session.get(url, headers=headers, cookies=cookies, timeout=request_timeout) as response:
-                if response.status != 200:
-                    if attempt < _RETRY_ATTEMPTS and _is_transient_status(response.status, _TRANSIENT_HTTP_STATUS):
-                        await _sleep_before_retry(attempt)
-                        continue
-                    return None
-                return await response.text()
+                return await response.text(), str(response.url)
         except TimeoutError, aiohttp.ClientError:
             if attempt >= _RETRY_ATTEMPTS:
                 raise

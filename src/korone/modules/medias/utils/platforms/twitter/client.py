@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import Any
 
 import aiohttp
 import orjson
@@ -28,7 +28,7 @@ async def fetch_json(url: str) -> dict[str, Any] | None:
                 await logger.adebug("[FXTwitter] Unexpected payload shape", payload_type=type(data).__name__, url=url)
                 return None
 
-            return cast("dict[str, Any]", data)
+            return data
     except (aiohttp.ClientError, orjson.JSONDecodeError) as exc:
         await logger.aerror("[FXTwitter] Request error", error=str(exc), url=url)
         return None

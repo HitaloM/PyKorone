@@ -9,6 +9,7 @@ from aiogram.types import Update
 from korone.constants import CACHE_ADMIN_TTL_SECONDS
 from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.logger import get_logger
+from korone.middlewares.context_data import get_chat_db
 from korone.modules.utils_.chat_member import update_chat_members
 
 if TYPE_CHECKING:
@@ -36,13 +37,13 @@ class AdminCacheMiddleware(BaseMiddleware):
         return await handler(event, data)
 
     async def _refresh_cache_if_needed(self, data: dict[str, Any]) -> None:
-        chat_db = data.get("group_db") or data.get("chat_db")
+        chat_db = get_chat_db(data)
         if chat_db is None:
             await logger.adebug("AdminCacheMiddleware: no chat model available, skipping")
             return
 
-        chat_tid = getattr(chat_db, "chat_id", None)
-        if not isinstance(chat_tid, int) or chat_tid > 0:
+        chat_tid = chat_db.chat_id
+        if chat_tid > 0:
             await logger.adebug("AdminCacheMiddleware: not a group chat, skipping", chat_id=chat_tid)
             return
 

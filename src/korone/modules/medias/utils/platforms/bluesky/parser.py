@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 from urllib.parse import quote
 
+from korone.modules.medias.utils.parsing import coerce_int, coerce_str, dict_list, dict_or_empty
 from korone.modules.medias.utils.types import MediaKind, MediaSource
 
 if TYPE_CHECKING:
@@ -17,27 +18,22 @@ def extract_handle_and_rkey(url: str, pattern: re.Pattern[str]) -> tuple[str | N
 
 
 def extract_post(data: dict[str, Any]) -> dict[str, Any] | None:
-    thread = data.get("thread") if isinstance(data, dict) else None
-    if not isinstance(thread, dict):
-        return None
+    thread = dict_or_empty(data.get("thread"))
     post = thread.get("post")
     return post if isinstance(post, dict) else None
 
 
 def extract_author(post: dict[str, Any]) -> tuple[str, str, str]:
-    author_raw = post.get("author")
-    author = author_raw if isinstance(author_raw, dict) else {}
-    author_name = author.get("displayName") or ""
-    author_handle = author.get("handle") or ""
-    author_did = author.get("did") or ""
-    return str(author_name), str(author_handle), str(author_did)
+    author = dict_or_empty(post.get("author"))
+    author_name = coerce_str(author.get("displayName")) or ""
+    author_handle = coerce_str(author.get("handle")) or ""
+    author_did = coerce_str(author.get("did")) or ""
+    return author_name, author_handle, author_did
 
 
 def extract_text(post: dict[str, Any]) -> str:
-    record_raw = post.get("record")
-    record = record_raw if isinstance(record_raw, dict) else {}
-    text = record.get("text") or ""
-    return str(text)
+    record = dict_or_empty(post.get("record"))
+    return coerce_str(record.get("text")) or ""
 
 
 def build_post_url(handle: str, rkey: str) -> str:
@@ -45,23 +41,17 @@ def build_post_url(handle: str, rkey: str) -> str:
 
 
 def extract_embed_view(post: dict[str, Any]) -> tuple[dict[str, Any] | None, str]:
-    embed = post.get("embed") if isinstance(post.get("embed"), dict) else None
-    if not isinstance(embed, dict):
+    embed_view = dict_or_empty(post.get("embed"))
+    if not embed_view:
         return None, ""
 
-    embed_view: dict[str, Any] = embed
-    embed_type: str = ""
-    embed_type_raw = embed_view.get("$type")
-    if isinstance(embed_type_raw, str):
-        embed_type = embed_type_raw
+    embed_type = coerce_str(embed_view.get("$type")) or ""
 
     if embed_type == "app.bsky.embed.recordWithMedia#view":
-        media = embed_view.get("media") if isinstance(embed_view.get("media"), dict) else None
-        if not isinstance(media, dict):
+        embed_view = dict_or_empty(embed_view.get("media"))
+        if not embed_view:
             return None, ""
-        embed_view = media
-        embed_type_raw = embed_view.get("$type")
-        embed_type = embed_type_raw if isinstance(embed_type_raw, str) else ""
+        embed_type = coerce_str(embed_view.get("$type")) or ""
 
     return embed_view, embed_type
 
@@ -89,31 +79,22 @@ def extract_media_sources(
         )
 
     if embed_type == "app.bsky.embed.images#view":
-        images_raw = embed_view.get("images")
-        images: list[dict[str, Any]] = (
-            [image for image in images_raw if isinstance(image, dict)] if isinstance(images_raw, list) else []
-        )
-        for image in images:
-            fullsize = image.get("fullsize") or image.get("thumb")
-            if isinstance(fullsize, str):
-                width, height = extract_aspect_ratio(image)
-                _add(
-                    MediaKind.PHOTO,
-                    fullsize,
-                    thumbnail_url=str(image.get("thumb")) if isinstance(image.get("thumb"), str) else None,
-                    width=width,
-                    height=height,
-                )
+        for image in dict_list(embed_view.get("images")):
+            fullsize = coerce_str(image.get("fullsize") or image.get("thumb"))
+            if not fullsize:
+                continue
+
+            width, height = extract_aspect_ratio(image)
+            _add(MediaKind.PHOTO, fullsize, thumbnail_url=coerce_str(image.get("thumb")), width=width, height=height)
 
     if embed_type == "app.bsky.embed.video#view":
         video_url = build_video_url(embed_view, author_did, pds_url)
         if video_url:
             width, height = extract_aspect_ratio(embed_view)
-            thumbnail_url = embed_view.get("thumbnail")
             _add(
                 MediaKind.VIDEO,
                 video_url,
-                thumbnail_url=str(thumbnail_url) if isinstance(thumbnail_url, str) else None,
+                thumbnail_url=coerce_str(embed_view.get("thumbnail")),
                 width=width,
                 height=height,
             )
@@ -122,8 +103,8 @@ def extract_media_sources(
 
 
 def build_video_url(embed: dict[str, Any], author_did: str, pds_url: str | None) -> str | None:
-    cid = embed.get("cid")
-    if isinstance(cid, str) and author_did and pds_url:
+    cid = coerce_str(embed.get("cid"))
+    if cid and author_did and pds_url:
         return f"{pds_url}/xrpc/com.atproto.sync.getBlob?did={quote(author_did)}&cid={quote(cid)}"
     return None
 
@@ -133,18 +114,3 @@ def extract_aspect_ratio(embed: dict[str, Any]) -> tuple[int | None, int | None]
     if not isinstance(aspect, dict):
         return None, None
     return coerce_int(aspect.get("width")), coerce_int(aspect.get("height"))
-
-
-def coerce_int(value: object) -> int | None:
-    if isinstance(value, bool):
-        return None
-    if isinstance(value, int):
-        return value
-    if isinstance(value, float):
-        return int(value)
-    if isinstance(value, str):
-        try:
-            return int(float(value))
-        except ValueError:
-            return None
-    return None

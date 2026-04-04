@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import functools
 import math
 import shutil
 from dataclasses import dataclass
@@ -183,6 +184,11 @@ async def convert_video_for_sticker(source_path: Path, output_path: Path) -> Non
 
 
 def is_ffmpeg_available() -> bool:
+    return _is_ffmpeg_available()
+
+
+@functools.lru_cache(maxsize=1)
+def _is_ffmpeg_available() -> bool:
     return bool(shutil.which("ffmpeg") and shutil.which("ffprobe"))
 
 

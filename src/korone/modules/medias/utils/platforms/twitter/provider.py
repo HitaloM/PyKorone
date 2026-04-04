@@ -86,12 +86,4 @@ class TwitterProvider(MediaProvider):
             )
 
         endpoints.append(FXTWITTER_STATUS_API.format(status_id=quote(status_id)))
-
-        unique_endpoints: list[str] = []
-        seen: set[str] = set()
-        for endpoint in endpoints:
-            if endpoint in seen:
-                continue
-            seen.add(endpoint)
-            unique_endpoints.append(endpoint)
-        return unique_endpoints
+        return list(dict.fromkeys(endpoints))

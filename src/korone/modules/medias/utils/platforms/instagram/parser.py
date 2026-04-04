@@ -7,15 +7,11 @@ from urllib.parse import urlparse
 
 from lxml import html as lxml_html
 
+from korone.modules.medias.utils.parsing import coerce_str, ensure_url_scheme
 from korone.modules.medias.utils.types import MediaKind
 
 from .constants import INSTAFIX_HOST, INSTAGRAM_HOST
-
-
-def ensure_url_scheme(url: str) -> str:
-    if url.startswith(("http://", "https://")):
-        return url
-    return f"https://{url.lstrip('/')}"
+from .types import InstaData
 
 
 def build_instafix_url(url: str) -> str:
@@ -30,37 +26,44 @@ def build_post_url(url: str) -> str:
     return url
 
 
-def scrape_instafix_data(html_content: str) -> dict[str, str]:
+def scrape_instafix_data(html_content: str) -> InstaData | None:
     tree = lxml_html.fromstring(html_content)
     meta_nodes = tree.xpath("//head/meta[@property or @name]")
-    scraped: dict[str, str] = {"media_url": "", "username": "", "description": "", "type": ""}
+
+    media_url = ""
+    username = ""
+    description = ""
+    media_type = ""
 
     for node in meta_nodes:
-        prop = node.get("property") or node.get("name")
-        content = node.get("content")
+        prop = coerce_str(node.get("property") or node.get("name"))
+        content = coerce_str(node.get("content"))
         if not prop or not content:
             continue
 
         if prop == "og:video":
-            scraped["type"] = "video"
-            scraped["media_url"] = build_instafix_media_url(content)
+            media_type = "video"
+            media_url = build_instafix_media_url(content)
         elif prop == "twitter:title":
-            scraped["username"] = content.lstrip("@").strip()
+            username = content.lstrip("@")
         elif prop == "og:description":
-            scraped["description"] = html.unescape(content).strip()
-        elif prop == "og:image" and not scraped["media_url"]:
-            scraped["type"] = "photo"
+            description = coerce_str(html.unescape(content)) or ""
+        elif prop == "og:image" and not media_url:
+            media_type = "photo"
             image_url = content.replace("/images/", "/grid/")
             image_url = re.sub(r"/\d+$", "/", image_url)
-            scraped["media_url"] = build_instafix_media_url(image_url)
+            media_url = build_instafix_media_url(image_url)
 
-    return scraped
+    if not media_url:
+        return None
+
+    return InstaData(media_url=media_url, username=username, description=description, media_type=media_type)
 
 
 def build_instafix_media_url(path_or_url: str) -> str:
     if path_or_url.startswith(("http://", "https://")):
-        return path_or_url
-    return f"https://{INSTAFIX_HOST}{path_or_url}"
+        return ensure_url_scheme(path_or_url)
+    return ensure_url_scheme(f"{INSTAFIX_HOST}{path_or_url}")
 
 
 def make_filename(url: str, kind: MediaKind) -> str:

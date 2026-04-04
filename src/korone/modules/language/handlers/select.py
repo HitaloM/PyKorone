@@ -1,8 +1,9 @@
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle, ChatType
 from aiogram.filters import Command
+from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 
@@ -17,7 +18,6 @@ from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
 
     from korone.utils.i18n import I18nNew
 
@@ -28,12 +28,7 @@ def build_language_selection_keyboard(
     keyboard = InlineKeyboardBuilder()
 
     all_locales = [i18n.default_locale, *sorted(i18n.available_locales)]
-    seen = set()
-    unique_locales = []
-    for loc in all_locales:
-        if loc not in seen:
-            seen.add(loc)
-            unique_locales.append(loc)
+    unique_locales = list(dict.fromkeys(all_locales))
 
     selected_locale = i18n.current_locale
     language_button_count = 0
@@ -102,11 +97,15 @@ class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
 
     async def handle(self) -> None:
         await self.check_for_message()
-        message = cast("Message", self.event.message)
+        message = self.event.message
+        if not isinstance(message, Message):
+            return
 
         is_private = message.chat.type == ChatType.PRIVATE
 
-        callback_data = cast("LangMenuCallback", self.callback_data)
+        callback_data = self.callback_data
+        if not isinstance(callback_data, LangMenuCallback):
+            return
         back_to_start = callback_data.back_to_start
 
         i18n = get_i18n()

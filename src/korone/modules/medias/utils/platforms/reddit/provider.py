@@ -9,6 +9,7 @@ from lxml import html as lxml_html
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
+from korone.modules.medias.utils.parsing import coerce_int
 from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.modules.medias.utils.types import MediaKind, MediaPost, MediaSource
 from korone.utils.aiohttp_session import HTTPClient
@@ -120,16 +121,8 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
 
     @classmethod
     def _instance_candidates(cls) -> list[str]:
-        candidates = [*REDLIB_INSTANCES]
-        unique: list[str] = []
-        seen: set[str] = set()
-        for candidate in candidates:
-            normalized = candidate.rstrip("/")
-            if not normalized or normalized in seen:
-                continue
-            seen.add(normalized)
-            unique.append(normalized)
-        return unique
+        candidates = [candidate.rstrip("/") for candidate in REDLIB_INSTANCES]
+        return [candidate for candidate in dict.fromkeys(candidates) if candidate]
 
     @classmethod
     def _build_redlib_url(cls, post_ref: _PostRef, instance: str) -> str:
@@ -273,12 +266,12 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         ) -> None:
             if not url:
                 return
-            normalized_url = cls._normalize_media_url(base_url, url)
+            normalized_url = parser.normalize_media_url(base_url, url)
             if not normalized_url or normalized_url in seen:
                 return
 
             seen.add(normalized_url)
-            normalized_thumb = cls._normalize_media_url(base_url, thumbnail_url) if thumbnail_url else None
+            normalized_thumb = parser.normalize_media_url(base_url, thumbnail_url) if thumbnail_url else None
             sources.append(
                 MediaSource(kind=kind, url=normalized_url, thumbnail_url=normalized_thumb, width=width, height=height)
             )
@@ -327,8 +320,8 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         urls: list[str] = []
         gallery_nodes = tree.xpath("//div[contains(@class, 'gallery')]//figure")
         for figure in gallery_nodes:
-            href = cls._first_non_empty(figure.xpath(".//a/@href"))
-            src = cls._first_non_empty(figure.xpath(".//img[@alt='Gallery image']/@src"))
+            href = parser.first_non_empty(figure.xpath(".//a/@href"))
+            src = parser.first_non_empty(figure.xpath(".//img[@alt='Gallery image']/@src"))
             selected = href or src
             if selected:
                 urls.append(selected)
@@ -337,13 +330,13 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
     @classmethod
     def _extract_image_url(cls, tree: lxml_html.HtmlElement) -> str | None:
         return (
-            cls._first_non_empty(
+            parser.first_non_empty(
                 tree.xpath(
                     "//div[contains(@class, 'post_media_content')]//a[contains(@class, 'post_media_image')]/@href"
                 )
             )
-            or cls._first_non_empty(tree.xpath("//div[contains(@class, 'post_media_content')]//img/@src"))
-            or cls._first_non_empty(tree.xpath("//meta[@property='og:image']/@content"))
+            or parser.first_non_empty(tree.xpath("//div[contains(@class, 'post_media_content')]//img/@src"))
+            or parser.first_non_empty(tree.xpath("//meta[@property='og:image']/@content"))
         )
 
     @classmethod
@@ -356,8 +349,8 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         if video_nodes:
             video_node = video_nodes[0]
             poster = video_node.get("poster")
-            width = cls._coerce_int(video_node.get("width"))
-            height = cls._coerce_int(video_node.get("height"))
+            width = coerce_int(video_node.get("width"))
+            height = coerce_int(video_node.get("height"))
 
             direct_mp4_sources = [video_node.get("src") or ""]
             direct_mp4_sources.extend(
@@ -365,18 +358,18 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                 for source in video_node.xpath(".//source[@type='video/mp4' or starts-with(@type, 'video/mp4')]/@src")
             )
             for source in direct_mp4_sources:
-                normalized = cls._normalize_media_url(base_url, source)
+                normalized = parser.normalize_media_url(base_url, source)
                 if normalized:
                     return _ResolvedVideo(url=normalized, thumbnail_url=poster, width=width, height=height)
 
-            hls_source = cls._first_non_empty(
+            hls_source = parser.first_non_empty(
                 video_node.xpath(
                     ".//source[@type='application/vnd.apple.mpegurl' "
                     "or starts-with(@type, 'application/vnd.apple.mpegurl')]/@src"
                 )
             )
             if hls_source:
-                resolved = await cls._resolve_hls_to_mp4(cls._normalize_media_url(base_url, hls_source))
+                resolved = await cls._resolve_hls_to_mp4(parser.normalize_media_url(base_url, hls_source))
                 if resolved:
                     video_url, resolved_width, resolved_height = resolved
                     return _ResolvedVideo(
@@ -388,13 +381,13 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
 
         mp4_match = cls._video_regex.search(html_content)
         if mp4_match and mp4_match.group(1):
-            normalized = cls._normalize_media_url(base_url, mp4_match.group(1))
+            normalized = parser.normalize_media_url(base_url, mp4_match.group(1))
             if normalized:
                 return _ResolvedVideo(url=normalized)
 
         playlist_match = cls._playlist_regex.search(html_content)
         if playlist_match and playlist_match.group(1):
-            resolved = await cls._resolve_hls_to_mp4(cls._normalize_media_url(base_url, playlist_match.group(1)))
+            resolved = await cls._resolve_hls_to_mp4(parser.normalize_media_url(base_url, playlist_match.group(1)))
             if resolved:
                 video_url, width, height = resolved
                 return _ResolvedVideo(url=video_url, width=width, height=height)
@@ -504,18 +497,6 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             return int(match.group(1)), int(match.group(2))
         except ValueError:
             return None, None
-
-    @classmethod
-    def _normalize_media_url(cls, base_url: str, candidate: str | None) -> str:
-        return parser.normalize_media_url(base_url, candidate)
-
-    @staticmethod
-    def _first_non_empty(values: list[str]) -> str | None:
-        return parser.first_non_empty(values)
-
-    @staticmethod
-    def _coerce_int(value: object) -> int | None:
-        return parser.coerce_int(value)
 
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:

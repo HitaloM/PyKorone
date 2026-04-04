@@ -29,6 +29,7 @@ Keep cross-platform logic in shared files only:
 
 - `handlers/base.py`
 - `filters.py`
+- `utils/parsing.py`
 - `utils/provider_base.py`
 - `utils/types.py`
 - `utils/url.py`
@@ -84,7 +85,7 @@ Provider behavior expectations:
 Parser layer (`parser.py`):
 
 - keep functions deterministic and side-effect free
-- prefer explicit coercion/type guards for weak external payloads
+- prefer explicit coercion/type guards for weak external payloads, ideally via shared helpers in `utils/parsing.py`
 - avoid I/O and network calls
 
 Client layer (`client.py`):
@@ -93,6 +94,12 @@ Client layer (`client.py`):
 - use provider defaults for timeout and headers unless platform requires overrides
 - return `None` on non-200 or invalid payloads
 - use structured logs for platform-specific network failures
+
+Shared parsing helpers (`utils/parsing.py`):
+
+- use `coerce_str(...)`, `coerce_int(...)`, `dict_or_empty(...)`, and `dict_list(...)` for weak external payloads
+- use `ensure_url_scheme(...)` for simple scheme normalization when a provider needs it
+- keep these helpers side-effect free and reusable across platform parsers
 
 ## Shared Types
 

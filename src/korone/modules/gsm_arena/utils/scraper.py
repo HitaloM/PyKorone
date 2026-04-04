@@ -61,10 +61,7 @@ async def fetch_html(url: str) -> str:
             if err.status == 429 and attempt < MAX_RETRIES:
                 delay = RETRY_BASE_DELAY * (2 ** (attempt - 1))
                 await logger.awarning(
-                    "[GSM Arena] Rate limited, retrying",
-                    target_url=url,
-                    attempt=attempt,
-                    retry_after=delay,
+                    "[GSM Arena] Rate limited, retrying", target_url=url, attempt=attempt, retry_after=delay
                 )
                 await asyncio.sleep(delay)
                 continue

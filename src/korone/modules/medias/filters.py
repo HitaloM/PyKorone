@@ -38,15 +38,8 @@ class MediaUrlFilter(BaseFilter):
         if self._is_url_command(text):
             return False
 
-        urls: list[str] = []
-        seen_urls: set[str] = set()
-        for match in self.pattern.finditer(text):
-            normalized_url = normalize_media_url(match.group(0))
-            if not normalized_url or normalized_url in seen_urls:
-                continue
-
-            seen_urls.add(normalized_url)
-            urls.append(normalized_url)
+        normalized_urls = (normalize_media_url(match.group(0)) for match in self.pattern.finditer(text))
+        urls = list(dict.fromkeys(url for url in normalized_urls if url))
 
         if not urls:
             return False

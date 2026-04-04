@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 import re
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
 
+from korone.modules.medias.utils.parsing import coerce_int, coerce_str, dict_list, dict_or_empty
 from korone.modules.medias.utils.types import MediaKind, MediaSource
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 _STATUS_URL_PATTERN = re.compile(
     r"https?://(?:www\.)?(?:x\.com|(?:www\.|mobile\.)?twitter\.com)/"
@@ -43,10 +47,7 @@ def extract_status_code(data: dict[str, Any]) -> int | None:
 
 
 def extract_status_message(data: dict[str, Any]) -> str:
-    message = data.get("message")
-    if isinstance(message, str):
-        return message
-    return ""
+    return coerce_str(data.get("message")) or ""
 
 
 def extract_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | None:
@@ -64,8 +65,11 @@ def extract_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def extract_author(tweet: dict[str, Any]) -> tuple[str, str]:
-    author = tweet.get("author") or tweet.get("user") or {}
-    author_name = author.get("name") or tweet.get("author_name") or tweet.get("user_name") or ""
+    author = dict_or_empty(tweet.get("author"))
+    if not author:
+        author = dict_or_empty(tweet.get("user"))
+
+    author_name = coerce_str(author.get("name") or tweet.get("author_name") or tweet.get("user_name")) or ""
     author_handle = normalize_handle(
         author.get("screen_name")
         or author.get("username")
@@ -73,18 +77,20 @@ def extract_author(tweet: dict[str, Any]) -> tuple[str, str]:
         or tweet.get("author_handle")
         or tweet.get("user_screen_name")
     )
-    return str(author_name), author_handle or ""
+    return author_name, author_handle or ""
 
 
 def extract_text(tweet: dict[str, Any]) -> str:
-    text = tweet.get("text") or tweet.get("translation") or tweet.get("full_text") or tweet.get("content") or ""
-    return str(text)
+    return (
+        coerce_str(tweet.get("text") or tweet.get("translation") or tweet.get("full_text") or tweet.get("content"))
+        or ""
+    )
 
 
 def extract_post_url(tweet: dict[str, Any], status_id: str, handle: str | None, fallback: str) -> str:
-    url = tweet.get("url") or tweet.get("tweet_url") or ""
+    url = coerce_str(tweet.get("url") or tweet.get("tweet_url")) or ""
     if url:
-        return str(url)
+        return url
     if handle:
         return f"https://x.com/{handle}/status/{status_id}"
     return fallback
@@ -115,26 +121,26 @@ def extract_media_sources(tweet: dict[str, Any]) -> list[MediaSource]:
         )
 
     def _extract_metadata(item: dict[str, Any]) -> tuple[str | None, int | None, int | None, int | None]:
-        thumbnail_url = item.get("thumbnail_url") or item.get("thumb") or item.get("preview_image_url")
+        thumbnail_url = coerce_str(item.get("thumbnail_url") or item.get("thumb") or item.get("preview_image_url"))
         return (
-            str(thumbnail_url) if isinstance(thumbnail_url, str) else None,
+            thumbnail_url,
             coerce_int(item.get("duration")),
             coerce_int(item.get("width")),
             coerce_int(item.get("height")),
         )
 
-    for photo in ensure_list(media.get("photos")) + ensure_list(media.get("images")):
+    for photo in iter_media_dicts(media.get("photos"), media.get("images")):
         if url := coerce_url(photo.get("url") or photo.get("src") or photo.get("source")):
             thumbnail_url, duration, width, height = _extract_metadata(photo)
             _add(MediaKind.PHOTO, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
-    for video in ensure_list(media.get("videos")) + ensure_list(media.get("video")):
+    for video in iter_media_dicts(media.get("videos"), media.get("video")):
         url = pick_video_url(video)
         if url:
             thumbnail_url, duration, width, height = _extract_metadata(video)
             _add(MediaKind.VIDEO, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
-    for item in ensure_list(media.get("all")):
+    for item in iter_media_dicts(media.get("all")):
         kind = resolve_kind(item)
         url = pick_video_url(item) if kind == MediaKind.VIDEO else coerce_url(item.get("url") or item.get("src"))
         if not url:
@@ -154,7 +160,7 @@ def extract_media_sources(tweet: dict[str, Any]) -> list[MediaSource]:
 
 
 def pick_video_url(video: dict[str, Any]) -> str | None:
-    variants = ensure_list(video.get("variants"))
+    variants = dict_list(video.get("variants"))
     if best_variant := pick_best_variant(variants):
         return best_variant
 
@@ -229,34 +235,10 @@ def resolve_kind(item: dict[str, Any]) -> MediaKind:
     return MediaKind.PHOTO
 
 
-def ensure_list(value: object) -> list[dict[str, Any]]:
-    if isinstance(value, list):
-        return [cast("dict[str, Any]", item) for item in value if isinstance(item, dict)]
-    if isinstance(value, dict):
-        return [cast("dict[str, Any]", value)]
-    return []
+def iter_media_dicts(*values: object) -> Iterator[dict[str, Any]]:
+    for value in values:
+        yield from dict_list(value)
 
 
 def coerce_url(value: object) -> str | None:
-    if not isinstance(value, str):
-        return None
-
-    url = value.strip()
-    if not url:
-        return None
-    return url
-
-
-def coerce_int(value: object) -> int | None:
-    if isinstance(value, bool):
-        return None
-    if isinstance(value, int):
-        return value
-    if isinstance(value, float):
-        return int(value)
-    if isinstance(value, str):
-        try:
-            return int(float(value))
-        except ValueError:
-            return None
-    return None
+    return coerce_str(value)

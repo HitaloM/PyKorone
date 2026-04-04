@@ -7,7 +7,6 @@ from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
 
 from . import client, parser
 from .constants import PATTERN, POST_PATTERN
-from .types import InstaData
 
 
 class InstagramProvider(MediaProvider):
@@ -23,16 +22,9 @@ class InstagramProvider(MediaProvider):
             return None
 
         instafix_url = parser.build_instafix_url(normalized_url)
-        data_raw = await client.get_instafix_data(instafix_url)
-        if not data_raw or not data_raw.get("media_url"):
+        data = await client.get_instafix_data(instafix_url)
+        if not data:
             return None
-
-        data = InstaData(
-            media_url=data_raw.get("media_url", ""),
-            username=data_raw.get("username", ""),
-            description=data_raw.get("description", ""),
-            media_type=data_raw.get("media_type", ""),
-        )
 
         media_kind = MediaKind.VIDEO if data.media_type == "video" else MediaKind.PHOTO
         media_item = await cls._download_media(data.media_url, media_kind)

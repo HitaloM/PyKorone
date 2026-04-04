@@ -4,7 +4,7 @@ import asyncio
 from dataclasses import replace
 from io import BytesIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypedDict
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import BufferedInputFile
@@ -44,7 +44,24 @@ if TYPE_CHECKING:
 
     from korone.modules.medias.utils.provider_base import MediaProvider
 
-type CachePayload = dict[str, Any]
+
+class MediaCacheEntryPayload(TypedDict, total=False):
+    kind: str
+    file_id: str
+    source_url: str
+    duration: int
+    width: int
+    height: int
+
+
+class PostCachePayload(TypedDict):
+    author_name: str
+    author_handle: str
+    text: str
+    url: str
+    website: str
+    media: list[MediaCacheEntryPayload]
+
 
 logger = get_logger(__name__)
 
@@ -137,8 +154,8 @@ class BaseMediaHandler(KoroneMessageHandler):
         return value if isinstance(value, int) and not isinstance(value, bool) else None
 
     @staticmethod
-    def _serialize_media_cache_entry(media: MediaItem, file_id: str) -> CachePayload:
-        payload: CachePayload = {"kind": media.kind.value, "file_id": file_id, "source_url": media.source_url}
+    def _serialize_media_cache_entry(media: MediaItem, file_id: str) -> MediaCacheEntryPayload:
+        payload: MediaCacheEntryPayload = {"kind": media.kind.value, "file_id": file_id, "source_url": media.source_url}
 
         if media.duration is not None:
             payload["duration"] = media.duration
@@ -150,7 +167,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         return payload
 
     @classmethod
-    def _deserialize_media_cache_entry(cls, payload: CachePayload, index: int) -> MediaItem | None:
+    def _deserialize_media_cache_entry(cls, payload: dict[str, Any], index: int) -> MediaItem | None:
         match payload:
             case {"kind": str() as kind_raw, "file_id": str() as file_id, **rest} if file_id:
                 try:
@@ -175,7 +192,9 @@ class BaseMediaHandler(KoroneMessageHandler):
         )
 
     @classmethod
-    def _build_post_cache_payload(cls, post: MediaPost, media_payload: list[CachePayload]) -> CachePayload:
+    def _build_post_cache_payload(
+        cls, post: MediaPost, media_payload: list[MediaCacheEntryPayload]
+    ) -> PostCachePayload:
         return {
             "author_name": post.author_name,
             "author_handle": post.author_handle,
@@ -186,7 +205,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         }
 
     @classmethod
-    def _deserialize_post_cache_payload(cls, payload: CachePayload) -> MediaPost | None:
+    def _deserialize_post_cache_payload(cls, payload: dict[str, Any]) -> MediaPost | None:
         match payload:
             case {"media": list(raw_media), "url": str() as url, "website": str() as website, **rest} if (
                 url and website
@@ -239,7 +258,9 @@ class BaseMediaHandler(KoroneMessageHandler):
         for candidate_url in self._collect_post_cache_candidates(*urls):
             await delete_cached_file_payload(self._post_cache_key(candidate_url))
 
-    async def _set_post_cache(self, source_url: str, post: MediaPost, media_payload: list[CachePayload]) -> None:
+    async def _set_post_cache(
+        self, source_url: str, post: MediaPost, media_payload: list[MediaCacheEntryPayload]
+    ) -> None:
         if not media_payload:
             return
 
@@ -247,7 +268,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         for candidate_url in self._collect_post_cache_candidates(source_url, post.url):
             await set_cached_file_payload(self._post_cache_key(candidate_url), payload)
 
-    def _chat_action_kwargs(self) -> CachePayload:
+    def _chat_action_kwargs(self) -> dict[str, Any]:
         return {"chat_id": self.event.chat.id, "bot": self.bot, "message_thread_id": self.event.message_thread_id}
 
     def _upload_action(self, kind: MediaKind) -> AbstractAsyncContextManager[Any]:
@@ -543,7 +564,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     async def _cache_media_source_file_id(cls, source_url: str, file_id: str) -> None:
         await set_cached_file_payload(cls._media_source_cache_key(source_url), {"file_id": file_id})
 
-    async def _cache_sent_media(self, media: MediaItem, sent_message: Message) -> CachePayload | None:
+    async def _cache_sent_media(self, media: MediaItem, sent_message: Message) -> MediaCacheEntryPayload | None:
         if not (file_id := self._extract_sent_file_id(sent_message, media.kind)):
             return None
 
@@ -552,7 +573,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     async def _send_single_media(
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
-    ) -> list[CachePayload]:
+    ) -> list[MediaCacheEntryPayload]:
         async with self._upload_action(media.kind):
             try:
                 sent_message = await self._reply_media(media, caption, keyboard)
@@ -599,7 +620,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 chat_id=self.event.chat.id, media=media_group, message_thread_id=self.event.message_thread_id
             )
 
-    async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> list[CachePayload]:
+    async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> list[MediaCacheEntryPayload]:
         try:
             builder = MediaGroupBuilder()
             last_index = len(media_items) - 1
@@ -625,7 +646,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             sent_messages = await self._send_media_group_messages(media_group)
             media_items = forced_media_items
 
-        cached_media_payload: list[CachePayload] = []
+        cached_media_payload: list[MediaCacheEntryPayload] = []
         for item, sent in zip(media_items, sent_messages, strict=False):
             if serialized := await self._cache_sent_media(item, sent):
                 cached_media_payload.append(serialized)
@@ -703,7 +724,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         async with ChatActionSender.typing(**self._chat_action_kwargs()):
             return await self.PROVIDER.safe_fetch(url)
 
-    async def _send_post(self, post: MediaPost) -> list[CachePayload]:
+    async def _send_post(self, post: MediaPost) -> list[MediaCacheEntryPayload]:
         media_items = post.media[: self.MEDIA_GROUP_LIMIT]
         if not media_items:
             return []
