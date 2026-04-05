@@ -63,20 +63,7 @@ class UserRestricting(Filter):
     @classmethod
     def validate(cls, full_config: dict[str, str | bool]) -> dict[str, str | bool]:
         config: dict[str, str | bool] = {}
-        arguments = {
-            "user_admin": "admin",
-            "user_owner": "user_owner",
-            "user_can_post_messages": "can_post_messages",
-            "user_can_edit_messages": "can_edit_messages",
-            "user_can_delete_messages": "can_delete_messages",
-            "user_can_restrict_members": "can_restrict_members",
-            "user_can_promote_members": "can_promote_members",
-            "user_can_change_info": "can_change_info",
-            "user_can_invite_users": "can_invite_users",
-            "user_can_pin_messages": "can_pin_messages",
-            "user_can_manage_tags": "can_manage_tags",
-        }
-        for alias, argument in arguments.items():
+        for alias, argument in cls.ARGUMENTS.items():
             if alias in full_config:
                 config[argument] = full_config.pop(alias)
         return config

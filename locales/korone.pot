@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-04-05 18:21-0300\n"
+"POT-Creation-Date: 2026-04-05 18:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,35 +101,35 @@ msgstr ""
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:243
+#: src/korone/filters/admin_rights.py:230
 msgid "I don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:245
+#: src/korone/filters/admin_rights.py:232
 msgid "You don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:250
+#: src/korone/filters/admin_rights.py:237
 msgid "I must be an administrator to use this command."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:252
+#: src/korone/filters/admin_rights.py:239
 msgid "You must be an administrator to use this command."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:269
+#: src/korone/filters/admin_rights.py:256
 msgid "Anonymous admin must have a custom admin title to use this command."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:273
+#: src/korone/filters/admin_rights.py:260
 msgid "Could not resolve this anonymous admin title. Refresh admin cache or use a unique title."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:281
+#: src/korone/filters/admin_rights.py:268
 msgid "Multiple anonymous admins share this title, and not all of them can use this command. Use a unique title."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:288
+#: src/korone/filters/admin_rights.py:275
 msgid "You must be the chat creator to use this command."
 msgstr ""
 

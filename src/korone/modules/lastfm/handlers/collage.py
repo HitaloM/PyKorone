@@ -52,15 +52,15 @@ class LastFMCollageSupport(LastFMHandlerSupport):
             return size
         return None
 
-    @classmethod
-    def parse_options(cls, raw_options: str) -> LastFMCollageOptions:
+    @staticmethod
+    def parse_options(raw_options: str) -> LastFMCollageOptions:
         options = LastFMCollageOptions()
         for token in raw_options.lower().split():
             if token in COLLAGE_CLEAN_TOKENS:
                 options = LastFMCollageOptions(size=options.size, period=options.period, include_text=False)
                 continue
 
-            if parsed_size := cls.parse_size(token):
+            if parsed_size := LastFMCollageSupport.parse_size(token):
                 options = LastFMCollageOptions(
                     size=parsed_size, period=options.period, include_text=options.include_text
                 )
@@ -74,8 +74,8 @@ class LastFMCollageSupport(LastFMHandlerSupport):
 
         return options
 
-    @classmethod
-    def build_caption(cls, *, username: str, options: LastFMCollageOptions) -> str:
+    @staticmethod
+    def build_caption(*, username: str, options: LastFMCollageOptions) -> str:
         profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
         return str(
             Template(
@@ -86,8 +86,8 @@ class LastFMCollageSupport(LastFMHandlerSupport):
             )
         )
 
-    @classmethod
-    def build_keyboard(cls, *, owner_id: int, target_id: int, options: LastFMCollageOptions) -> InlineKeyboardMarkup:
+    @staticmethod
+    def build_keyboard(*, owner_id: int, target_id: int, options: LastFMCollageOptions) -> InlineKeyboardMarkup:
         builder = InlineKeyboardBuilder()
         button_count = 0
 
@@ -118,8 +118,8 @@ class LastFMCollageSupport(LastFMHandlerSupport):
         builder.adjust(button_count + 1)
         return builder.as_markup()
 
-    @classmethod
-    async def render_collage(cls, *, username: str, options: LastFMCollageOptions) -> bytes:
+    @staticmethod
+    async def render_collage(*, username: str, options: LastFMCollageOptions) -> bytes:
         client = LastFMClient()
         albums = await client.get_top_albums(username=username, period=options.period.value, limit=100)
         if not albums:

@@ -341,8 +341,8 @@ class SaveChatsMiddleware(BaseMiddleware):
                 "SaveChatsMiddleware: Failed to send group welcome message", chat_id=event.chat.id, error=str(error)
             )
 
-    @staticmethod
-    async def save_my_chat_member(event: ChatMemberUpdated) -> bool:
+    @classmethod
+    async def save_my_chat_member(cls, event: ChatMemberUpdated) -> bool:
         old_status = event.old_chat_member.status
         status = event.new_chat_member.status
         await logger.adebug(
@@ -387,7 +387,7 @@ class SaveChatsMiddleware(BaseMiddleware):
                 old_status=old_status,
                 status=status,
             )
-            await SaveChatsMiddleware._send_group_welcome_message(event)
+            await cls._send_group_welcome_message(event)
 
         return status != ChatMemberStatus.MEMBER
 
