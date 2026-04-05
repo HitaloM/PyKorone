@@ -48,6 +48,8 @@ def configure_dispatcher() -> None:
 def get_allowed_updates() -> list[str]:
     allowed_updates = set(dp.resolve_used_update_types())
     allowed_updates.add(UpdateType.CHAT_JOIN_REQUEST.value)
+    allowed_updates.add(UpdateType.MY_CHAT_MEMBER.value)
+    logger.debug("Allowed updates resolved", allowed_updates=allowed_updates)
     return sorted(allowed_updates)
 
 

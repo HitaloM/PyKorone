@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-03-29 12:42-0300\n"
+"POT-Creation-Date: 2026-04-05 18:21-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,28 +53,28 @@ msgstr ""
 msgid "No mention entity found at offset."
 msgstr ""
 
-#: src/korone/args/users.py:97
+#: src/korone/args/users.py:96
 msgid "Could not find the mentioned user in the database."
 msgstr ""
 
-#: src/korone/args/users.py:121
+#: src/korone/args/users.py:120
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: src/korone/args/users.py:122
+#: src/korone/args/users.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
-#: src/korone/args/users.py:130
+#: src/korone/args/users.py:127
 msgid "User ID"
 msgstr ""
 
-#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/set.py:79
+#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:79
 #: src/korone/modules/users/handlers/info.py:72
 msgid "Username"
 msgstr ""
 
-#: src/korone/args/users.py:133
+#: src/korone/args/users.py:130
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
@@ -118,8 +118,26 @@ msgstr ""
 msgid "This command can only be used in private chats."
 msgstr ""
 
-#: src/korone/middlewares/chat_context.py:35
+#: src/korone/middlewares/chat_context.py:37
 msgid "Private chat"
+msgstr ""
+
+#: src/korone/middlewares/save_chats.py:329
+#: src/korone/modules/help/__init__.py:25
+#: src/korone/modules/help/handlers/help_group.py:30
+#: src/korone/modules/help/handlers/pm_modules.py:72
+#: src/korone/modules/help/handlers/start_group.py:34
+msgid "Help"
+msgstr ""
+
+#: src/korone/middlewares/save_chats.py:330
+#: src/korone/modules/help/handlers/start_group.py:35
+msgid "📢 Channel"
+msgstr ""
+
+#: src/korone/middlewares/save_chats.py:334
+#: src/korone/modules/help/handlers/start_group.py:39
+msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
 msgstr ""
 
 #: src/korone/modules/disabling/__init__.py:16
@@ -209,7 +227,7 @@ msgid "✅ Enable all"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:38
-#: src/korone/modules/language/handlers/select.py:57
+#: src/korone/modules/language/handlers/select.py:52
 msgid "❌ Cancel"
 msgstr ""
 
@@ -320,75 +338,68 @@ msgstr ""
 msgid "Error searching GSMArena. Please try again later."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:93
+#: src/korone/modules/gsm_arena/utils/scraper.py:107
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:94
+#: src/korone/modules/gsm_arena/utils/scraper.py:108
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:95
+#: src/korone/modules/gsm_arena/utils/scraper.py:109
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:96
+#: src/korone/modules/gsm_arena/utils/scraper.py:110
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:97
+#: src/korone/modules/gsm_arena/utils/scraper.py:111
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:98
+#: src/korone/modules/gsm_arena/utils/scraper.py:112
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:100
+#: src/korone/modules/gsm_arena/utils/scraper.py:114
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:100
+#: src/korone/modules/gsm_arena/utils/scraper.py:114
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:102
+#: src/korone/modules/gsm_arena/utils/scraper.py:116
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:103
+#: src/korone/modules/gsm_arena/utils/scraper.py:117
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:104
+#: src/korone/modules/gsm_arena/utils/scraper.py:118
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:105
+#: src/korone/modules/gsm_arena/utils/scraper.py:119
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:106
+#: src/korone/modules/gsm_arena/utils/scraper.py:120
 msgid "Charging"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:110
+#: src/korone/modules/gsm_arena/utils/scraper.py:124
 msgid "Overview"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:110
+#: src/korone/modules/gsm_arena/utils/scraper.py:124
 msgid "Cameras"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:110
+#: src/korone/modules/gsm_arena/utils/scraper.py:124
 msgid "Connectivity and Power"
-msgstr ""
-
-#: src/korone/modules/help/__init__.py:25
-#: src/korone/modules/help/handlers/help_group.py:30
-#: src/korone/modules/help/handlers/pm_modules.py:72
-#: src/korone/modules/help/handlers/start_group.py:34
-msgid "Help"
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:27
@@ -420,8 +431,8 @@ msgstr ""
 #: src/korone/modules/hifi/handlers/preview.py:57
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
-#: src/korone/modules/language/handlers/select.py:62
-#: src/korone/modules/language/handlers/select.py:66
+#: src/korone/modules/language/handlers/select.py:57
+#: src/korone/modules/language/handlers/select.py:61
 #: src/korone/modules/privacy/handlers/privacy.py:35
 msgid "⬅️ Back"
 msgstr ""
@@ -487,14 +498,6 @@ msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:20
 msgid "Show the start message."
-msgstr ""
-
-#: src/korone/modules/help/handlers/start_group.py:35
-msgid "📢 Channel"
-msgstr ""
-
-#: src/korone/modules/help/handlers/start_group.py:39
-msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:39
@@ -736,13 +739,13 @@ msgstr ""
 msgid "Show current language settings for this chat."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:81
+#: src/korone/modules/language/handlers/select.py:76
 msgid "Open the language selection menu for this chat."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:91
-#: src/korone/modules/language/handlers/select.py:113
-#: src/korone/modules/language/handlers/select.py:127
+#: src/korone/modules/language/handlers/select.py:86
+#: src/korone/modules/language/handlers/select.py:112
+#: src/korone/modules/language/handlers/select.py:126
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
@@ -1011,8 +1014,8 @@ msgstr ""
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/base.py:644
-#: src/korone/modules/medias/handlers/base.py:699
+#: src/korone/modules/medias/handlers/base.py:665
+#: src/korone/modules/medias/handlers/base.py:720
 #, python-brace-format
 msgid "Open in {website}"
 msgstr ""
@@ -1378,37 +1381,37 @@ msgstr ""
 msgid "Default sticker pack changed to {pack}."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:112
+#: src/korone/modules/stickers/utils/media.py:113
 msgid "Could not process this file as an image sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:138
+#: src/korone/modules/stickers/utils/media.py:139
 msgid "Video conversion is unavailable because ffmpeg/ffprobe are not installed."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:143
+#: src/korone/modules/stickers/utils/media.py:144
 #, python-brace-format
 msgid "Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:174
+#: src/korone/modules/stickers/utils/media.py:175
 msgid "Could not convert this video to a valid sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:179
+#: src/korone/modules/stickers/utils/media.py:180
 #, python-brace-format
 msgid "Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:204
+#: src/korone/modules/stickers/utils/media.py:210
 msgid "Could not inspect video metadata."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:214
+#: src/korone/modules/stickers/utils/media.py:220
 msgid "Could not parse video metadata."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:217
+#: src/korone/modules/stickers/utils/media.py:223
 msgid "Video metadata is invalid."
 msgstr ""
 

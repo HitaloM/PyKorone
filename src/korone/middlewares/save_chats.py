@@ -6,12 +6,16 @@ from aiogram import BaseMiddleware
 from aiogram.enums import ChatMemberStatus, ChatType
 from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Chat, Update, User
+from aiogram.utils.deep_linking import create_start_link
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.config import CONFIG
 from korone.db.repositories.chat import ChatRepository
 from korone.logger import get_logger
 from korone.middlewares.context_data import as_korone_context
+from korone.modules.help.callbacks import HELP_START_PAYLOAD
 from korone.modules.utils_.chat_member import update_chat_members
+from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable, Iterable
@@ -309,9 +313,44 @@ class SaveChatsMiddleware(BaseMiddleware):
         context["user_db"] = user
 
     @staticmethod
+    async def _send_group_welcome_message(event: ChatMemberUpdated) -> None:
+        if event.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
+            return
+
+        bot = event.bot
+        if bot is None:
+            await logger.awarning(
+                "SaveChatsMiddleware: Bot instance unavailable while sending welcome message", chat_id=event.chat.id
+            )
+            return
+
+        help_url = await create_start_link(bot, HELP_START_PAYLOAD)
+        buttons = InlineKeyboardBuilder()
+        buttons.button(text=f"ℹ️ {_('Help')}", url=help_url)
+        buttons.button(text=_("📢 Channel"), url=CONFIG.news_channel)
+        buttons.adjust(2)
+
+        text = _(
+            "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
+        )
+
+        try:
+            await bot.send_message(chat_id=event.chat.id, text=str(text), reply_markup=buttons.as_markup())
+        except TelegramAPIError as error:
+            await logger.awarning(
+                "SaveChatsMiddleware: Failed to send group welcome message", chat_id=event.chat.id, error=str(error)
+            )
+
+    @staticmethod
     async def save_my_chat_member(event: ChatMemberUpdated) -> bool:
+        old_status = event.old_chat_member.status
         status = event.new_chat_member.status
-        await logger.adebug("SaveChatsMiddleware: Handling my_chat_member update", status=status, chat_id=event.chat.id)
+        await logger.adebug(
+            "SaveChatsMiddleware: Handling my_chat_member update",
+            status=status,
+            old_status=old_status,
+            chat_id=event.chat.id,
+        )
         if status in {ChatMemberStatus.KICKED, ChatMemberStatus.LEFT}:
             if not (group := await ChatRepository.get_by_chat_id(event.chat.id)):
                 return False
@@ -335,6 +374,21 @@ class SaveChatsMiddleware(BaseMiddleware):
                 if group := await ChatRepository.get_by_chat_id(event.chat.id):
                     await ChatRepository.delete_chat(group)
                 return False
+
+        joined_group = (
+            event.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}
+            and old_status in {ChatMemberStatus.LEFT, ChatMemberStatus.KICKED}
+            and status in {ChatMemberStatus.MEMBER, ChatMemberStatus.ADMINISTRATOR}
+        )
+        if joined_group:
+            await logger.ainfo(
+                "SaveChatsMiddleware: Bot added to group, sending welcome message",
+                chat_id=event.chat.id,
+                old_status=old_status,
+                status=status,
+            )
+            await SaveChatsMiddleware._send_group_welcome_message(event)
+
         return status != ChatMemberStatus.MEMBER
 
     @override
