@@ -3,7 +3,6 @@ import logging
 
 import sentry_sdk
 import uvloop
-from aiogram.enums import UpdateType
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
 from ass_tg.middleware import ArgsMiddleware
@@ -46,11 +45,16 @@ def configure_dispatcher() -> None:
 
 
 def get_allowed_updates() -> list[str]:
-    allowed_updates = set(dp.resolve_used_update_types())
-    allowed_updates.add(UpdateType.CHAT_JOIN_REQUEST.value)
-    allowed_updates.add(UpdateType.MY_CHAT_MEMBER.value)
-    logger.debug("Allowed updates resolved", allowed_updates=allowed_updates)
-    return sorted(allowed_updates)
+    return [
+        "message",
+        "edited_message",
+        "inline_query",
+        "callback_query",
+        "poll_answer",
+        "my_chat_member",
+        "chat_member",
+        "chat_join_request",
+    ]
 
 
 def get_webhook_url() -> str:
