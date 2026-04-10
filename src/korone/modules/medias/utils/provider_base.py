@@ -12,7 +12,6 @@ import aiohttp
 from aiogram.types import BufferedInputFile
 
 from korone.logger import get_logger
-from korone.modules.medias.utils.error_reporting import capture_media_exception
 from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import get_cached_file_payload, make_file_id_cache_key
 from korone.utils.aiohttp_session import HTTPClient
@@ -70,8 +69,8 @@ class MediaProvider(ABC):
         except TimeoutError:
             await logger.awarning("[Medias] Provider fetch timed out", provider=cls.name, source_url=url)
             return None
-        except Exception as error:  # noqa: BLE001
-            await capture_media_exception(error, stage="provider.fetch", provider=cls.name, source_url=url)
+        except Exception:  # noqa: BLE001
+            await logger.aexception("[Medias] Provider fetch failed", provider=cls.name, source_url=url)
             return None
 
     @classmethod
@@ -124,13 +123,13 @@ class MediaProvider(ABC):
                 source_index=index + 1,
                 source_kind=source.kind.value,
             )
-        except Exception as error:  # noqa: BLE001
-            await capture_media_exception(
-                error,
-                stage="provider.download_worker",
+        except Exception:  # noqa: BLE001
+            await logger.aexception(
+                "[Medias] Download worker failed",
                 provider=label,
                 source_url=source.url,
-                extras={"source_index": index + 1, "source_kind": source.kind.value},
+                source_index=index + 1,
+                source_kind=source.kind.value,
             )
 
     @classmethod
@@ -263,26 +262,18 @@ class MediaProvider(ABC):
                     await logger.awarning(payload_message, **log_context)
                     return None
 
-                extras: dict[str, object] = {}
-                if source_index is not None:
-                    extras["source_index"] = source_index
-                if source_kind is not None:
-                    extras["source_kind"] = source_kind.value
-
-                await capture_media_exception(
-                    error, stage=f"provider.download_{stage}.network", provider=label, source_url=url, extras=extras
-                )
+                log_context["stage"] = stage
+                await logger.aexception("[Medias] Download network error", **log_context)
                 return None
-            except Exception as error:  # noqa: BLE001
-                extras: dict[str, object] = {}
+            except Exception:  # noqa: BLE001
+                log_context: dict[str, object] = {"provider": label, "source_url": url}
                 if source_index is not None:
-                    extras["source_index"] = source_index
+                    log_context["source_index"] = source_index
                 if source_kind is not None:
-                    extras["source_kind"] = source_kind.value
+                    log_context["source_kind"] = source_kind.value
+                log_context["stage"] = stage
 
-                await capture_media_exception(
-                    error, stage=f"provider.download_{stage}.unexpected", provider=label, source_url=url, extras=extras
-                )
+                await logger.aexception("[Medias] Download unexpected error", **log_context)
                 return None
 
         return None

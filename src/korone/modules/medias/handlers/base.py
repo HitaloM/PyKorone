@@ -22,7 +22,6 @@ from korone.constants import (
 from korone.filters.chat_status import GroupChatFilter
 from korone.logger import get_logger
 from korone.modules.medias.filters import MediaUrlFilter
-from korone.modules.medias.utils.error_reporting import capture_media_exception
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
 from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import (
@@ -797,16 +796,13 @@ class BaseMediaHandler(KoroneMessageHandler):
             await self._set_post_cache(source_url, post, cached_media_payload)
         except asyncio.CancelledError:
             raise
-        except Exception as error:  # noqa: BLE001
-            await capture_media_exception(
-                error,
-                stage="handler.handle",
+        except Exception:  # noqa: BLE001
+            await logger.aexception(
+                "[Medias] Handler failed",
                 provider=self.PROVIDER.name,
                 source_url=source_url,
-                extras={
-                    "chat_id": self.event.chat.id,
-                    "message_id": self.event.message_id,
-                    "message_thread_id": self.event.message_thread_id,
-                    "handler": self.__class__.__name__,
-                },
+                chat_id=self.event.chat.id,
+                message_id=self.event.message_id,
+                message_thread_id=self.event.message_thread_id,
+                handler=self.__class__.__name__,
             )
