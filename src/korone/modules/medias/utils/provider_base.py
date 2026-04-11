@@ -18,6 +18,8 @@ from korone.utils.aiohttp_session import HTTPClient
 
 from .types import MediaItem, MediaKind
 
+type FetchPayloadAttemptResult = tuple[bytes, str] | Literal["retry"] | None
+
 if TYPE_CHECKING:
     import re
     from collections.abc import Sequence
@@ -95,15 +97,15 @@ class MediaProvider(ABC):
         results: list[MediaItem | None] = [None] * len(sources)
 
         async with asyncio.TaskGroup() as tg:
-            for i, source in enumerate(sources):
-                tg.create_task(cls._download_worker(i, source, prefix, max_size, label, results))
+            for source_index, source in enumerate(sources, start=1):
+                tg.create_task(cls._download_worker(source_index, source, prefix, max_size, label, results))
 
         return [item for item in results if item is not None]
 
     @classmethod
     async def _download_worker(
         cls,
-        index: int,
+        source_index: int,
         source: MediaSource,
         prefix: str,
         max_size: int | None,
@@ -111,8 +113,8 @@ class MediaProvider(ABC):
         results_list: list[MediaItem | None],
     ) -> None:
         try:
-            item = await cls._download_source(source, index + 1, prefix, max_size, label)
-            results_list[index] = item
+            item = await cls._download_source(source, source_index, prefix, max_size, label)
+            results_list[source_index - 1] = item
         except asyncio.CancelledError:
             raise
         except TimeoutError:
@@ -120,7 +122,7 @@ class MediaProvider(ABC):
                 "[Medias] Download source timed out",
                 provider=label,
                 source_url=source.url,
-                source_index=index + 1,
+                source_index=source_index,
                 source_kind=source.kind.value,
             )
         except Exception:  # noqa: BLE001
@@ -128,7 +130,7 @@ class MediaProvider(ABC):
                 "[Medias] Download worker failed",
                 provider=label,
                 source_url=source.url,
-                source_index=index + 1,
+                source_index=source_index,
                 source_kind=source.kind.value,
             )
 
@@ -186,6 +188,40 @@ class MediaProvider(ABC):
         return make_file_id_cache_key(cls._MEDIA_SOURCE_CACHE_NAMESPACE, cache_identifier)
 
     @classmethod
+    def _build_download_log_context(
+        cls,
+        *,
+        label: str,
+        url: str,
+        attempts: int | None = None,
+        stage: Literal["source", "thumbnail"] | None = None,
+        source_kind: MediaKind | None = None,
+        source_index: int | None = None,
+    ) -> dict[str, object]:
+        context: dict[str, object] = {"provider": label, "source_url": url}
+        if attempts is not None:
+            context["attempts"] = attempts
+        if source_index is not None:
+            context["source_index"] = source_index
+        if source_kind is not None:
+            context["source_kind"] = source_kind.value
+        if stage is not None:
+            context["stage"] = stage
+        return context
+
+    @staticmethod
+    def _timeout_log_message(stage: Literal["source", "thumbnail"]) -> str:
+        return "[Medias] Download source timed out" if stage == "source" else "[Medias] Download thumbnail timed out"
+
+    @staticmethod
+    def _payload_truncated_log_message(stage: Literal["source", "thumbnail"]) -> str:
+        return (
+            "[Medias] Download source payload truncated"
+            if stage == "source"
+            else "[Medias] Download thumbnail payload truncated"
+        )
+
+    @classmethod
     def _should_retry_status(cls, status_code: int) -> bool:
         return status_code in cls._TRANSIENT_HTTP_STATUS
 
@@ -207,83 +243,150 @@ class MediaProvider(ABC):
         source_index: int | None = None,
     ) -> tuple[bytes, str] | None:
         session = await HTTPClient.get_session()
-        for attempt in range(1, cls._DOWNLOAD_RETRY_ATTEMPTS + 1):
+        max_attempts = cls._DOWNLOAD_RETRY_ATTEMPTS
+        for attempt in range(1, max_attempts + 1):
             try:
                 async with session.get(url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response:
-                    if response.status != 200:
-                        if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS and cls._should_retry_status(response.status):
-                            await cls._sleep_before_retry(attempt)
-                            continue
-                        await logger.adebug(f"[{label}] HTTP {response.status}", url=url)
-                        return None
-
-                    if max_size and (content_len := response.content_length) and content_len > max_size:
-                        await logger.adebug(f"[{label}] Media too large", size=content_len)
-                        return None
-
-                    payload = await cls._read_payload(response, label=label, max_size=max_size)
-                    if payload is None:
-                        return None
-
-                    return payload, response.headers.get("Content-Type", "")
+                    attempt_result = await cls._handle_payload_attempt(
+                        response=response,
+                        url=url,
+                        label=label,
+                        attempt=attempt,
+                        max_attempts=max_attempts,
+                        max_size=max_size,
+                    )
+                if attempt_result != "retry":
+                    return attempt_result
+                await cls._sleep_before_retry(attempt)
             except asyncio.CancelledError:
                 raise
             except TimeoutError:
-                if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
+                if attempt < max_attempts:
                     await cls._sleep_before_retry(attempt)
                     continue
 
-                log_context: dict[str, object] = {"provider": label, "source_url": url, "attempts": attempt}
-                if source_index is not None:
-                    log_context["source_index"] = source_index
-                if source_kind is not None:
-                    log_context["source_kind"] = source_kind.value
-
-                timeout_message = "[Medias] Download thumbnail timed out"
-                if stage == "source":
-                    timeout_message = "[Medias] Download source timed out"
-                await logger.awarning(timeout_message, **log_context)
+                await cls._log_timeout_exhausted(
+                    label=label,
+                    url=url,
+                    stage=stage,
+                    attempts=attempt,
+                    source_kind=source_kind,
+                    source_index=source_index,
+                )
                 return None
             except aiohttp.ClientError as error:
-                if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
+                if attempt < max_attempts:
                     await cls._sleep_before_retry(attempt)
                     continue
 
-                log_context: dict[str, object] = {"provider": label, "source_url": url, "attempts": attempt}
-                if source_index is not None:
-                    log_context["source_index"] = source_index
-                if source_kind is not None:
-                    log_context["source_kind"] = source_kind.value
-
-                if isinstance(error, aiohttp.ClientPayloadError):
-                    payload_message = "[Medias] Download thumbnail payload truncated"
-                    if stage == "source":
-                        payload_message = "[Medias] Download source payload truncated"
-                    await logger.awarning(payload_message, **log_context)
-                    return None
-
-                log_context["stage"] = stage
-                await logger.aexception("[Medias] Download network error", **log_context)
+                await cls._log_client_error_exhausted(
+                    label=label,
+                    url=url,
+                    stage=stage,
+                    error=error,
+                    attempts=attempt,
+                    source_kind=source_kind,
+                    source_index=source_index,
+                )
                 return None
             except Exception:  # noqa: BLE001
-                log_context: dict[str, object] = {"provider": label, "source_url": url}
-                if source_index is not None:
-                    log_context["source_index"] = source_index
-                if source_kind is not None:
-                    log_context["source_kind"] = source_kind.value
-                log_context["stage"] = stage
-
-                await logger.aexception("[Medias] Download unexpected error", **log_context)
+                await cls._log_unexpected_download_error(
+                    label=label, url=url, stage=stage, source_kind=source_kind, source_index=source_index
+                )
                 return None
 
         return None
+
+    @classmethod
+    async def _handle_payload_attempt(
+        cls,
+        *,
+        response: aiohttp.ClientResponse,
+        url: str,
+        label: str,
+        attempt: int,
+        max_attempts: int,
+        max_size: int | None,
+    ) -> FetchPayloadAttemptResult:
+        if response.status != 200:
+            if attempt < max_attempts and cls._should_retry_status(response.status):
+                return "retry"
+            await logger.adebug(f"[{label}] HTTP {response.status}", url=url)
+            return None
+
+        if max_size and (content_len := response.content_length) and content_len > max_size:
+            await logger.adebug(f"[{label}] Media too large", size=content_len)
+            return None
+
+        payload = await cls._read_payload(response, label=label, max_size=max_size)
+        if payload is None:
+            return None
+
+        return payload, response.headers.get("Content-Type", "")
+
+    @classmethod
+    async def _log_timeout_exhausted(
+        cls,
+        *,
+        label: str,
+        url: str,
+        stage: Literal["source", "thumbnail"],
+        attempts: int,
+        source_kind: MediaKind | None,
+        source_index: int | None,
+    ) -> None:
+        await logger.awarning(
+            cls._timeout_log_message(stage),
+            **cls._build_download_log_context(
+                label=label, url=url, attempts=attempts, source_kind=source_kind, source_index=source_index
+            ),
+        )
+
+    @classmethod
+    async def _log_client_error_exhausted(
+        cls,
+        *,
+        label: str,
+        url: str,
+        stage: Literal["source", "thumbnail"],
+        error: aiohttp.ClientError,
+        attempts: int,
+        source_kind: MediaKind | None,
+        source_index: int | None,
+    ) -> None:
+        log_context = cls._build_download_log_context(
+            label=label, url=url, attempts=attempts, source_kind=source_kind, source_index=source_index
+        )
+
+        if isinstance(error, aiohttp.ClientPayloadError):
+            await logger.awarning(cls._payload_truncated_log_message(stage), **log_context)
+            return
+
+        await logger.aexception("[Medias] Download network error", **log_context, stage=stage)
+
+    @classmethod
+    async def _log_unexpected_download_error(
+        cls,
+        *,
+        label: str,
+        url: str,
+        stage: Literal["source", "thumbnail"],
+        source_kind: MediaKind | None,
+        source_index: int | None,
+    ) -> None:
+        await logger.aexception(
+            "[Medias] Download unexpected error",
+            **cls._build_download_log_context(
+                label=label, url=url, stage=stage, source_kind=source_kind, source_index=source_index
+            ),
+        )
 
     @classmethod
     async def _read_payload(cls, response: aiohttp.ClientResponse, *, label: str, max_size: int | None) -> bytes | None:
         if max_size is None:
             return await response.read()
 
-        chunks: list[bytes] = []
+        payload = bytearray()
         total_size = 0
         async for chunk in response.content.iter_chunked(cls._DOWNLOAD_CHUNK_SIZE_BYTES):
             if not chunk:
@@ -294,9 +397,9 @@ class MediaProvider(ABC):
                 await logger.adebug(f"[{label}] Media too large", size=total_size)
                 return None
 
-            chunks.append(chunk)
+            payload.extend(chunk)
 
-        return b"".join(chunks)
+        return bytes(payload)
 
     @classmethod
     async def _download_thumbnail(cls, url: str, label: str, index: int, prefix: str) -> InputFile | None:
