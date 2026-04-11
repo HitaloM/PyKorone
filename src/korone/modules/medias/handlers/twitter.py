@@ -3,7 +3,7 @@ from __future__ import annotations
 import html
 from typing import TYPE_CHECKING
 
-from aiogram.utils.formatting import BlockQuote, Bold, Code, Italic, Text
+from aiogram.utils.formatting import ExpandableBlockQuote, Italic, Text
 
 from korone.modules.medias.utils.platforms import TwitterProvider
 
@@ -29,25 +29,25 @@ class TwitterMediaHandler(BaseMediaHandler):
         if not (quote_text or post.quote_author_name or post.quote_author_handle):
             return None
 
-        quote_header_parts: list[Text] = []
+        quote_header_parts: list[str] = []
         if post.quote_author_name:
-            quote_header_parts.append(Bold(cls._normalize_text(post.quote_author_name)))
+            quote_header_parts.append(cls._normalize_text(post.quote_author_name))
 
         if post.quote_author_handle:
             handle = post.quote_author_handle.lstrip("@")
             if handle:
-                quote_header_parts.append(Code(f"@{cls._normalize_text(handle)}"))
+                quote_header_parts.append(f"({cls._normalize_text(handle)})")
 
-        quote_lines: list[Text | str] = []
+        quote_lines: list[str] = []
         if quote_header_parts:
-            quote_lines.append(Text(*quote_header_parts, sep=" "))
+            quote_lines.append(" ".join(quote_header_parts))
         if quote_text:
             quote_lines.append(cls._normalize_text(quote_text))
 
         if not quote_lines:
             return None
 
-        return BlockQuote(Text(*quote_lines, sep="\n"))
+        return ExpandableBlockQuote("\n".join(quote_lines))
 
     @classmethod
     def _render_twitter_caption(cls, post: MediaPost, *, include_link: bool, text: str, quote_text: str) -> str:
