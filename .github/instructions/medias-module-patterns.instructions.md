@@ -12,7 +12,7 @@ Use this guide for all changes under `src/korone/modules/medias/`.
 
 - Keep new media integrations consistent with existing handler and provider architecture.
 - Prefer composable platform adapters (constants, parser, client, provider) over monolithic handlers.
-- Keep failures soft (`None` return) and observable (structured logs and media error reporting).
+- Keep failures soft (`None` return) and observable through structured logs and the runtime logging pipeline.
 
 ## Directory and Layering
 
@@ -24,6 +24,7 @@ Follow this structure for new platforms:
 - `utils/platforms/<platform>/client.py`: network calls and payload decoding
 - `utils/platforms/<platform>/provider.py`: orchestration and `MediaPost` assembly
 - `utils/platforms/<platform>/types.py`: optional typed platform data models
+- `utils/platforms/<platform>/anubis.py` or similar helper modules: optional internal support code that stays inside the platform package
 
 Keep cross-platform logic in shared files only:
 
@@ -31,9 +32,9 @@ Keep cross-platform logic in shared files only:
 - `filters.py`
 - `utils/parsing.py`
 - `utils/provider_base.py`
+- `utils/settings.py`
 - `utils/types.py`
 - `utils/url.py`
-- `utils/error_reporting.py`
 
 ## Module Wiring
 
@@ -120,14 +121,16 @@ Use `MediaKind` to classify media and keep type-safe branching.
 
 ## Error Reporting
 
-Use `capture_media_exception(...)` for unexpected failures in provider/handler flow.
+Use structured logger calls (`adebug`, `awarning`, `aerror`, `aexception`) for unexpected failures in provider/client/handler flow.
 
-When calling it:
+When logging failures:
 
-- include `stage`
 - include `provider`
 - include `source_url` when available
-- include contextual extras that help reproducing issues
+- include `stage`, `source_index`, or `source_kind` when they help reproduction
+- keep the failure path soft and return `None` instead of raising from provider/client helpers
+
+Do not add manual Sentry capture inside medias. The module should rely on structured logs and the shared runtime logging path.
 
 ## Performance and Limits
 
