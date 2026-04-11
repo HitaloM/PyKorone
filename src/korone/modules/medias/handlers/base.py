@@ -9,10 +9,10 @@ from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
+from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.media_group import MediaGroupBuilder
 from PIL import Image, ImageOps
-from stfu_tg import Bold, Code, Italic, Template, Url
 
 from korone.constants import (
     TELEGRAM_PHOTO_MAX_ASPECT_RATIO,
@@ -39,7 +39,6 @@ if TYPE_CHECKING:
 
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import InlineKeyboardMarkup, Message
-    from stfu_tg.doc import Element
 
     from korone.modules.medias.utils.provider_base import MediaProvider
 
@@ -673,23 +672,29 @@ class BaseMediaHandler(KoroneMessageHandler):
         return cached_media_payload
 
     @classmethod
-    def _caption_title(cls, author_name: str, author_handle: str) -> Element:
-        return Template("{author} ({handle})", author=Bold(author_name), handle=Code(author_handle))
+    def _caption_title(cls, author_name: str, author_handle: str) -> Text:
+        return Text(Bold(author_name), " (", Code(author_handle), ")")
+
+    @staticmethod
+    def _open_in_website_text(website: str) -> str:
+        return _("Open in {website}").format(website=website)
 
     @classmethod
-    def _caption_link(cls, post: MediaPost, *, include_link: bool) -> Element | None:
+    def _caption_link(cls, post: MediaPost, *, include_link: bool) -> Text | None:
         if not include_link:
             return None
 
-        return Url(Template(_("Open in {website}"), website=post.website), post.url)
+        return TextLink(cls._open_in_website_text(post.website), url=post.url)
 
     @classmethod
-    def _render_caption(cls, title: Element, link: Element | None, text: str | None = None) -> str:
-        link_block: Element | str = Template("\n\n{link}", link=link) if link else ""
-        if not text:
-            return Template("{title}{link}", title=title, link=link_block).to_html()
+    def _render_caption(cls, title: Text, link: Text | None, text: str | None = None) -> str:
+        blocks: list[Text] = [title]
+        if text:
+            blocks.append(Italic(text))
+        if link:
+            blocks.append(link)
 
-        return Template("{title}\n\n{text}{link}", title=title, text=Italic(text), link=link_block).to_html()
+        return Text(*blocks, sep="\n\n").as_html()
 
     @classmethod
     def _build_caption(cls, post: MediaPost, *, include_link: bool) -> str:
@@ -713,7 +718,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         return cls._render_caption(title, link, trimmed_text)
 
     @classmethod
-    def _truncate_text(cls, raw_text: str, title: Element, link: Element | None) -> str:
+    def _truncate_text(cls, raw_text: str, title: Text, link: Text | None) -> str:
         ellipsis = " [...]"
         low = 0
         high = len(raw_text)
@@ -736,7 +741,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     @staticmethod
     def _build_keyboard(post: MediaPost) -> InlineKeyboardMarkup | None:
         builder = InlineKeyboardBuilder()
-        builder.button(text=Template(_("Open in {website}"), website=post.website).to_html(), url=post.url)
+        builder.button(text=BaseMediaHandler._open_in_website_text(post.website), url=post.url)
         return builder.as_markup()
 
     async def _fetch_post(self, url: str) -> MediaPost | None:

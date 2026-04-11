@@ -3,7 +3,7 @@ from __future__ import annotations
 import html
 from typing import TYPE_CHECKING
 
-from stfu_tg import Template
+from aiogram.utils.formatting import BlockQuote, Bold, Code, Italic, Text
 
 from korone.modules.medias.utils.platforms import TwitterProvider
 
@@ -21,46 +21,52 @@ class TwitterMediaHandler(BaseMediaHandler):
     DEFAULT_AUTHOR_HANDLE = "twitter"
 
     @staticmethod
-    def _escape_html(text: str) -> str:
-        return html.escape(html.unescape(text), quote=False)
+    def _normalize_text(text: str) -> str:
+        return html.unescape(text)
 
     @classmethod
-    def _build_quote_block(cls, post: MediaPost, quote_text: str) -> str:
+    def _build_quote_block(cls, post: MediaPost, quote_text: str) -> Text | None:
         if not (quote_text or post.quote_author_name or post.quote_author_handle):
-            return ""
+            return None
 
-        quote_header_parts: list[str] = []
+        quote_header_parts: list[Text] = []
         if post.quote_author_name:
-            quote_header_parts.append(f"<b>{cls._escape_html(post.quote_author_name)}</b>")
+            quote_header_parts.append(Bold(cls._normalize_text(post.quote_author_name)))
 
         if post.quote_author_handle:
             handle = post.quote_author_handle.lstrip("@")
             if handle:
-                quote_header_parts.append(f"<code>@{cls._escape_html(handle)}</code>")
+                quote_header_parts.append(Code(f"@{cls._normalize_text(handle)}"))
 
-        quote_lines: list[str] = []
+        quote_lines: list[Text | str] = []
         if quote_header_parts:
-            quote_lines.append(" ".join(quote_header_parts))
+            quote_lines.append(Text(*quote_header_parts, sep=" "))
         if quote_text:
-            quote_lines.append(cls._escape_html(quote_text))
+            quote_lines.append(cls._normalize_text(quote_text))
 
         if not quote_lines:
-            return ""
+            return None
 
-        return f"\n\n<blockquote>{'\n'.join(quote_lines)}</blockquote>"
+        return BlockQuote(Text(*quote_lines, sep="\n"))
 
     @classmethod
     def _render_twitter_caption(cls, post: MediaPost, *, include_link: bool, text: str, quote_text: str) -> str:
         title = cls._caption_title(
             post.author_name or cls.DEFAULT_AUTHOR_NAME, post.author_handle or cls.DEFAULT_AUTHOR_HANDLE
-        ).to_html()
-        text_block = f"\n\n<i>{cls._escape_html(text)}</i>" if text else ""
-        quote_block = cls._build_quote_block(post, quote_text)
+        )
+
+        blocks: list[Text] = [title]
+        if text:
+            blocks.append(Italic(cls._normalize_text(text)))
+
+        if quote_block := cls._build_quote_block(post, quote_text):
+            blocks.append(quote_block)
 
         link = cls._caption_link(post, include_link=include_link)
-        link_block = Template("\n\n{link}", link=link).to_html() if link else ""
+        if link:
+            blocks.append(link)
 
-        return f"{title}{text_block}{quote_block}{link_block}"
+        return Text(*blocks, sep="\n\n").as_html()
 
     @classmethod
     def _truncate_segment(cls, raw_text: str, render: Callable[[str], str]) -> str:
