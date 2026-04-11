@@ -86,6 +86,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     PROVIDER: ClassVar[type[MediaProvider]]
     DEFAULT_AUTHOR_NAME: ClassVar[str]
     DEFAULT_AUTHOR_HANDLE: ClassVar[str]
+    AUTHOR_HANDLE_PREFIX: ClassVar[str] = "@"
 
     @staticmethod
     def _normalize_telegram_error_message(error: TelegramBadRequest) -> str:
@@ -518,7 +519,9 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     @classmethod
     def _caption_title(cls, author_name: str, author_handle: str) -> Text:
-        return Text(Bold(author_name), " (", Code(author_handle), ")")
+        normalized_handle = author_handle.lstrip("@")
+        handle = f"{cls.AUTHOR_HANDLE_PREFIX}{normalized_handle}" if normalized_handle else normalized_handle
+        return Text(Bold(author_name), " (", Code(handle), "):")
 
     @staticmethod
     def _open_in_website_text(website: str) -> str:
