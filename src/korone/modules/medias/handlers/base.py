@@ -539,7 +539,13 @@ class BaseMediaHandler(KoroneMessageHandler):
         if link:
             blocks.append(link)
 
-        return Text(*blocks, sep="\n\n").as_html()
+        rendered_blocks: list[Text | str] = []
+        for block in blocks:
+            if rendered_blocks:
+                rendered_blocks.append("\n\n")
+            rendered_blocks.append(block)
+
+        return Text(*rendered_blocks, sep="").as_html()
 
     @classmethod
     def _build_caption(cls, post: MediaPost, *, include_link: bool) -> str:
