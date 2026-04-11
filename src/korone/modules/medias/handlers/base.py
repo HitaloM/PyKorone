@@ -4,7 +4,7 @@ import asyncio
 from dataclasses import replace
 from io import BytesIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, ClassVar, TypedDict
+from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import BufferedInputFile
@@ -60,6 +60,9 @@ class PostCachePayload(TypedDict):
     url: str
     website: str
     media: list[MediaCacheEntryPayload]
+    quote_text: NotRequired[str]
+    quote_author_name: NotRequired[str]
+    quote_author_handle: NotRequired[str]
 
 
 logger = get_logger(__name__)
@@ -194,7 +197,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     def _build_post_cache_payload(
         cls, post: MediaPost, media_payload: list[MediaCacheEntryPayload]
     ) -> PostCachePayload:
-        return {
+        payload: PostCachePayload = {
             "author_name": post.author_name,
             "author_handle": post.author_handle,
             "text": post.text,
@@ -202,6 +205,15 @@ class BaseMediaHandler(KoroneMessageHandler):
             "website": post.website,
             "media": media_payload,
         }
+
+        if post.quote_text:
+            payload["quote_text"] = post.quote_text
+        if post.quote_author_name:
+            payload["quote_author_name"] = post.quote_author_name
+        if post.quote_author_handle:
+            payload["quote_author_handle"] = post.quote_author_handle
+
+        return payload
 
     @classmethod
     def _deserialize_post_cache_payload(cls, payload: dict[str, Any]) -> MediaPost | None:
@@ -228,6 +240,9 @@ class BaseMediaHandler(KoroneMessageHandler):
         author_name = rest.get("author_name")
         author_handle = rest.get("author_handle")
         text = rest.get("text")
+        quote_text = rest.get("quote_text")
+        quote_author_name = rest.get("quote_author_name")
+        quote_author_handle = rest.get("quote_author_handle")
 
         return MediaPost(
             author_name=author_name if isinstance(author_name, str) and author_name else cls.DEFAULT_AUTHOR_NAME,
@@ -236,6 +251,11 @@ class BaseMediaHandler(KoroneMessageHandler):
             url=url,
             website=website,
             media=media_items,
+            quote_text=quote_text if isinstance(quote_text, str) and quote_text else None,
+            quote_author_name=quote_author_name if isinstance(quote_author_name, str) and quote_author_name else None,
+            quote_author_handle=(
+                quote_author_handle if isinstance(quote_author_handle, str) and quote_author_handle else None
+            ),
         )
 
     async def _get_cached_post(self, source_url: str) -> tuple[str, MediaPost] | None:

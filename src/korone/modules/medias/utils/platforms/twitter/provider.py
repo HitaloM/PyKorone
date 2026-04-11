@@ -38,6 +38,13 @@ class TwitterProvider(MediaProvider):
             author_handle = handle
 
         text = parser.extract_text(tweet)
+        quote = parser.extract_quote(tweet)
+        quote_text: str | None = None
+        quote_author_name: str | None = None
+        quote_author_handle: str | None = None
+        if quote:
+            quote_text, quote_author_name, quote_author_handle = quote
+
         post_url = parser.extract_post_url(tweet, status_id, author_handle, url)
 
         media_sources = parser.extract_media_sources(tweet)
@@ -52,6 +59,9 @@ class TwitterProvider(MediaProvider):
             url=post_url,
             website=cls.website,
             media=media,
+            quote_text=quote_text,
+            quote_author_name=quote_author_name,
+            quote_author_handle=quote_author_handle,
         )
 
     @classmethod

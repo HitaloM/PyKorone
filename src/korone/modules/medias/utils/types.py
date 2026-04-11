@@ -33,6 +33,9 @@ class MediaPost:
     url: str
     website: str
     media: list[MediaItem]
+    quote_text: str | None = None
+    quote_author_name: str | None = None
+    quote_author_handle: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

@@ -152,6 +152,31 @@ def extract_text(tweet: dict[str, Any]) -> str:
     return ""
 
 
+def extract_quote(tweet: dict[str, Any]) -> tuple[str | None, str | None, str | None] | None:
+    quoted_tweet = extract_quoted_tweet(tweet)
+    if not quoted_tweet:
+        return None
+
+    quoted_legacy = extract_legacy(quoted_tweet)
+    quoted_text = coerce_str(
+        quoted_legacy.get("full_text")
+        or quoted_tweet.get("text")
+        or quoted_tweet.get("translation")
+        or quoted_tweet.get("full_text")
+        or quoted_tweet.get("content")
+    )
+    normalized_quote_text = _strip_trailing_tco_link(quoted_text).strip() if quoted_text else ""
+
+    quote_author_name, quote_author_handle = extract_author(quoted_tweet)
+    normalized_quote_author_name = quote_author_name or None
+    normalized_quote_author_handle = quote_author_handle or None
+
+    if not normalized_quote_text and not normalized_quote_author_name and not normalized_quote_author_handle:
+        return None
+
+    return normalized_quote_text or None, normalized_quote_author_name, normalized_quote_author_handle
+
+
 def extract_post_url(tweet: dict[str, Any], status_id: str, handle: str | None, fallback: str) -> str:
     url = coerce_str(tweet.get("url") or tweet.get("tweet_url")) or ""
     if url:
