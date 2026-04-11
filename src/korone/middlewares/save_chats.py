@@ -118,7 +118,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         if await self._handle_migration(data, message):
             return
 
-        chat, user = await self._handle_private_and_group_message(data, message)
+        chat, _user = await self._handle_private_and_group_message(data, message)
 
         if message.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
             return
@@ -129,7 +129,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         await self.save_topic(message, chat)
 
-        context["new_users"] = await self._handle_new_chat_members(message, chat, user)
+        context["new_users"] = await self._handle_new_chat_members(message, chat)
 
         await self._handle_left_chat_member(message, chat)
         await self._handle_chat_owner_updates(message, chat)
@@ -198,7 +198,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         return chats_to_update
 
     @staticmethod
-    async def _handle_new_chat_members(message: Message, group: ChatModel, user_db: ChatModel) -> list[ChatModel]:
+    async def _handle_new_chat_members(message: Message, group: ChatModel) -> list[ChatModel]:
         if not message.new_chat_members:
             return []
 
@@ -207,7 +207,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         )
         new_users = []
         for member in message.new_chat_members:
-            if member.id == user_db.chat_id:
+            if message.from_user and member.id == message.from_user.id:
                 continue
 
             await logger.adebug("SaveChatsMiddleware: Saving new chat member", user_id=member.id)
