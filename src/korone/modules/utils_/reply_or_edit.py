@@ -11,12 +11,21 @@ if TYPE_CHECKING:
     from stfu_tg.doc import Element
 
 
+def _is_message_not_modified_error(exc: TelegramBadRequest) -> bool:
+    return "message is not modified" in exc.message.casefold()
+
+
 async def reply_or_edit(event: Message | CallbackQuery, text: Element | str, **kwargs: object) -> Message | bool:
     if isinstance(event, CallbackQuery) and event.message:
         if isinstance(event.message, InaccessibleMessage):
             raise KoroneError.inaccessible_message()
 
-        return await event.message.edit_text(str(text), **cast("dict[str, Any]", kwargs))
+        try:
+            return await event.message.edit_text(str(text), **cast("dict[str, Any]", kwargs))
+        except TelegramBadRequest as exc:
+            if not _is_message_not_modified_error(exc):
+                raise
+            return event.message
     if isinstance(event, Message):
         try:
             return await event.reply(str(text), **cast("dict[str, Any]", kwargs))

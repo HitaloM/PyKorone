@@ -3,6 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, TypeVar, cast
 
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.handlers import BaseHandler, BaseHandlerMixin
 from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, Message
 
@@ -68,6 +69,10 @@ class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
 
 class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
     @staticmethod
+    def _is_message_not_modified_error(exc: TelegramBadRequest) -> bool:
+        return "message is not modified" in exc.message.casefold()
+
+    @staticmethod
     @abstractmethod
     def filters() -> tuple[CallbackType, ...]:
         pass
@@ -92,7 +97,11 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         message = self.event.message
         if not isinstance(message, Message):
             raise KoroneError.inaccessible_message()
-        await message.edit_text(str(text), **cast("dict[str, Any]", kwargs))
+        try:
+            await message.edit_text(str(text), **cast("dict[str, Any]", kwargs))
+        except TelegramBadRequest as exc:
+            if not self._is_message_not_modified_error(exc):
+                raise
 
 
 class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuery], ABC):
