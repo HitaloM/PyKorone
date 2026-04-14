@@ -11,4 +11,12 @@ if TYPE_CHECKING:
 
 @lru_cache(maxsize=1)
 def get_engine() -> AsyncEngine:
-    return create_async_engine(url=CONFIG.db_url, pool_pre_ping=True, pool_size=5, max_overflow=10, pool_timeout=30)
+    return create_async_engine(
+        url=CONFIG.db_url,
+        pool_pre_ping=True,
+        pool_use_lifo=True,
+        pool_recycle=1800,
+        pool_size=5,
+        max_overflow=10,
+        pool_timeout=30,
+    )
