@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Protocol, cast, override
+from typing import TYPE_CHECKING, ClassVar, Protocol, cast, override
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import InputMediaPhoto
@@ -36,6 +36,11 @@ class LastFMCallbackContext:
 
 
 class LastFMHandlerSupport:
+    _BAD_MEDIA_URL_ERROR_TOKENS: ClassVar[tuple[str, ...]] = (
+        "wrong type of the web page content",
+        "failed to get http url content",
+    )
+
     @staticmethod
     def can_use_buttons(*, callback_owner_id: int, user_id: int) -> bool:
         return callback_owner_id in {0, user_id}
@@ -63,12 +68,41 @@ class LastFMHandlerSupport:
         return image_url or LASTFM_FALLBACK_IMAGE_URL
 
     @classmethod
+    def _resolve_image_url_candidates(cls, image_url: str | None) -> tuple[str, ...]:
+        primary_url = cls.resolve_image_url(image_url)
+        if primary_url == LASTFM_FALLBACK_IMAGE_URL:
+            return (LASTFM_FALLBACK_IMAGE_URL,)
+
+        return (primary_url, LASTFM_FALLBACK_IMAGE_URL)
+
+    @staticmethod
+    def _normalize_telegram_error_message(exc: TelegramBadRequest) -> str:
+        return exc.message.casefold()
+
+    @classmethod
+    def _is_bad_media_url_error(cls, exc: TelegramBadRequest) -> bool:
+        normalized_message = cls._normalize_telegram_error_message(exc)
+        return any(token in normalized_message for token in cls._BAD_MEDIA_URL_ERROR_TOKENS)
+
+    @classmethod
     async def send_response(
         cls, message: Message, *, text: str, image_url: str | None, reply_markup: InlineKeyboardMarkup | None = None
     ) -> Message:
-        return await message.reply_photo(
-            photo=cls.resolve_image_url(image_url), caption=text, reply_markup=reply_markup
-        )
+        for candidate_url in cls._resolve_image_url_candidates(image_url):
+            try:
+                return await message.reply_photo(photo=candidate_url, caption=text, reply_markup=reply_markup)
+            except TelegramBadRequest as exc:
+                if not cls._is_bad_media_url_error(exc):
+                    raise
+                await logger.awarning(
+                    "[LastFM] Telegram rejected album art URL while sending response",
+                    image_url=candidate_url,
+                    chat_id=message.chat.id,
+                    source_message_id=message.message_id,
+                    error=exc.message,
+                )
+
+        return await message.reply(text, reply_markup=reply_markup)
 
     @classmethod
     async def edit_response(
@@ -78,9 +112,25 @@ class LastFMHandlerSupport:
             await message.edit_text(text, reply_markup=reply_markup)
             return
 
-        await message.edit_media(
-            media=InputMediaPhoto(media=cls.resolve_image_url(image_url), caption=text), reply_markup=reply_markup
-        )
+        for candidate_url in cls._resolve_image_url_candidates(image_url):
+            try:
+                await message.edit_media(
+                    media=InputMediaPhoto(media=candidate_url, caption=text), reply_markup=reply_markup
+                )
+            except TelegramBadRequest as exc:
+                if not cls._is_bad_media_url_error(exc):
+                    raise
+                await logger.awarning(
+                    "[LastFM] Telegram rejected album art URL while editing response",
+                    image_url=candidate_url,
+                    chat_id=message.chat.id,
+                    target_message_id=message.message_id,
+                    error=exc.message,
+                )
+            else:
+                return
+
+        await message.edit_caption(caption=text, reply_markup=reply_markup)
 
 
 class BaseLastFMMessageHandler[P: LastFMResponsePayload](KoroneMessageHandler, LastFMHandlerSupport):
