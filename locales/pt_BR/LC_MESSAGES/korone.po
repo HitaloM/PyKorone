@@ -299,7 +299,7 @@ msgstr "Pesquise celulares e consulte especificações principais sem sair do Te
 #: src/korone/modules/hifi/handlers/list.py:37
 #: src/korone/modules/hifi/handlers/preview.py:36
 #: src/korone/modules/hifi/handlers/send.py:65
-#: src/korone/modules/lastfm/handlers/base.py:193
+#: src/korone/modules/lastfm/handlers/base.py:243
 #: src/korone/modules/lastfm/handlers/collage.py:194
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
@@ -801,12 +801,12 @@ msgstr "Nenhuma informação de artista encontrada para a faixa atual."
 msgid "Show artist details for the current Last.fm track."
 msgstr "Mostre detalhes do artista da faixa atual do Last.fm."
 
-#: src/korone/modules/lastfm/handlers/base.py:59
+#: src/korone/modules/lastfm/handlers/base.py:64
 #, python-brace-format
 msgid "Last.fm username not found. Use {example}."
 msgstr "Nome de usuário do Last.fm não encontrado. Use {example}."
 
-#: src/korone/modules/lastfm/handlers/base.py:154
+#: src/korone/modules/lastfm/handlers/base.py:204
 #: src/korone/modules/lastfm/handlers/collage.py:224
 msgid "No updates from your profile."
 msgstr "Nenhuma atualização no seu perfil."

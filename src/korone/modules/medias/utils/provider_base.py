@@ -362,7 +362,13 @@ class MediaProvider(ABC):
             await logger.awarning(cls._payload_truncated_log_message(stage), **log_context)
             return
 
-        await logger.aexception("[Medias] Download network error", **log_context, stage=stage)
+        await logger.awarning(
+            "[Medias] Download network error",
+            **log_context,
+            stage=stage,
+            error_type=type(error).__name__,
+            error=str(error),
+        )
 
     @classmethod
     async def _log_unexpected_download_error(

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-04-11 15:26-0300\n"
+"POT-Creation-Date: 2026-04-14 20:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -298,7 +298,7 @@ msgstr ""
 #: src/korone/modules/hifi/handlers/list.py:37
 #: src/korone/modules/hifi/handlers/preview.py:36
 #: src/korone/modules/hifi/handlers/send.py:65
-#: src/korone/modules/lastfm/handlers/base.py:193
+#: src/korone/modules/lastfm/handlers/base.py:243
 #: src/korone/modules/lastfm/handlers/collage.py:194
 msgid "You are not allowed to use this button."
 msgstr ""
@@ -800,12 +800,12 @@ msgstr ""
 msgid "Show artist details for the current Last.fm track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/base.py:59
+#: src/korone/modules/lastfm/handlers/base.py:64
 #, python-brace-format
 msgid "Last.fm username not found. Use {example}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/base.py:154
+#: src/korone/modules/lastfm/handlers/base.py:204
 #: src/korone/modules/lastfm/handlers/collage.py:224
 msgid "No updates from your profile."
 msgstr ""
