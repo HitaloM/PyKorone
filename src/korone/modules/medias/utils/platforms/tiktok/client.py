@@ -30,7 +30,7 @@ async def resolve_redirect_url(url: str) -> str | None:
         ) as response:
             return str(response.url)
     except (aiohttp.ClientError, aiohttp.TooManyRedirects) as exc:
-        await logger.aerror("[TikTok] Redirect resolution failed", error=str(exc), url=url)
+        await logger.awarning("[TikTok] Redirect resolution failed", error=str(exc), url=url)
         return None
 
 
@@ -47,7 +47,7 @@ async def fetch_item_struct(post_id: str) -> dict[str, Any] | None:
                 return None
             html_content = await response.text()
     except (aiohttp.ClientError, UnicodeDecodeError) as exc:
-        await logger.aerror("[TikTok] Failed to fetch post page", error=str(exc), post_id=post_id)
+        await logger.awarning("[TikTok] Failed to fetch post page", error=str(exc), post_id=post_id)
         return None
 
     payload = parser.extract_universal_data_payload(html_content)
