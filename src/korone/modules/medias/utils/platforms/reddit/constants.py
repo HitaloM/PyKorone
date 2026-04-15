@@ -4,10 +4,7 @@ import re
 from urllib.parse import urlparse
 
 REDLIB_INSTANCES = (
-    "https://l.opnxng.com",
     "https://redlib.catsarch.com",
-    "https://redlib.perennialte.ch",
-    "https://redlib.r4fo.com",
     "https://red.artemislena.eu",
     "https://redlib.privacyredirect.com",
     "https://redlib.nadeko.net",

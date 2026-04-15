@@ -12,6 +12,7 @@ import aiohttp
 import orjson
 
 from korone.logger import get_logger
+from korone.modules.medias.utils.parsing import coerce_int
 
 from .constants import ANUBIS_PASS_CHALLENGE_PATH, REDLIB_REQUEST_COOKIES
 from .types import _AnubisChallengeInfo
@@ -26,8 +27,7 @@ class RedlibAnubisBypassMixin:
 
     @staticmethod
     def _coerce_int(value: object) -> int | None:
-        msg = "_coerce_int must be implemented by the provider class"
-        raise NotImplementedError(msg)
+        return coerce_int(value)
 
     @classmethod
     def _looks_like_block_page(cls, html_content: str) -> bool:
