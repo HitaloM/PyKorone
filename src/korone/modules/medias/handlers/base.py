@@ -8,9 +8,10 @@ from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
 from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
-from aiogram.utils.formatting import Bold, Code, Italic, Template, Text, TextLink
+from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.media_group import MediaGroupBuilder
+from stfu_tg import Template
 
 from korone.constants import (
     TELEGRAM_PHOTO_MAX_ASPECT_RATIO,
