@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
 from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
-from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink
+from aiogram.utils.formatting import Bold, Code, Italic, Template, Text, TextLink
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.media_group import MediaGroupBuilder
 
@@ -544,7 +544,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     @staticmethod
     def _open_in_website_text(website: str) -> str:
-        return _("Open in {website}").format(website=website)
+        return str(Template(_("Open in {website}"), website=website))
 
     @classmethod
     def _caption_link(cls, post: MediaPost, *, include_link: bool) -> Text | None:

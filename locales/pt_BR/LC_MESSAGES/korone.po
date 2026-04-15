@@ -1407,37 +1407,37 @@ msgstr "{pack} já é seu pacote padrão."
 msgid "Default sticker pack changed to {pack}."
 msgstr "Pacote de figurinhas padrão alterado para {pack}."
 
-#: src/korone/modules/stickers/utils/media.py:113
+#: src/korone/modules/stickers/utils/media.py:114
 msgid "Could not process this file as an image sticker."
 msgstr "Não foi possível processar este arquivo como uma figurinha de imagem."
 
-#: src/korone/modules/stickers/utils/media.py:139
+#: src/korone/modules/stickers/utils/media.py:140
 msgid "Video conversion is unavailable because ffmpeg/ffprobe are not installed."
 msgstr "A conversão de vídeo não está disponível porque ffmpeg/ffprobe não estão instalados."
 
-#: src/korone/modules/stickers/utils/media.py:144
+#: src/korone/modules/stickers/utils/media.py:147
 #, python-brace-format
 msgid "Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."
 msgstr "O vídeo é muito longo ({duration:.2f}s). A duração máxima permitida é de 3 segundos."
 
-#: src/korone/modules/stickers/utils/media.py:175
+#: src/korone/modules/stickers/utils/media.py:179
 msgid "Could not convert this video to a valid sticker."
 msgstr "Não foi possível converter este vídeo para uma figurinha válida."
 
-#: src/korone/modules/stickers/utils/media.py:180
+#: src/korone/modules/stickers/utils/media.py:186
 #, python-brace-format
 msgid "Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB."
 msgstr "O vídeo convertido é muito grande ({size_kb:.1f} KB). O tamanho máximo permitido é 256 KB."
 
-#: src/korone/modules/stickers/utils/media.py:210
+#: src/korone/modules/stickers/utils/media.py:217
 msgid "Could not inspect video metadata."
 msgstr "Não foi possível inspecionar os metadados do vídeo."
 
-#: src/korone/modules/stickers/utils/media.py:220
+#: src/korone/modules/stickers/utils/media.py:227
 msgid "Could not parse video metadata."
 msgstr "Não foi possível analisar os metadados do vídeo."
 
-#: src/korone/modules/stickers/utils/media.py:223
+#: src/korone/modules/stickers/utils/media.py:230
 msgid "Video metadata is invalid."
 msgstr "Os metadados do vídeo são inválidos."
 

@@ -1404,37 +1404,37 @@ msgstr ""
 msgid "Default sticker pack changed to {pack}."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:113
+#: src/korone/modules/stickers/utils/media.py:114
 msgid "Could not process this file as an image sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:139
+#: src/korone/modules/stickers/utils/media.py:140
 msgid "Video conversion is unavailable because ffmpeg/ffprobe are not installed."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:144
+#: src/korone/modules/stickers/utils/media.py:147
 #, python-brace-format
 msgid "Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:175
+#: src/korone/modules/stickers/utils/media.py:179
 msgid "Could not convert this video to a valid sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:180
+#: src/korone/modules/stickers/utils/media.py:186
 #, python-brace-format
 msgid "Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:210
+#: src/korone/modules/stickers/utils/media.py:217
 msgid "Could not inspect video metadata."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:220
+#: src/korone/modules/stickers/utils/media.py:227
 msgid "Could not parse video metadata."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:223
+#: src/korone/modules/stickers/utils/media.py:230
 msgid "Video metadata is invalid."
 msgstr ""
 

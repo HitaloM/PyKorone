@@ -66,7 +66,7 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
 
     @classmethod
     def no_common_message(cls, period: LastFMPeriod) -> str:
-        return _("No common artists in {period}.").format(period=period_label(period))
+        return str(Template(_("No common artists in {period}."), period=period_label(period)))
 
 
 @flags.help(description=l_("Show Last.fm compatibility with the replied user."))
