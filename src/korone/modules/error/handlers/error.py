@@ -1,9 +1,9 @@
 import sys
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram.fsm.context import FSMContext
 from aiogram.handlers import ErrorHandler
-from aiogram.types import Chat
+from aiogram.types import Chat, ErrorEvent, Message
 
 from korone.logger import get_logger
 from korone.middlewares.context_data import as_korone_context
@@ -24,9 +24,14 @@ logger = get_logger(__name__)
 class KoroneErrorHandler(ErrorHandler):
     async def handle(self) -> None:
         context = as_korone_context(self.data)
-        event_exception = getattr(self.event, "exception", None)
-        exception = event_exception if isinstance(event_exception, Exception) else self.event
-        update: Update = self.update
+
+        if isinstance(self.event, ErrorEvent):
+            exception = self.event.exception
+            update = self.event.update
+        else:
+            event_exception = getattr(self.event, "exception", None)
+            exception = event_exception if isinstance(event_exception, Exception) else self.event
+            update = self.update
 
         if isinstance(exception, QUIET_EXCEPTIONS):
             return
@@ -66,7 +71,47 @@ class KoroneErrorHandler(ErrorHandler):
             await logger.ainfo("Suppressing error notification", signature=signature)
             return
 
-        await self.bot.send_message(chat.id, **generic_error_message(active_exception, sentry_event_id))
+        send_kwargs = generic_error_message(active_exception, sentry_event_id)
+        sent_in_origin_message = await self._answer_in_origin_message(update, send_kwargs)
+        if sent_in_origin_message:
+            return
+
+        await self.bot.send_message(chat.id, **send_kwargs)
+
+    @staticmethod
+    def _resolve_origin_message(update: Update | None) -> Message | None:
+        if not update:
+            return None
+
+        message_candidates = (
+            update.message,
+            update.edited_message,
+            update.channel_post,
+            update.edited_channel_post,
+            update.business_message,
+            update.edited_business_message,
+        )
+
+        for message in message_candidates:
+            if isinstance(message, Message):
+                return message
+
+        callback_query = update.callback_query
+        if callback_query:
+            callback_message = callback_query.message
+            if isinstance(callback_message, Message):
+                return callback_message
+
+        return None
+
+    @classmethod
+    async def _answer_in_origin_message(cls, update: Update | None, send_kwargs: dict[str, Any]) -> bool:
+        origin_message = cls._resolve_origin_message(update)
+        if not origin_message:
+            return False
+
+        await origin_message.answer(**send_kwargs)
+        return True
 
     @staticmethod
     async def log_to_console(
