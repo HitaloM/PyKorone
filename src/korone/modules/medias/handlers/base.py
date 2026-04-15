@@ -5,7 +5,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
 
-from aiogram.exceptions import TelegramBadRequest
+from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
 from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink
@@ -73,6 +73,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     PHOTO_MAX_DIMENSIONS_SUM = TELEGRAM_PHOTO_MAX_DIMENSIONS_SUM
     PHOTO_MAX_ASPECT_RATIO = TELEGRAM_PHOTO_MAX_ASPECT_RATIO
     PHOTO_COMPRESSION_TIMEOUT_SECONDS: ClassVar[float] = 12.0
+    MEDIA_SEND_REQUEST_TIMEOUT_SECONDS: ClassVar[int] = 180
     POST_CACHE_NAMESPACE: ClassVar[str] = "media-post"
     MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
     _MISSING_REPLY_ERROR_TOKENS: ClassVar[tuple[str, ...]] = (REPLIED_NOT_FOUND, "replied message not found")
@@ -82,6 +83,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         "invalid dimensions",
         "image_process_failed",
     )
+    _REQUEST_TIMEOUT_NETWORK_ERROR_TOKENS: ClassVar[tuple[str, ...]] = ("request timeout error",)
 
     PROVIDER: ClassVar[type[MediaProvider]]
     DEFAULT_AUTHOR_NAME: ClassVar[str]
@@ -104,6 +106,11 @@ class BaseMediaHandler(KoroneMessageHandler):
     @classmethod
     def _is_retryable_photo_send_error(cls, error: TelegramBadRequest) -> bool:
         return cls._message_contains_any(error, cls._RETRYABLE_PHOTO_ERROR_TOKENS)
+
+    @classmethod
+    def _is_request_timeout_network_error(cls, error: TelegramNetworkError) -> bool:
+        normalized_message = str(error).casefold()
+        return any(token in normalized_message for token in cls._REQUEST_TIMEOUT_NETWORK_ERROR_TOKENS)
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
@@ -356,7 +363,12 @@ class BaseMediaHandler(KoroneMessageHandler):
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         if reply:
-            return await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
+            return await self.event.reply_photo(
+                media.file,
+                caption=caption,
+                reply_markup=keyboard,
+                request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
+            )
 
         return await self.bot.send_photo(
             chat_id=self.event.chat.id,
@@ -364,6 +376,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             caption=caption,
             reply_markup=keyboard,
             message_thread_id=self.event.message_thread_id,
+            request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
         )
 
     async def _send_photo_with_resize_fallback(
@@ -394,6 +407,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 width=media.width,
                 height=media.height,
                 thumbnail=media.thumbnail,
+                request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
             )
 
         return await self.bot.send_video(
@@ -406,6 +420,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             height=media.height,
             thumbnail=media.thumbnail,
             message_thread_id=self.event.message_thread_id,
+            request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
         )
 
     async def _dispatch_media_send(
@@ -478,12 +493,16 @@ class BaseMediaHandler(KoroneMessageHandler):
                 media=media_group,
                 reply_to_message_id=self.event.message_id,
                 message_thread_id=self.event.message_thread_id,
+                request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
             )
         except TelegramBadRequest as error:
             if not self._is_missing_reply_error(error):
                 raise
             return await self.bot.send_media_group(
-                chat_id=self.event.chat.id, media=media_group, message_thread_id=self.event.message_thread_id
+                chat_id=self.event.chat.id,
+                media=media_group,
+                message_thread_id=self.event.message_thread_id,
+                request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
             )
 
     def _build_media_group(self, media_items: list[MediaItem], caption: str) -> list[Any]:
@@ -675,6 +694,29 @@ class BaseMediaHandler(KoroneMessageHandler):
             await self._set_post_cache(source_url, post, cached_media_payload)
         except asyncio.CancelledError:
             raise
+        except TelegramNetworkError as error:
+            if self._is_request_timeout_network_error(error):
+                await logger.awarning(
+                    "[Medias] Media send request timed out; delivery status is unknown",
+                    provider=self.PROVIDER.name,
+                    source_url=source_url,
+                    chat_id=self.event.chat.id,
+                    message_id=self.event.message_id,
+                    message_thread_id=self.event.message_thread_id,
+                    handler=self.__class__.__name__,
+                    request_timeout_seconds=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
+                )
+                return
+
+            await logger.aexception(
+                "[Medias] Handler failed",
+                provider=self.PROVIDER.name,
+                source_url=source_url,
+                chat_id=self.event.chat.id,
+                message_id=self.event.message_id,
+                message_thread_id=self.event.message_thread_id,
+                handler=self.__class__.__name__,
+            )
         except Exception:  # noqa: BLE001
             await logger.aexception(
                 "[Medias] Handler failed",
