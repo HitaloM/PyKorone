@@ -66,28 +66,16 @@ class TwitterProvider(MediaProvider):
 
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
-        return await cls.download_media(sources, filename_prefix="x_media", log_label="Twitter")
+        return await cls.download_media(sources, filename_prefix="x_media", log_label="FXTwitter")
 
     @classmethod
     async def _fetch_tweet(cls, status_id: str, handle: str | None) -> dict[str, Any] | None:
-        twitter_payload = await client.fetch_twitter_tweet(status_id)
-        if twitter_payload:
-            tweet = parser.extract_twitter_tweet_payload(twitter_payload)
-            if tweet:
-                return tweet
-
-            await logger.adebug(
-                "[Twitter API] Missing tweet payload",
-                reason=parser.extract_twitter_failure_reason(twitter_payload),
-                status_id=status_id,
-            )
-
         for endpoint in cls._build_status_endpoints(status_id, handle):
             payload = await client.fetch_json(endpoint)
             if not payload:
                 continue
 
-            tweet = parser.extract_fxtwitter_tweet_payload(payload)
+            tweet = parser.extract_tweet_payload(payload)
             if tweet:
                 return tweet
 

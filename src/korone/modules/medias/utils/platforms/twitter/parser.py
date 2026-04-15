@@ -50,7 +50,7 @@ def extract_status_message(data: dict[str, Any]) -> str:
     return coerce_str(data.get("message")) or ""
 
 
-def extract_fxtwitter_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | None:
+def extract_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | None:
     status_code = extract_status_code(data)
     if status_code is not None and status_code != 200:
         return None
@@ -62,40 +62,6 @@ def extract_fxtwitter_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | No
     if "tweet" not in data and "data" not in data:
         return data
     return None
-
-
-def extract_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | None:
-    return extract_fxtwitter_tweet_payload(data)
-
-
-def extract_twitter_failure_reason(data: dict[str, Any]) -> str:
-    data_block = dict_or_empty(data.get("data"))
-    tweet_result = dict_or_empty(data_block.get("tweetResult"))
-    result = dict_or_empty(tweet_result.get("result"))
-
-    return (
-        coerce_str(result.get("reason"))
-        or coerce_str(tweet_result.get("reason"))
-        or coerce_str(result.get("__typename"))
-        or coerce_str(tweet_result.get("__typename"))
-        or ""
-    )
-
-
-def extract_twitter_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | None:
-    data_block = dict_or_empty(data.get("data"))
-    tweet_result = dict_or_empty(data_block.get("tweetResult"))
-    result = dict_or_empty(tweet_result.get("result"))
-    if not result:
-        return None
-
-    if extract_twitter_failure_reason(data).lower() == "nsfwloggedout":
-        return None
-
-    if not extract_legacy(result):
-        return None
-
-    return result
 
 
 def extract_author(tweet: dict[str, Any]) -> tuple[str, str]:

@@ -2,9 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import random
-import time
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 import aiohttp
 import orjson
@@ -13,34 +11,11 @@ from korone.logger import get_logger
 from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.utils.aiohttp_session import HTTPClient
 
-from .constants import (
-    TWITTER_API_BASE_HEADERS,
-    TWITTER_GUEST_TOKEN_API,
-    TWITTER_GUEST_TOKEN_TTL_SECONDS,
-    TWITTER_STATUS_API,
-    TWITTER_STATUS_FEATURES,
-    TWITTER_STATUS_FIELD_TOGGLES,
-    TWITTER_STATUS_VARIABLES,
-)
-
-if TYPE_CHECKING:
-    from collections.abc import Mapping
-
 logger = get_logger(__name__)
 
 _RETRY_ATTEMPTS = 3
 _RETRY_BASE_DELAY_SECONDS = 0.8
 _RETRY_JITTER_SECONDS = 0.25
-
-
-@dataclass(slots=True)
-class _GuestTokenCache:
-    token: str | None = None
-    expires_at: float = 0.0
-
-
-_GUEST_TOKEN_CACHE = _GuestTokenCache()
-_GUEST_TOKEN_LOCK = asyncio.Lock()
 
 
 def _next_retry_delay(attempt: int) -> float:
@@ -57,10 +32,6 @@ def _build_headers(extra_headers: dict[str, str] | None = None) -> dict[str, str
     if extra_headers:
         headers.update(extra_headers)
     return headers
-
-
-def _json_query(value: Mapping[str, object]) -> str:
-    return orjson.dumps(value).decode("utf-8")
 
 
 async def _request_json(
@@ -109,53 +80,6 @@ async def _request_json(
             return None
 
     return None
-
-
-async def fetch_guest_token() -> str | None:
-    if _GUEST_TOKEN_CACHE.token and time.monotonic() < _GUEST_TOKEN_CACHE.expires_at:
-        return _GUEST_TOKEN_CACHE.token
-
-    async with _GUEST_TOKEN_LOCK:
-        if _GUEST_TOKEN_CACHE.token and time.monotonic() < _GUEST_TOKEN_CACHE.expires_at:
-            return _GUEST_TOKEN_CACHE.token
-
-        payload = await _request_json(
-            TWITTER_GUEST_TOKEN_API, method="POST", headers=TWITTER_API_BASE_HEADERS, log_label="Twitter API"
-        )
-        if not payload:
-            return None
-
-        guest_token = payload.get("guest_token")
-        if not isinstance(guest_token, str) or not guest_token:
-            await logger.adebug("[Twitter API] Missing guest token", payload_keys=list(payload.keys()))
-            return None
-
-        _GUEST_TOKEN_CACHE.token = guest_token
-        _GUEST_TOKEN_CACHE.expires_at = time.monotonic() + TWITTER_GUEST_TOKEN_TTL_SECONDS
-        return guest_token
-
-
-async def fetch_twitter_tweet(status_id: str) -> dict[str, Any] | None:
-    guest_token = await fetch_guest_token()
-    if not guest_token:
-        return None
-
-    variables: dict[str, object] = dict(TWITTER_STATUS_VARIABLES)
-    variables["tweetId"] = status_id
-
-    headers = dict(TWITTER_API_BASE_HEADERS)
-    headers["x-guest-token"] = guest_token
-    headers["cookie"] = f"guest_id=v1:{guest_token};"
-
-    params = {
-        "variables": _json_query(variables),
-        "features": _json_query(TWITTER_STATUS_FEATURES),
-        "fieldToggles": _json_query(TWITTER_STATUS_FIELD_TOGGLES),
-    }
-
-    return await _request_json(
-        TWITTER_STATUS_API, method="GET", params=params, headers=headers, log_label="Twitter API"
-    )
 
 
 async def fetch_json(url: str) -> dict[str, Any] | None:
