@@ -20,6 +20,7 @@ class _ResolvedVideo:
     thumbnail_url: str | None = None
     width: int | None = None
     height: int | None = None
+    duration: int | None = None
 
 
 @dataclass(frozen=True, slots=True)

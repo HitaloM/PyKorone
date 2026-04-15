@@ -261,6 +261,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             url: str | None,
             *,
             thumbnail_url: str | None = None,
+            duration: int | None = None,
             width: int | None = None,
             height: int | None = None,
         ) -> None:
@@ -273,7 +274,14 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             seen.add(normalized_url)
             normalized_thumb = parser.normalize_media_url(base_url, thumbnail_url) if thumbnail_url else None
             sources.append(
-                MediaSource(kind=kind, url=normalized_url, thumbnail_url=normalized_thumb, width=width, height=height)
+                MediaSource(
+                    kind=kind,
+                    url=normalized_url,
+                    thumbnail_url=normalized_thumb,
+                    duration=duration,
+                    width=width,
+                    height=height,
+                )
             )
 
         if post_type == "gallery":
@@ -291,6 +299,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                     MediaKind.VIDEO,
                     video.url,
                     thumbnail_url=video.thumbnail_url,
+                    duration=video.duration,
                     width=video.width,
                     height=video.height,
                 )
@@ -309,6 +318,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                     MediaKind.VIDEO,
                     video.url,
                     thumbnail_url=video.thumbnail_url,
+                    duration=video.duration,
                     width=video.width,
                     height=video.height,
                 )
@@ -351,6 +361,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             poster = video_node.get("poster")
             width = coerce_int(video_node.get("width"))
             height = coerce_int(video_node.get("height"))
+            duration = cls._extract_video_duration_seconds(video_node)
 
             direct_mp4_sources = [video_node.get("src") or ""]
             direct_mp4_sources.extend(
@@ -360,7 +371,9 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             for source in direct_mp4_sources:
                 normalized = parser.normalize_media_url(base_url, source)
                 if normalized:
-                    return _ResolvedVideo(url=normalized, thumbnail_url=poster, width=width, height=height)
+                    return _ResolvedVideo(
+                        url=normalized, thumbnail_url=poster, width=width, height=height, duration=duration
+                    )
 
             hls_source = parser.first_non_empty(
                 video_node.xpath(
@@ -371,12 +384,13 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             if hls_source:
                 resolved = await cls._resolve_hls_to_mp4(parser.normalize_media_url(base_url, hls_source))
                 if resolved:
-                    video_url, resolved_width, resolved_height = resolved
+                    video_url, resolved_width, resolved_height, resolved_duration = resolved
                     return _ResolvedVideo(
                         url=video_url,
                         thumbnail_url=poster,
                         width=resolved_width or width,
                         height=resolved_height or height,
+                        duration=resolved_duration or duration,
                     )
 
         mp4_match = cls._video_regex.search(html_content)
@@ -389,13 +403,13 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         if playlist_match and playlist_match.group(1):
             resolved = await cls._resolve_hls_to_mp4(parser.normalize_media_url(base_url, playlist_match.group(1)))
             if resolved:
-                video_url, width, height = resolved
-                return _ResolvedVideo(url=video_url, width=width, height=height)
+                video_url, width, height, duration = resolved
+                return _ResolvedVideo(url=video_url, width=width, height=height, duration=duration)
 
         return None
 
     @classmethod
-    async def _resolve_hls_to_mp4(cls, hls_url: str | None) -> tuple[str, int | None, int | None] | None:
+    async def _resolve_hls_to_mp4(cls, hls_url: str | None) -> tuple[str, int | None, int | None, int | None] | None:
         if not hls_url:
             return None
 
@@ -443,12 +457,95 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         if not variant_url:
             return None
 
+        variant_duration = await cls._extract_hls_duration_seconds(variant_url)
+
         parsed_variant = urlparse(variant_url)
         if parsed_variant.path.endswith(".m3u8"):
             mp4_path = f"{parsed_variant.path[:-5]}.mp4"
             variant_url = urlunparse(parsed_variant._replace(path=mp4_path))
 
-        return variant_url, best_width, best_height
+        return variant_url, best_width, best_height, variant_duration
+
+    @classmethod
+    def _extract_video_duration_seconds(cls, video_node: lxml_html.HtmlElement) -> int | None:
+        duration_candidates = (
+            video_node.get("duration"),
+            video_node.get("data-duration"),
+            video_node.get("data-video-duration"),
+            video_node.get("data-length"),
+            video_node.get("data-video-length"),
+        )
+        for raw_duration in duration_candidates:
+            duration = coerce_int(raw_duration)
+            if duration and duration > 0:
+                return duration
+
+            if isinstance(raw_duration, str):
+                clock_duration = cls._parse_clock_duration_seconds(raw_duration)
+                if clock_duration is not None:
+                    return clock_duration
+
+        return None
+
+    @staticmethod
+    def _parse_clock_duration_seconds(raw_duration: str) -> int | None:
+        normalized = raw_duration.strip()
+        if ":" not in normalized:
+            return None
+
+        parts = normalized.split(":")
+        if len(parts) not in {2, 3}:
+            return None
+        if any(not part.isdigit() for part in parts):
+            return None
+
+        total = 0
+        for part in parts:
+            total = (total * 60) + int(part)
+        return total if total > 0 else None
+
+    @classmethod
+    async def _extract_hls_duration_seconds(cls, hls_variant_url: str) -> int | None:
+        parsed_variant = urlparse(hls_variant_url)
+        if not parsed_variant.path.endswith(".m3u8"):
+            return None
+
+        playlist = await cls._fetch_text(hls_variant_url)
+        if not playlist:
+            return None
+
+        return cls._parse_hls_segment_duration(playlist)
+
+    @staticmethod
+    def _parse_hls_segment_duration(playlist: str) -> int | None:
+        total_seconds = 0.0
+        has_segments = False
+
+        for raw_line in playlist.splitlines():
+            line = raw_line.strip()
+            if not line:
+                continue
+
+            match = re.match(r"(?i)#EXTINF:([0-9]+(?:\.[0-9]+)?)", line)
+            if not match:
+                continue
+
+            try:
+                segment_duration = float(match.group(1))
+            except ValueError:
+                continue
+
+            if segment_duration <= 0:
+                continue
+
+            has_segments = True
+            total_seconds += segment_duration
+
+        if not has_segments:
+            return None
+
+        rounded_duration = int(total_seconds + 0.5)
+        return rounded_duration if rounded_duration > 0 else 1
 
     @classmethod
     async def _fetch_text(cls, url: str) -> str | None:
