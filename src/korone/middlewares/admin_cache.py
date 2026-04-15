@@ -4,6 +4,7 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
 
 from aiogram import BaseMiddleware
+from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Update
 
 from korone.constants import CACHE_ADMIN_TTL_SECONDS
@@ -51,7 +52,7 @@ class AdminCacheMiddleware(BaseMiddleware):
             await logger.adebug("AdminCacheMiddleware: refreshing admin cache", chat_id=chat_tid)
             try:
                 await update_chat_members(chat_db)
-            except Exception as error:  # noqa: BLE001
+            except TelegramAPIError as error:
                 await logger.awarning(
                     "AdminCacheMiddleware: failed to refresh admin cache", chat_id=chat_tid, error=str(error)
                 )
