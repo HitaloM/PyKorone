@@ -20,6 +20,7 @@ from .logger import get_logger, setup_logging
 from .middlewares import localization_middleware
 from .middlewares.admin_cache import AdminCacheMiddleware
 from .middlewares.chat_context import ChatContextMiddleware
+from .middlewares.command_prefix import CommandPrefixMiddleware
 from .middlewares.disabling import DisablingMiddleware
 from .middlewares.save_chats import SaveChatsMiddleware
 from .modules import load_modules
@@ -37,6 +38,7 @@ async def ensure_bot_in_db() -> None:
 
 def configure_dispatcher() -> None:
     dp.update.middleware(localization_middleware)
+    dp.message.middleware(CommandPrefixMiddleware())
     dp.message.middleware(DisablingMiddleware())
     dp.message.middleware(ArgsMiddleware(i18n=i18n))
     dp.update.outer_middleware(SaveChatsMiddleware())
