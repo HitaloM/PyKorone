@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
     from aiogram.types import TelegramObject
 
-COMMAND_WITH_EXCLAMATION_PATTERN = re.compile(r"^![A-Za-z0-9_]+(?:@[A-Za-z0-9_]+)?(?:\s|$)")
+EXCLAMATION_COMMAND_PATTERN = re.compile(r"^![A-Za-z0-9_]+(?:@[A-Za-z0-9_]+)?(?:\s|$)")
 
 
 class CommandPrefixMiddleware(BaseMiddleware):
@@ -23,7 +23,7 @@ class CommandPrefixMiddleware(BaseMiddleware):
     ) -> Any:
         if isinstance(event, Message):
             text = event.text
-            if text and COMMAND_WITH_EXCLAMATION_PATTERN.match(text):
-                event.__dict__["text"] = f"/{text[1:]}"
+            if text and EXCLAMATION_COMMAND_PATTERN.match(text):
+                event = event.model_copy(update={"text": f"/{text[1:]}"})
 
         return await handler(event, data)
