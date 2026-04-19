@@ -15,8 +15,6 @@ EXCLAMATION_COMMAND_PATTERN: Final[re.Pattern[str]] = re.compile(r"^![A-Za-z0-9_
 
 
 class CommandPrefixMiddleware(BaseMiddleware):
-    """Normalizes commands with ! prefix to / prefix before routing."""
-
     async def __call__(
         self,
         handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
