@@ -16,6 +16,7 @@ _STATUS_URL_PATTERN = re.compile(
     re.IGNORECASE,
 )
 _VIDEO_MEDIA_TYPES = {"video", "gif", "animated_gif"}
+_TRAILING_TCO_LINK_PATTERN = re.compile(r"(?:\s+)?https://t\.co/[A-Za-z0-9]+(?:\u2026)?\s*$", re.IGNORECASE)
 
 
 def extract_status_id_and_handle(url: str) -> tuple[str | None, str | None]:
@@ -55,11 +56,13 @@ def extract_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | None:
     if status_code is not None and status_code != 200:
         return None
 
+    if "status" in data and isinstance(data["status"], dict):
+        return data["status"]
     if "tweet" in data and isinstance(data["tweet"], dict):
         return data["tweet"]
     if "data" in data and isinstance(data["data"], dict):
         return data["data"]
-    if "tweet" not in data and "data" not in data:
+    if "status" not in data and "tweet" not in data and "data" not in data:
         return data
     return None
 
@@ -98,24 +101,7 @@ def extract_author(tweet: dict[str, Any]) -> tuple[str, str]:
 
 
 def extract_text(tweet: dict[str, Any]) -> str:
-    quoted_tweet = extract_quoted_tweet(tweet)
-    note_tweet = dict_or_empty(tweet.get("note_tweet"))
-    note_result = dict_or_empty(dict_or_empty(note_tweet.get("note_tweet_results")).get("result"))
-    legacy = extract_legacy(tweet)
-
-    note_text = coerce_str(note_result.get("text"))
-    legacy_text = coerce_str(legacy.get("full_text"))
-    fallback_text = coerce_str(
-        tweet.get("text") or tweet.get("translation") or tweet.get("full_text") or tweet.get("content")
-    )
-
-    if note_text and quoted_tweet is None:
-        return _strip_trailing_tco_link(note_text)
-    if legacy_text:
-        return _strip_trailing_tco_link(legacy_text)
-    if fallback_text:
-        return _strip_trailing_tco_link(fallback_text)
-    return ""
+    return _extract_status_text(tweet)
 
 
 def extract_quote(tweet: dict[str, Any]) -> tuple[str | None, str | None, str | None] | None:
@@ -123,15 +109,7 @@ def extract_quote(tweet: dict[str, Any]) -> tuple[str | None, str | None, str | 
     if not quoted_tweet:
         return None
 
-    quoted_legacy = extract_legacy(quoted_tweet)
-    quoted_text = coerce_str(
-        quoted_legacy.get("full_text")
-        or quoted_tweet.get("text")
-        or quoted_tweet.get("translation")
-        or quoted_tweet.get("full_text")
-        or quoted_tweet.get("content")
-    )
-    normalized_quote_text = _strip_trailing_tco_link(quoted_text).strip() if quoted_text else ""
+    normalized_quote_text = _extract_status_text(quoted_tweet)
 
     quote_author_name, quote_author_handle = extract_author(quoted_tweet)
     normalized_quote_author_name = quote_author_name or None
@@ -302,12 +280,42 @@ def resolve_kind(item: dict[str, Any]) -> MediaKind:
     return MediaKind.PHOTO
 
 
+def _extract_status_text(tweet: dict[str, Any]) -> str:
+    raw_text = dict_or_empty(tweet.get("raw_text"))
+    note_tweet = dict_or_empty(tweet.get("note_tweet"))
+    note_result = dict_or_empty(dict_or_empty(note_tweet.get("note_tweet_results")).get("result"))
+    legacy = extract_legacy(tweet)
+
+    fallback_text = coerce_str(tweet.get("translation") or tweet.get("full_text") or tweet.get("content"))
+    candidates = (
+        coerce_str(tweet.get("text")),
+        coerce_str(raw_text.get("text")),
+        coerce_str(note_result.get("text")),
+        coerce_str(legacy.get("full_text")),
+        fallback_text,
+    )
+
+    for candidate in candidates:
+        if not candidate:
+            continue
+
+        normalized = _strip_trailing_tco_link(candidate).strip()
+        if normalized:
+            return normalized
+
+    return ""
+
+
 def extract_quoted_tweet(tweet: dict[str, Any]) -> dict[str, Any] | None:
     quoted_status_result = dict_or_empty(tweet.get("quoted_status_result"))
     if quoted_status_result:
         quoted_result = dict_or_empty(quoted_status_result.get("result"))
         if quoted_result:
             return quoted_result
+
+    quoted_tweet = dict_or_empty(tweet.get("quoted_tweet"))
+    if quoted_tweet:
+        return quoted_tweet
 
     quote = dict_or_empty(tweet.get("quote"))
     if quote:
@@ -385,12 +393,4 @@ def _extract_twitter_video_duration_seconds(video_info: dict[str, Any]) -> int |
 
 
 def _strip_trailing_tco_link(text: str) -> str:
-    marker = "https://t.co/"
-    index = text.find(marker)
-    if index == -1:
-        return text
-
-    while index > 0 and text[index - 1] in {" ", "\n", "\r"}:
-        index -= 1
-
-    return text[:index]
+    return _TRAILING_TCO_LINK_PATTERN.sub("", text)

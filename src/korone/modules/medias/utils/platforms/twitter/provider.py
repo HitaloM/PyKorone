@@ -8,7 +8,7 @@ from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.modules.medias.utils.types import MediaPost
 
 from . import client, parser
-from .constants import FXTWITTER_STATUS_API, FXTWITTER_STATUS_API_WITH_HANDLE, PATTERN
+from .constants import FXTWITTER_STATUS_API, FXTWITTER_STATUS_API_WITH_HANDLE, FXTWITTER_STATUS_V2_API, PATTERN
 
 if TYPE_CHECKING:
     from typing import Any
@@ -89,7 +89,7 @@ class TwitterProvider(MediaProvider):
 
     @staticmethod
     def _build_status_endpoints(status_id: str, handle: str | None) -> list[str]:
-        endpoints: list[str] = []
+        endpoints: list[str] = [FXTWITTER_STATUS_V2_API.format(status_id=quote(status_id))]
         if handle:
             endpoints.append(
                 FXTWITTER_STATUS_API_WITH_HANDLE.format(handle=quote(handle, safe=""), status_id=quote(status_id))

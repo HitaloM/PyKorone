@@ -11,8 +11,8 @@ repos:
       - id: check-yaml
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.10
+    rev: v0.15.11
     hooks:
       - id: ruff-check
-        args: [--fix, --preview, --unsafe-fixes]
+        args: [ --fix, --preview, --unsafe-fixes ]
       - id: ruff-format

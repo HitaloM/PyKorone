@@ -116,14 +116,14 @@ class TwitterMediaHandler(BaseMediaHandler):
         if len(candidate) <= cls.CAPTION_LIMIT:
             return candidate
 
-        if text:
-            text = cls._truncate_segment(text, lambda value: render(value, quote_text))
+        if quote_text:
+            quote_text = cls._truncate_segment(quote_text, lambda value: render(text, value))
             candidate = render(text, quote_text)
             if len(candidate) <= cls.CAPTION_LIMIT:
                 return candidate
 
-        if quote_text:
-            quote_text = cls._truncate_segment(quote_text, lambda value: render(text, value))
+        if text:
+            text = cls._truncate_segment(text, lambda value: render(value, quote_text))
             candidate = render(text, quote_text)
             if len(candidate) <= cls.CAPTION_LIMIT:
                 return candidate
