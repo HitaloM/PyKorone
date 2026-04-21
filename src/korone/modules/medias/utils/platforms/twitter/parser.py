@@ -56,47 +56,17 @@ def extract_tweet_payload(data: dict[str, Any]) -> dict[str, Any] | None:
     if status_code is not None and status_code != 200:
         return None
 
-    if "status" in data and isinstance(data["status"], dict):
-        return data["status"]
-    if "tweet" in data and isinstance(data["tweet"], dict):
-        return data["tweet"]
-    if "data" in data and isinstance(data["data"], dict):
-        return data["data"]
-    if "status" not in data and "tweet" not in data and "data" not in data:
-        return data
+    status = dict_or_empty(data.get("status"))
+    if status:
+        return status
+
     return None
 
 
 def extract_author(tweet: dict[str, Any]) -> tuple[str, str]:
     author = dict_or_empty(tweet.get("author"))
-    if not author:
-        author = dict_or_empty(tweet.get("user"))
-
-    core = dict_or_empty(tweet.get("core"))
-    user_results = dict_or_empty(core.get("user_results"))
-    user_result = dict_or_empty(user_results.get("result"))
-    user_legacy = dict_or_empty(user_result.get("legacy"))
-    legacy = extract_legacy(tweet)
-
-    author_name = (
-        coerce_str(
-            author.get("name")
-            or tweet.get("author_name")
-            or tweet.get("user_name")
-            or user_legacy.get("name")
-            or legacy.get("name")
-        )
-        or ""
-    )
-    author_handle = normalize_handle(
-        author.get("screen_name")
-        or author.get("username")
-        or author.get("handle")
-        or tweet.get("author_handle")
-        or tweet.get("user_screen_name")
-        or user_legacy.get("screen_name")
-        or legacy.get("screen_name")
-    )
+    author_name = coerce_str(author.get("name")) or ""
+    author_handle = normalize_handle(author.get("screen_name"))
     return author_name, author_handle or ""
 
 
@@ -174,38 +144,14 @@ def extract_media_sources(tweet: dict[str, Any]) -> list[MediaSource]:
         thumbnail_url, duration, width, height = _extract_media_metadata(item)
         _add(kind, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
-    if not sources:
-        for item in _extract_twitter_media_entries(tweet):
-            kind = resolve_kind(item)
-            thumbnail_url, _, width, height = _extract_media_metadata(item)
-
-            if kind == MediaKind.VIDEO:
-                video_info = dict_or_empty(item.get("video_info"))
-                url = pick_video_url(video_info) or pick_video_url(item)
-                if not url:
-                    continue
-
-                duration = _extract_twitter_video_duration_seconds(video_info)
-                thumbnail_url = thumbnail_url or coerce_url(item.get("media_url_https") or item.get("media_url"))
-                _add(MediaKind.VIDEO, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
-                continue
-
-            photo_url = coerce_url(item.get("media_url_https") or item.get("media_url"))
-            if not photo_url:
-                continue
-
-            _add(MediaKind.PHOTO, photo_url, width=width, height=height)
-
-    if not sources:
-        media_url = coerce_url(tweet.get("media_url") or tweet.get("media_url_https"))
-        if media_url:
-            _add(MediaKind.PHOTO, media_url)
-
     return sources
 
 
 def pick_video_url(video: dict[str, Any]) -> str | None:
-    variants = dict_list(video.get("variants"))
+    variants = dict_list(video.get("formats"))
+    if not variants:
+        variants = dict_list(video.get("variants"))
+
     if best_variant := pick_best_variant(variants):
         return best_variant
 
@@ -282,18 +228,9 @@ def resolve_kind(item: dict[str, Any]) -> MediaKind:
 
 def _extract_status_text(tweet: dict[str, Any]) -> str:
     raw_text = dict_or_empty(tweet.get("raw_text"))
-    note_tweet = dict_or_empty(tweet.get("note_tweet"))
-    note_result = dict_or_empty(dict_or_empty(note_tweet.get("note_tweet_results")).get("result"))
-    legacy = extract_legacy(tweet)
+    translation = dict_or_empty(tweet.get("translation"))
 
-    fallback_text = coerce_str(tweet.get("translation") or tweet.get("full_text") or tweet.get("content"))
-    candidates = (
-        coerce_str(tweet.get("text")),
-        coerce_str(raw_text.get("text")),
-        coerce_str(note_result.get("text")),
-        coerce_str(legacy.get("full_text")),
-        fallback_text,
-    )
+    candidates = (coerce_str(tweet.get("text")), coerce_str(raw_text.get("text")), coerce_str(translation.get("text")))
 
     for candidate in candidates:
         if not candidate:
@@ -307,30 +244,11 @@ def _extract_status_text(tweet: dict[str, Any]) -> str:
 
 
 def extract_quoted_tweet(tweet: dict[str, Any]) -> dict[str, Any] | None:
-    quoted_status_result = dict_or_empty(tweet.get("quoted_status_result"))
-    if quoted_status_result:
-        quoted_result = dict_or_empty(quoted_status_result.get("result"))
-        if quoted_result:
-            return quoted_result
-
-    quoted_tweet = dict_or_empty(tweet.get("quoted_tweet"))
-    if quoted_tweet:
-        return quoted_tweet
-
     quote = dict_or_empty(tweet.get("quote"))
     if quote:
         return quote
 
     return None
-
-
-def extract_legacy(tweet: dict[str, Any]) -> dict[str, Any]:
-    legacy = dict_or_empty(tweet.get("legacy"))
-    if legacy:
-        return legacy
-
-    nested_tweet = dict_or_empty(tweet.get("tweet"))
-    return dict_or_empty(nested_tweet.get("legacy"))
 
 
 def iter_media_dicts(*values: object) -> Iterator[dict[str, Any]]:
@@ -367,29 +285,6 @@ def _extract_fxtwitter_media(tweet: dict[str, Any]) -> dict[str, Any]:
         return {}
 
     return dict_or_empty(quoted_tweet.get("media"))
-
-
-def _extract_twitter_media_entries(tweet: dict[str, Any]) -> list[dict[str, Any]]:
-    legacy = extract_legacy(tweet)
-    extended_entities = dict_or_empty(legacy.get("extended_entities"))
-    media = dict_list(extended_entities.get("media"))
-    if media:
-        return media
-
-    quoted_tweet = extract_quoted_tweet(tweet)
-    if not quoted_tweet:
-        return []
-
-    quoted_legacy = extract_legacy(quoted_tweet)
-    quoted_entities = dict_or_empty(quoted_legacy.get("extended_entities"))
-    return dict_list(quoted_entities.get("media"))
-
-
-def _extract_twitter_video_duration_seconds(video_info: dict[str, Any]) -> int | None:
-    duration_ms = coerce_int(video_info.get("duration_millis"))
-    if not duration_ms or duration_ms <= 0:
-        return None
-    return duration_ms // 1000
 
 
 def _strip_trailing_tco_link(text: str) -> str:

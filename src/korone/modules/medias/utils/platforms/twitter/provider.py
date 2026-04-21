@@ -8,7 +8,7 @@ from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.modules.medias.utils.types import MediaPost
 
 from . import client, parser
-from .constants import FXTWITTER_STATUS_API, FXTWITTER_STATUS_API_WITH_HANDLE, FXTWITTER_STATUS_V2_API, PATTERN
+from .constants import FXTWITTER_STATUS_API, PATTERN
 
 if TYPE_CHECKING:
     from typing import Any
@@ -29,7 +29,7 @@ class TwitterProvider(MediaProvider):
         if not status_id:
             return None
 
-        tweet = await cls._fetch_tweet(status_id, handle)
+        tweet = await cls._fetch_tweet(status_id)
         if not tweet:
             return None
 
@@ -69,31 +69,24 @@ class TwitterProvider(MediaProvider):
         return await cls.download_media(sources, filename_prefix="x_media", log_label="FXTwitter")
 
     @classmethod
-    async def _fetch_tweet(cls, status_id: str, handle: str | None) -> dict[str, Any] | None:
-        for endpoint in cls._build_status_endpoints(status_id, handle):
-            payload = await client.fetch_json(endpoint)
-            if not payload:
-                continue
+    async def _fetch_tweet(cls, status_id: str) -> dict[str, Any] | None:
+        endpoint = cls._build_status_endpoint(status_id)
+        payload = await client.fetch_json(endpoint)
+        if not payload:
+            return None
 
-            tweet = parser.extract_tweet_payload(payload)
-            if tweet:
-                return tweet
+        tweet = parser.extract_tweet_payload(payload)
+        if tweet:
+            return tweet
 
-            await logger.adebug(
-                "[FXTwitter] Missing tweet payload",
-                status_code=parser.extract_status_code(payload),
-                status_message=parser.extract_status_message(payload),
-                endpoint=endpoint,
-            )
+        await logger.adebug(
+            "[FXTwitter] Missing tweet payload",
+            status_code=parser.extract_status_code(payload),
+            status_message=parser.extract_status_message(payload),
+            endpoint=endpoint,
+        )
         return None
 
     @staticmethod
-    def _build_status_endpoints(status_id: str, handle: str | None) -> list[str]:
-        endpoints: list[str] = [FXTWITTER_STATUS_V2_API.format(status_id=quote(status_id))]
-        if handle:
-            endpoints.append(
-                FXTWITTER_STATUS_API_WITH_HANDLE.format(handle=quote(handle, safe=""), status_id=quote(status_id))
-            )
-
-        endpoints.append(FXTWITTER_STATUS_API.format(status_id=quote(status_id)))
-        return list(dict.fromkeys(endpoints))
+    def _build_status_endpoint(status_id: str) -> str:
+        return FXTWITTER_STATUS_API.format(status_id=quote(status_id))

@@ -2,9 +2,7 @@ from __future__ import annotations
 
 import re
 
-FXTWITTER_STATUS_API = "https://api.fxtwitter.com/status/{status_id}"
-FXTWITTER_STATUS_API_WITH_HANDLE = "https://api.fxtwitter.com/{handle}/status/{status_id}"
-FXTWITTER_STATUS_V2_API = "https://api.fxtwitter.com/2/status/{status_id}"
+FXTWITTER_STATUS_API = "https://api.fxtwitter.com/2/status/{status_id}"
 
 PATTERN = re.compile(
     r"https?://(?:www\.)?(?:x\.com|(?:www\.|mobile\.)?twitter\.com)/"
