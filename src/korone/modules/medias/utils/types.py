@@ -46,3 +46,5 @@ class MediaSource:
     duration: int | None = None
     width: int | None = None
     height: int | None = None
+    audio_url: str | None = None
+    fallback_url: str | None = None

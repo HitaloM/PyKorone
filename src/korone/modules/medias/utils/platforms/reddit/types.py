@@ -15,15 +15,6 @@ class _PostRef:
 
 
 @dataclass(frozen=True, slots=True)
-class _ResolvedVideo:
-    url: str
-    thumbnail_url: str | None = None
-    width: int | None = None
-    height: int | None = None
-    duration: int | None = None
-
-
-@dataclass(frozen=True, slots=True)
 class _ScrapedPost:
     author: str
     subreddit: str

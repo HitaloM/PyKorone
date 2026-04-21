@@ -1,17 +1,23 @@
 from __future__ import annotations
 
+import asyncio
 import re
+import subprocess
+import tempfile
+from pathlib import Path
 from typing import TYPE_CHECKING
 from urllib.parse import quote, urljoin, urlparse, urlunparse
 
 import aiohttp
+from aiogram.types import BufferedInputFile
 from lxml import html as lxml_html
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.modules.medias.utils.parsing import coerce_int
 from korone.modules.medias.utils.provider_base import MediaProvider
-from korone.modules.medias.utils.types import MediaKind, MediaPost, MediaSource
+from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost, MediaSource
+from korone.modules.utils_.file_id_cache import get_cached_file_payload
 from korone.utils.aiohttp_session import HTTPClient
 
 from . import client, parser
@@ -27,10 +33,10 @@ from .constants import (
     REDLIB_REQUEST_COOKIES,
     VIDEO_REGEX,
 )
-from .types import _PostRef, _ResolvedVideo, _ScrapedPost
+from .types import _PostRef, _ScrapedPost
 
 if TYPE_CHECKING:
-    from korone.modules.medias.utils.types import MediaItem
+    from aiogram.types import InputFile
 
 logger = get_logger(__name__)
 
@@ -256,72 +262,55 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         sources: list[MediaSource] = []
         seen: set[str] = set()
 
-        def add(
-            kind: MediaKind,
-            url: str | None,
-            *,
-            thumbnail_url: str | None = None,
-            duration: int | None = None,
-            width: int | None = None,
-            height: int | None = None,
-        ) -> None:
-            if not url:
+        def add_source(source: MediaSource) -> None:
+            if not source.url:
                 return
-            normalized_url = parser.normalize_media_url(base_url, url)
+            normalized_url = parser.normalize_media_url(base_url, source.url)
             if not normalized_url or normalized_url in seen:
                 return
 
             seen.add(normalized_url)
-            normalized_thumb = parser.normalize_media_url(base_url, thumbnail_url) if thumbnail_url else None
+            normalized_thumb = (
+                parser.normalize_media_url(base_url, source.thumbnail_url) if source.thumbnail_url else None
+            )
             sources.append(
                 MediaSource(
-                    kind=kind,
+                    kind=source.kind,
                     url=normalized_url,
                     thumbnail_url=normalized_thumb,
-                    duration=duration,
-                    width=width,
-                    height=height,
+                    duration=source.duration,
+                    width=source.width,
+                    height=source.height,
+                    audio_url=source.audio_url,
+                    fallback_url=source.fallback_url,
                 )
             )
 
         if post_type == "gallery":
             for gallery_url in cls._extract_gallery_urls(tree):
-                add(MediaKind.PHOTO, gallery_url)
+                add_source(MediaSource(kind=MediaKind.PHOTO, url=gallery_url))
 
         if post_type == "image" and not sources:
             image_url = cls._extract_image_url(tree)
-            add(MediaKind.PHOTO, image_url)
+            add_source(MediaSource(kind=MediaKind.PHOTO, url=image_url or ""))
 
         if post_type in {"video", "gif"} and not sources:
             video = await cls._extract_video_source(tree, html_content, base_url)
             if video:
-                add(
-                    MediaKind.VIDEO,
-                    video.url,
-                    thumbnail_url=video.thumbnail_url,
-                    duration=video.duration,
-                    width=video.width,
-                    height=video.height,
-                )
+                add_source(video)
 
         if not sources:
             for gallery_url in cls._extract_gallery_urls(tree):
-                add(MediaKind.PHOTO, gallery_url)
+                add_source(MediaSource(kind=MediaKind.PHOTO, url=gallery_url))
 
         if not sources:
-            add(MediaKind.PHOTO, cls._extract_image_url(tree))
+            image_url = cls._extract_image_url(tree)
+            add_source(MediaSource(kind=MediaKind.PHOTO, url=image_url or ""))
 
         if not sources:
             video = await cls._extract_video_source(tree, html_content, base_url)
             if video:
-                add(
-                    MediaKind.VIDEO,
-                    video.url,
-                    thumbnail_url=video.thumbnail_url,
-                    duration=video.duration,
-                    width=video.width,
-                    height=video.height,
-                )
+                add_source(video)
 
         return sources
 
@@ -352,7 +341,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
     @classmethod
     async def _extract_video_source(
         cls, tree: lxml_html.HtmlElement, html_content: str, base_url: str
-    ) -> _ResolvedVideo | None:
+    ) -> MediaSource | None:
         video_nodes = tree.xpath(
             "//div[contains(@class, 'post_media_content')]//video[contains(@class, 'post_media_video')]"
         )
@@ -363,6 +352,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             height = coerce_int(video_node.get("height"))
             duration = cls._extract_video_duration_seconds(video_node)
 
+            direct_mp4_url = None
             direct_mp4_sources = [video_node.get("src") or ""]
             direct_mp4_sources.extend(
                 str(source)
@@ -371,9 +361,8 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             for source in direct_mp4_sources:
                 normalized = parser.normalize_media_url(base_url, source)
                 if normalized:
-                    return _ResolvedVideo(
-                        url=normalized, thumbnail_url=poster, width=width, height=height, duration=duration
-                    )
+                    direct_mp4_url = normalized
+                    break
 
             hls_source = parser.first_non_empty(
                 video_node.xpath(
@@ -382,50 +371,77 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                 )
             )
             if hls_source:
-                resolved = await cls._resolve_hls_to_mp4(parser.normalize_media_url(base_url, hls_source))
+                resolved = await cls._resolve_hls_streams(parser.normalize_media_url(base_url, hls_source))
                 if resolved:
-                    video_url, resolved_width, resolved_height, resolved_duration = resolved
-                    return _ResolvedVideo(
-                        url=video_url,
+                    return MediaSource(
+                        kind=MediaKind.VIDEO,
+                        url=resolved.url,
+                        audio_url=resolved.audio_url,
+                        fallback_url=direct_mp4_url,
                         thumbnail_url=poster,
-                        width=resolved_width or width,
-                        height=resolved_height or height,
-                        duration=resolved_duration or duration,
+                        width=resolved.width or width,
+                        height=resolved.height or height,
+                        duration=resolved.duration or duration,
                     )
 
+            if direct_mp4_url:
+                return MediaSource(
+                    kind=MediaKind.VIDEO,
+                    url=direct_mp4_url,
+                    thumbnail_url=poster,
+                    width=width,
+                    height=height,
+                    duration=duration,
+                )
+
         mp4_match = cls._video_regex.search(html_content)
+        playlist_match = cls._playlist_regex.search(html_content)
+        if playlist_match and playlist_match.group(1):
+            resolved = await cls._resolve_hls_streams(parser.normalize_media_url(base_url, playlist_match.group(1)))
+            if resolved:
+                return MediaSource(
+                    kind=MediaKind.VIDEO,
+                    url=resolved.url,
+                    audio_url=resolved.audio_url,
+                    width=resolved.width,
+                    height=resolved.height,
+                    duration=resolved.duration,
+                )
+
         if mp4_match and mp4_match.group(1):
             normalized = parser.normalize_media_url(base_url, mp4_match.group(1))
             if normalized:
-                return _ResolvedVideo(url=normalized)
-
-        playlist_match = cls._playlist_regex.search(html_content)
-        if playlist_match and playlist_match.group(1):
-            resolved = await cls._resolve_hls_to_mp4(parser.normalize_media_url(base_url, playlist_match.group(1)))
-            if resolved:
-                video_url, width, height, duration = resolved
-                return _ResolvedVideo(url=video_url, width=width, height=height, duration=duration)
+                return MediaSource(kind=MediaKind.VIDEO, url=normalized)
 
         return None
 
     @classmethod
-    async def _resolve_hls_to_mp4(cls, hls_url: str | None) -> tuple[str, int | None, int | None, int | None] | None:
+    async def _resolve_hls_streams(cls, hls_url: str | None) -> MediaSource | None:
         if not hls_url:
             return None
 
-        playlist = await cls._fetch_text(hls_url)
-        if not playlist:
+        master_playlist = await cls._fetch_text(hls_url)
+        if not master_playlist:
             return None
 
+        audio_groups: dict[str, str] = {}
         best_variant: str | None = None
         best_bandwidth = -1
         best_width: int | None = None
         best_height: int | None = None
+        best_audio_group: str | None = None
 
         stream_info: str | None = None
-        for raw_line in playlist.splitlines():
+        for raw_line in master_playlist.splitlines():
             line = raw_line.strip()
             if not line:
+                continue
+            if line.startswith("#EXT-X-MEDIA:"):
+                media_type = cls._parse_stream_text(line, "TYPE")
+                group_id = cls._parse_stream_text(line, "GROUP-ID")
+                uri = cls._parse_stream_text(line, "URI")
+                if media_type == "AUDIO" and group_id and uri:
+                    audio_groups[group_id] = uri
                 continue
             if line.startswith("#EXT-X-STREAM-INF:"):
                 stream_info = line
@@ -437,34 +453,92 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
 
             bandwidth = cls._parse_stream_int(stream_info, "BANDWIDTH")
             width, height = cls._parse_stream_resolution(stream_info)
+            audio_group = cls._parse_stream_text(stream_info, "AUDIO")
             if bandwidth > best_bandwidth:
                 best_bandwidth = bandwidth
                 best_variant = line
                 best_width = width
                 best_height = height
+                best_audio_group = audio_group
 
             if best_variant is None:
                 best_variant = line
                 best_width = width
                 best_height = height
+                best_audio_group = audio_group
 
             stream_info = None
 
         if not best_variant:
             return None
 
-        variant_url = cls._join_hls_url(hls_url, best_variant)
-        if not variant_url:
+        variant_playlist_url = parser.normalize_media_url(hls_url, best_variant)
+        if not variant_playlist_url:
             return None
 
-        variant_duration = await cls._extract_hls_duration_seconds(variant_url)
+        variant_playlist = await cls._fetch_text(variant_playlist_url)
+        if not variant_playlist:
+            return None
 
-        parsed_variant = urlparse(variant_url)
-        if parsed_variant.path.endswith(".m3u8"):
-            mp4_path = f"{parsed_variant.path[:-5]}.mp4"
-            variant_url = urlunparse(parsed_variant._replace(path=mp4_path))
+        video_path = cls._extract_playlist_media_path(variant_playlist)
+        if not video_path:
+            return None
 
-        return variant_url, best_width, best_height, variant_duration
+        video_url = parser.normalize_media_url(variant_playlist_url, video_path)
+        if not video_url:
+            return None
+
+        audio_url: str | None = None
+        audio_uri_candidates: list[str] = []
+        if best_audio_group:
+            candidate = audio_groups.get(best_audio_group)
+            if candidate:
+                audio_uri_candidates.append(candidate)
+        audio_uri_candidates.extend(uri for uri in audio_groups.values() if uri not in audio_uri_candidates)
+
+        for audio_uri in audio_uri_candidates:
+            audio_playlist_url = parser.normalize_media_url(hls_url, audio_uri)
+            if not audio_playlist_url:
+                continue
+
+            audio_playlist = await cls._fetch_text(audio_playlist_url)
+            if not audio_playlist:
+                continue
+
+            audio_path = cls._extract_playlist_media_path(audio_playlist)
+            if not audio_path:
+                continue
+
+            audio_url = parser.normalize_media_url(audio_playlist_url, audio_path)
+            if audio_url:
+                break
+
+        variant_duration = cls._parse_hls_segment_duration(variant_playlist)
+
+        return MediaSource(
+            kind=MediaKind.VIDEO,
+            url=video_url,
+            audio_url=audio_url,
+            width=best_width,
+            height=best_height,
+            duration=variant_duration,
+        )
+
+    @staticmethod
+    def _extract_playlist_media_path(playlist: str) -> str | None:
+        for raw_line in playlist.splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            return line
+        return None
+
+    @staticmethod
+    def _parse_stream_text(stream_info: str, key: str) -> str | None:
+        match = re.search(rf'{re.escape(key)}=(?:"([^"]*)"|([^,\s]+))', stream_info)
+        if not match:
+            return None
+        return match.group(1) or match.group(2)
 
     @classmethod
     def _extract_video_duration_seconds(cls, video_node: lxml_html.HtmlElement) -> int | None:
@@ -594,6 +668,132 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             return int(match.group(1)), int(match.group(2))
         except ValueError:
             return None, None
+
+    @classmethod
+    async def _download_source(
+        cls, source: MediaSource, index: int, prefix: str, max_size: int | None, label: str
+    ) -> MediaItem | None:
+        if not source.audio_url:
+            return await super()._download_source(source, index, prefix, max_size, label)
+
+        cache_key = cls._media_source_cache_key(source.url)
+        cached_payload = await get_cached_file_payload(cache_key)
+        if cached_payload:
+            cached_file_id = cached_payload.get("file_id")
+            if isinstance(cached_file_id, str) and cached_file_id:
+                return MediaItem(
+                    kind=source.kind,
+                    file=cached_file_id,
+                    filename=f"{prefix}_{index}.mp4",
+                    source_url=source.url,
+                    duration=source.duration,
+                    width=source.width,
+                    height=source.height,
+                )
+
+        video_payload_result = await cls._fetch_payload_with_retry(
+            source.url, label=label, stage="source", max_size=max_size, source_kind=source.kind, source_index=index
+        )
+        if not video_payload_result:
+            return await cls._download_fallback_source(source, index, prefix, max_size, label)
+
+        video_payload, _ = video_payload_result
+
+        audio_payload: bytes | None = None
+        if source.audio_url:
+            audio_payload_result = await cls._fetch_payload_with_retry(
+                source.audio_url,
+                label=label,
+                stage="source",
+                max_size=max_size,
+                source_kind=source.kind,
+                source_index=index,
+            )
+            if not audio_payload_result:
+                await logger.awarning(
+                    "[Reddit] Failed to fetch HLS audio payload",
+                    source_url=source.audio_url,
+                    video_url=source.url,
+                    source_index=index,
+                )
+                return await cls._download_fallback_source(source, index, prefix, max_size, label)
+
+            audio_payload, _ = audio_payload_result
+
+        remuxed_payload = await asyncio.to_thread(cls._remux_hls_payloads_to_mp4, video_payload, audio_payload)
+        if not remuxed_payload:
+            await logger.awarning(
+                "[Reddit] Failed to remux HLS media",
+                source_url=source.url,
+                audio_url=source.audio_url,
+                source_index=index,
+            )
+            return await cls._download_fallback_source(source, index, prefix, max_size, label)
+
+        if max_size and len(remuxed_payload) > max_size:
+            await logger.adebug(
+                "[Reddit] Remuxed HLS media too large", size=len(remuxed_payload), source_url=source.url
+            )
+            return await cls._download_fallback_source(source, index, prefix, max_size, label)
+
+        thumbnail: InputFile | None = None
+        if source.thumbnail_url and source.kind == MediaKind.VIDEO:
+            thumbnail = await cls._download_thumbnail(source.thumbnail_url, label, index, prefix)
+
+        filename = f"{prefix}_{index}.mp4"
+        return MediaItem(
+            kind=source.kind,
+            file=BufferedInputFile(remuxed_payload, filename),
+            filename=filename,
+            source_url=source.url,
+            thumbnail=thumbnail,
+            duration=source.duration,
+            width=source.width,
+            height=source.height,
+        )
+
+    @classmethod
+    async def _download_fallback_source(
+        cls, source: MediaSource, index: int, prefix: str, max_size: int | None, label: str
+    ) -> MediaItem | None:
+        if not source.fallback_url:
+            return None
+
+        fallback_source = MediaSource(
+            kind=source.kind,
+            url=source.fallback_url,
+            thumbnail_url=source.thumbnail_url,
+            duration=source.duration,
+            width=source.width,
+            height=source.height,
+        )
+        return await super()._download_source(fallback_source, index, prefix, max_size, label)
+
+    @staticmethod
+    def _remux_hls_payloads_to_mp4(video_payload: bytes, audio_payload: bytes | None) -> bytes | None:
+        with tempfile.TemporaryDirectory(prefix="korone-reddit-hls-") as temp_dir:
+            temp_dir_path = Path(temp_dir)
+            video_input_path = temp_dir_path / "video.ts"
+            video_input_path.write_bytes(video_payload)
+
+            command = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video_input_path)]
+            if audio_payload is not None:
+                audio_input_path = temp_dir_path / "audio.aac"
+                audio_input_path.write_bytes(audio_payload)
+                command.extend(["-i", str(audio_input_path)])
+
+            output_path = temp_dir_path / "output.mp4"
+            command.extend(["-c", "copy", str(output_path)])
+
+            try:
+                result = subprocess.run(command, capture_output=True, text=True, check=False)
+            except OSError:
+                return None
+
+            if result.returncode != 0 or not output_path.exists():
+                return None
+
+            return output_path.read_bytes()
 
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
