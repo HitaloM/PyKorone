@@ -28,7 +28,6 @@ class CancelState(KoroneMessageHandler):
             return
 
         await self.state.clear()
-        current_state = await self.state.get_state()
         await self.event.answer(
             Template(_("Current state {state} is cleared."), state=Italic(current_state)).to_html(),
             reply_markup=ReplyKeyboardRemove(),
