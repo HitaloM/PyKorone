@@ -93,7 +93,7 @@ msgstr "Usuários: 'IDs de usuário (numéricos) / Nomes de usuário (começam c
 msgid "User ID"
 msgstr "ID do usuário"
 
-#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:79
+#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:91
 #: src/korone/modules/users/handlers/info.py:72
 msgid "Username"
 msgstr "Nome de usuário"
@@ -861,7 +861,7 @@ msgid "Period"
 msgstr "Período"
 
 #: src/korone/modules/lastfm/handlers/compat.py:88
-#: src/korone/modules/lastfm/handlers/set.py:47
+#: src/korone/modules/lastfm/handlers/set.py:54
 msgid "Could not identify your Telegram user."
 msgstr "Não foi possível identificar seu usuário do Telegram."
 
@@ -891,28 +891,36 @@ msgstr "Nenhum scrobble encontrado para este usuário do Last.fm."
 msgid "Show the current Last.fm listening status."
 msgstr "Mostre o status atual de reprodução no Last.fm."
 
-#: src/korone/modules/lastfm/handlers/set.py:43
-#: src/korone/modules/lastfm/handlers/set.py:108
+#: src/korone/modules/lastfm/handlers/set.py:50
+#: src/korone/modules/lastfm/handlers/set.py:144
 msgid "Invalid Last.fm username format."
 msgstr "Formato de nome de usuário do Last.fm inválido."
 
-#: src/korone/modules/lastfm/handlers/set.py:58
+#: src/korone/modules/lastfm/handlers/set.py:65
 #: src/korone/modules/lastfm/utils/formatters.py:212
 msgid "Last.fm user not found."
 msgstr "Usuário do Last.fm não encontrado."
 
-#: src/korone/modules/lastfm/handlers/set.py:65
+#: src/korone/modules/lastfm/handlers/set.py:72
 #, python-brace-format
 msgid "Last.fm username set to {username}. Use {command} to check your status."
 msgstr "Nome de usuário do Last.fm definido como {username}. Use {command} para ver seu status."
 
-#: src/korone/modules/lastfm/handlers/set.py:74
+#: src/korone/modules/lastfm/handlers/set.py:82
+msgid "Reply with your Last.fm username."
+msgstr "Responda com seu nome de usuário do Last.fm."
+
+#: src/korone/modules/lastfm/handlers/set.py:86
 msgid "Set your Last.fm username for status commands."
 msgstr "Defina seu nome de usuário do Last.fm para usar os comandos de status."
 
-#: src/korone/modules/lastfm/handlers/set.py:91
-msgid "Reply with your Last.fm username."
-msgstr "Responda com seu nome de usuário do Last.fm."
+#: src/korone/modules/lastfm/handlers/set.py:111
+msgid "Open private chat"
+msgstr "Abrir chat privado"
+
+#: src/korone/modules/lastfm/handlers/set.py:114
+msgid "Tap the button below to continue in private."
+msgstr "Toque no botão abaixo para continuar no chat privado."
 
 #: src/korone/modules/lastfm/utils/formatters.py:35
 #, python-brace-format

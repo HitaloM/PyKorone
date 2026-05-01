@@ -11,7 +11,7 @@ from .handlers.artist import LastFMArtistCallbackHandler, LastFMArtistHandler
 from .handlers.collage import LastFMCollageCallbackHandler, LastFMCollageHandler
 from .handlers.compat import LastFMCompatHandler
 from .handlers.lfm import LastFMStatusCallbackHandler, LastFMStatusHandler
-from .handlers.set import LastFMSetHandler, LastFMSetReplyHandler
+from .handlers.set import LastFMSetHandler, LastFMSetReplyHandler, LastFMSetStartHandler
 from .stats import lastfm_stats
 
 router = Router(name="lastfm")
@@ -28,6 +28,7 @@ __export__ = export_lastfm
 
 __handlers__ = (
     LastFMSetHandler,
+    LastFMSetStartHandler,
     LastFMSetReplyHandler,
     LastFMStatusHandler,
     LastFMStatusCallbackHandler,

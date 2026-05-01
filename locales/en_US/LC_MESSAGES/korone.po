@@ -93,7 +93,7 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:79
+#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:91
 #: src/korone/modules/users/handlers/info.py:72
 msgid "Username"
 msgstr ""
@@ -858,7 +858,7 @@ msgid "Period"
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/compat.py:88
-#: src/korone/modules/lastfm/handlers/set.py:47
+#: src/korone/modules/lastfm/handlers/set.py:54
 msgid "Could not identify your Telegram user."
 msgstr ""
 
@@ -888,27 +888,35 @@ msgstr ""
 msgid "Show the current Last.fm listening status."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:43
-#: src/korone/modules/lastfm/handlers/set.py:108
+#: src/korone/modules/lastfm/handlers/set.py:50
+#: src/korone/modules/lastfm/handlers/set.py:144
 msgid "Invalid Last.fm username format."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:58
+#: src/korone/modules/lastfm/handlers/set.py:65
 #: src/korone/modules/lastfm/utils/formatters.py:212
 msgid "Last.fm user not found."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:65
+#: src/korone/modules/lastfm/handlers/set.py:72
 #, python-brace-format
 msgid "Last.fm username set to {username}. Use {command} to check your status."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:74
+#: src/korone/modules/lastfm/handlers/set.py:82
+msgid "Reply with your Last.fm username."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:86
 msgid "Set your Last.fm username for status commands."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:91
-msgid "Reply with your Last.fm username."
+#: src/korone/modules/lastfm/handlers/set.py:111
+msgid "Open private chat"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:114
+msgid "Tap the button below to continue in private."
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:35

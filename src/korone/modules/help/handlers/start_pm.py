@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class StartPMHandler(KoroneMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
-        router.message.register(cls, CommandStart(), PrivateChatFilter())
+        router.message.register(cls, CommandStart(deep_link=False), PrivateChatFilter())
         router.callback_query.register(cls, PrivateChatFilter(), GoToStartCallback.filter())
 
     async def handle(self) -> None:
