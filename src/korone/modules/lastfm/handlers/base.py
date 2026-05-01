@@ -2,11 +2,14 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, ClassVar, Protocol, cast, override
+from typing import TYPE_CHECKING, ClassVar, Final, Protocol, cast, override
 
+from aiogram.enums import ChatType
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import InputMediaPhoto
-from stfu_tg import Code, Template
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.types import ForceReply, InputMediaPhoto
+from aiogram.utils.deep_linking import create_start_link
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.logger import get_logger
@@ -15,9 +18,13 @@ from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandl
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
+    from aiogram import Bot
+    from aiogram.fsm.context import FSMContext
     from aiogram.types import InlineKeyboardMarkup, Message
 
 LASTFM_FALLBACK_IMAGE_URL = "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png"
+LASTFM_SET_START_PAYLOAD: Final[str] = "lastfm_set"
+
 logger = get_logger(__name__)
 
 
@@ -35,11 +42,34 @@ class LastFMCallbackContext:
     owner_id: int
 
 
+class LastFMSetState(StatesGroup):
+    waiting_username = State()
+
+
 class LastFMHandlerSupport:
     _BAD_MEDIA_URL_ERROR_TOKENS: ClassVar[tuple[str, ...]] = (
         "wrong type of the web page content",
         "failed to get http url content",
     )
+
+    @staticmethod
+    async def build_username_setup_markup(bot: Bot) -> InlineKeyboardMarkup:
+        builder = InlineKeyboardBuilder()
+        builder.button(text=_("Open private chat"), url=await create_start_link(bot, LASTFM_SET_START_PAYLOAD))
+        return builder.as_markup()
+
+    @staticmethod
+    async def prompt_for_username(message: Message, state: FSMContext) -> None:
+        await message.reply(_("Reply with your Last.fm username."), reply_markup=ForceReply(selective=True))
+        await state.set_state(LastFMSetState.waiting_username)
+
+    @classmethod
+    async def reply_missing_username(cls, message: Message, *, bot: Bot, state: FSMContext) -> None:
+        if message.chat.type == ChatType.PRIVATE:
+            await cls.prompt_for_username(message, state)
+            return
+
+        await message.reply(cls.missing_username_text(), reply_markup=await cls.build_username_setup_markup(bot))
 
     @staticmethod
     def can_use_buttons(*, callback_owner_id: int, user_id: int) -> bool:
@@ -61,7 +91,7 @@ class LastFMHandlerSupport:
 
     @staticmethod
     def missing_username_text() -> str:
-        return str(Template(_("Last.fm username not found. Use {example}."), example=Code("/setlfm your_username")))
+        return _("You need to set your Last.fm username first.")
 
     @staticmethod
     def resolve_image_url(image_url: str | None) -> str:
@@ -155,7 +185,7 @@ class BaseLastFMMessageHandler[P: LastFMResponsePayload](KoroneMessageHandler, L
     async def handle(self) -> None:
         username = await self.resolve_username()
         if not username:
-            await self.event.reply(type(self).missing_username_text())
+            await type(self).reply_missing_username(self.event, bot=self.bot, state=self.state)
             return
 
         try:
