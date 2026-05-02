@@ -93,7 +93,7 @@ msgstr "Usuários: 'IDs de usuário (numéricos) / Nomes de usuário (começam c
 msgid "User ID"
 msgstr "ID do usuário"
 
-#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:89
+#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:76
 #: src/korone/modules/users/handlers/info.py:72
 msgid "Username"
 msgstr "Nome de usuário"
@@ -299,8 +299,8 @@ msgstr "Pesquise celulares e consulte especificações principais sem sair do Te
 #: src/korone/modules/hifi/handlers/list.py:37
 #: src/korone/modules/hifi/handlers/preview.py:36
 #: src/korone/modules/hifi/handlers/send.py:65
-#: src/korone/modules/lastfm/handlers/base.py:256
-#: src/korone/modules/lastfm/handlers/collage.py:197
+#: src/korone/modules/lastfm/handlers/base.py:273
+#: src/korone/modules/lastfm/handlers/collage.py:194
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
 
@@ -801,16 +801,20 @@ msgstr "Nenhuma informação de artista encontrada para a faixa atual."
 msgid "Show artist details for the current Last.fm track."
 msgstr "Mostre detalhes do artista da faixa atual do Last.fm."
 
-#: src/korone/modules/lastfm/handlers/base.py:51
+#: src/korone/modules/lastfm/handlers/base.py:58
 msgid "Open private chat"
 msgstr "Abrir chat privado"
 
-#: src/korone/modules/lastfm/handlers/base.py:74
+#: src/korone/modules/lastfm/handlers/base.py:63
+msgid "Reply with your Last.fm username."
+msgstr "Responda com seu nome de usuário do Last.fm."
+
+#: src/korone/modules/lastfm/handlers/base.py:94
 msgid "You need to set your Last.fm username first."
 msgstr "Você precisa definir seu nome de usuário do Last.fm primeiro."
 
-#: src/korone/modules/lastfm/handlers/base.py:217
-#: src/korone/modules/lastfm/handlers/collage.py:227
+#: src/korone/modules/lastfm/handlers/base.py:234
+#: src/korone/modules/lastfm/handlers/collage.py:224
 msgid "No updates from your profile."
 msgstr "Nenhuma atualização no seu perfil."
 
@@ -835,7 +839,7 @@ msgstr "Opções"
 msgid "Could not identify the target user."
 msgstr "Não foi possível identificar o usuário alvo."
 
-#: src/korone/modules/lastfm/handlers/collage.py:204
+#: src/korone/modules/lastfm/handlers/collage.py:201
 msgid "Last.fm username not found for this user."
 msgstr "Nome de usuário do Last.fm não encontrado para este usuário."
 
@@ -864,7 +868,7 @@ msgid "Period"
 msgstr "Período"
 
 #: src/korone/modules/lastfm/handlers/compat.py:88
-#: src/korone/modules/lastfm/handlers/set.py:52
+#: src/korone/modules/lastfm/handlers/set.py:44
 msgid "Could not identify your Telegram user."
 msgstr "Não foi possível identificar seu usuário do Telegram."
 
@@ -881,7 +885,7 @@ msgstr "Olha, sou eu!!!"
 msgid "Bots don't listen to music."
 msgstr "Bots não ouvem música."
 
-#: src/korone/modules/lastfm/handlers/compat.py:127
+#: src/korone/modules/lastfm/handlers/compat.py:124
 msgid "This user needs to set Last.fm first with /setlfm."
 msgstr "Este usuário precisa configurar o Last.fm primeiro com /setlfm."
 
@@ -894,32 +898,24 @@ msgstr "Nenhum scrobble encontrado para este usuário do Last.fm."
 msgid "Show the current Last.fm listening status."
 msgstr "Mostre o status atual de reprodução no Last.fm."
 
-#: src/korone/modules/lastfm/handlers/set.py:48
-#: src/korone/modules/lastfm/handlers/set.py:138
+#: src/korone/modules/lastfm/handlers/set.py:40
+#: src/korone/modules/lastfm/handlers/set.py:118
 msgid "Invalid Last.fm username format."
 msgstr "Formato de nome de usuário do Last.fm inválido."
 
-#: src/korone/modules/lastfm/handlers/set.py:63
+#: src/korone/modules/lastfm/handlers/set.py:55
 #: src/korone/modules/lastfm/utils/formatters.py:212
 msgid "Last.fm user not found."
 msgstr "Usuário do Last.fm não encontrado."
 
-#: src/korone/modules/lastfm/handlers/set.py:70
+#: src/korone/modules/lastfm/handlers/set.py:62
 #, python-brace-format
 msgid "Last.fm username set to {username}. Use {command} to check your status."
 msgstr "Nome de usuário do Last.fm definido como {username}. Use {command} para ver seu status."
 
-#: src/korone/modules/lastfm/handlers/set.py:80
-msgid "Reply with your Last.fm username."
-msgstr "Responda com seu nome de usuário do Last.fm."
-
-#: src/korone/modules/lastfm/handlers/set.py:84
+#: src/korone/modules/lastfm/handlers/set.py:71
 msgid "Set your Last.fm username for status commands."
 msgstr "Defina seu nome de usuário do Last.fm para usar os comandos de status."
-
-#: src/korone/modules/lastfm/handlers/set.py:108
-msgid "Tap the button below to continue in private."
-msgstr "Toque no botão abaixo para continuar no chat privado."
 
 #: src/korone/modules/lastfm/utils/formatters.py:35
 #, python-brace-format
@@ -1048,7 +1044,7 @@ msgstr "Baixe mídia quando links compatíveis forem enviados em grupos."
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."
 msgstr "Plataformas compatíveis atualmente: Twitter, Bluesky, Instagram, Reddit e TikTok."
 
-#: src/korone/modules/medias/handlers/base.py:548
+#: src/korone/modules/medias/handlers/base.py:564
 #, python-brace-format
 msgid "Open in {website}"
 msgstr "Abrir em {website}"
@@ -1512,7 +1508,7 @@ msgstr "Cancele o estado atual da interação."
 msgid "The current state is already cleared, wiping its data anyway..."
 msgstr "O estado atual já está limpo, limpando os dados mesmo assim..."
 
-#: src/korone/modules/troubleshooters/handlers/cancel.py:33
+#: src/korone/modules/troubleshooters/handlers/cancel.py:32
 #, python-brace-format
 msgid "Current state {state} is cleared."
 msgstr "O estado atual {state} foi limpo."
@@ -2058,3 +2054,6 @@ msgstr "Não foi possível encontrar a menção de usuário"
 
 #~ msgid "Last.fm username not found. Use {example}."
 #~ msgstr "Nome de usuário do Last.fm não encontrado. Use {example}."
+
+#~ msgid "Tap the button below to continue in private."
+#~ msgstr "Toque no botão abaixo para continuar no chat privado."
