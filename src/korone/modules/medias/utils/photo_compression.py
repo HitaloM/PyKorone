@@ -69,6 +69,26 @@ def _constrain_photo_dimensions(image: Image.Image, *, max_dimensions_sum: int, 
     return constrained
 
 
+def photo_payload_needs_resize(payload: bytes, *, max_dimensions_sum: int, max_aspect_ratio: int) -> bool:
+    try:
+        with Image.open(BytesIO(payload)) as source_image:
+            base = ImageOps.exif_transpose(source_image)
+            try:
+                width, height = base.size
+                if width < 1 or height < 1:
+                    return True
+
+                target_width, target_height = _target_photo_dimensions(
+                    width, height, max_dimensions_sum=max_dimensions_sum, max_aspect_ratio=max_aspect_ratio
+                )
+                return (target_width, target_height) != (width, height)
+            finally:
+                if base is not source_image:
+                    base.close()
+    except OSError, ValueError:
+        return True
+
+
 def _encode_candidate_jpeg(
     image: Image.Image, *, safe_limit_bytes: int, quality_steps: tuple[int, ...], best: bytes | None
 ) -> tuple[bytes | None, bytes | None, bytes | None]:

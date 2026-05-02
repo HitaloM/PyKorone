@@ -21,7 +21,10 @@ from korone.constants import (
 from korone.filters.chat_status import GroupChatFilter
 from korone.logger import get_logger
 from korone.modules.medias.filters import MediaUrlFilter
-from korone.modules.medias.utils.photo_compression import compress_photo_payload_to_safe_jpeg
+from korone.modules.medias.utils.photo_compression import (
+    compress_photo_payload_to_safe_jpeg,
+    photo_payload_needs_resize,
+)
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
 from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import (
@@ -302,10 +305,24 @@ class BaseMediaHandler(KoroneMessageHandler):
         stem = Path(original_name).stem or "photo"
         return f"{stem}_compressed.jpg"
 
+    @classmethod
+    def _needs_photo_compression(cls, media: MediaItem) -> bool:
+        if media.kind != MediaKind.PHOTO or not isinstance(media.file, BufferedInputFile):
+            return False
+
+        if len(media.file.data) > cls.PHOTO_SAFE_LIMIT_BYTES:
+            return True
+
+        return photo_payload_needs_resize(
+            media.file.data,
+            max_dimensions_sum=cls.PHOTO_MAX_DIMENSIONS_SUM,
+            max_aspect_ratio=cls.PHOTO_MAX_ASPECT_RATIO,
+        )
+
     async def _compress_photo(self, media: MediaItem, *, force: bool = False) -> MediaItem:
         if media.kind != MediaKind.PHOTO or not isinstance(media.file, BufferedInputFile):
             return media
-        if not force and len(media.file.data) <= self.PHOTO_SAFE_LIMIT_BYTES:
+        if not force and not self._needs_photo_compression(media):
             return media
 
         try:
@@ -337,9 +354,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         indexes_to_process = [
             index
             for index, item in enumerate(media_items)
-            if item.kind == MediaKind.PHOTO
-            and isinstance(item.file, BufferedInputFile)
-            and (force or len(item.file.data) > self.PHOTO_SAFE_LIMIT_BYTES)
+            if item.kind == MediaKind.PHOTO and (force or self._needs_photo_compression(item))
         ]
         if not indexes_to_process:
             return media_items
@@ -456,6 +471,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     async def _send_single_media(
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
     ) -> list[MediaCacheEntryPayload]:
+        media = await self._compress_photo(media, force=False)
         async with self._upload_action(media.kind):
             try:
                 sent_message = await self._reply_media(media, caption, keyboard)
