@@ -296,9 +296,6 @@ msgstr "Pesquise celulares e consulte especificações principais sem sair do Te
 
 #: src/korone/modules/gsm_arena/handlers/get.py:35
 #: src/korone/modules/gsm_arena/handlers/list.py:32
-#: src/korone/modules/hifi/handlers/list.py:37
-#: src/korone/modules/hifi/handlers/preview.py:36
-#: src/korone/modules/hifi/handlers/send.py:65
 #: src/korone/modules/lastfm/handlers/base.py:273
 #: src/korone/modules/lastfm/handlers/collage.py:194
 msgid "You are not allowed to use this button."
@@ -452,7 +449,6 @@ msgstr "Mostre o menu de ajuda com todos os módulos."
 
 #: src/korone/modules/help/handlers/pm_modules.py:61
 #: src/korone/modules/help/handlers/pm_modules.py:137
-#: src/korone/modules/hifi/handlers/preview.py:57
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
 #: src/korone/modules/language/handlers/select.py:57
@@ -553,137 +549,6 @@ msgstr "canal de notícias"
 #: src/korone/modules/help/utils/format_help.py:81
 msgid "Commands"
 msgstr "Comandos"
-
-#: src/korone/modules/hifi/__init__.py:18
-msgid "HiFi"
-msgstr "HiFi"
-
-#: src/korone/modules/hifi/__init__.py:20
-msgid "HiFi music search and delivery"
-msgstr "Busca e envio de músicas via HiFi"
-
-#: src/korone/modules/hifi/__init__.py:21
-msgid "Search tracks, preview results, and send high-quality audio files."
-msgstr "Pesquise faixas, visualize resultados e envie arquivos de áudio em alta qualidade."
-
-#: src/korone/modules/hifi/handlers/list.py:33
-#: src/korone/modules/hifi/handlers/preview.py:32
-#: src/korone/modules/hifi/handlers/send.py:61
-msgid "Search session expired. Please run /song again."
-msgstr "A sessão de pesquisa expirou. Execute /song novamente."
-
-#: src/korone/modules/hifi/handlers/list.py:41
-#: src/korone/modules/hifi/handlers/search.py:51
-msgid "No tracks found."
-msgstr "Nenhuma faixa encontrada."
-
-#: src/korone/modules/hifi/handlers/preview.py:40
-#: src/korone/modules/hifi/handlers/send.py:69
-msgid "Invalid track selected."
-msgstr "Faixa selecionada inválida."
-
-#: src/korone/modules/hifi/handlers/preview.py:49
-msgid "⬇️ Download"
-msgstr "⬇️ Baixar"
-
-#: src/korone/modules/hifi/handlers/search.py:26
-msgid "Search tracks with the HiFi provider."
-msgstr "Pesquise faixas com o provedor HiFi."
-
-#: src/korone/modules/hifi/handlers/search.py:32
-#: src/korone/modules/hifi/utils/formatters.py:56
-msgid "Query"
-msgstr "Consulta"
-
-#: src/korone/modules/hifi/handlers/search.py:47
-msgid "Could not fetch tracks right now. Please try again later."
-msgstr "Não foi possível buscar faixas agora. Tente novamente mais tarde."
-
-#: src/korone/modules/hifi/handlers/send.py:76
-msgid "This track has been requested recently in this chat."
-msgstr "Esta faixa foi solicitada recentemente neste chat."
-
-#: src/korone/modules/hifi/handlers/send.py:102
-msgid "Could not get an audio stream for this track."
-msgstr "Não foi possível obter o stream de áudio desta faixa."
-
-#: src/korone/modules/hifi/handlers/send.py:105
-msgid "Could not fetch track information right now."
-msgstr "Não foi possível buscar as informações da faixa agora."
-
-#: src/korone/modules/hifi/handlers/send.py:131
-msgid "This track is too large to send on Telegram."
-msgstr "Esta faixa é grande demais para enviar no Telegram."
-
-#: src/korone/modules/hifi/handlers/send.py:134
-msgid "Could not download this track right now."
-msgstr "Não foi possível baixar esta faixa agora."
-
-#: src/korone/modules/hifi/handlers/send.py:137
-msgid "Could not send this track right now."
-msgstr "Não foi possível enviar esta faixa agora."
-
-#: src/korone/modules/hifi/utils/formatters.py:56
-msgid "Found tracks"
-msgstr "Faixas encontradas"
-
-#: src/korone/modules/hifi/utils/formatters.py:56
-msgid "HiFi search"
-msgstr "Pesquisa HiFi"
-
-#: src/korone/modules/hifi/utils/formatters.py:59
-msgid "Page"
-msgstr "Página"
-
-#: src/korone/modules/hifi/utils/formatters.py:60
-msgid "Select a track below to preview and download it."
-msgstr "Selecione uma faixa abaixo para visualizar e baixá-la."
-
-#: src/korone/modules/hifi/utils/formatters.py:67
-#: src/korone/modules/hifi/utils/formatters.py:79
-msgid "Unknown"
-msgstr "Desconhecido"
-
-#: src/korone/modules/hifi/utils/formatters.py:81
-#: src/korone/modules/hifi/utils/formatters.py:100
-msgid "Artist"
-msgstr "Artista"
-
-#: src/korone/modules/hifi/utils/formatters.py:81
-#: src/korone/modules/hifi/utils/formatters.py:100
-msgid "Track"
-msgstr "Faixa"
-
-#: src/korone/modules/hifi/utils/formatters.py:81
-msgid "Track preview"
-msgstr "Prévia da faixa"
-
-#: src/korone/modules/hifi/utils/formatters.py:84
-#: src/korone/modules/hifi/utils/formatters.py:103
-msgid "Album"
-msgstr "Álbum"
-
-#: src/korone/modules/hifi/utils/formatters.py:86
-msgid "Duration"
-msgstr "Duração"
-
-#: src/korone/modules/hifi/utils/formatters.py:87
-#: src/korone/modules/hifi/utils/formatters.py:105
-msgid "Quality"
-msgstr "Qualidade"
-
-#: src/korone/modules/hifi/utils/formatters.py:90
-#: src/korone/modules/hifi/utils/formatters.py:108
-msgid "Explicit content."
-msgstr "Conteúdo explícito."
-
-#: src/korone/modules/hifi/utils/formatters.py:92
-msgid "Use the buttons below to go back or download this track."
-msgstr "Use os botões abaixo para voltar ou baixar esta faixa."
-
-#: src/korone/modules/hifi/utils/formatters.py:100
-msgid "Track sent"
-msgstr "Faixa enviada"
 
 #: src/korone/modules/language/__init__.py:18
 msgid "Language preferences and localization"
@@ -2057,3 +1922,99 @@ msgstr "Não foi possível encontrar a menção de usuário"
 
 #~ msgid "Tap the button below to continue in private."
 #~ msgstr "Toque no botão abaixo para continuar no chat privado."
+
+#~ msgid "HiFi"
+#~ msgstr "HiFi"
+
+#~ msgid "HiFi music search and delivery"
+#~ msgstr "Busca e envio de músicas via HiFi"
+
+#~ msgid "Search tracks, preview results, and send high-quality audio files."
+#~ msgstr "Pesquise faixas, visualize resultados e envie arquivos de áudio em alta qualidade."
+
+#~ msgid "Search session expired. Please run /song again."
+#~ msgstr "A sessão de pesquisa expirou. Execute /song novamente."
+
+#~ msgid "No tracks found."
+#~ msgstr "Nenhuma faixa encontrada."
+
+#~ msgid "Invalid track selected."
+#~ msgstr "Faixa selecionada inválida."
+
+#~ msgid "⬇️ Download"
+#~ msgstr "⬇️ Baixar"
+
+#~ msgid "🎚️ Download HI-RES"
+#~ msgstr "🎚️ Baixar HI-RES"
+
+#~ msgid "Search tracks with the HiFi provider."
+#~ msgstr "Pesquise faixas com o provedor HiFi."
+
+#~ msgid "Query"
+#~ msgstr "Consulta"
+
+#~ msgid "Could not fetch tracks right now. Please try again later."
+#~ msgstr "Não foi possível buscar faixas agora. Tente novamente mais tarde."
+
+#~ msgid "This track has been requested recently in this chat."
+#~ msgstr "Esta faixa foi solicitada recentemente neste chat."
+
+#~ msgid "This track is not available in HI-RES right now."
+#~ msgstr "Esta faixa não está disponível em HI-RES no momento."
+
+#~ msgid "Could not get an audio stream for this track."
+#~ msgstr "Não foi possível obter o stream de áudio desta faixa."
+
+#~ msgid "Could not fetch track information right now."
+#~ msgstr "Não foi possível buscar as informações da faixa agora."
+
+#~ msgid "This track is too large to send on Telegram."
+#~ msgstr "Esta faixa é grande demais para enviar no Telegram."
+
+#~ msgid "Could not download this track right now."
+#~ msgstr "Não foi possível baixar esta faixa agora."
+
+#~ msgid "Could not send this track right now."
+#~ msgstr "Não foi possível enviar esta faixa agora."
+
+#~ msgid "Found tracks"
+#~ msgstr "Faixas encontradas"
+
+#~ msgid "HiFi search"
+#~ msgstr "Pesquisa HiFi"
+
+#~ msgid "Page"
+#~ msgstr "Página"
+
+#~ msgid "Select a track below to preview and download it."
+#~ msgstr "Selecione uma faixa abaixo para visualizar e baixá-la."
+
+#~ msgid "Unknown"
+#~ msgstr "Desconhecido"
+
+#~ msgid "Artist"
+#~ msgstr "Artista"
+
+#~ msgid "Track"
+#~ msgstr "Faixa"
+
+#~ msgid "Track preview"
+#~ msgstr "Prévia da faixa"
+
+#~ msgid "Album"
+#~ msgstr "Álbum"
+
+#~ msgid "Duration"
+#~ msgstr "Duração"
+
+#~ msgid "Quality"
+#~ msgstr "Qualidade"
+
+#~ msgid "Explicit content."
+#~ msgstr "Conteúdo explícito."
+
+#~ msgid "Use the buttons below to go back or download this track."
+#~ msgstr "Use os botões abaixo para voltar ou baixar esta faixa."
+
+#~ msgid "Track sent"
+#~ msgstr "Faixa enviada"

@@ -32,7 +32,6 @@ MODULES: tuple[str, ...] = (
     "medias",
     "stickers",
     "gsm_arena",
-    "hifi",
     "regex",
     "lastfm",
     "web",
