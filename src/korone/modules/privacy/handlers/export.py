@@ -11,6 +11,7 @@ from aiogram.enums import ChatType
 from aiogram.filters import Command
 from aiogram.types import BufferedInputFile
 
+from korone.filters.admin_rights import UserRestricting
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -59,7 +60,7 @@ def _make_serializable(obj: ExportValue | Enum | datetime | _date) -> ExportValu
 class TriggerExport(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (Command("export"),)
+        return Command("export"), UserRestricting(admin=True)
 
     @staticmethod
     async def get_data(chat: ChatContext) -> list[dict[str, ExportValue]]:
