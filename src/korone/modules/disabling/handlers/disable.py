@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
 
-@flags.help(description=l_("Disable a command in this chat."))
+@flags.help(description=l_("Disable a command in this chat."), examples=((l_("Disable a command"), "help"),))
 class DisableHandler(KoroneMessageHandler):
     @classmethod
     async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:

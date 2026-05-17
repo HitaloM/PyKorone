@@ -119,19 +119,20 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
         if module.info:
             doc += module.info
 
-        doc += " "
-
         for section_title, handlers in group_handlers(cmds):
+            doc += ""
             doc += Section(*format_handlers(handlers), title=section_title)
 
         for a_mod_name, a_cmds in get_aliased_cmds(module_name).items():
             a_module = HELP_MODULES[a_mod_name]
+            doc += ""
             doc += Section(
                 format_handlers(a_cmds),
                 title=Template(_("Shared commands from {module}"), module=f"{a_module.icon} {a_module.name}"),
             )
 
         if examples := format_examples(cmds):
+            doc += ""
             doc += examples
 
         buttons = InlineKeyboardBuilder()

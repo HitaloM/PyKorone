@@ -69,7 +69,14 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
         return str(Template(_("No common artists in {period}."), period=period_label(period)))
 
 
-@flags.help(description=l_("Show Last.fm compatibility with the replied user."))
+@flags.help(
+    description=l_("Show Last.fm compatibility with the replied user. Supported periods: all, 1y, 6m, 3m, 1m, 7d."),
+    examples=(
+        (l_("Compare last year (reply to user)"), "1y"),
+        (l_("Compare last week (reply to user)"), "7day"),
+        (l_("Compare all-time (reply to user)"), "all"),
+    ),
+)
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmcompat")
 class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):

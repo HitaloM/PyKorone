@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-05-10 16:53-0300\n"
+"POT-Creation-Date: 2026-05-17 14:12-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,6 +160,10 @@ msgstr ""
 msgid "Disable a command in this chat."
 msgstr ""
 
+#: src/korone/modules/disabling/handlers/disable.py:24
+msgid "Disable a command"
+msgstr ""
+
 #: src/korone/modules/disabling/handlers/disable.py:28
 #: src/korone/modules/disabling/handlers/disable.py:56
 #: src/korone/modules/disabling/handlers/enable.py:28
@@ -273,7 +277,7 @@ msgstr ""
 #: src/korone/modules/gsm_arena/handlers/get.py:35
 #: src/korone/modules/gsm_arena/handlers/list.py:32
 #: src/korone/modules/lastfm/handlers/base.py:273
-#: src/korone/modules/lastfm/handlers/collage.py:197
+#: src/korone/modules/lastfm/handlers/collage.py:202
 msgid "You are not allowed to use this button."
 msgstr ""
 
@@ -424,7 +428,7 @@ msgid "Show the help menu with all modules."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:61
-#: src/korone/modules/help/handlers/pm_modules.py:140
+#: src/korone/modules/help/handlers/pm_modules.py:141
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
 #: src/korone/modules/language/handlers/select.py:57
@@ -659,7 +663,7 @@ msgid "You need to set your Last.fm username first."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/base.py:234
-#: src/korone/modules/lastfm/handlers/collage.py:227
+#: src/korone/modules/lastfm/handlers/collage.py:232
 msgid "No updates from your profile."
 msgstr ""
 
@@ -673,22 +677,34 @@ msgid "No top albums found for this Last.fm user and period."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/collage.py:133
-msgid "Create an album collage from Last.fm top albums."
+msgid "Create an album collage from Last.fm top albums. Supported periods: all, 1y, 6m, 3m, 1m, 7d."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:134
+#: src/korone/modules/lastfm/handlers/collage.py:135
+msgid "Show a 2x2 collage."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:136
 msgid "Show a 3x3 collage without text."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:141
+#: src/korone/modules/lastfm/handlers/collage.py:137
+msgid "Show a 4x4 collage for last year."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:138
+msgid "Show a 3x3 collage for last month without names."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:146
 msgid "Options"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:151
+#: src/korone/modules/lastfm/handlers/collage.py:156
 msgid "Could not identify the target user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:204
+#: src/korone/modules/lastfm/handlers/collage.py:209
 msgid "Last.fm username not found for this user."
 msgstr ""
 
@@ -705,33 +721,45 @@ msgstr ""
 msgid "No common artists in {period}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:72
-msgid "Show Last.fm compatibility with the replied user."
+#: src/korone/modules/lastfm/handlers/compat.py:73
+msgid "Show Last.fm compatibility with the replied user. Supported periods: all, 1y, 6m, 3m, 1m, 7d."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:78
+#: src/korone/modules/lastfm/handlers/compat.py:75
+msgid "Compare last year (reply to user)"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:76
+msgid "Compare last week (reply to user)"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:77
+msgid "Compare all-time (reply to user)"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:85
 msgid "Period"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:88
+#: src/korone/modules/lastfm/handlers/compat.py:95
 #: src/korone/modules/lastfm/handlers/set.py:44
 msgid "Could not identify your Telegram user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:100
+#: src/korone/modules/lastfm/handlers/compat.py:107
 #, python-brace-format
 msgid "Usage: {example}. Reply to someone's message in a group."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:110
+#: src/korone/modules/lastfm/handlers/compat.py:117
 msgid "Lookie, it's me!!!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:114
+#: src/korone/modules/lastfm/handlers/compat.py:121
 msgid "Bots don't listen to music."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:124
+#: src/korone/modules/lastfm/handlers/compat.py:131
 msgid "This user needs to set Last.fm first with /setlfm."
 msgstr ""
 
@@ -1031,7 +1059,7 @@ msgstr ""
 
 #: src/korone/modules/stickers/handlers/delsticker.py:29
 #: src/korone/modules/stickers/handlers/mypacks.py:27
-#: src/korone/modules/stickers/handlers/steal.py:51
+#: src/korone/modules/stickers/handlers/steal.py:54
 #: src/korone/modules/stickers/handlers/stealpack.py:84
 #: src/korone/modules/stickers/handlers/switch.py:37
 msgid "Could not identify your user."
@@ -1042,7 +1070,7 @@ msgid "Reply to a sticker from your own pack first."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/delsticker.py:37
-#: src/korone/modules/stickers/handlers/steal.py:59
+#: src/korone/modules/stickers/handlers/steal.py:62
 #: src/korone/modules/stickers/handlers/stealpack.py:103
 #, python-brace-format
 msgid "Then use {command}."
@@ -1134,32 +1162,40 @@ msgstr ""
 msgid "{name}'s sticker packs"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/steal.py:38
+#: src/korone/modules/stickers/handlers/steal.py:39
 msgid "Copy a replied sticker or media item into one of your packs."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/steal.py:43
+#: src/korone/modules/stickers/handlers/steal.py:40
+msgid "Save into specific pack with emoji"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:40
+msgid "Save into default pack"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:46
 msgid "Pack name and optional emoji"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/steal.py:58
+#: src/korone/modules/stickers/handlers/steal.py:61
 msgid "Reply to a sticker, photo, animation, video, or document first."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/steal.py:65
+#: src/korone/modules/stickers/handlers/steal.py:68
 msgid "Stealing sticker..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/steal.py:72
+#: src/korone/modules/stickers/handlers/steal.py:75
 msgid "That reply does not contain supported media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/steal.py:119
+#: src/korone/modules/stickers/handlers/steal.py:122
 msgid "Created new sticker pack."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/steal.py:119
 #: src/korone/modules/stickers/handlers/steal.py:122
+#: src/korone/modules/stickers/handlers/steal.py:125
 #: src/korone/modules/stickers/handlers/stealpack.py:178
 #: src/korone/modules/stickers/handlers/stealpack.py:191
 #: src/korone/modules/stickers/handlers/stealpack.py:200
@@ -1167,7 +1203,7 @@ msgstr ""
 msgid "Pack: {pack}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/steal.py:122
+#: src/korone/modules/stickers/handlers/steal.py:125
 msgid "Sticker saved successfully."
 msgstr ""
 

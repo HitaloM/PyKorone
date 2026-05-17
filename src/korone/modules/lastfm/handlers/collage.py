@@ -130,8 +130,13 @@ class LastFMCollageSupport(LastFMHandlerSupport):
 
 
 @flags.help(
-    description=l_("Create an album collage from Last.fm top albums."),
-    examples=((l_("Show a 3x3 collage without text."), "3x3 clean"),),
+    description=l_("Create an album collage from Last.fm top albums. Supported periods: all, 1y, 6m, 3m, 1m, 7d."),
+    examples=(
+        (l_("Show a 2x2 collage."), "2x2"),
+        (l_("Show a 3x3 collage without text."), "3x3 clean"),
+        (l_("Show a 4x4 collage for last year."), "4x4 1y"),
+        (l_("Show a 3x3 collage for last month without names."), "3x3 1month nonames"),
+    ),
 )
 @flags.chat_action(action=ChatAction.UPLOAD_PHOTO, initial_sleep=0.2, interval=4.0)
 @flags.disableable(name="lfmcollage")
