@@ -40,12 +40,12 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
     async def handle(self) -> None:
         callback_data: PMHelpModules | None = self.data.get("callback_data", None)
 
-        modules = dict(sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name)))
+        modules = sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name))
 
         buttons = InlineKeyboardBuilder()
         module_buttons_count = 0
 
-        for module_name, module in modules.items():
+        for module_name, module in modules:
             if module.exclude_public:
                 continue
             buttons.button(
@@ -111,7 +111,7 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
             await self.event.answer(_("Module not found."))
             return
 
-        cmds = list(filter(lambda x: not x.only_op, module.handlers))
+        cmds = [handler for handler in module.handlers if not handler.only_op]
 
         doc = Doc(
             HList(Title(f"{module.icon} {module.name}"), f"- {module.description}" if module.description else None)

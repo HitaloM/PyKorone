@@ -25,7 +25,7 @@ class ListDisableable(KoroneMessageHandler):
 
     @staticmethod
     def get_disable_able_commands() -> list[HandlerHelp]:
-        return [x for x in DISABLEABLE_CMDS if x.disableable]
+        return list(DISABLEABLE_CMDS)
 
     async def handle(self) -> None:
         await self.event.reply(

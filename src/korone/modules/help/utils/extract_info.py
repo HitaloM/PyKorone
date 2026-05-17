@@ -62,6 +62,21 @@ class ModuleHelp:
 
 HELP_MODULES: OrderedDict[str, ModuleHelp] = OrderedDict()
 DISABLEABLE_CMDS: list[HandlerHelp] = []
+HELP_CMD_INDEX: dict[str, HandlerHelp] = {}
+
+
+def reset_help_registry() -> None:
+    HELP_MODULES.clear()
+    DISABLEABLE_CMDS.clear()
+    HELP_CMD_INDEX.clear()
+
+
+def register_handler_help(handler_help: HandlerHelp) -> None:
+    if handler_help.disableable:
+        DISABLEABLE_CMDS.append(handler_help)
+
+    for cmd in handler_help.cmds:
+        HELP_CMD_INDEX.setdefault(cmd, handler_help)
 
 
 def get_aliased_cmds(module_name: str) -> dict[str, list[HandlerHelp]]:
@@ -80,6 +95,10 @@ def get_all_cmds() -> list[HandlerHelp]:
 
 def get_all_cmds_raw() -> tuple[str, ...]:
     return tuple(chain.from_iterable(cmds.cmds for cmds in get_all_cmds()))
+
+
+def get_cmd_help_by_name(name: str) -> HandlerHelp | None:
+    return HELP_CMD_INDEX.get(name)
 
 
 def _normalize_str_sequence(values: object) -> tuple[str, ...] | None:
@@ -282,9 +301,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             raw_cmds=bool(help_flags.get("raw_cmds")),
         )
         helps.append(handler_help)
-
-        if disableable_name:
-            DISABLEABLE_CMDS.append(handler_help)
+        register_handler_help(handler_help)
 
     await logger.adebug(
         "gather_cmds_help", router=router.name, cmds=list(chain.from_iterable(handler.cmds for handler in helps))

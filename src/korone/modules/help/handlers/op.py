@@ -22,17 +22,13 @@ class OpCMDSList(KoroneMessageHandler):
         return Command("op_cmds"), IsOP(is_op=True)
 
     async def handle(self) -> None:
-        await self.event.reply(
-            str(
-                Doc(
-                    *(
-                        Section(
-                            format_handlers([h for h in module.handlers if h.only_op]),
-                            title=f"{module.name} {module.icon}",
-                        )
-                        for module in HELP_MODULES.values()
-                        if any(h.only_op for h in module.handlers)
-                    )
-                )
-            )
-        )
+        sections = []
+
+        for module in HELP_MODULES.values():
+            ops = [handler for handler in module.handlers if handler.only_op]
+            if not ops:
+                continue
+
+            sections.append(Section(format_handlers(ops), title=f"{module.name} {module.icon}"))
+
+        await self.event.reply(str(Doc(*sections)))

@@ -13,7 +13,7 @@ from .handlers.pm_modules import PMModuleHelp, PMModulesList
 from .handlers.start_group import StartGroupHandler
 from .handlers.start_pm import StartPMHandler
 from .stats import help_stats
-from .utils.extract_info import HELP_MODULES, gather_module_help
+from .utils.extract_info import HELP_MODULES, gather_module_help, reset_help_registry
 
 if TYPE_CHECKING:
     from types import ModuleType
@@ -38,10 +38,8 @@ __stats__ = help_stats
 
 
 async def __post_setup__(modules: dict[str, ModuleType]) -> None:
+    reset_help_registry()
+
     for name, module in modules.items():
         if module_help := await gather_module_help(module):
-            if name in HELP_MODULES:
-                await logger.adebug(f"Module {name} already in help modules, merging")
-                module_help.handlers = HELP_MODULES[name].handlers + module_help.handlers
-
             HELP_MODULES[name] = module_help

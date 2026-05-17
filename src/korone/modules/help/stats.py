@@ -9,7 +9,7 @@ def help_stats() -> Section:
     return Section(
         Template(
             "{modules} modules has {cmds} commands",
-            modules=Code(len(modules)),
+            modules=Code(len(HELP_MODULES)),
             cmds=Code(sum(len(module.handlers) for module in modules)),
         ),
         KeyValue(
