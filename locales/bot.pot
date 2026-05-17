@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-05-17 14:12-0300\n"
+"POT-Creation-Date: 2026-05-17 14:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,18 +125,16 @@ msgstr ""
 #: src/korone/middlewares/save_chats.py:329
 #: src/korone/modules/help/__init__.py:25
 #: src/korone/modules/help/handlers/help_group.py:30
-#: src/korone/modules/help/handlers/pm_modules.py:72
-#: src/korone/modules/help/handlers/start_group.py:34
+#: src/korone/modules/help/handlers/pm_modules.py:69
+#: src/korone/modules/help/handlers/start_group.py:35
 msgid "Help"
 msgstr ""
 
 #: src/korone/middlewares/save_chats.py:330
-#: src/korone/modules/help/handlers/start_group.py:35
 msgid "📢 Channel"
 msgstr ""
 
 #: src/korone/middlewares/save_chats.py:334
-#: src/korone/modules/help/handlers/start_group.py:39
 msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
 msgstr ""
 
@@ -416,19 +414,19 @@ msgid "Use private chat to access the full interactive help menu."
 msgstr ""
 
 #: src/korone/modules/help/handlers/help_group.py:19
-msgid "Open help in private chat."
+msgid "Open the full help menu in private chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/help_group.py:26
-msgid "Detailed help is available in private chat with Korone."
+msgid "Need the full command guide? Open private chat with me and I'll show the interactive help menu."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:36
-msgid "Show the help menu with all modules."
+#: src/korone/modules/help/handlers/pm_modules.py:33
+msgid "Show the full help menu."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:61
-#: src/korone/modules/help/handlers/pm_modules.py:141
+#: src/korone/modules/help/handlers/pm_modules.py:58
+#: src/korone/modules/help/handlers/pm_modules.py:138
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
 #: src/korone/modules/language/handlers/select.py:57
@@ -437,93 +435,118 @@ msgstr ""
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:73
-msgid "Select a module to view commands and usage details."
+#: src/korone/modules/help/handlers/pm_modules.py:70
+msgid "Pick a module below to explore its commands, usage notes, and examples."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:77
+#: src/korone/modules/help/handlers/pm_modules.py:74
 #, python-brace-format
 msgid "Arguments: {required} is required, {optional} is optional."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:81
+#: src/korone/modules/help/handlers/pm_modules.py:78
 msgid "indicates commands available only in groups."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:81
+#: src/korone/modules/help/handlers/pm_modules.py:78
 #: src/korone/modules/help/utils/format_help.py:70
 msgid "— Only in groups"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:82
+#: src/korone/modules/help/handlers/pm_modules.py:79
 msgid "lists commands available only in private chat."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:82
+#: src/korone/modules/help/handlers/pm_modules.py:79
 #: src/korone/modules/help/utils/format_help.py:127
 msgid "PM-only"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:83
+#: src/korone/modules/help/handlers/pm_modules.py:80
 msgid "lists commands that require admin rights."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:83
+#: src/korone/modules/help/handlers/pm_modules.py:80
 #: src/korone/modules/help/utils/format_help.py:129
 msgid "Only admins"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:85
+#: src/korone/modules/help/handlers/pm_modules.py:82
 #: src/korone/modules/help/utils/format_help.py:71
 msgid "Toggleable"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:87
+#: src/korone/modules/help/handlers/pm_modules.py:84
 #, python-brace-format
 msgid "means admins can disable or re-enable the command with {disable} and {enable}."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:93
+#: src/korone/modules/help/handlers/pm_modules.py:90
 msgid "/help legend"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:111
+#: src/korone/modules/help/handlers/pm_modules.py:108
 msgid "Module not found."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:131
+#: src/korone/modules/help/handlers/pm_modules.py:128
 #, python-brace-format
 msgid "Shared commands from {module}"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_group.py:20
-msgid "Show the start message."
+#: src/korone/modules/help/handlers/start_group.py:21
+msgid "Show the welcome message."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:39
+#: src/korone/modules/help/handlers/start_group.py:39
+msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the button below to open help."
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:42
+#, python-brace-format
+msgid "For updates and announcements, follow my {channel}."
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:43
+#: src/korone/modules/help/handlers/start_pm.py:54
+msgid "official channel"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:47
+#: src/korone/modules/help/handlers/start_pm.py:56
+#, python-brace-format
+msgid "You can also review the {source_code} if you want to see how Korone is built."
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:48
+#: src/korone/modules/help/handlers/start_pm.py:57
+msgid "source code"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:41
+msgid "➕ Add me to your chat"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:42
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:40
+#: src/korone/modules/help/handlers/start_pm.py:43
 #: src/korone/modules/language/__init__.py:16
 msgid "Language"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:41
+#: src/korone/modules/help/handlers/start_pm.py:44
 msgid "ℹ️ Help"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:47
-msgid "Hi, I'm Korone, your all-in-one assistant. Use the buttons below to open help, privacy, and language settings."
+#: src/korone/modules/help/handlers/start_pm.py:50
+msgid "Hi, I'm Korone, your all-in-one assistant for this chat. Use the buttons below to open help, privacy, and language settings."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:51
+#: src/korone/modules/help/handlers/start_pm.py:54
 #, python-brace-format
-msgid "Join my {channel} for update announcements and feature news."
-msgstr ""
-
-#: src/korone/modules/help/handlers/start_pm.py:52
-msgid "news channel"
+msgid "For updates, follow my {channel}."
 msgstr ""
 
 #: src/korone/modules/help/utils/format_help.py:103

@@ -145,18 +145,16 @@ msgstr ""
 #: src/korone/middlewares/save_chats.py:329
 #: src/korone/modules/help/__init__.py:25
 #: src/korone/modules/help/handlers/help_group.py:30
-#: src/korone/modules/help/handlers/pm_modules.py:72
-#: src/korone/modules/help/handlers/start_group.py:34
+#: src/korone/modules/help/handlers/pm_modules.py:69
+#: src/korone/modules/help/handlers/start_group.py:35
 msgid "Help"
 msgstr ""
 
 #: src/korone/middlewares/save_chats.py:330
-#: src/korone/modules/help/handlers/start_group.py:35
 msgid "📢 Channel"
 msgstr ""
 
 #: src/korone/middlewares/save_chats.py:334
-#: src/korone/modules/help/handlers/start_group.py:39
 msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
 msgstr ""
 
@@ -436,19 +434,19 @@ msgid "Use private chat to access the full interactive help menu."
 msgstr ""
 
 #: src/korone/modules/help/handlers/help_group.py:19
-msgid "Open help in private chat."
+msgid "Open the full help menu in private chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/help_group.py:26
-msgid "Detailed help is available in private chat with Korone."
+msgid "Need the full command guide? Open private chat with me and I'll show the interactive help menu."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:36
-msgid "Show the help menu with all modules."
+#: src/korone/modules/help/handlers/pm_modules.py:33
+msgid "Show the full help menu."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:61
-#: src/korone/modules/help/handlers/pm_modules.py:141
+#: src/korone/modules/help/handlers/pm_modules.py:58
+#: src/korone/modules/help/handlers/pm_modules.py:138
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
 #: src/korone/modules/language/handlers/select.py:57
@@ -457,93 +455,118 @@ msgstr ""
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:73
-msgid "Select a module to view commands and usage details."
+#: src/korone/modules/help/handlers/pm_modules.py:70
+msgid "Pick a module below to explore its commands, usage notes, and examples."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:77
+#: src/korone/modules/help/handlers/pm_modules.py:74
 #, python-brace-format
 msgid "Arguments: {required} is required, {optional} is optional."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:81
+#: src/korone/modules/help/handlers/pm_modules.py:78
 msgid "indicates commands available only in groups."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:81
+#: src/korone/modules/help/handlers/pm_modules.py:78
 #: src/korone/modules/help/utils/format_help.py:70
 msgid "— Only in groups"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:82
+#: src/korone/modules/help/handlers/pm_modules.py:79
 #: src/korone/modules/help/utils/format_help.py:127
 msgid "PM-only"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:82
+#: src/korone/modules/help/handlers/pm_modules.py:79
 msgid "lists commands available only in private chat."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:83
+#: src/korone/modules/help/handlers/pm_modules.py:80
 #: src/korone/modules/help/utils/format_help.py:129
 msgid "Only admins"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:83
+#: src/korone/modules/help/handlers/pm_modules.py:80
 msgid "lists commands that require admin rights."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:85
+#: src/korone/modules/help/handlers/pm_modules.py:82
 #: src/korone/modules/help/utils/format_help.py:71
 msgid "Toggleable"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:87
+#: src/korone/modules/help/handlers/pm_modules.py:84
 #, python-brace-format
 msgid "means admins can disable or re-enable the command with {disable} and {enable}."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:93
+#: src/korone/modules/help/handlers/pm_modules.py:90
 msgid "/help legend"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:111
+#: src/korone/modules/help/handlers/pm_modules.py:108
 msgid "Module not found."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:131
+#: src/korone/modules/help/handlers/pm_modules.py:128
 #, python-brace-format
 msgid "Shared commands from {module}"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_group.py:20
-msgid "Show the start message."
+#: src/korone/modules/help/handlers/start_group.py:21
+msgid "Show the welcome message."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:39
+#: src/korone/modules/help/handlers/start_group.py:39
+msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the button below to open help."
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:42
+#, python-brace-format
+msgid "For updates and announcements, follow my {channel}."
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:43
+#: src/korone/modules/help/handlers/start_pm.py:54
+msgid "official channel"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:47
+#: src/korone/modules/help/handlers/start_pm.py:56
+#, python-brace-format
+msgid "You can also review the {source_code} if you want to see how Korone is built."
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:48
+#: src/korone/modules/help/handlers/start_pm.py:57
+msgid "source code"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:41
+msgid "➕ Add me to your chat"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:42
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:40
+#: src/korone/modules/help/handlers/start_pm.py:43
 #: src/korone/modules/language/__init__.py:16
 msgid "Language"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:41
+#: src/korone/modules/help/handlers/start_pm.py:44
 msgid "ℹ️ Help"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:47
-msgid "Hi, I'm Korone, your all-in-one assistant. Use the buttons below to open help, privacy, and language settings."
+#: src/korone/modules/help/handlers/start_pm.py:50
+msgid "Hi, I'm Korone, your all-in-one assistant for this chat. Use the buttons below to open help, privacy, and language settings."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:51
+#: src/korone/modules/help/handlers/start_pm.py:54
 #, python-brace-format
-msgid "Join my {channel} for update announcements and feature news."
-msgstr ""
-
-#: src/korone/modules/help/handlers/start_pm.py:52
-msgid "news channel"
+msgid "For updates, follow my {channel}."
 msgstr ""
 
 #: src/korone/modules/help/utils/format_help.py:103
@@ -1953,261 +1976,3 @@ msgstr ""
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr ""
-
-#~ msgid " Enable all"
-#~ msgstr ""
-
-#~ msgid " Cancel"
-#~ msgstr ""
-
-#~ msgid " All the commands ({removed_count}) have been enabled in the {chat_name}"
-#~ msgstr ""
-
-#~ msgid " I've got an error trying to process this update"
-#~ msgstr ""
-
-#~ msgid " Open GitHub Issues"
-#~ msgstr ""
-
-#~ msgid " Back"
-#~ msgstr ""
-
-#~ msgid " Only in groups"
-#~ msgstr ""
-
-#~ msgid " Channel"
-#~ msgstr ""
-
-#~ msgid " Privacy"
-#~ msgstr ""
-
-#~ msgid " Help"
-#~ msgstr ""
-
-#~ msgid " Download"
-#~ msgstr ""
-
-#~ msgid " Help Translate"
-#~ msgstr ""
-
-#~ msgid " Change your language"
-#~ msgstr ""
-
-#~ msgid " Change group language"
-#~ msgstr ""
-
-#~ msgid " Cancelled."
-#~ msgstr ""
-
-#~ msgid " The start prefix text of the lists cannot have the overlapping formatting"
-#~ msgstr ""
-
-#~ msgid " The Argument should start with {}!"
-#~ msgstr ""
-
-#~ msgid " The Argument should end with {}!"
-#~ msgstr ""
-
-#~ msgid " The start text cannot have the overlapping formatting"
-#~ msgstr ""
-
-#~ msgid " Argument '{arg_text}' was parsed, but it has unknown text after it!"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "{user_a} and {user_b} listen to {artists}\n"
-#~ "\n"
-#~ "Compatibility score is {score}%, based on {period}"
-#~ msgstr ""
-
-#~ msgid ", {days} day(s) ago"
-#~ msgstr ""
-
-#~ msgid ", {hours} hour(s) ago"
-#~ msgstr ""
-
-#~ msgid ", {minutes} minute(s) ago"
-#~ msgstr ""
-
-#~ msgid ", just now"
-#~ msgstr ""
-
-#~ msgid ", [{album}]"
-#~ msgstr ""
-
-#~ msgid ", loved"
-#~ msgstr ""
-
-#~ msgid ", {plays} plays"
-#~ msgstr ""
-
-#~ msgid "Score"
-#~ msgstr ""
-
-#~ msgid "Artists in common"
-#~ msgstr ""
-
-#~ msgid "Showing"
-#~ msgstr ""
-
-#~ msgid "Shared artists"
-#~ msgstr ""
-
-#~ msgid "Compatibility between {user_a} and {user_b}"
-#~ msgstr ""
-
-#~ msgid "{days} day(s) ago"
-#~ msgstr ""
-
-#~ msgid "{hours} hour(s) ago"
-#~ msgstr ""
-
-#~ msgid "{minutes} minute(s) ago"
-#~ msgstr ""
-
-#~ msgid "Just now"
-#~ msgstr ""
-
-#~ msgid "Your plays"
-#~ msgstr ""
-
-#~ msgid "Listeners"
-#~ msgstr ""
-
-#~ msgid "Global plays"
-#~ msgstr ""
-
-#~ msgid "Stats"
-#~ msgstr ""
-
-#~ msgid "Tracks"
-#~ msgstr ""
-
-#~ msgid "Recent scrobbles"
-#~ msgstr ""
-
-#~ msgid "When"
-#~ msgstr ""
-
-#~ msgid "Loved"
-#~ msgstr ""
-
-#~ msgid "Yes"
-#~ msgstr ""
-
-#~ msgid "Tags"
-#~ msgstr ""
-
-#~ msgid "Last.fm username not found. Use {example}."
-#~ msgstr ""
-
-#~ msgid "Tap the button below to continue in private."
-#~ msgstr ""
-
-#~ msgid "⬇️ Download HI-RES Lossless"
-#~ msgstr ""
-
-#~ msgid "This track is not available in HI-RES Lossless right now."
-#~ msgstr ""
-
-#~ msgid "HiFi"
-#~ msgstr ""
-
-#~ msgid "HiFi music search and delivery"
-#~ msgstr ""
-
-#~ msgid "Search tracks, preview results, and send high-quality audio files."
-#~ msgstr ""
-
-#~ msgid "Search session expired. Please run /song again."
-#~ msgstr ""
-
-#~ msgid "No tracks found."
-#~ msgstr ""
-
-#~ msgid "Invalid track selected."
-#~ msgstr ""
-
-#~ msgid "⬇️ Download"
-#~ msgstr ""
-
-#~ msgid "🎚️ Download HI-RES"
-#~ msgstr ""
-
-#~ msgid "Search tracks with the HiFi provider."
-#~ msgstr ""
-
-#~ msgid "Query"
-#~ msgstr ""
-
-#~ msgid "Could not fetch tracks right now. Please try again later."
-#~ msgstr ""
-
-#~ msgid "This track has been requested recently in this chat."
-#~ msgstr ""
-
-#~ msgid "This track is not available in HI-RES right now."
-#~ msgstr ""
-
-#~ msgid "Could not get an audio stream for this track."
-#~ msgstr ""
-
-#~ msgid "Could not fetch track information right now."
-#~ msgstr ""
-
-#~ msgid "This track is too large to send on Telegram."
-#~ msgstr ""
-
-#~ msgid "Could not download this track right now."
-#~ msgstr ""
-
-#~ msgid "Could not send this track right now."
-#~ msgstr ""
-
-#~ msgid "Found tracks"
-#~ msgstr ""
-
-#~ msgid "HiFi search"
-#~ msgstr ""
-
-#~ msgid "Page"
-#~ msgstr ""
-
-#~ msgid "Select a track below to preview and download it."
-#~ msgstr ""
-
-#~ msgid "Unknown"
-#~ msgstr ""
-
-#~ msgid "Artist"
-#~ msgstr ""
-
-#~ msgid "Track"
-#~ msgstr ""
-
-#~ msgid "Track preview"
-#~ msgstr ""
-
-#~ msgid "Album"
-#~ msgstr ""
-
-#~ msgid "Duration"
-#~ msgstr ""
-
-#~ msgid "Quality"
-#~ msgstr ""
-
-#~ msgid "Explicit content."
-#~ msgstr ""
-
-#~ msgid "Use the buttons below to go back or download this track."
-#~ msgstr ""
-
-#~ msgid "Track sent"
-#~ msgstr ""
-
-#~ msgid "Create an album collage from Last.fm top albums."
-#~ msgstr ""
-
-#~ msgid "Show Last.fm compatibility with the replied user."
-#~ msgstr ""

@@ -30,10 +30,7 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
             flags={"help": {"exclude": True}},
         )
         router.message.register(
-            cls,
-            Command("help"),
-            PrivateChatFilter(),
-            flags={"help": {"description": l_("Show the help menu with all modules.")}},
+            cls, Command("help"), PrivateChatFilter(), flags={"help": {"description": l_("Show the full help menu.")}}
         )
         router.callback_query.register(cls, PMHelpModules.filter())
 
@@ -70,7 +67,7 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
 
         doc = Doc(
             Title(_("Help")),
-            _("Select a module to view commands and usage details."),
+            _("Pick a module below to explore its commands, usage notes, and examples."),
             Section(
                 VList(
                     Template(

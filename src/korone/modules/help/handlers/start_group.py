@@ -4,6 +4,7 @@ from aiogram import flags
 from aiogram.filters import CommandStart
 from aiogram.utils.deep_linking import create_start_link
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from stfu_tg import Doc, Template, Url
 
 from korone.config import CONFIG
 from korone.filters.chat_status import GroupChatFilter
@@ -17,7 +18,7 @@ if TYPE_CHECKING:
     from aiogram.fsm.context import FSMContext
 
 
-@flags.help(description=l_("Show the start message."))
+@flags.help(description=l_("Show the welcome message."))
 @flags.disableable(name="start")
 class StartGroupHandler(KoroneMessageHandler):
     @staticmethod
@@ -32,11 +33,20 @@ class StartGroupHandler(KoroneMessageHandler):
 
         buttons = InlineKeyboardBuilder()
         buttons.button(text=f"ℹ️ {_('Help')}", url=help_url)
-        buttons.button(text=_("📢 Channel"), url=CONFIG.news_channel)
-        buttons.adjust(2)
+        buttons.adjust(1)
 
-        text = _(
-            "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
+        text = Doc(
+            _("Hi, I'm Korone, your all-in-one bot for this chat. Use the button below to open help."),
+            " ",
+            Template(
+                _("For updates and announcements, follow my {channel}."),
+                channel=Url(_("official channel"), CONFIG.news_channel),
+            ),
+            " ",
+            Template(
+                _("You can also review the {source_code} if you want to see how Korone is built."),
+                source_code=Url(_("source code"), CONFIG.source_code),
+            ),
         )
 
-        await self.event.reply(text, reply_markup=buttons.as_markup())
+        await self.event.reply(str(text), reply_markup=buttons.as_markup())

@@ -16,14 +16,14 @@ if TYPE_CHECKING:
 
 
 @flags.disableable(name="help")
-@flags.help(description=l_("Open help in private chat."))
+@flags.help(description=l_("Open the full help menu in private chat."))
 class HelpGroupHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return Command("help"), GroupChatFilter()
 
     async def handle(self) -> None:
-        text = _("Detailed help is available in private chat with Korone.")
+        text = _("Need the full command guide? Open private chat with me and I'll show the interactive help menu.")
         help_url = await create_start_link(self.bot, HELP_START_PAYLOAD)
 
         buttons = InlineKeyboardBuilder()

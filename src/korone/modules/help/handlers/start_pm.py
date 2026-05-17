@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 from aiogram import flags
 from aiogram.enums import ButtonStyle
 from aiogram.filters import CommandStart
+from aiogram.utils.deep_linking import create_startgroup_link
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, Template, Url
 
@@ -34,22 +35,26 @@ class StartPMHandler(KoroneMessageCallbackQueryHandler):
 
         i18n = get_i18n()
         current_locale_flag = i18n.current_locale_display.split(" ", 1)[0]
+        add_to_chat_url = await create_startgroup_link(self.bot, "add")
 
         builder = InlineKeyboardBuilder()
+        builder.button(text=_("➕ Add me to your chat"), url=add_to_chat_url)
         builder.button(text=_("🕵️‍♂️ Privacy"), callback_data=PrivacyMenuCallback(back_to_start=True))
         builder.button(text=f"{current_locale_flag} {_('Language')}", callback_data=LanguageButtonCallback())
         builder.button(text=_("ℹ️ Help"), style=ButtonStyle.PRIMARY, callback_data=PMHelpModules(back_to_start=True))
-        builder.adjust(2, 1)
+        builder.adjust(1, 2, 1)
         buttons = builder.as_markup()
 
         text = Doc(
             _(
-                "Hi, I'm Korone, your all-in-one assistant. "
+                "Hi, I'm Korone, your all-in-one assistant for this chat. "
                 "Use the buttons below to open help, privacy, and language settings."
             ),
+            " ",
+            Template(_("For updates, follow my {channel}."), channel=Url(_("official channel"), CONFIG.news_channel)),
             Template(
-                _("Join my {channel} for update announcements and feature news."),
-                channel=Url(_("news channel"), CONFIG.news_channel),
+                _("You can also review the {source_code} if you want to see how Korone is built."),
+                source_code=Url(_("source code"), CONFIG.source_code),
             ),
         )
 
