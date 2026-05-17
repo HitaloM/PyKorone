@@ -9,7 +9,7 @@ from stfu_tg import Code, Doc, HList, Italic, Section, Template, Title, VList
 from korone.filters.chat_status import PrivateChatFilter
 from korone.modules.help.callbacks import HELP_START_PAYLOAD, PMHelpModule, PMHelpModules
 from korone.modules.help.utils.extract_info import HELP_MODULES, get_aliased_cmds
-from korone.modules.help.utils.format_help import format_handlers, group_handlers
+from korone.modules.help.utils.format_help import format_examples, format_handlers, group_handlers
 from korone.modules.utils_.callbacks import GoToStartCallback
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageCallbackQueryHandler
 from korone.utils.i18n import gettext as _
@@ -130,6 +130,9 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
                 format_handlers(a_cmds),
                 title=Template(_("Shared commands from {module}"), module=f"{a_module.icon} {a_module.name}"),
             )
+
+        if examples := format_examples(cmds):
+            doc += examples
 
         buttons = InlineKeyboardBuilder()
 

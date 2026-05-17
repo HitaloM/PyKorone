@@ -30,6 +30,7 @@ type ArgsMap = dict[str, ArgFabric]
 type ArgsProvider = Callable[[Message | None, dict[str, Any]], ArgsMap | Awaitable[ArgsMap]]
 type ArgsSource = ArgsMap | ArgsProvider | None
 type HelpFlags = Mapping[str, object]
+type HelpExample = tuple[object | None, str]
 
 logger = get_logger(__name__)
 
@@ -39,6 +40,7 @@ class HandlerHelp:
     cmds: tuple[str, ...]
     args: ArgsMap | None
     description: LazyProxy | str | None
+    examples: tuple[HelpExample, ...]
     only_admin: bool
     only_op: bool
     only_pm: bool
@@ -209,6 +211,36 @@ async def _extract_args(flags: Mapping[str, object], help_flags: HelpFlags) -> A
     return await gather_cmd_args(cast("ArgsSource", args_source))
 
 
+def _normalize_example(value: object) -> HelpExample | None:
+    if isinstance(value, str):
+        return None, value
+
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes)) and len(value) == 2:
+        label, example = value
+        if isinstance(example, str):
+            return label, example
+
+    return None
+
+
+def _extract_examples(help_flags: HelpFlags) -> tuple[HelpExample, ...]:
+    examples = help_flags.get("examples")
+    if isinstance(examples, str):
+        return ((None, examples),)
+
+    if isinstance(examples, Sequence) and not isinstance(examples, (str, bytes)):
+        normalized_examples: list[HelpExample] = []
+        for example in examples:
+            normalized_example = _normalize_example(example)
+            if normalized_example is not None:
+                normalized_examples.append(normalized_example)
+
+        if normalized_examples:
+            return tuple(normalized_examples)
+
+    return ()
+
+
 async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
     helps: list[HandlerHelp] = []
 
@@ -229,6 +261,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
 
         only_admin, only_op, only_pm, only_chats = _extract_visibility_flags(handler.filters)
         args = await _extract_args(handler.flags, help_flags)
+        examples = _extract_examples(help_flags)
 
         disableable = handler.flags.get("disableable")
         disableable_name = disableable.name if disableable is not None else None
@@ -239,6 +272,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             cmds=cmd_list,
             args=args,
             description=description,
+            examples=examples,
             only_admin=only_admin,
             only_op=only_op,
             only_pm=only_pm,

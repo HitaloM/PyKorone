@@ -33,6 +33,29 @@ def format_cmd_args(arguments: Mapping[str, ArgFabric], *, as_code: bool = False
     return HList(*formatted)
 
 
+def _format_example(handler: HandlerHelp, example: str) -> Element:
+    normalized_example = example.strip()
+    if not normalized_example:
+        return Code("")
+
+    if normalized_example.startswith(("/", "!")):
+        return Code(normalized_example)
+
+    command = handler.cmds[0] if handler.cmds else ""
+    command_prefix = command if handler.raw_cmds else f"/{command}"
+    return Code(f"{command_prefix} {normalized_example}".strip())
+
+
+def _format_example_entry(handler: HandlerHelp, example: object, description: str) -> Element:
+    formatted_example = _format_example(handler, description)
+    if isinstance(example, str) or example is None:
+        return formatted_example
+
+    return Section(
+        formatted_example, title=example, title_bold=False, title_underline=False, title_postfix="", indent=4
+    )
+
+
 def format_handler(
     handler: HandlerHelp,
     *,
@@ -47,16 +70,37 @@ def format_handler(
         Italic(_("— Only in groups")) if show_only_in_groups and handler.only_chats else None,
         Italic(Template("({label})", label=_("Toggleable"))) if show_disable_able and handler.disableable else None,
     )
-    if not handler.description or not show_description:
-        return title
+    if handler.description and show_description:
+        return Section(
+            Italic(handler.description),
+            title=title,
+            title_bold=False,
+            title_underline=False,
+            title_postfix="",
+            indent=2,
+        )
 
-    return Section(
-        Italic(handler.description), title=title, title_bold=False, title_underline=False, title_postfix="", indent=2
-    )
+    return title
 
 
 def format_handlers(all_cmds: Sequence[HandlerHelp], **kwargs: bool) -> VList:
     return VList(*(format_handler(handler, **kwargs) for handler in all_cmds))
+
+
+def format_examples(all_cmds: Sequence[HandlerHelp]) -> Section | None:
+    examples: list[Element] = []
+    for handler in all_cmds:
+        if not handler.examples:
+            continue
+
+        examples.extend(
+            _format_example_entry(handler, example, description) for example, description in handler.examples
+        )
+
+    if not examples:
+        return None
+
+    return Section(*examples, title=_("Examples"))
 
 
 def group_handlers(handlers: Sequence[HandlerHelp]) -> list[tuple[LazyProxy, list[HandlerHelp]]]:

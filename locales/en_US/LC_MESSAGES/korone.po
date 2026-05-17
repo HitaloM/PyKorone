@@ -18,10 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: exceptions.py:33
-msgid "Examples"
-msgstr ""
-
 #: exceptions.py:61
 #, python-brace-format
 msgid "The argument {description} has an invalid type"
@@ -297,7 +293,7 @@ msgstr ""
 #: src/korone/modules/gsm_arena/handlers/get.py:35
 #: src/korone/modules/gsm_arena/handlers/list.py:32
 #: src/korone/modules/lastfm/handlers/base.py:273
-#: src/korone/modules/lastfm/handlers/collage.py:194
+#: src/korone/modules/lastfm/handlers/collage.py:197
 msgid "You are not allowed to use this button."
 msgstr ""
 
@@ -448,7 +444,7 @@ msgid "Show the help menu with all modules."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:61
-#: src/korone/modules/help/handlers/pm_modules.py:137
+#: src/korone/modules/help/handlers/pm_modules.py:140
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
 #: src/korone/modules/language/handlers/select.py:57
@@ -471,12 +467,12 @@ msgid "indicates commands available only in groups."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:81
-#: src/korone/modules/help/utils/format_help.py:47
+#: src/korone/modules/help/utils/format_help.py:70
 msgid "— Only in groups"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:82
-#: src/korone/modules/help/utils/format_help.py:83
+#: src/korone/modules/help/utils/format_help.py:127
 msgid "PM-only"
 msgstr ""
 
@@ -485,7 +481,7 @@ msgid "lists commands available only in private chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:83
-#: src/korone/modules/help/utils/format_help.py:85
+#: src/korone/modules/help/utils/format_help.py:129
 msgid "Only admins"
 msgstr ""
 
@@ -494,7 +490,7 @@ msgid "lists commands that require admin rights."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:85
-#: src/korone/modules/help/utils/format_help.py:48
+#: src/korone/modules/help/utils/format_help.py:71
 msgid "Toggleable"
 msgstr ""
 
@@ -546,7 +542,11 @@ msgstr ""
 msgid "news channel"
 msgstr ""
 
-#: src/korone/modules/help/utils/format_help.py:81
+#: src/korone/modules/help/utils/format_help.py:103
+msgid "Examples"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:125
 msgid "Commands"
 msgstr ""
 
@@ -679,7 +679,7 @@ msgid "You need to set your Last.fm username first."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/base.py:234
-#: src/korone/modules/lastfm/handlers/collage.py:224
+#: src/korone/modules/lastfm/handlers/collage.py:227
 msgid "No updates from your profile."
 msgstr ""
 
@@ -692,19 +692,23 @@ msgstr ""
 msgid "No top albums found for this Last.fm user and period."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:132
+#: src/korone/modules/lastfm/handlers/collage.py:133
 msgid "Create an album collage from Last.fm top albums."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:138
+#: src/korone/modules/lastfm/handlers/collage.py:134
+msgid "Show a 3x3 collage without text."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:141
 msgid "Options"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:148
+#: src/korone/modules/lastfm/handlers/collage.py:151
 msgid "Could not identify the target user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:201
+#: src/korone/modules/lastfm/handlers/collage.py:204
 msgid "Last.fm username not found for this user."
 msgstr ""
 
@@ -932,15 +936,15 @@ msgid "View the bot privacy policy and review how data is handled."
 msgstr ""
 
 #: src/korone/modules/privacy/__init__.py:25
-#: src/korone/modules/privacy/handlers/export.py:58
+#: src/korone/modules/privacy/handlers/export.py:59
 msgid "Export your available data as a JSON file."
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/export.py:80
+#: src/korone/modules/privacy/handlers/export.py:81
 msgid "Export is started, this may take a while."
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/export.py:89
+#: src/korone/modules/privacy/handlers/export.py:90
 msgid "Export is done."
 msgstr ""
 

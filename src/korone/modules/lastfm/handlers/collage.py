@@ -129,7 +129,10 @@ class LastFMCollageSupport(LastFMHandlerSupport):
         return await create_album_collage(albums=albums, size=options.size, include_text=options.include_text)
 
 
-@flags.help(description=l_("Create an album collage from Last.fm top albums."))
+@flags.help(
+    description=l_("Create an album collage from Last.fm top albums."),
+    examples=((l_("Show a 3x3 collage without text."), "3x3 clean"),),
+)
 @flags.chat_action(action=ChatAction.UPLOAD_PHOTO, initial_sleep=0.2, interval=4.0)
 @flags.disableable(name="lfmcollage")
 class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
