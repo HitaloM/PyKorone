@@ -16,6 +16,9 @@ class Config(BaseSettings):
     redis_db_fsm: int = 1
     redis_db_states: int = 2
     redis_db_schedule: int = 3
+    redis_fsm_key_prefix: str = "korone:fsm"
+    redis_fsm_state_ttl: int | None = 24 * 60 * 60
+    redis_fsm_data_ttl: int | None = 24 * 60 * 60
 
     botapi_server: AnyHttpUrl | None = None
     botapi_local_storage_root: str = "/var/lib/telegram-bot-api"

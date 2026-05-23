@@ -4,8 +4,7 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import PRODUCTION, TelegramAPIServer
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.base import DefaultKeyBuilder
-from aiogram.fsm.storage.memory import SimpleEventIsolation
-from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.redis import RedisEventIsolation, RedisStorage
 from aiogram.types import LinkPreviewOptions
 from redis.asyncio import Redis
 
@@ -24,7 +23,15 @@ bot = Bot(
     session=session,
 )
 aredis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_states, single_connection_client=True)
-storage = RedisStorage(redis=aredis, key_builder=DefaultKeyBuilder(prefix=str(CONFIG.redis_db_fsm)))
-dp = Dispatcher(storage=storage, events_isolation=SimpleEventIsolation())
+fsm_redis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_fsm, single_connection_client=True)
+fsm_key_builder = DefaultKeyBuilder(prefix=CONFIG.redis_fsm_key_prefix, with_bot_id=True)
+storage = RedisStorage(
+    redis=fsm_redis,
+    key_builder=fsm_key_builder,
+    state_ttl=CONFIG.redis_fsm_state_ttl,
+    data_ttl=CONFIG.redis_fsm_data_ttl,
+)
+events_isolation = RedisEventIsolation(redis=fsm_redis, key_builder=fsm_key_builder)
+dp = Dispatcher(storage=storage, events_isolation=events_isolation)
 
-__all__ = ("aredis", "bot", "dp")
+__all__ = ("aredis", "bot", "dp", "fsm_redis")

@@ -12,7 +12,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from korone.modules.error.utils.ignored import IGNORED_EXCEPTIONS
 
-from . import bot, dp
+from . import aredis, bot, dp
 from .config import CONFIG
 from .db.repositories.chat import ChatRepository
 from .db.utils import close_db, init_db, migrate_db_if_needed
@@ -74,6 +74,7 @@ async def shutdown() -> None:
     await bot.delete_webhook()
     await bot.session.close()
     await dp.storage.close()
+    await aredis.aclose(close_connection_pool=True)
 
 
 async def run_polling() -> None:
