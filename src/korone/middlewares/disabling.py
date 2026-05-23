@@ -24,24 +24,29 @@ class DisablingMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: dict[str, Any],
     ) -> Any:
-        if isinstance(event, Message):
-            chat_id = event.chat.id
-            disabled = await DisablingRepository.get_disabled(chat_id)
+        if not isinstance(event, Message):
+            return await handler(event, data)
 
-            data["disabled"] = disabled
-            await logger.adebug("DisablingMiddleware", chat_id=chat_id, disabled=disabled)
+        handler_disableable = get_flag(data, "disableable")
+        if not handler_disableable:
+            return await handler(event, data)
 
-            if handler_disableable := get_flag(data, "disableable"):
-                if event.from_user:
-                    user_id = event.from_user.id
-                    is_admin = await is_user_admin(chat_id, user_id)
-                else:
-                    is_admin = False
+        chat_id = event.chat.id
+        disabled = await DisablingRepository.get_disabled(chat_id)
 
-                if handler_disableable["name"] in disabled and not is_admin:
-                    await logger.adebug("DisablingMiddleware: disabled; Skipping handler!")
-                    raise SkipHandler
-                if is_admin:
-                    await logger.adebug("DisablingMiddleware: user is admin; Not skipping!")
+        data["disabled"] = disabled
+        await logger.adebug("DisablingMiddleware", chat_id=chat_id, disabled=disabled)
+
+        if event.from_user:
+            user_id = event.from_user.id
+            is_admin = await is_user_admin(chat_id, user_id)
+        else:
+            is_admin = False
+
+        if handler_disableable["name"] in disabled and not is_admin:
+            await logger.adebug("DisablingMiddleware: disabled; Skipping handler!")
+            raise SkipHandler
+        if is_admin:
+            await logger.adebug("DisablingMiddleware: user is admin; Not skipping!")
 
         return await handler(event, data)
