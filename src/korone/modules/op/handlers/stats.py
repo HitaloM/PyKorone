@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import math
-from types import ModuleType
 from typing import TYPE_CHECKING
 
 from aiogram import flags
@@ -54,16 +53,8 @@ class StatsHandler(KoroneMessageHandler):
     async def handle(self) -> None:
         sec = Doc()
 
-        all_modules: list[ModuleType | str] = list(LOADED_MODULES.values())
-        all_modules.extend(LOADED_MODULES)
-
-        for module in all_modules:
-            if not isinstance(module, ModuleType):
-                continue
-            if hasattr(module, "__stats__"):
-                res = module.__stats__()
-                if hasattr(res, "__await__"):
-                    res = await res
+        for module in LOADED_MODULES.values():
+            if res := await module.collect_stats():
                 sec += res
 
         await self.event.reply(str(sec))

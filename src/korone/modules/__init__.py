@@ -1,24 +1,18 @@
 from __future__ import annotations
 
 import asyncio
-from collections.abc import Callable
 from importlib import import_module
-from inspect import isawaitable, iscoroutinefunction
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from korone.logger import get_logger
+from korone.modules.metadata import LoadedModule, ModuleScript
 
 if TYPE_CHECKING:
-    from collections.abc import Awaitable, Mapping, Sequence
-    from types import ModuleType
+    from collections.abc import Mapping, Sequence
 
     from aiogram import Dispatcher, Router
 
-    from korone.utils.handlers import KoroneBaseHandler
-
 logger = get_logger(__name__)
-
-type ModuleHook = Callable[..., object]
 
 MODULES: tuple[str, ...] = (
     "troubleshooters",
@@ -38,7 +32,7 @@ MODULES: tuple[str, ...] = (
 )
 _MODULES_SET = frozenset(MODULES)
 
-LOADED_MODULES: dict[str, ModuleType] = {}
+LOADED_MODULES: dict[str, LoadedModule] = {}
 
 
 def _resolve_modules_to_load(
@@ -53,80 +47,49 @@ def _resolve_modules_to_load(
     return selected, unknown_requested, unknown_ignored
 
 
-def _import_modules(module_names: Sequence[str]) -> dict[str, ModuleType]:
-    imported_modules: dict[str, ModuleType] = {}
+def _import_modules(module_names: Sequence[str]) -> dict[str, LoadedModule]:
+    imported_modules: dict[str, LoadedModule] = {}
 
     for module_name in module_names:
         path = f"korone.modules.{module_name}"
-        imported_modules[module_name] = import_module(path)
+        imported_modules[module_name] = LoadedModule.from_module(module_name, import_module(path))
 
     return imported_modules
 
 
-def _module_handlers(module: ModuleType) -> tuple[type[KoroneBaseHandler], ...]:
-    handlers = tuple(getattr(module, "__handlers__", ()))
-    return cast("tuple[type[KoroneBaseHandler], ...]", handlers)
-
-
 async def _attach_routers(
-    dp: Dispatcher | Router, module_names: Sequence[str], modules: Mapping[str, ModuleType]
+    dp: Dispatcher | Router, module_names: Sequence[str], modules: Mapping[str, LoadedModule]
 ) -> None:
     for module_name in module_names:
         module = modules[module_name]
-        router = getattr(module, "router", None)
-        if router is None:
+        if not module.include_router(dp):
             await logger.adebug("Module has no router", module=module_name)
-            continue
-
-        dp.include_router(router)
 
 
-async def _register_handlers(module_names: Sequence[str], modules: Mapping[str, ModuleType]) -> None:
+async def _register_handlers(module_names: Sequence[str], modules: Mapping[str, LoadedModule]) -> None:
     for module_name in module_names:
         module = modules[module_name]
-        router = getattr(module, "router", None)
-        if router is None:
+        if module.router is None or not module.handlers:
             continue
 
-        handlers = _module_handlers(module)
-        if not handlers:
-            continue
-
-        await logger.adebug("Registering module handlers", module=module_name, handlers=[h.__name__ for h in handlers])
-        for handler in handlers:
-            handler.register(router)
-
-
-async def _run_hook(module_name: str, hook_name: str, hook: ModuleHook, hook_args: tuple[object, ...]) -> None:
-    await logger.adebug("Running module hook", module=module_name, hook=hook_name)
-
-    result: object
-    if iscoroutinefunction(hook):
-        result = hook(*hook_args)
-    else:
-        result = await asyncio.to_thread(hook, *hook_args)
-
-    if isawaitable(result):
-        await cast("Awaitable[object]", result)
+        registered = module.register_handlers()
+        await logger.adebug("Registering module handlers", module=module_name, handlers=registered)
 
 
 async def _run_module_hooks(
-    module_names: Sequence[str], modules: Mapping[str, ModuleType], hook_name: str, hook_args: tuple[object, ...] = ()
+    module_names: Sequence[str],
+    modules: Mapping[str, LoadedModule],
+    script: ModuleScript,
+    hook_args: tuple[object, ...] = (),
 ) -> None:
     async with asyncio.TaskGroup() as tg:
         for module_name in module_names:
             module = modules[module_name]
-            hook = getattr(module, hook_name, None)
-            if hook is None:
-                continue
-            if not callable(hook):
-                await logger.awarning("Ignoring non-callable module hook", module=module_name, hook=hook_name)
+            if not module.has_script(script):
                 continue
 
-            tg.create_task(
-                _run_hook(module_name=module_name, hook_name=hook_name, hook=hook, hook_args=hook_args),
-                name=f"{module_name}:{hook_name}",
-            )
+            await logger.adebug("Running module hook", module=module_name, hook=script.value)
+            tg.create_task(module.run_script(script, *hook_args), name=f"{module_name}:{script.value}")
 
 
 async def load_modules(dp: Dispatcher | Router, to_load: Sequence[str], to_not_load: Sequence[str] = ()) -> None:
@@ -155,7 +118,7 @@ async def load_modules(dp: Dispatcher | Router, to_load: Sequence[str], to_not_l
 
     await _attach_routers(dp, module_names, LOADED_MODULES)
     await _register_handlers(module_names, LOADED_MODULES)
-    await _run_module_hooks(module_names, LOADED_MODULES, "__pre_setup__")
-    await _run_module_hooks(module_names, LOADED_MODULES, "__post_setup__", (LOADED_MODULES,))
+    await _run_module_hooks(module_names, LOADED_MODULES, ModuleScript.PRE_SETUP)
+    await _run_module_hooks(module_names, LOADED_MODULES, ModuleScript.POST_SETUP, (LOADED_MODULES,))
 
     await logger.ainfo("Loaded modules", modules=list(LOADED_MODULES))

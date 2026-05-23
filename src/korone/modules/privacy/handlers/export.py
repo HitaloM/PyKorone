@@ -17,11 +17,10 @@ from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
-    from types import ModuleType
-
     from aiogram.dispatcher.event.handler import CallbackType
 
     from korone.middlewares.chat_context import ChatContext
+    from korone.modules.metadata import LoadedModule
 
 VERSION = 6
 
@@ -29,19 +28,11 @@ type JsonPrimitive = str | int | float | bool | None
 type JsonValue = JsonPrimitive | list[JsonValue] | dict[str, JsonValue]
 type ExportValue = JsonValue
 
-EXPORTABLE_MODULES: list[ModuleType] = []
-PRIVATE_ONLY_EXPORT_MODULES = frozenset({"lastfm", "stickers"})
+EXPORTABLE_MODULES: list[LoadedModule] = []
 
 
 def text_to_buffered_file(text: str, filename: str = "data.txt") -> BufferedInputFile:
     return BufferedInputFile(text.encode(), filename=filename)
-
-
-def _is_private_only_export(module: ModuleType) -> bool:
-    if hasattr(module, "__export_private_only__"):
-        return bool(getattr(module, "__export_private_only__"))
-
-    return False
 
 
 def _make_serializable(obj: ExportValue | Enum | datetime | _date) -> ExportValue:
@@ -66,14 +57,11 @@ class TriggerExport(KoroneMessageHandler):
     async def get_data(chat: ChatContext) -> list[dict[str, ExportValue]]:
         exports: list[dict[str, ExportValue]] = []
         for module in EXPORTABLE_MODULES:
-            if not hasattr(module, "__export__"):
+            if chat.type != ChatType.PRIVATE and module.export_private_only:
                 continue
 
-            if chat.type != ChatType.PRIVATE and _is_private_only_export(module):
-                continue
-
-            if data := await module.__export__(chat.chat_id):
-                exports.append(data)
+            if data := await module.export_data(chat.chat_id):
+                exports.append(cast("dict[str, ExportValue]", data))
 
         return exports
 

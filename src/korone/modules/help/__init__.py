@@ -1,9 +1,7 @@
-from typing import TYPE_CHECKING
-
 from aiogram import Router
 from stfu_tg import Doc
 
-from korone.logger import get_logger
+from korone.modules.metadata import ModuleManifest, ModulePackage, ModuleRegistry, ModuleScripts
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -15,31 +13,31 @@ from .handlers.start_pm import StartPMHandler
 from .stats import help_stats
 from .utils.extract_info import HELP_MODULES, gather_module_help, reset_help_registry
 
-if TYPE_CHECKING:
-    from types import ModuleType
-
-logger = get_logger(__name__)
-
 router = Router(name="info")
 
-__module_name__ = l_("Help")
-__module_emoji__ = "ℹ️"
-__module_description__ = l_("Command guide and module reference")
-__module_info__ = LazyProxy(
-    lambda: Doc(
-        l_("Browse modules, command usage, and availability rules in one place."),
-        l_("Use private chat to access the full interactive help menu."),
-    )
-)
 
-__handlers__ = (PMModulesList, StartPMHandler, HelpGroupHandler, StartGroupHandler, PMModuleHelp, OpCMDSList)
-
-__stats__ = help_stats
-
-
-async def __post_setup__(modules: dict[str, ModuleType]) -> None:
+async def post_setup(modules: ModuleRegistry) -> None:
     reset_help_registry()
 
     for name, module in modules.items():
         if module_help := await gather_module_help(module):
             HELP_MODULES[name] = module_help
+
+
+manifest = ModuleManifest(
+    package=ModulePackage(
+        name=l_("Help"),
+        icon="ℹ️",
+        summary=l_("Command guide and module reference"),
+        description=LazyProxy(
+            lambda: Doc(
+                l_("Browse modules, command usage, and availability rules in one place."),
+                l_("Use private chat to access the full interactive help menu."),
+            )
+        ),
+    ),
+    router=router,
+    handlers=(PMModulesList, StartPMHandler, HelpGroupHandler, StartGroupHandler, PMModuleHelp, OpCMDSList),
+    scripts=ModuleScripts(post_setup=post_setup),
+    stats=help_stats,
+)

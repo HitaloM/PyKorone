@@ -2,6 +2,7 @@ from aiogram import Router
 from aiogram.utils.chat_action import ChatActionMiddleware
 from stfu_tg import Doc
 
+from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage, ModuleScripts
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -16,33 +17,36 @@ from .stats import lastfm_stats
 
 router = Router(name="lastfm")
 
-__module_name__ = l_("Last.fm")
-__module_emoji__ = "🎵"
-__module_description__ = l_("Last.fm now-playing and profile tools")
-__module_info__ = LazyProxy(
-    lambda: Doc(l_("Show current scrobbles and fetch album, artist, compatibility, and collage views."))
-)
 
-__export_private_only__ = True
-__export__ = export_lastfm
-
-__handlers__ = (
-    LastFMSetHandler,
-    LastFMSetStartHandler,
-    LastFMSetReplyHandler,
-    LastFMStatusHandler,
-    LastFMStatusCallbackHandler,
-    LastFMAlbumHandler,
-    LastFMAlbumCallbackHandler,
-    LastFMArtistHandler,
-    LastFMArtistCallbackHandler,
-    LastFMCompatHandler,
-    LastFMCollageHandler,
-    LastFMCollageCallbackHandler,
-)
-
-__stats__ = lastfm_stats
-
-
-def __pre_setup__() -> None:
+def pre_setup() -> None:
     router.message.middleware(ChatActionMiddleware())
+
+
+manifest = ModuleManifest(
+    package=ModulePackage(
+        name=l_("Last.fm"),
+        icon="🎵",
+        summary=l_("Last.fm now-playing and profile tools"),
+        description=LazyProxy(
+            lambda: Doc(l_("Show current scrobbles and fetch album, artist, compatibility, and collage views."))
+        ),
+    ),
+    router=router,
+    handlers=(
+        LastFMSetHandler,
+        LastFMSetStartHandler,
+        LastFMSetReplyHandler,
+        LastFMStatusHandler,
+        LastFMStatusCallbackHandler,
+        LastFMAlbumHandler,
+        LastFMAlbumCallbackHandler,
+        LastFMArtistHandler,
+        LastFMArtistCallbackHandler,
+        LastFMCompatHandler,
+        LastFMCollageHandler,
+        LastFMCollageCallbackHandler,
+    ),
+    scripts=ModuleScripts(pre_setup=pre_setup),
+    stats=lastfm_stats,
+    export=ModuleExport(export_lastfm, private_only=True),
+)

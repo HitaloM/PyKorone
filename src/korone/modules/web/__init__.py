@@ -1,6 +1,7 @@
 from aiogram import Router
 from stfu_tg import Doc
 
+from korone.modules.metadata import ModuleManifest, ModulePackage
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -11,9 +12,13 @@ from .handlers.whois import WhoisHandler
 
 router = Router(name="web")
 
-__module_name__ = l_("Web")
-__module_emoji__ = "🌐"
-__module_description__ = l_("IP, WHOIS, and URL utilities")
-__module_info__ = LazyProxy(lambda: Doc(l_("Look up IP/domain details, query WHOIS records, and normalize URLs.")))
-
-__handlers__ = (IPInfoHandler, IPInfoCallbackHandler, WhoisHandler, URLNormalizeHandler)
+manifest = ModuleManifest(
+    package=ModulePackage(
+        name=l_("Web"),
+        icon="🌐",
+        summary=l_("IP, WHOIS, and URL utilities"),
+        description=LazyProxy(lambda: Doc(l_("Look up IP/domain details, query WHOIS records, and normalize URLs."))),
+    ),
+    router=router,
+    handlers=(IPInfoHandler, IPInfoCallbackHandler, WhoisHandler, URLNormalizeHandler),
+)

@@ -1,6 +1,7 @@
 from aiogram import Router
 from stfu_tg import Doc
 
+from korone.modules.metadata import ModuleManifest, ModulePackage
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -13,21 +14,25 @@ from .handlers.twitter import TwitterMediaHandler
 
 router = Router(name="medias")
 
-__module_name__ = l_("Medias")
-__module_emoji__ = "🖼️"
-__module_description__ = l_("Automatic media downloads from supported links")
-__module_info__ = LazyProxy(
-    lambda: Doc(
-        l_("Fetch media when supported links are posted in group chats."),
-        l_("Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."),
-    )
-)
-
-__handlers__ = (
-    MediaAutoDownloadStatus,
-    TwitterMediaHandler,
-    BlueskyMediaHandler,
-    InstagramMediaHandler,
-    RedditMediaHandler,
-    TikTokMediaHandler,
+manifest = ModuleManifest(
+    package=ModulePackage(
+        name=l_("Medias"),
+        icon="🖼️",
+        summary=l_("Automatic media downloads from supported links"),
+        description=LazyProxy(
+            lambda: Doc(
+                l_("Fetch media when supported links are posted in group chats."),
+                l_("Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."),
+            )
+        ),
+    ),
+    router=router,
+    handlers=(
+        MediaAutoDownloadStatus,
+        TwitterMediaHandler,
+        BlueskyMediaHandler,
+        InstagramMediaHandler,
+        RedditMediaHandler,
+        TikTokMediaHandler,
+    ),
 )

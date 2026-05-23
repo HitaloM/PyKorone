@@ -1,6 +1,7 @@
 from aiogram import Router
 from stfu_tg import Doc
 
+from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -13,16 +14,19 @@ from .handlers.enable_all import DisableAllCbHandler, EnableAllHandler
 
 router = Router(name="Disable")
 
-__module_name__ = l_("Disabling")
-__module_emoji__ = "🚫"
-__module_description__ = l_("Command toggles for group chats")
-__module_info__ = LazyProxy(
-    lambda: Doc(
-        l_("Let admins disable specific commands per chat."),
-        l_("Useful for keeping only the features your group actually needs."),
-    )
+manifest = ModuleManifest(
+    package=ModulePackage(
+        name=l_("Disabling"),
+        icon="🚫",
+        summary=l_("Command toggles for group chats"),
+        description=LazyProxy(
+            lambda: Doc(
+                l_("Let admins disable specific commands per chat."),
+                l_("Useful for keeping only the features your group actually needs."),
+            )
+        ),
+    ),
+    router=router,
+    handlers=(ListDisableable, ListDisabled, DisableHandler, EnableHandler, EnableAllHandler, DisableAllCbHandler),
+    export=ModuleExport(export_disabled),
 )
-
-__export__ = export_disabled
-
-__handlers__ = (ListDisableable, ListDisabled, DisableHandler, EnableHandler, EnableAllHandler, DisableAllCbHandler)

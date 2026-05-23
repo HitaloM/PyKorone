@@ -142,35 +142,35 @@ msgstr ""
 msgid "Private chat"
 msgstr ""
 
-#: src/korone/middlewares/save_chats.py:329
-#: src/korone/modules/help/__init__.py:25
+#: src/korone/middlewares/save_chats.py:325
+#: src/korone/modules/help/__init__.py:29
 #: src/korone/modules/help/handlers/help_group.py:30
 #: src/korone/modules/help/handlers/pm_modules.py:69
 #: src/korone/modules/help/handlers/start_group.py:35
 msgid "Help"
 msgstr ""
 
-#: src/korone/middlewares/save_chats.py:330
+#: src/korone/middlewares/save_chats.py:326
 msgid "📢 Channel"
 msgstr ""
 
-#: src/korone/middlewares/save_chats.py:334
+#: src/korone/middlewares/save_chats.py:330
 msgid "Hi, I'm Korone, your all-in-one bot for this chat. Use the buttons below to open help and follow updates."
 msgstr ""
 
-#: src/korone/modules/disabling/__init__.py:16
+#: src/korone/modules/disabling/__init__.py:19
 msgid "Disabling"
 msgstr ""
 
-#: src/korone/modules/disabling/__init__.py:18
+#: src/korone/modules/disabling/__init__.py:21
 msgid "Command toggles for group chats"
 msgstr ""
 
-#: src/korone/modules/disabling/__init__.py:21
+#: src/korone/modules/disabling/__init__.py:24
 msgid "Let admins disable specific commands per chat."
 msgstr ""
 
-#: src/korone/modules/disabling/__init__.py:22
+#: src/korone/modules/disabling/__init__.py:25
 msgid "Useful for keeping only the features your group actually needs."
 msgstr ""
 
@@ -280,15 +280,15 @@ msgstr ""
 msgid "🐞 Open GitHub Issues"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/__init__.py:16
+#: src/korone/modules/gsm_arena/__init__.py:24
 msgid "GSM Arena"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/__init__.py:18
+#: src/korone/modules/gsm_arena/__init__.py:26
 msgid "Device specs from GSMArena"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/__init__.py:19
+#: src/korone/modules/gsm_arena/__init__.py:27
 msgid "Search phones and browse key specifications without leaving Telegram."
 msgstr ""
 
@@ -421,15 +421,15 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
-#: src/korone/modules/help/__init__.py:27
+#: src/korone/modules/help/__init__.py:31
 msgid "Command guide and module reference"
 msgstr ""
 
-#: src/korone/modules/help/__init__.py:30
+#: src/korone/modules/help/__init__.py:34
 msgid "Browse modules, command usage, and availability rules in one place."
 msgstr ""
 
-#: src/korone/modules/help/__init__.py:31
+#: src/korone/modules/help/__init__.py:35
 msgid "Use private chat to access the full interactive help menu."
 msgstr ""
 
@@ -552,7 +552,7 @@ msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:43
-#: src/korone/modules/language/__init__.py:16
+#: src/korone/modules/language/__init__.py:19
 msgid "Language"
 msgstr ""
 
@@ -577,11 +577,11 @@ msgstr ""
 msgid "Commands"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:18
+#: src/korone/modules/language/__init__.py:21
 msgid "Language preferences and localization"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:19
+#: src/korone/modules/language/__init__.py:22
 msgid "Check and change the bot language for private chats or groups."
 msgstr ""
 
@@ -665,15 +665,15 @@ msgstr ""
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:19
+#: src/korone/modules/lastfm/__init__.py:27
 msgid "Last.fm"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:21
+#: src/korone/modules/lastfm/__init__.py:29
 msgid "Last.fm now-playing and profile tools"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:23
+#: src/korone/modules/lastfm/__init__.py:31
 msgid "Show current scrobbles and fetch album, artist, compatibility, and collage views."
 msgstr ""
 
@@ -945,19 +945,19 @@ msgstr ""
 msgid "all-time"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:16
+#: src/korone/modules/medias/__init__.py:19
 msgid "Medias"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:18
+#: src/korone/modules/medias/__init__.py:21
 msgid "Automatic media downloads from supported links"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:21
+#: src/korone/modules/medias/__init__.py:24
 msgid "Fetch media when supported links are posted in group chats."
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:22
+#: src/korone/modules/medias/__init__.py:25
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."
 msgstr ""
 
@@ -974,28 +974,28 @@ msgstr ""
 msgid "Media auto-download"
 msgstr ""
 
-#: src/korone/modules/privacy/__init__.py:19
+#: src/korone/modules/privacy/__init__.py:24
 msgid "Privacy"
 msgstr ""
 
-#: src/korone/modules/privacy/__init__.py:21
+#: src/korone/modules/privacy/__init__.py:26
 msgid "Privacy and data controls"
 msgstr ""
 
-#: src/korone/modules/privacy/__init__.py:24
+#: src/korone/modules/privacy/__init__.py:29
 msgid "View the bot privacy policy and review how data is handled."
 msgstr ""
 
-#: src/korone/modules/privacy/__init__.py:25
-#: src/korone/modules/privacy/handlers/export.py:59
+#: src/korone/modules/privacy/__init__.py:30
+#: src/korone/modules/privacy/handlers/export.py:50
 msgid "Export your available data as a JSON file."
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/export.py:81
+#: src/korone/modules/privacy/handlers/export.py:69
 msgid "Export is started, this may take a while."
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/export.py:90
+#: src/korone/modules/privacy/handlers/export.py:78
 msgid "Export is done."
 msgstr ""
 
@@ -1011,15 +1011,15 @@ msgstr ""
 msgid "Privacy Policy"
 msgstr ""
 
-#: src/korone/modules/regex/__init__.py:11
+#: src/korone/modules/regex/__init__.py:14
 msgid "Regex"
 msgstr ""
 
-#: src/korone/modules/regex/__init__.py:13
+#: src/korone/modules/regex/__init__.py:16
 msgid "Regex substitutions for replied messages"
 msgstr ""
 
-#: src/korone/modules/regex/__init__.py:16
+#: src/korone/modules/regex/__init__.py:20
 msgid "Use sed-style syntax to edit replied text. Example: s/old/new/g; escape slashes as \\/ and chain with ';'."
 msgstr ""
 
@@ -1062,19 +1062,19 @@ msgstr ""
 msgid "Unknown flag: {flag}"
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:19
+#: src/korone/modules/stickers/__init__.py:22
 msgid "Stickers"
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:21
+#: src/korone/modules/stickers/__init__.py:24
 msgid "Personal sticker pack management"
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:24
+#: src/korone/modules/stickers/__init__.py:27
 msgid "Copy stickers and supported media into your own packs."
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:25
+#: src/korone/modules/stickers/__init__.py:28
 msgid "Manage tracked packs, set a default pack, and remove stickers."
 msgstr ""
 
@@ -1401,19 +1401,19 @@ msgstr ""
 msgid "Could not save the sticker due to a Telegram API error."
 msgstr ""
 
-#: src/korone/modules/troubleshooters/__init__.py:15
+#: src/korone/modules/troubleshooters/__init__.py:18
 msgid "Troubleshooters"
 msgstr ""
 
-#: src/korone/modules/troubleshooters/__init__.py:17
+#: src/korone/modules/troubleshooters/__init__.py:20
 msgid "Recovery and troubleshooting tools"
 msgstr ""
 
-#: src/korone/modules/troubleshooters/__init__.py:20
+#: src/korone/modules/troubleshooters/__init__.py:23
 msgid "Fix common state and permission cache issues when commands stop behaving as expected."
 msgstr ""
 
-#: src/korone/modules/troubleshooters/__init__.py:21
+#: src/korone/modules/troubleshooters/__init__.py:24
 msgid "Includes interaction reset and admin cache refresh tools."
 msgstr ""
 
@@ -1454,19 +1454,19 @@ msgstr ""
 msgid "The action was cancelled by {user}."
 msgstr ""
 
-#: src/korone/modules/users/__init__.py:13
+#: src/korone/modules/users/__init__.py:16
 msgid "Users"
 msgstr ""
 
-#: src/korone/modules/users/__init__.py:15
+#: src/korone/modules/users/__init__.py:18
 msgid "User and member lookup tools"
 msgstr ""
 
-#: src/korone/modules/users/__init__.py:18
+#: src/korone/modules/users/__init__.py:21
 msgid "Inspect IDs, chat admins, and detailed user information."
 msgstr ""
 
-#: src/korone/modules/users/__init__.py:19
+#: src/korone/modules/users/__init__.py:22
 msgid "Works with replies, direct users, and explicit mentions."
 msgstr ""
 
@@ -1600,15 +1600,15 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: src/korone/modules/web/__init__.py:14
+#: src/korone/modules/web/__init__.py:17
 msgid "Web"
 msgstr ""
 
-#: src/korone/modules/web/__init__.py:16
+#: src/korone/modules/web/__init__.py:19
 msgid "IP, WHOIS, and URL utilities"
 msgstr ""
 
-#: src/korone/modules/web/__init__.py:17
+#: src/korone/modules/web/__init__.py:20
 msgid "Look up IP/domain details, query WHOIS records, and normalize URLs."
 msgstr ""
 

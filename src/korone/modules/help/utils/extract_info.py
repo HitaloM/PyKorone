@@ -5,7 +5,7 @@ from collections.abc import Awaitable, Callable, Mapping, Sequence
 from dataclasses import dataclass
 from inspect import isawaitable
 from itertools import chain
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, cast, overload
 
 from aiogram.filters import Command
 from aiogram.filters.logic import _InvertFilter
@@ -20,11 +20,11 @@ from korone.logger import get_logger
 from korone.utils.i18n import LazyProxy as KoroneLazyProxy
 
 if TYPE_CHECKING:
-    from types import ModuleType
-
     from aiogram import Router
     from babel.support import LazyProxy
     from stfu_tg import Doc
+
+    from korone.modules.metadata import LoadedModule
 
 type ArgsMap = dict[str, ArgFabric]
 type ArgsProvider = Callable[[Message | None, dict[str, Any]], ArgsMap | Awaitable[ArgsMap]]
@@ -117,7 +117,15 @@ def normalize_cmds(cmds: object) -> tuple[str, ...] | None:
     return _normalize_str_sequence(cmds)
 
 
-def _clone_without_cache(description: LazyProxy | str | None) -> LazyProxy | str | None:
+@overload
+def _clone_without_cache(description: LazyProxy | str | None) -> LazyProxy | str | None: ...
+
+
+@overload
+def _clone_without_cache(description: LazyProxy | str | Doc | None) -> LazyProxy | str | Doc | None: ...
+
+
+def _clone_without_cache(description: LazyProxy | str | Doc | None) -> LazyProxy | str | Doc | None:
     if not isinstance(description, KoroneLazyProxy):
         return description
     return KoroneLazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)
@@ -309,25 +317,24 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
     return helps
 
 
-async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
-    router = getattr(module, "router", None)
+async def gather_module_help(module: LoadedModule) -> ModuleHelp | None:
+    router = module.router
     if router is None:
         return None
 
-    name = _clone_without_cache(getattr(module, "__module_name__", module.__name__.split(".")[-1]))
-    emoji = getattr(module, "__module_emoji__", "?")
-    exclude_public = getattr(module, "__exclude_public__", False)
-    info = _clone_without_cache(getattr(module, "__module_info__", None))
-    description = _clone_without_cache(getattr(module, "__module_description__", None))
+    package = module.package
+    name = _clone_without_cache(package.name)
+    info = _clone_without_cache(package.description)
+    description = _clone_without_cache(package.summary)
 
-    await logger.adebug("gather_module_help", module=module.__name__, name=name, emoji=emoji)
+    await logger.adebug("gather_module_help", module=module.import_path, name=name, emoji=package.icon)
 
     if cmds := await gather_cmds_help(router):
         return ModuleHelp(
             handlers=cmds,
             name=name or "N/A",
-            icon=emoji,
-            exclude_public=exclude_public,
+            icon=package.icon,
+            exclude_public=not package.public,
             info=info if info is not None else "",
             description=description if description is not None else "",
         )

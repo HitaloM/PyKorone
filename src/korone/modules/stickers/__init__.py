@@ -1,6 +1,7 @@
 from aiogram import Router
 from stfu_tg import Doc
 
+from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -16,27 +17,28 @@ from .stats import stickers_stats
 
 router = Router(name="stickers")
 
-__module_name__ = l_("Stickers")
-__module_emoji__ = "🧩"
-__module_description__ = l_("Personal sticker pack management")
-__module_info__ = LazyProxy(
-    lambda: Doc(
-        l_("Copy stickers and supported media into your own packs."),
-        l_("Manage tracked packs, set a default pack, and remove stickers."),
-    )
+manifest = ModuleManifest(
+    package=ModulePackage(
+        name=l_("Stickers"),
+        icon="🧩",
+        summary=l_("Personal sticker pack management"),
+        description=LazyProxy(
+            lambda: Doc(
+                l_("Copy stickers and supported media into your own packs."),
+                l_("Manage tracked packs, set a default pack, and remove stickers."),
+            )
+        ),
+    ),
+    router=router,
+    handlers=(
+        StickerStealHandler,
+        StickerStealPackHandler,
+        StickerGetStickerHandler,
+        StickerDeleteStickerHandler,
+        StickerDeletePackHandler,
+        StickerSwitchDefaultPackHandler,
+        StickerMyPacksHandler,
+    ),
+    stats=stickers_stats,
+    export=ModuleExport(export_stickers, private_only=True),
 )
-
-__export_private_only__ = True
-__export__ = export_stickers
-
-__handlers__ = (
-    StickerStealHandler,
-    StickerStealPackHandler,
-    StickerGetStickerHandler,
-    StickerDeleteStickerHandler,
-    StickerDeletePackHandler,
-    StickerSwitchDefaultPackHandler,
-    StickerMyPacksHandler,
-)
-
-__stats__ = stickers_stats
