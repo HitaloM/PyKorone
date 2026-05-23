@@ -41,7 +41,7 @@ class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
 
     @property
     def state(self) -> FSMContext:
-        return self.context["state"]
+        return self.data["state"]
 
     @property
     def current_locale(self) -> str:

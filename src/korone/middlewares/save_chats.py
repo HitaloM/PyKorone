@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from aiogram.types import ChatJoinRequest, ChatMemberUpdated, Message, TelegramObject
 
     from korone.db.models.chat import ChatModel, UserInGroupModel
+    from korone.middlewares.context_data import KoroneContextData
 
 logger = get_logger(__name__)
 
@@ -110,15 +111,14 @@ class SaveChatsMiddleware(BaseMiddleware):
         user_in_group = await ChatRepository.ensure_user_in_group(current_user, current_group)
         return current_user, user_in_group
 
-    async def handle_message(self, message: Message, data: dict[str, Any]) -> None:
-        context = as_korone_context(data)
+    async def handle_message(self, message: Message, context: KoroneContextData) -> None:
         await logger.adebug(
             "SaveChatsMiddleware: Handling message", message_id=message.message_id, chat_id=message.chat.id
         )
-        if await self._handle_migration(data, message):
+        if await self._handle_migration(context, message):
             return
 
-        chat, _user = await self._handle_private_and_group_message(data, message)
+        chat, _user = await self._handle_private_and_group_message(context, message)
 
         if message.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
             return
@@ -135,8 +135,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         await self._handle_chat_owner_updates(message, chat)
 
     @staticmethod
-    async def _handle_migration(data: dict[str, Any], message: Message) -> bool:
-        context = as_korone_context(data)
+    async def _handle_migration(context: KoroneContextData, message: Message) -> bool:
         if message.migrate_from_chat_id:
             await logger.adebug(
                 "SaveChatsMiddleware: Handling migration from chat",
@@ -159,9 +158,8 @@ class SaveChatsMiddleware(BaseMiddleware):
         return False
 
     async def _handle_private_and_group_message(
-        self, data: dict[str, Any], message: Message
+        self, context: KoroneContextData, message: Message
     ) -> tuple[ChatModel, ChatModel]:
-        context = as_korone_context(data)
         if message.chat.type == ChatType.PRIVATE and message.from_user:
             await logger.adebug("SaveChatsMiddleware: Handling private message", user_id=message.from_user.id)
             user = await ChatRepository.upsert_user(message.from_user)
@@ -277,8 +275,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         await self._refresh_admin_cache(group, reason="chat_owner_left")
 
     @staticmethod
-    async def save_from_user(data: dict[str, Any]) -> None:
-        context = as_korone_context(data)
+    async def save_from_user(context: KoroneContextData) -> None:
         from_user = context.get("event_from_user")
         if not isinstance(from_user, User):
             return
@@ -300,8 +297,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         context["chat_db"] = context["user_db"] = user
 
     @staticmethod
-    async def save_chat_join_request(join_request: ChatJoinRequest, data: dict[str, Any]) -> None:
-        context = as_korone_context(data)
+    async def save_chat_join_request(join_request: ChatJoinRequest, context: KoroneContextData) -> None:
         await logger.adebug(
             "SaveChatsMiddleware: Saving chat join request",
             chat_id=join_request.chat.id,
@@ -402,13 +398,14 @@ class SaveChatsMiddleware(BaseMiddleware):
         if not isinstance(event, Update):
             return await handler(event, data)
 
+        context = as_korone_context(data)
         await logger.adebug("SaveChatsMiddleware: Incoming update", update_id=event.update_id)
         if event.message:
-            await self.handle_message(event.message, data)
+            await self.handle_message(event.message, context)
         elif event.callback_query or event.inline_query or event.poll_answer:
-            await self.save_from_user(data)
+            await self.save_from_user(context)
         elif event.chat_join_request:
-            await self.save_chat_join_request(event.chat_join_request, data)
+            await self.save_chat_join_request(event.chat_join_request, context)
         elif event.my_chat_member:
             continue_ = await self.save_my_chat_member(event.my_chat_member)
 

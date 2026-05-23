@@ -5,7 +5,7 @@ from aiogram.utils.i18n.middleware import I18nMiddleware
 
 from korone.config import CONFIG
 from korone.logger import get_logger
-from korone.middlewares.context_data import get_chat_db
+from korone.middlewares.context_data import as_korone_context, get_chat_db
 
 if TYPE_CHECKING:
     from aiogram.types import TelegramObject, User
@@ -15,7 +15,7 @@ logger = get_logger(__name__)
 
 class LocalizationMiddleware(I18nMiddleware):
     async def get_locale(self, event: TelegramObject, data: dict[str, Any]) -> str:
-        chat_in_db = get_chat_db(data)
+        chat_in_db = get_chat_db(as_korone_context(data))
         if chat_in_db is None:
             await logger.adebug("LocalizationMiddleware: Chat cannot be found in this event, leaving locale to default")
             return CONFIG.default_locale
