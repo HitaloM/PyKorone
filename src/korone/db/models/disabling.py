@@ -1,5 +1,5 @@
 from sqlalchemy import JSON, BigInteger
-from sqlalchemy.orm import Mapped, mapped_column  # noqa: TC002
+from sqlalchemy.orm import Mapped, mapped_column
 
 from korone.db.base import Base
 

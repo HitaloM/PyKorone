@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 
 from sqlalchemy import BigInteger, DateTime, String
-from sqlalchemy.orm import Mapped, mapped_column  # noqa: TC002
+from sqlalchemy.orm import Mapped, mapped_column
 
 from korone.db.base import Base
 

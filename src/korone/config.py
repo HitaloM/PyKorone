@@ -1,4 +1,4 @@
-from pydantic import AnyHttpUrl, ValidationInfo, computed_field, field_validator  # noqa: TC002
+from pydantic import AnyHttpUrl, ValidationInfo, computed_field, field_validator
 from pydantic_settings import BaseSettings
 
 

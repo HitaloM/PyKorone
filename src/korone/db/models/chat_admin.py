@@ -4,7 +4,7 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import JSON, BigInteger, DateTime, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import Mapped, mapped_column, relationship  # noqa: TC002
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from korone.db.base import Base
 

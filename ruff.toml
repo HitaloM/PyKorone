@@ -63,6 +63,7 @@ ignore = [
     "PLR0911",
     "PLR0912",
     "PLR0915",
+    "PLW0717",
 ]
 per-file-ignores = { "alembic/env.py" = [
     "INP001",

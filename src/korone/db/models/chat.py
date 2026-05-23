@@ -4,7 +4,7 @@ from typing import Any
 from aiogram.enums import ChatType
 from sqlalchemy import BigInteger, DateTime, ForeignKey, String, UniqueConstraint
 from sqlalchemy import Enum as SAEnum
-from sqlalchemy.orm import Mapped, mapped_column, relationship  # noqa: TC002
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from korone.db.base import Base
 
