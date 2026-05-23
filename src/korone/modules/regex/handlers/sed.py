@@ -70,8 +70,4 @@ class SedHandler(KoroneMessageHandler):
             await self.event.reply(_("Your regex didn't change anything from the original message."))
             return
 
-        bot = self.event.bot
-        if not bot:
-            return
-
-        await bot.send_message(self.chat.chat_id, modified_text, reply_to_message_id=reply_message.message_id)
+        await self.bot.send_message(self.chat.chat_id, modified_text, reply_to_message_id=reply_message.message_id)

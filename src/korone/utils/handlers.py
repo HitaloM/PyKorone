@@ -7,13 +7,12 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.handlers import BaseHandler, BaseHandlerMixin
 from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, Message
 
-from korone import bot
 from korone.middlewares.context_data import as_korone_context
 from korone.modules.utils_.reply_or_edit import reply_or_edit
 from korone.utils.exception import KoroneError
 
 if TYPE_CHECKING:
-    from aiogram import Router
+    from aiogram import Bot, Router
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.filters.callback_data import CallbackData
     from aiogram.fsm.context import FSMContext
@@ -28,6 +27,10 @@ T = TypeVar("T")
 
 
 class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
+    @property
+    def bot(self) -> Bot:
+        return self.data["bot"]
+
     @property
     def context(self) -> KoroneContextData:
         return as_korone_context(self.data)
@@ -126,14 +129,14 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
             message = self.event.message
             if not message or isinstance(message, InaccessibleMessage):
                 raise KoroneError.inaccessible_message()
-            return await bot.edit_message_media(
+            return await self.bot.edit_message_media(
                 media=InputMediaPhoto(media=f, caption=caption),
                 chat_id=message.chat.id,
                 message_id=message.message_id,
                 **cast("dict[str, Any]", kwargs),
             )
         if isinstance(self.event, Message):
-            return await bot.send_photo(
+            return await self.bot.send_photo(
                 chat_id=self.event.chat.id, photo=f, caption=caption, **cast("dict[str, Any]", kwargs)
             )
         msg = "answer_media: Wrong event type"
