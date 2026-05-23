@@ -44,24 +44,11 @@ def configure_dispatcher() -> None:
     dp.update.middleware(ChatContextMiddleware())
 
 
-def get_allowed_updates() -> list[str]:
-    return [
-        "message",
-        "edited_message",
-        "inline_query",
-        "callback_query",
-        "poll_answer",
-        "my_chat_member",
-        "chat_member",
-        "chat_join_request",
-    ]
-
-
 def get_webhook_url() -> str:
     return f"{CONFIG.webhook_domain}{CONFIG.webhook_path}"
 
 
-async def bootstrap() -> None:
+async def prepare_runtime() -> list[str]:
     await logger.ainfo("Starting up the bot...")
 
     if CONFIG.sentry_url:
@@ -77,6 +64,7 @@ async def bootstrap() -> None:
     await migrate_db_if_needed()
     await ensure_bot_in_db()
     await load_modules(dp, CONFIG.modules_load, CONFIG.modules_not_load)
+    return dp.resolve_used_update_types()
 
 
 async def shutdown() -> None:
@@ -91,9 +79,9 @@ async def shutdown() -> None:
 async def run_polling() -> None:
     try:
         await logger.awarning("No webhook domain configured, running in long polling mode")
-        await bootstrap()
         await bot.delete_webhook(drop_pending_updates=True)
-        await dp.start_polling(bot, allowed_updates=get_allowed_updates(), close_bot_session=False)
+        allowed_updates = await prepare_runtime()
+        await dp.start_polling(bot, allowed_updates=allowed_updates, close_bot_session=False)
     finally:
         await shutdown()
 
@@ -102,11 +90,11 @@ def create_webhook_app() -> web.Application:
     app = web.Application()
 
     async def on_startup(_: web.Application) -> None:
-        await bootstrap()
+        allowed_updates = await prepare_runtime()
         webhook_url = get_webhook_url()
         await bot.set_webhook(
             url=webhook_url,
-            allowed_updates=get_allowed_updates(),
+            allowed_updates=allowed_updates,
             drop_pending_updates=True,
             secret_token=CONFIG.webhook_secret,
         )
