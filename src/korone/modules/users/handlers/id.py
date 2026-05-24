@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from aiogram import Router, flags
+from aiogram import flags
 from aiogram.enums import ChatType
 from aiogram.filters import Command
 from ass_tg.types import OptionalArg
@@ -21,12 +21,9 @@ if TYPE_CHECKING:
 
     from korone.db.models.chat import ChatModel
 
-router = Router(name="users")
-
 
 @flags.help(description=l_("Show user, chat, and topic IDs."))
 @flags.disableable(name="id")
-@router.message(Command("id"))
 class ShowIDHandler(KoroneMessageHandler):
     @classmethod
     async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:

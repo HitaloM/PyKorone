@@ -1,7 +1,6 @@
 ---
 name: localization-manual-translation
-description: "Use when strings are added or changed in src/korone or when locale catalogs are edited. Enforce manual translation review and update workflow for language files."
-applyTo: "{src/korone/**/*.py,locales/**/*.po,locales/*.pot,Makefile}"
+description: Use when user-facing strings are added, changed, or removed in src/korone, or when gettext locale catalogs under locales are edited. Enforce PyKorone manual translation review, Babel Makefile workflow, placeholder preservation, fuzzy entry resolution, and catalog compilation.
 ---
 
 # Manual Localization Workflow for PyKorone
@@ -12,44 +11,39 @@ Apply this workflow whenever any user-facing string is added, changed, or remove
 
 Common triggers:
 
-- New or changed text wrapped in translation helpers such as `_`, `l_`, `p_`, and `pl_`
-- Edited command descriptions, help text, captions, errors, button labels, or docs shown to users
-- Any direct edit under `locales/`
+- New or changed text wrapped in translation helpers such as `_`, `l_`, `p_`, and `pl_`.
+- Edited command descriptions, help text, captions, errors, button labels, or docs shown to users.
+- Any direct edit under `locales/`.
 
 ## Required Workflow
 
-1. Refresh extraction and catalog updates:
-   - `make update_lang`
+1. Refresh extraction and catalog updates with `make update_lang`.
 2. Manually review changed entries in `locales/pt_BR/LC_MESSAGES/korone.po`.
 3. Keep `locales/en_US/LC_MESSAGES/korone.po` synchronized through catalog updates; manual edits are optional.
 4. Update translations for new and changed `msgid` entries in required locales.
-5. Compile catalogs after manual review:
-   - `make compile_lang`
+5. Compile catalogs after manual review with `make compile_lang`.
 
 ## Gettext Tooling
 
-- Prefer the repository `Makefile` targets over direct gettext commands when working on localization.
+- Prefer repository Makefile targets over direct gettext commands when working on localization.
 - Use `make update_lang` for extraction and catalog updates instead of calling `pybabel`, `msgmerge`, or related tools manually.
 - Use `make compile_lang` to rebuild `.mo` files instead of running `msgfmt` directly.
 - Use `make new_locale` or `make new_lang LANG=...` only when bootstrapping a locale from scratch.
-- Treat `msgcat` as part of the extraction pipeline defined in the `Makefile`, not as a manual editing step.
+- Treat `msgcat` as part of the extraction pipeline defined in the Makefile, not as a manual editing step.
 - If a direct gettext command is needed for debugging, keep it read-only and do not bypass the normal translation review workflow.
 
 ## Manual Review Rules
 
-- Keep placeholders and variable syntax identical between source and translation:
-  - `{name}`
-  - `%(name)s`
-  - formatting markup and HTML entities
+- Keep placeholders and variable syntax identical between source and translation: `{name}`, `%(name)s`, formatting markup, and HTML entities.
 - Preserve meaning, tone, and command intent from source text.
-- For pluralized messages, review all plural forms (`msgid_plural`, `msgstr[n]`).
-- Resolve `fuzzy` entries created during updates in the same PR (hard rule).
+- For pluralized messages, review all plural forms: `msgid_plural` and every `msgstr[n]`.
+- Resolve `fuzzy` entries created during updates in the same PR; this is a hard rule.
 - Machine translation is allowed.
 
 ## File Handling Rules
 
-- Do not manually edit compiled files (`*.mo`).
-- Avoid hand-editing template files (`*.pot`) unless debugging extraction behavior.
+- Do not manually edit compiled files, `*.mo`.
+- Avoid hand-editing template files, `*.pot`, unless debugging extraction behavior.
 - Keep locale diffs minimal and focused on entries affected by the string change.
 
 ## Consistency Checks Before Finishing

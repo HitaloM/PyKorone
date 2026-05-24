@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aiogram Project Patterns"
+  short_description: "Aiogram 3 patterns for PyKorone"
+  default_prompt: "Use $aiogram-project-patterns when editing aiogram code in PyKorone."

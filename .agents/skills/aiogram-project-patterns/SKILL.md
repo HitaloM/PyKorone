@@ -1,7 +1,6 @@
 ---
 name: aiogram-project-patterns
-description: "Use when editing code that uses aiogram in src/korone. Enforce current aiogram 3.x APIs and project patterns for Dispatcher setup, routers, class-based handlers, middlewares, callback data, and webhook or polling bootstrapping."
-applyTo: "src/korone/**/*.py"
+description: Use when editing code that uses aiogram in src/korone. Enforce current aiogram 3.x APIs and PyKorone patterns for Dispatcher setup, routers, class-based handlers, middlewares, callback data, filters, and webhook or polling bootstrapping.
 ---
 
 # Aiogram 3.x Usage for PyKorone
@@ -10,7 +9,7 @@ applyTo: "src/korone/**/*.py"
 
 - Apply these rules only when a change touches aiogram usage.
 - Keep compatibility with the project dependency range: aiogram >=3.26.
-- Prefer the current aiogram 3.x APIs and avoid legacy v2-style patterns.
+- Prefer current aiogram 3.x APIs and avoid legacy v2-style patterns.
 
 ## Runtime Entry Points
 
@@ -20,32 +19,22 @@ applyTo: "src/korone/**/*.py"
 
 ## Polling and Webhook Bootstrap
 
-- Polling mode should clear webhook state before startup:
-  - `await bot.delete_webhook(drop_pending_updates=True)`
-  - then `await dp.start_polling(...)`
-- Webhook mode should use aiogram aiohttp integration:
-  - `SimpleRequestHandler`
-  - `setup_application(...)`
-  - `bot.set_webhook(..., secret_token=..., allowed_updates=...)`
+- Polling mode should clear webhook state before startup with `await bot.delete_webhook(drop_pending_updates=True)`, then `await dp.start_polling(...)`.
+- Webhook mode should use aiogram aiohttp integration with `SimpleRequestHandler`, `setup_application(...)`, and `bot.set_webhook(..., secret_token=..., allowed_updates=...)`.
 - Keep lifecycle logic centralized in startup and shutdown functions.
 
 ## Router Composition
 
 - Compose routing through module routers and loader flow, not ad hoc dispatcher wiring in random files.
-- For top-level module packages in `src/korone/modules/*/__init__.py`, follow the dedicated module contract file:
-  - `.github/instructions/korone-modules-plugin.instructions.md`
+- For top-level module packages in `src/korone/modules/*/__init__.py`, also follow `.agents/skills/korone-modules-plugin-contract/SKILL.md`.
 
 ## Handler Architecture
 
-- Prefer class-based handlers built on project bases from `korone.utils.handlers`:
-  - `KoroneMessageHandler`
-  - `KoroneCallbackQueryHandler`
-  - `KoroneMessageCallbackQueryHandler`
-- Default pattern:
-  - implement `filters()` for message or callback handlers
-  - implement `handle(self)` for execution
+- Prefer class-based handlers built on project bases from `korone.utils.handlers`: `KoroneMessageHandler`, `KoroneCallbackQueryHandler`, and `KoroneMessageCallbackQueryHandler`.
+- Default pattern: implement `filters()` for message or callback handlers and implement `handle(self)` for execution.
 - Override `register(...)` only when a handler must register both message and callback routes or custom wiring.
 - Prefer `self.answer(...)` and project helper methods over duplicating message or callback response plumbing.
+- Let handlers register onto the module manifest router through their `register(...)` method; do not create module-local routers inside handler files unless that router is explicitly included by a manifest.
 
 ## Flags and Handler Metadata
 
@@ -82,18 +71,14 @@ applyTo: "src/korone/**/*.py"
 
 ## Avoid These Patterns
 
-- aiogram v2 APIs such as:
-  - `executor.start_polling(...)`
-  - decorator aliases from v2 migration examples
-  - `skip_updates=True` in polling startup
-- New feature code with raw callback_data strings when typed `CallbackData` is appropriate.
+- aiogram v2 APIs such as `executor.start_polling(...)`, decorator aliases from v2 migration examples, or `skip_updates=True` in polling startup.
+- New feature code with raw callback data strings when typed `CallbackData` is appropriate.
 - Mixing function-based and class-based handler styles in the same module without a clear reason.
 
 ## Minimal Examples
 
 ```python
 from aiogram.filters.callback_data import CallbackData
-
 
 class ItemAction(CallbackData, prefix="item"):
     action: str

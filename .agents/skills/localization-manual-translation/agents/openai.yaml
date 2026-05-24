@@ -1,0 +1,4 @@
+interface:
+  display_name: "Localization Manual Translation"
+  short_description: "gettext catalog review workflow"
+  default_prompt: "Use $localization-manual-translation when changing PyKorone user-facing strings or locale catalogs."

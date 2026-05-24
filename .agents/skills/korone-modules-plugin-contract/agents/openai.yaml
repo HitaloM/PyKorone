@@ -1,0 +1,4 @@
+interface:
+  display_name: "Korone Module Contract"
+  short_description: "Module loader contract and wiring"
+  default_prompt: "Use $korone-modules-plugin-contract when editing a top-level PyKorone module package."
