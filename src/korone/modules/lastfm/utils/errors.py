@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-
 class LastFMError(Exception):
     """Base error for Last.fm module."""
 

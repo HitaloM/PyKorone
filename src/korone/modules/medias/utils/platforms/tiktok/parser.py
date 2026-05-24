@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import html
 from dataclasses import dataclass
 from typing import Any

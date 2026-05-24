@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import orjson
 from aiogram import flags
 from aiogram.filters import Command

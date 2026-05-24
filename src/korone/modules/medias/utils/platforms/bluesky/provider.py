@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from typing import TYPE_CHECKING
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES

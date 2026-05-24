@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import asyncio
 from collections.abc import Awaitable, Callable, Mapping
 from dataclasses import KW_ONLY, dataclass, field
@@ -13,12 +11,6 @@ if TYPE_CHECKING:
     from aiogram import Dispatcher, Router
     from babel.support import LazyProxy
     from stfu_tg import Doc
-else:
-    Dispatcher = Any
-    Router = Any
-    LazyProxy = Any
-    Doc = Any
-    ModuleType = Any
 
 type MaybeAwaitable[T] = T | Awaitable[T]
 type ModuleText = str | LazyProxy

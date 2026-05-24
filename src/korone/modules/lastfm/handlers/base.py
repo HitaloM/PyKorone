@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, ClassVar, Final, Protocol, cast, override

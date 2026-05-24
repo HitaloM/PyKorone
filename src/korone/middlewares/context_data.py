@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from typing import TYPE_CHECKING, Any, Required, cast
 
 from aiogram.dispatcher.middlewares.data import MiddlewareData

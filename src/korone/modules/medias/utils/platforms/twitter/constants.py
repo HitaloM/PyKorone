@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import re
 
 FXTWITTER_STATUS_API = "https://api.fxtwitter.com/2/status/{status_id}"

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import re
 
 BSKY_PUBLIC_API = "https://public.api.bsky.app/xrpc"

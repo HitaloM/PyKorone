@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import asyncio
 from importlib import import_module
 from typing import TYPE_CHECKING

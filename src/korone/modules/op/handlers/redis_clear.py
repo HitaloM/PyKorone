@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from aiogram import flags
 from aiogram.filters import Command
 from stfu_tg import Code, Doc, Template

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from .scraper import check_phone_details, format_phone
 
 

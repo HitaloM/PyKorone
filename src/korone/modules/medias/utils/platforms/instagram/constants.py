@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import re
 
 INSTAGRAM_HOST = "instagram.com"

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from aiogram.types import BufferedInputFile
 
 from korone.modules.medias.utils.provider_base import MediaProvider

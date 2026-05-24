@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import html
 import re
 from urllib.parse import urldefrag, urljoin

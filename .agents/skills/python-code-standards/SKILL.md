@@ -13,13 +13,10 @@ For top-level module package wiring, also use `.agents/skills/korone-modules-plu
 
 - All new and edited function parameters and return types must have type hints.
 - Use modern Python syntax: `int | None` instead of `Optional[int]`.
-- Prefer `from __future__ import annotations` in new modules and when editing modules that already use it.
 - Use `TypeVar` only when a helper genuinely needs a generic type parameter.
 - Use `TYPE_CHECKING` guards for conditional imports to avoid circular dependencies.
 
 ```python
-from __future__ import annotations
-
 from typing import TYPE_CHECKING, Any, TypeVar
 
 if TYPE_CHECKING:
@@ -79,8 +76,6 @@ DEFAULT_LANGUAGE: Final[str] = "en_US"
 - For database/ORM imports, use `TYPE_CHECKING` when appropriate to avoid runtime overhead.
 
 ```python
-from __future__ import annotations
-
 from typing import TYPE_CHECKING
 
 from aiogram import Router

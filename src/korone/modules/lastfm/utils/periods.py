@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from enum import StrEnum
 
 from korone.utils.i18n import gettext as _

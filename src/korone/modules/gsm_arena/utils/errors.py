@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-
 class GSMArenaError(Exception):
     """Base error for GSMArena module."""
 

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from korone.db.repositories.disabling import DisablingRepository
 
 AUTO_DOWNLOAD_KEY = "medias_autodownload"
