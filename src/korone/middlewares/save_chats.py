@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, override
+from typing import TYPE_CHECKING, Any, Final, override
 
 from aiogram import BaseMiddleware
-from aiogram.enums import ChatMemberStatus, ChatType
+from aiogram.enums import ChatMemberStatus, ChatType, UpdateType
 from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Chat, Update, User
 from aiogram.utils.deep_linking import create_start_link
@@ -26,6 +26,15 @@ if TYPE_CHECKING:
     from korone.middlewares.context_data import KoroneContextData
 
 logger = get_logger(__name__)
+
+SAVE_CHATS_REQUIRED_UPDATE_TYPES: Final[frozenset[str]] = frozenset((
+    UpdateType.MESSAGE.value,
+    UpdateType.CALLBACK_QUERY.value,
+    UpdateType.INLINE_QUERY.value,
+    UpdateType.POLL_ANSWER.value,
+    UpdateType.CHAT_JOIN_REQUEST.value,
+    UpdateType.MY_CHAT_MEMBER.value,
+))
 
 
 class SaveChatsMiddleware(BaseMiddleware):

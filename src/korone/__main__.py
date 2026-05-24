@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from typing import Final
 
 import sentry_sdk
 import uvloop
@@ -21,12 +22,14 @@ from .middlewares import localization_middleware
 from .middlewares.admin_cache import AdminCacheMiddleware
 from .middlewares.chat_context import ChatContextMiddleware
 from .middlewares.disabling import DisablingMiddleware
-from .middlewares.save_chats import SaveChatsMiddleware
+from .middlewares.save_chats import SAVE_CHATS_REQUIRED_UPDATE_TYPES, SaveChatsMiddleware
 from .modules import load_modules
 from .utils.aiohttp_session import HTTPClient
 from .utils.i18n import i18n
 
 logger = get_logger(__name__)
+
+CORE_MIDDLEWARE_UPDATE_TYPES: Final[frozenset[str]] = SAVE_CHATS_REQUIRED_UPDATE_TYPES
 
 
 async def ensure_bot_in_db() -> None:
@@ -48,6 +51,10 @@ def get_webhook_url() -> str:
     return f"{CONFIG.webhook_domain}{CONFIG.webhook_path}"
 
 
+def resolve_allowed_updates() -> list[str]:
+    return sorted({*dp.resolve_used_update_types(), *CORE_MIDDLEWARE_UPDATE_TYPES})
+
+
 async def prepare_runtime() -> list[str]:
     await logger.ainfo("Starting up the bot...")
 
@@ -64,7 +71,9 @@ async def prepare_runtime() -> list[str]:
     await migrate_db_if_needed()
     await ensure_bot_in_db()
     await load_modules(dp, CONFIG.modules_load, CONFIG.modules_not_load)
-    return dp.resolve_used_update_types()
+    allowed_updates = resolve_allowed_updates()
+    await logger.ainfo("Allowed updates resolved", allowed_updates=allowed_updates)
+    return allowed_updates
 
 
 async def shutdown() -> None:
