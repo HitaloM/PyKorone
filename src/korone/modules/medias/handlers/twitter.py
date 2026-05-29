@@ -8,8 +8,6 @@ from korone.modules.medias.utils.platforms import TwitterProvider
 from .base import BaseMediaHandler
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from korone.modules.medias.utils.types import MediaPost
 
 
@@ -64,37 +62,7 @@ class TwitterMediaHandler(BaseMediaHandler):
         if link:
             blocks.append(link)
 
-        rendered_blocks: list[Text | str] = []
-        for block in blocks:
-            if rendered_blocks:
-                rendered_blocks.append("\n\n")
-            rendered_blocks.append(block)
-
-        return Text(*rendered_blocks, sep="").as_html()
-
-    @classmethod
-    def _truncate_segment(cls, raw_text: str, render: Callable[[str], str]) -> str:
-        if not raw_text:
-            return ""
-
-        ellipsis = " [...]"
-        low = 0
-        high = len(raw_text)
-        best = ""
-
-        while low <= high:
-            mid = (low + high) // 2
-            truncated = raw_text[:mid].rstrip()
-            candidate_text = f"{truncated}{ellipsis}" if truncated else ""
-            candidate = render(candidate_text)
-
-            if len(candidate) <= cls.CAPTION_LIMIT:
-                best = candidate_text
-                low = mid + 1
-            else:
-                high = mid - 1
-
-        return best
+        return Text(*blocks, sep="\n\n").as_html()
 
     @classmethod
     def _build_caption(cls, post: MediaPost, *, include_link: bool) -> str:

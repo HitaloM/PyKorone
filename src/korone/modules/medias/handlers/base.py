@@ -36,6 +36,7 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from contextlib import AbstractAsyncContextManager
 
     from aiogram.dispatcher.event.handler import CallbackType
@@ -69,13 +70,14 @@ logger = get_logger(__name__)
 
 
 class BaseMediaHandler(KoroneMessageHandler):
-    CAPTION_LIMIT = 1024
-    MEDIA_GROUP_LIMIT = 10
-    PHOTO_SAFE_LIMIT_BYTES = TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES - 32 * 1024
-    PHOTO_MAX_DIMENSIONS_SUM = TELEGRAM_PHOTO_MAX_DIMENSIONS_SUM
-    PHOTO_MAX_ASPECT_RATIO = TELEGRAM_PHOTO_MAX_ASPECT_RATIO
+    CAPTION_LIMIT: ClassVar[int] = 1024
+    MEDIA_GROUP_LIMIT: ClassVar[int] = 10
+    PHOTO_SAFE_LIMIT_BYTES: ClassVar[int] = TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES - 32 * 1024
+    PHOTO_MAX_DIMENSIONS_SUM: ClassVar[int] = TELEGRAM_PHOTO_MAX_DIMENSIONS_SUM
+    PHOTO_MAX_ASPECT_RATIO: ClassVar[int] = TELEGRAM_PHOTO_MAX_ASPECT_RATIO
     PHOTO_COMPRESSION_TIMEOUT_SECONDS: ClassVar[float] = 12.0
     MEDIA_SEND_REQUEST_TIMEOUT_SECONDS: ClassVar[int] = 180
+    VIDEO_SUPPORTS_STREAMING: ClassVar[bool] = True
     POST_CACHE_NAMESPACE: ClassVar[str] = "media-post"
     MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
     _MISSING_REPLY_ERROR_TOKENS: ClassVar[tuple[str, ...]] = (REPLIED_NOT_FOUND, "replied message not found")
@@ -92,14 +94,10 @@ class BaseMediaHandler(KoroneMessageHandler):
     DEFAULT_AUTHOR_HANDLE: ClassVar[str]
     AUTHOR_HANDLE_PREFIX: ClassVar[str] = "@"
 
-    @staticmethod
-    def _normalize_telegram_error_message(error: TelegramBadRequest) -> str:
-        return error.message.casefold()
-
     @classmethod
     def _message_contains_any(cls, error: TelegramBadRequest, tokens: tuple[str, ...]) -> bool:
-        normalized_message = cls._normalize_telegram_error_message(error)
-        return any(token in normalized_message for token in tokens)
+        message = error.message.casefold()
+        return any(token in message for token in tokens)
 
     @classmethod
     def _is_missing_reply_error(cls, error: TelegramBadRequest) -> bool:
@@ -119,15 +117,8 @@ class BaseMediaHandler(KoroneMessageHandler):
         return (GroupChatFilter(), MediaUrlFilter(cls.PROVIDER.pattern))
 
     @staticmethod
-    def _post_cache_candidates(url: str) -> list[str]:
-        if not (normalized_url := url.strip()):
-            return []
-
-        return [normalized_url]
-
-    @classmethod
-    def _collect_post_cache_candidates(cls, *urls: str) -> set[str]:
-        return {candidate for url in urls for candidate in cls._post_cache_candidates(url)}
+    def _post_cache_candidates(*urls: str) -> set[str]:
+        return {candidate for url in urls if (candidate := url.strip())}
 
     @classmethod
     def _post_cache_key(cls, url: str) -> str:
@@ -271,7 +262,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         return None
 
     async def _delete_post_cache(self, *urls: str) -> None:
-        for candidate_url in self._collect_post_cache_candidates(*urls):
+        for candidate_url in self._post_cache_candidates(*urls):
             await delete_cached_file_payload(self._post_cache_key(candidate_url))
 
     async def _set_post_cache(
@@ -281,7 +272,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             return
 
         payload = self._build_post_cache_payload(post, media_payload)
-        for candidate_url in self._collect_post_cache_candidates(source_url, post.url):
+        for candidate_url in self._post_cache_candidates(source_url, post.url):
             await set_cached_file_payload(self._post_cache_key(candidate_url), payload)
 
     def _chat_action_kwargs(self) -> dict[str, Any]:
@@ -367,13 +358,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             prepared[index] = task.result()
         return prepared
 
-    async def _prepare_media_items_for_send(self, media_items: list[MediaItem]) -> list[MediaItem]:
-        return await self._prepare_photos_for_send(media_items, force=False)
-
-    async def _force_prepare_photos_for_send(self, media_items: list[MediaItem]) -> list[MediaItem]:
-        return await self._prepare_photos_for_send(media_items, force=True)
-
-    async def _reply_or_send_photo(
+    async def _send_photo(
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         if reply:
@@ -397,7 +382,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         try:
-            return await self._reply_or_send_photo(media, caption, keyboard, reply=reply)
+            return await self._send_photo(media, caption, keyboard, reply=reply)
         except TelegramBadRequest as error:
             if not self._is_retryable_photo_send_error(error):
                 raise
@@ -407,9 +392,9 @@ class BaseMediaHandler(KoroneMessageHandler):
         if compressed is media:
             raise oversized_error
 
-        return await self._reply_or_send_photo(compressed, caption, keyboard, reply=reply)
+        return await self._send_photo(compressed, caption, keyboard, reply=reply)
 
-    async def _reply_or_send_video(
+    async def _send_video(
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         if reply:
@@ -421,6 +406,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 width=media.width,
                 height=media.height,
                 thumbnail=media.thumbnail,
+                supports_streaming=self.VIDEO_SUPPORTS_STREAMING,
                 request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
             )
 
@@ -433,27 +419,22 @@ class BaseMediaHandler(KoroneMessageHandler):
             width=media.width,
             height=media.height,
             thumbnail=media.thumbnail,
+            supports_streaming=self.VIDEO_SUPPORTS_STREAMING,
             message_thread_id=self.event.message_thread_id,
             request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
         )
 
-    async def _dispatch_media_send(
+    async def _send_media(
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         match media.kind:
             case MediaKind.PHOTO:
                 return await self._send_photo_with_resize_fallback(media, caption, keyboard, reply=reply)
             case MediaKind.VIDEO:
-                return await self._reply_or_send_video(media, caption, keyboard, reply=reply)
+                return await self._send_video(media, caption, keyboard, reply=reply)
             case _:
                 msg = f"Unsupported media kind: {media.kind!r}"
                 raise ValueError(msg)
-
-    async def _reply_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> Message:
-        return await self._dispatch_media_send(media, caption, keyboard, reply=True)
-
-    async def _send_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> Message:
-        return await self._dispatch_media_send(media, caption, keyboard, reply=False)
 
     @classmethod
     async def _cache_media_source_file_id(cls, source_url: str, file_id: str) -> None:
@@ -472,19 +453,19 @@ class BaseMediaHandler(KoroneMessageHandler):
         media = await self._compress_photo(media, force=False)
         async with self._upload_action(media.kind):
             try:
-                sent_message = await self._reply_media(media, caption, keyboard)
+                sent_message = await self._send_media(media, caption, keyboard, reply=True)
             except TelegramBadRequest as error:
                 if not self._is_missing_reply_error(error):
                     raise
-                sent_message = await self._send_media(media, caption, keyboard)
+                sent_message = await self._send_media(media, caption, keyboard, reply=False)
 
         if not (serialized := await self._cache_sent_media(media, sent_message)):
             return []
 
         return [serialized]
 
-    @staticmethod
-    def _add_group_item(builder: MediaGroupBuilder, item: MediaItem, caption: str | None) -> None:
+    @classmethod
+    def _add_group_item(cls, builder: MediaGroupBuilder, item: MediaItem, caption: str | None) -> None:
         match item.kind:
             case MediaKind.PHOTO:
                 builder.add_photo(item.file, caption=caption)
@@ -496,6 +477,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                     width=item.width,
                     height=item.height,
                     thumbnail=item.thumbnail,
+                    supports_streaming=cls.VIDEO_SUPPORTS_STREAMING,
                 )
             case _:
                 msg = f"Unsupported media kind: {item.kind!r}"
@@ -536,7 +518,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             if not self._is_retryable_photo_send_error(error):
                 raise
 
-            forced_media_items = await self._force_prepare_photos_for_send(media_items)
+            forced_media_items = await self._prepare_photos_for_send(media_items, force=True)
             if forced_media_items == media_items:
                 raise
 
@@ -544,12 +526,13 @@ class BaseMediaHandler(KoroneMessageHandler):
             sent_messages = await self._send_media_group_messages(media_group)
             media_items = forced_media_items
 
-        cached_media_payload: list[MediaCacheEntryPayload] = []
-        for item, sent in zip(media_items, sent_messages, strict=False):
-            if serialized := await self._cache_sent_media(item, sent):
-                cached_media_payload.append(serialized)
+        async with asyncio.TaskGroup() as tg:
+            cache_tasks = [
+                tg.create_task(self._cache_sent_media(item, sent))
+                for item, sent in zip(media_items, sent_messages, strict=False)
+            ]
 
-        return cached_media_payload
+        return [serialized for task in cache_tasks if (serialized := task.result())]
 
     @classmethod
     def _caption_title(cls, author_name: str, author_handle: str) -> Text:
@@ -563,10 +546,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     @classmethod
     def _caption_link(cls, post: MediaPost, *, include_link: bool) -> Text | None:
-        if not include_link:
-            return None
-
-        return TextLink(cls._open_in_website_text(post.website), url=post.url)
+        return TextLink(cls._open_in_website_text(post.website), url=post.url) if include_link else None
 
     @classmethod
     def _render_caption(cls, title: Text, link: Text | None, text: str | None = None) -> str:
@@ -576,13 +556,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         if link:
             blocks.append(link)
 
-        rendered_blocks: list[Text | str] = []
-        for block in blocks:
-            if rendered_blocks:
-                rendered_blocks.append("\n\n")
-            rendered_blocks.append(block)
-
-        return Text(*rendered_blocks, sep="").as_html()
+        return Text(*blocks, sep="\n\n").as_html()
 
     @classmethod
     def _build_caption(cls, post: MediaPost, *, include_link: bool) -> str:
@@ -594,19 +568,21 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not post.text:
             return cls._render_caption(title, link)
 
-        raw_text = post.text
-        candidate = cls._render_caption(title, link, raw_text)
+        candidate = cls._render_caption(title, link, post.text)
         if len(candidate) <= cls.CAPTION_LIMIT:
             return candidate
 
-        trimmed_text = cls._truncate_text(raw_text, title, link)
+        trimmed_text = cls._truncate_segment(post.text, lambda text: cls._render_caption(title, link, text or None))
         if not trimmed_text:
             return cls._render_caption(title, link)
 
         return cls._render_caption(title, link, trimmed_text)
 
     @classmethod
-    def _truncate_text(cls, raw_text: str, title: Text, link: Text | None) -> str:
+    def _truncate_segment(cls, raw_text: str, render: Callable[[str], str]) -> str:
+        if not raw_text:
+            return ""
+
         ellipsis = " [...]"
         low = 0
         high = len(raw_text)
@@ -616,7 +592,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             mid = (low + high) // 2
             truncated = raw_text[:mid].rstrip()
             text = f"{truncated}{ellipsis}" if truncated else ""
-            candidate = cls._render_caption(title, link, text or None)
+            candidate = render(text)
 
             if len(candidate) <= cls.CAPTION_LIMIT:
                 best = text
@@ -626,10 +602,10 @@ class BaseMediaHandler(KoroneMessageHandler):
 
         return best
 
-    @staticmethod
-    def _build_keyboard(post: MediaPost) -> InlineKeyboardMarkup | None:
+    @classmethod
+    def _build_keyboard(cls, post: MediaPost) -> InlineKeyboardMarkup:
         builder = InlineKeyboardBuilder()
-        builder.button(text=BaseMediaHandler._open_in_website_text(post.website), url=post.url)
+        builder.button(text=cls._open_in_website_text(post.website), url=post.url)
         return builder.as_markup()
 
     async def _fetch_post(self, url: str) -> MediaPost | None:
@@ -641,11 +617,10 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not media_items:
             return []
 
-        media_items = await self._prepare_media_items_for_send(media_items)
-        caption = self._build_caption(post, include_link=False)
-        keyboard = self._build_keyboard(post)
-
+        media_items = await self._prepare_photos_for_send(media_items, force=False)
         if len(media_items) == 1:
+            caption = self._build_caption(post, include_link=False)
+            keyboard = self._build_keyboard(post)
             cached_media_payload = await self._send_single_media(media_items[0], caption, keyboard)
             if len(cached_media_payload) != 1:
                 return []
@@ -709,8 +684,8 @@ class BaseMediaHandler(KoroneMessageHandler):
             await self._set_post_cache(source_url, post, cached_media_payload)
         except asyncio.CancelledError:
             raise
-        except TelegramNetworkError as error:
-            if self._is_request_timeout_network_error(error):
+        except Exception as error:  # noqa: BLE001
+            if isinstance(error, TelegramNetworkError) and self._is_request_timeout_network_error(error):
                 await logger.awarning(
                     "[Medias] Media send request timed out; delivery status is unknown",
                     provider=self.PROVIDER.name,
@@ -723,16 +698,6 @@ class BaseMediaHandler(KoroneMessageHandler):
                 )
                 return
 
-            await logger.aexception(
-                "[Medias] Handler failed",
-                provider=self.PROVIDER.name,
-                source_url=source_url,
-                chat_id=self.event.chat.id,
-                message_id=self.event.message_id,
-                message_thread_id=self.event.message_thread_id,
-                handler=self.__class__.__name__,
-            )
-        except Exception:  # noqa: BLE001
             await logger.aexception(
                 "[Medias] Handler failed",
                 provider=self.PROVIDER.name,
