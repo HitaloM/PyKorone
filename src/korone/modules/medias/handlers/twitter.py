@@ -62,7 +62,7 @@ class TwitterMediaHandler(BaseMediaHandler):
         if link:
             blocks.append(link)
 
-        return Text(*blocks, sep="\n\n").as_html()
+        return cls._render_caption_blocks(blocks)
 
     @classmethod
     def _build_caption(cls, post: MediaPost, *, include_link: bool) -> str:

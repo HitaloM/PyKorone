@@ -548,6 +548,16 @@ class BaseMediaHandler(KoroneMessageHandler):
     def _caption_link(cls, post: MediaPost, *, include_link: bool) -> Text | None:
         return TextLink(cls._open_in_website_text(post.website), url=post.url) if include_link else None
 
+    @staticmethod
+    def _render_caption_blocks(blocks: list[Text]) -> str:
+        rendered_blocks: list[Text | str] = []
+        for block in blocks:
+            if rendered_blocks:
+                rendered_blocks.append("\n\n")
+            rendered_blocks.append(block)
+
+        return Text(*rendered_blocks, sep="").as_html()
+
     @classmethod
     def _render_caption(cls, title: Text, link: Text | None, text: str | None = None) -> str:
         blocks: list[Text] = [title]
@@ -556,7 +566,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         if link:
             blocks.append(link)
 
-        return Text(*blocks, sep="\n\n").as_html()
+        return cls._render_caption_blocks(blocks)
 
     @classmethod
     def _build_caption(cls, post: MediaPost, *, include_link: bool) -> str:
