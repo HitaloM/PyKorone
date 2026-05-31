@@ -30,6 +30,7 @@ from .utils.i18n import i18n
 logger = get_logger(__name__)
 
 CORE_MIDDLEWARE_UPDATE_TYPES: Final[frozenset[str]] = SAVE_CHATS_REQUIRED_UPDATE_TYPES
+DROP_PENDING_UPDATES: Final[bool] = True
 
 
 async def ensure_bot_in_db() -> None:
@@ -48,7 +49,11 @@ def configure_dispatcher() -> None:
 
 
 def get_webhook_url() -> str:
-    return f"{CONFIG.webhook_domain}{CONFIG.webhook_path}"
+    if CONFIG.webhook_domain is None:
+        msg = "webhook_domain must be configured to build the webhook URL"
+        raise RuntimeError(msg)
+
+    return f"{CONFIG.webhook_domain.rstrip('/')}{CONFIG.webhook_path}"
 
 
 def resolve_allowed_updates() -> list[str]:
@@ -76,12 +81,18 @@ async def prepare_runtime() -> list[str]:
     return allowed_updates
 
 
-async def shutdown() -> None:
+async def drop_pending_updates() -> None:
+    await bot.delete_webhook(drop_pending_updates=DROP_PENDING_UPDATES)
+    await logger.ainfo("Webhook deleted and pending updates dropped")
+
+
+async def shutdown(*, close_bot_session: bool = True) -> None:
     await logger.ainfo("Shutting down the bot...")
+    await drop_pending_updates()
     await close_db()
     await HTTPClient.close()
-    await bot.delete_webhook()
-    await bot.session.close()
+    if close_bot_session:
+        await bot.session.close()
     await dp.storage.close()
     await aredis.aclose(close_connection_pool=True)
 
@@ -89,7 +100,7 @@ async def shutdown() -> None:
 async def run_polling() -> None:
     try:
         await logger.awarning("No webhook domain configured, running in long polling mode")
-        await bot.delete_webhook(drop_pending_updates=True)
+        await drop_pending_updates()
         allowed_updates = await prepare_runtime()
         await dp.start_polling(bot, allowed_updates=allowed_updates, close_bot_session=False)
     finally:
@@ -100,18 +111,25 @@ def create_webhook_app() -> web.Application:
     app = web.Application()
 
     async def on_startup(_: web.Application) -> None:
+        await drop_pending_updates()
         allowed_updates = await prepare_runtime()
         webhook_url = get_webhook_url()
         await bot.set_webhook(
             url=webhook_url,
             allowed_updates=allowed_updates,
-            drop_pending_updates=True,
+            drop_pending_updates=DROP_PENDING_UPDATES,
+            max_connections=CONFIG.webhook_max_connections,
             secret_token=CONFIG.webhook_secret,
         )
-        await logger.ainfo("Webhook set", webhook_url=webhook_url)
+        await logger.ainfo(
+            "Webhook set",
+            webhook_url=webhook_url,
+            allowed_updates=allowed_updates,
+            max_connections=CONFIG.webhook_max_connections,
+        )
 
     async def on_shutdown(_: web.Application) -> None:
-        await shutdown()
+        await shutdown(close_bot_session=False)
 
     app.on_startup.append(on_startup)
     setup_application(app, dp, bot=bot)

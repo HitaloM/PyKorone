@@ -1,4 +1,4 @@
-from pydantic import AnyHttpUrl, ValidationInfo, computed_field, field_validator
+from pydantic import AnyHttpUrl, Field, ValidationInfo, computed_field, field_validator
 from pydantic_settings import BaseSettings
 
 
@@ -26,6 +26,7 @@ class Config(BaseSettings):
     webhook_domain: str | None = None
     webhook_secret: str | None = None
     webhook_path: str = "/"
+    webhook_max_connections: int = Field(default=40, ge=1, le=100)
     web_server_port: int = 8080
 
     modules_load: list[str] = ["*"]
@@ -74,6 +75,13 @@ class Config(BaseSettings):
         if not v.startswith("postgresql+asyncpg://") and not v.startswith("postgresql://"):
             msg = "db_url must be a PostgreSQL URL"
             raise ValueError(msg)
+        return v
+
+    @field_validator("webhook_path")
+    @classmethod
+    def validate_webhook_path(cls, v: str) -> str:
+        if not v.startswith("/"):
+            return f"/{v}"
         return v
 
 
