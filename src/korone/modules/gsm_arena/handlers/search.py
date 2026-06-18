@@ -7,7 +7,7 @@ from ass_tg.types import TextArg
 from stfu_tg import Bold, Code, Doc, Template
 
 from korone.logger import get_logger
-from korone.modules.gsm_arena.utils.device import get_device_text
+from korone.modules.gsm_arena.utils.device import get_device_presentation, reply_with_device
 from korone.modules.gsm_arena.utils.errors import GSMArenaError
 from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
 from korone.modules.gsm_arena.utils.scraper import search_phone
@@ -46,7 +46,7 @@ class DeviceSearchHandler(KoroneMessageHandler):
 
         if len(devices) == 1:
             try:
-                text = await get_device_text(devices[0].url)
+                presentation = await get_device_presentation(devices[0].url)
             except GSMArenaError as exc:
                 await logger.awarning(
                     "[GSM Arena] Device details request failed",
@@ -56,8 +56,8 @@ class DeviceSearchHandler(KoroneMessageHandler):
                 await self.event.reply(_("Error fetching device details. Please try again later."))
                 return
 
-            if text:
-                await self.event.reply(text=text)
+            if presentation:
+                await reply_with_device(self.event, presentation)
             else:
                 await self.event.reply(_("Error fetching device details. Please try again later."))
             return

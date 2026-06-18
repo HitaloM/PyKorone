@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-05-23 19:10-0300\n"
+"POT-Creation-Date: 2026-06-18 18:38-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,12 +50,12 @@ msgstr ""
 msgid "Key-values of {}"
 msgstr ""
 
-#: types/keyvalue.py:65
+#: types/keyvalue.py:67
 #, python-brace-format
 msgid "The optional argument {name} must contain a value!"
 msgstr ""
 
-#: types/keyvalue.py:90 types/keyvalue.py:91
+#: types/keyvalue.py:92 types/keyvalue.py:93
 msgid "Key-values"
 msgstr ""
 

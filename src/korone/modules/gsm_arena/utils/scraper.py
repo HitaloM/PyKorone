@@ -4,13 +4,11 @@ from typing import TYPE_CHECKING, Final
 
 import aiohttp
 from lxml import html
-from stfu_tg import Doc, KeyValue, Section, Url
 
 from korone.config import CONFIG
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
-from korone.utils.i18n import gettext as _
 
 from .errors import GSMArenaRequestError
 from .types import Phone, PhoneSearchResult
@@ -46,15 +44,21 @@ HEADERS = {
 }
 
 
+def _build_request_url(url: str) -> str:
+    if CONFIG.cors_bypass_url is None:
+        return url
+    return f"{str(CONFIG.cors_bypass_url).rstrip('/')}/{url}"
+
+
 @Cached(ttl=CACHE_TTL, key="gsmarena:html")
 async def fetch_html(url: str) -> str:
-    proxy_url = f"{CONFIG.cors_bypass_url.rstrip('/')}/{url}"
+    request_url = _build_request_url(url)
     timeout = aiohttp.ClientTimeout(total=60)
     session = await HTTPClient.get_session()
 
     for attempt in range(1, MAX_RETRIES + 1):
         try:
-            async with session.get(proxy_url, headers=HEADERS, timeout=timeout) as response:
+            async with session.get(request_url, headers=HEADERS, timeout=timeout) as response:
                 response.raise_for_status()
                 return await response.text()
         except aiohttp.ClientResponseError as err:
@@ -84,59 +88,6 @@ async def fetch_html(url: str) -> str:
             raise GSMArenaRequestError(target_url=url) from None
 
     raise GSMArenaRequestError(target_url=url)
-
-
-def _normalize_spec_value(value: str) -> str:
-    parts = [part.strip() for part in value.splitlines() if part.strip() and part.strip() != "-"]
-    return "; ".join(parts)
-
-
-def _build_section_items(attributes: tuple[tuple[str, str], ...]) -> list[KeyValue]:
-    values: list[KeyValue] = []
-
-    for key, raw_value in attributes:
-        normalized = _normalize_spec_value(raw_value)
-        if normalized:
-            values.append(KeyValue(key, normalized))
-
-    return values
-
-
-def format_phone(phone: Phone) -> str:
-    overview = _build_section_items((
-        (_("Status"), phone.status),
-        (_("Network"), phone.network),
-        (_("Weight"), phone.weight),
-        (_("Display"), phone.display),
-        (_("Chipset"), phone.chipset),
-        (_("Memory"), phone.memory),
-    ))
-    cameras = _build_section_items(((_("Rear Camera"), phone.main_camera), (_("Front Camera"), phone.selfie_camera)))
-    connectivity_power = _build_section_items((
-        (_("3.5mm jack"), phone.jack),
-        (_("USB"), phone.usb),
-        (_("Sensors"), phone.sensors),
-        (_("Battery"), phone.battery),
-        (_("Charging"), phone.charging),
-    ))
-
-    doc = Doc(Url(phone.name, phone.url))
-    sections = ((_("Overview"), overview), (_("Cameras"), cameras), (_("Connectivity and Power"), connectivity_power))
-
-    for title, items in sections:
-        if not items:
-            continue
-
-        doc += ""
-        doc += Section(title=title)
-        doc += ""
-
-        for index, item in enumerate(items):
-            doc += item
-            if index < len(items) - 1:
-                doc += ""
-
-    return str(doc)
 
 
 def extract_specs_from_tables(specs_tables: list[HtmlElement]) -> dict[str, dict[str, str]]:
@@ -198,10 +149,11 @@ async def check_phone_details(url: str) -> Phone | None:
         return None
 
     meta_content = meta_scripts[0].text_content().splitlines()
+    picture = await extract_meta_data(meta_content, "ITEM_IMAGE")
     return Phone(
         name=await extract_meta_data(meta_content, "ITEM_NAME"),
         url=complete_url,
-        picture=await extract_meta_data(meta_content, "ITEM_IMAGE"),
+        picture=urllib.parse.urljoin(complete_url, picture),
         specs=specs,
     )
 

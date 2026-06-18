@@ -43,7 +43,7 @@ class Config(BaseSettings):
 
     default_locale: str = "en_US"
 
-    cors_bypass_url: str = "localhost"
+    cors_bypass_url: AnyHttpUrl | None = None
 
     lastfm_key: str | None = None
 
@@ -76,6 +76,15 @@ class Config(BaseSettings):
             msg = "db_url must be a PostgreSQL URL"
             raise ValueError(msg)
         return v
+
+    @field_validator("cors_bypass_url", mode="before")
+    @classmethod
+    def validate_cors_bypass_url(cls, value: str | None) -> str | None:
+        if value is None or not value.strip():
+            return None
+        if "://" not in value:
+            return f"http://{value}"
+        return value
 
     @field_validator("webhook_path")
     @classmethod

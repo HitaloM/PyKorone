@@ -19,35 +19,35 @@ class Phone:
 
     @property
     def status(self) -> str:
-        return self._get_spec_value("Launch", "Status")
+        return self.spec("Launch", "Status")
 
     @property
     def network(self) -> str:
-        return self._get_spec_value("Network", "Technology")
+        return self.spec("Network", "Technology")
 
     @property
     def weight(self) -> str:
-        return self._get_spec_value("Body", "Weight")
+        return self.spec("Body", "Weight")
 
     @property
     def jack(self) -> str:
-        return self._get_spec_value("Sound", "3.5mm jack")
+        return self.spec("Sound", "3.5mm jack")
 
     @property
     def usb(self) -> str:
-        return self._get_spec_value("Comms", "USB")
+        return self.spec("Comms", "USB")
 
     @property
     def sensors(self) -> str:
-        return self._get_spec_value("Features", "Sensors")
+        return self.spec("Features", "Sensors")
 
     @property
     def battery(self) -> str:
-        return self._get_spec_value("Battery", "Type")
+        return self.spec("Battery", "Type")
 
     @property
     def charging(self) -> str:
-        return self._get_spec_value("Battery", "Charging")
+        return self.spec("Battery", "Charging")
 
     @property
     def display(self) -> str:
@@ -59,7 +59,7 @@ class Phone:
 
     @property
     def memory(self) -> str:
-        return self._get_spec_value("Memory", "Internal")
+        return self.spec("Memory", "Internal")
 
     @property
     def main_camera(self) -> str:
@@ -69,11 +69,11 @@ class Phone:
     def selfie_camera(self) -> str:
         return self._get_first_camera_spec("Selfie camera")
 
-    def _get_spec_value(self, category: str, attribute: str) -> str:
+    def spec(self, category: str, attribute: str) -> str:
         return self.specs.get(category, {}).get(attribute, "")
 
     def _join_specs(self, *pairs: tuple[str, str]) -> str:
-        values = list(starmap(self._get_spec_value, pairs))
+        values = list(starmap(self.spec, pairs))
         return "\n".join(value for value in values if value)
 
     def _get_first_camera_spec(self, category: str) -> str:
