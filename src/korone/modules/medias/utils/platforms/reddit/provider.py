@@ -54,7 +54,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
 
     @classmethod
     async def fetch(cls, url: str) -> MediaPost | None:
-        post_ref = cls._extract_post_ref(url)
+        post_ref = await cls._resolve_post_ref(url)
         if not post_ref:
             return None
 
@@ -81,6 +81,26 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             website=cls.website,
             media=media,
         )
+
+    @classmethod
+    async def _resolve_post_ref(cls, url: str) -> _PostRef | None:
+        post_ref = cls._extract_post_ref(url)
+        if post_ref or not parser.is_share_url(url):
+            return post_ref
+
+        resolved_url = await client.resolve_reddit_url(
+            url, headers=cls._DEFAULT_HEADERS, request_timeout=cls._DEFAULT_TIMEOUT
+        )
+        if not resolved_url:
+            await logger.adebug("[Reddit] Could not resolve share URL", source_url=url)
+            return None
+
+        post_ref = cls._extract_post_ref(resolved_url)
+        if not post_ref:
+            await logger.adebug(
+                "[Reddit] Share URL did not resolve to a supported post", source_url=url, resolved_url=resolved_url
+            )
+        return post_ref
 
     @classmethod
     def _extract_post_ref(cls, url: str) -> _PostRef | None:

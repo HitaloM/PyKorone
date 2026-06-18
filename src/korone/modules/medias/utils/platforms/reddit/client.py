@@ -4,16 +4,19 @@ from typing import TYPE_CHECKING
 
 import aiohttp
 
+from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+logger = get_logger(__name__)
 
 _RETRY_ATTEMPTS = 3
 _RETRY_BASE_DELAY_SECONDS = 0.35
 _RETRY_JITTER_SECONDS = 0.2
 _TRANSIENT_HTTP_STATUS: tuple[int, ...] = (408, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524, 525, 526)
+_MAX_REDIRECTS = 5
 
 
 def _next_retry_delay(attempt: int) -> float:
@@ -27,6 +30,21 @@ async def _sleep_before_retry(attempt: int) -> None:
 
 def _is_transient_status(status: int, transient_statuses: Iterable[int]) -> bool:
     return status in transient_statuses
+
+
+async def resolve_reddit_url(
+    url: str, *, headers: dict[str, str], request_timeout: aiohttp.ClientTimeout
+) -> str | None:
+    try:
+        session = await HTTPClient.get_session()
+        async with session.get(
+            url, headers=headers, allow_redirects=True, max_redirects=_MAX_REDIRECTS, timeout=request_timeout
+        ) as response:
+            resolved_url = str(response.url)
+            return resolved_url if resolved_url != url else None
+    except (TimeoutError, aiohttp.ClientError) as exc:
+        await logger.awarning("[Reddit] Share URL resolution failed", error=str(exc), source_url=url)
+        return None
 
 
 async def request_redlib_page(

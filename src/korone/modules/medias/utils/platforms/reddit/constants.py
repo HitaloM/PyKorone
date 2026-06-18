@@ -16,7 +16,7 @@ REDLIB_REQUEST_COOKIES = {"use_hls": "on", "hide_hls_notification": "on"}
 
 PATTERN = re.compile(
     rf"https?://(?:"
-    rf"(?:www\.|old\.|new\.|np\.)?reddit\.com/(?:(?:r|user)/[^/\s]+/comments/[A-Za-z0-9]+(?:/[^\s?#]*)?|comments/[A-Za-z0-9]+(?:/[^\s?#]*)?)"
+    rf"(?:www\.|old\.|new\.|np\.)?reddit\.com/(?:(?:r|user)/[^/\s]+/(?:comments/[A-Za-z0-9]+(?:/[^\s?#]*)?|s/[A-Za-z0-9_-]+)|comments/[A-Za-z0-9]+(?:/[^\s?#]*)?)"
     rf"|(?:www\.)?redd\.it/[A-Za-z0-9]+(?:/[^\s?#]*)?"
     rf"|(?:{REDDIT_PATTERN_HOSTS_REGEX}|(?:[A-Za-z0-9-]+\.)?redlib\.[A-Za-z0-9.-]+)/(?:(?:r|user)/[^/\s]+/comments/[A-Za-z0-9]+(?:/[^\s?#]*)?|comments/[A-Za-z0-9]+(?:/[^\s?#]*)?)"
     rf")(?:\?[^\s#]*)?(?:#[^\s]*)?",
