@@ -8,6 +8,8 @@ from korone.utils.i18n import gettext as _
 if TYPE_CHECKING:
     from .types import Phone
 
+from .images import frame_device_image_url
+
 type SpecRows = tuple[tuple[str, str], ...]
 type SpecSections = tuple[tuple[str, SpecRows], ...]
 
@@ -113,9 +115,9 @@ def format_phone(phone: Phone) -> str:
 def format_phone_rich(phone: Phone) -> str:
     blocks = [f"<h1>{escape(phone.name)}</h1>"]
 
-    if phone.picture:
+    if picture_url := frame_device_image_url(phone.picture):
         blocks.append(
-            f'<figure><img src="{escape(phone.picture, quote=True)}"/>'
+            f'<figure><img src="{escape(picture_url, quote=True)}"/>'
             f"<figcaption>{escape(phone.name)}</figcaption></figure>"
         )
 
