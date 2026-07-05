@@ -1,4 +1,4 @@
-from functools import lru_cache
+from functools import cache
 from typing import TYPE_CHECKING
 
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncEngine
 
 
-@lru_cache(maxsize=1)
+@cache
 def get_engine() -> AsyncEngine:
     return create_async_engine(
         url=CONFIG.db_url,

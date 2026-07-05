@@ -33,7 +33,7 @@ type HelpExample = tuple[object | None, str]
 logger = get_logger(__name__)
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True, slots=True, kw_only=True)
 class HandlerHelp:
     cmds: tuple[str, ...]
     args: ArgsMap | None
@@ -48,7 +48,7 @@ class HandlerHelp:
     raw_cmds: bool
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, kw_only=True)
 class ModuleHelp:
     handlers: list[HandlerHelp]
     name: LazyProxy | str

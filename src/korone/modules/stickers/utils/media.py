@@ -1,8 +1,8 @@
 import asyncio
-import functools
 import math
 import shutil
 from dataclasses import dataclass
+from functools import cache
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from aiogram.types import Message, Sticker
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True, frozen=True, kw_only=True)
 class VideoMeta:
     width: int
     height: int
@@ -192,7 +192,7 @@ def is_ffmpeg_available() -> bool:
     return _is_ffmpeg_available()
 
 
-@functools.lru_cache(maxsize=1)
+@cache
 def _is_ffmpeg_available() -> bool:
     return bool(shutil.which("ffmpeg") and shutil.which("ffprobe"))
 

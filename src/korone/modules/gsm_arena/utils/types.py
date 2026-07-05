@@ -4,13 +4,13 @@ from itertools import starmap
 type Specs = dict[str, dict[str, str]]
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True, slots=True, kw_only=True)
 class PhoneSearchResult:
     name: str
     url: str
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True, slots=True, kw_only=True)
 class Phone:
     name: str
     url: str

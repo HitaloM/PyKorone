@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True, frozen=True, kw_only=True)
 class LastFMTopAlbum:
     name: str
     artist: str
@@ -9,13 +9,13 @@ class LastFMTopAlbum:
     image_url: str | None
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True, frozen=True, kw_only=True)
 class LastFMTopArtist:
     name: str
     playcount: int
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True, frozen=True, kw_only=True)
 class LastFMRecentTrack:
     name: str
     artist: str
@@ -26,7 +26,7 @@ class LastFMRecentTrack:
     loved: bool
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True, frozen=True, kw_only=True)
 class LastFMTrackInfo:
     user_playcount: int
     listeners: int
@@ -35,7 +35,7 @@ class LastFMTrackInfo:
     tags: tuple[str, ...]
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True, frozen=True, kw_only=True)
 class LastFMArtistInfo:
     name: str
     user_playcount: int
@@ -44,7 +44,7 @@ class LastFMArtistInfo:
     tags: tuple[str, ...]
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass(slots=True, frozen=True, kw_only=True)
 class LastFMAlbumInfo:
     name: str
     artist: str

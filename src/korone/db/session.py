@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from functools import lru_cache
+from functools import cache
 from typing import TYPE_CHECKING
 
 from sqlalchemy import text
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
 
 
-@lru_cache(maxsize=1)
+@cache
 def get_sessionmaker() -> async_sessionmaker[AsyncSession]:
     return async_sessionmaker(bind=get_engine(), class_=AsyncSession, expire_on_commit=False)
 

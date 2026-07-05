@@ -1,11 +1,11 @@
 import math
-from itertools import islice
+from itertools import batched
 from typing import TYPE_CHECKING, Any
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator, Sequence
+    from collections.abc import Callable
 
 
 class Pagination:
@@ -23,12 +23,6 @@ class Pagination:
         self.item_data = item_data
         self.item_title = item_title
 
-    @staticmethod
-    def chunk_list(lst: Sequence[Any], size: int) -> Iterator[Sequence[Any]]:
-        it = iter(lst)
-        for first in it:
-            yield [first, *list(islice(it, size - 1))]
-
     def create(self, page: int, lines: int = 5, columns: int = 1) -> InlineKeyboardMarkup:
         items_per_page = lines * columns
         page = max(1, page)
@@ -39,7 +33,7 @@ class Pagination:
         current_page_items = self.objects[offset : offset + items_per_page]
 
         buttons = [(self.item_title(item, page), self.item_data(item, page)) for item in current_page_items]
-        kb_lines = list(self.chunk_list(buttons, columns))
+        kb_lines = [list(batch) for batch in batched(buttons, columns)]
 
         if last_page > 1:
             pages_range = range(1, last_page + 1)
