@@ -11,7 +11,7 @@ Use this guide for all changes under `src/korone/modules/medias/`.
 
 - Keep new media integrations consistent with existing handler and provider architecture.
 - Prefer composable platform adapters over monolithic handlers.
-- Keep failures soft with `None` returns and observable through structured logs and the runtime logging pipeline.
+- Keep expected unsupported, unavailable, or empty results soft with `None` returns and make operational failures observable through structured logs.
 
 ## Directory and Layering
 
@@ -75,10 +75,11 @@ All providers must extend `MediaProvider` and define:
 
 Provider behavior expectations:
 
-- Return `None` for unsupported links, parse failures, and empty media results.
+- Return `None` for unsupported links, known parse failures, unavailable content, and empty media results.
 - Build `MediaPost` with non-empty `media` list.
 - Prefer `download_media(...)` for media downloads and retry/caching behavior. Keep established platform-specific download paths when they are part of the existing implementation, such as Instagram's single-media client flow.
 - Preserve cancellation semantics; do not swallow `asyncio.CancelledError`.
+- Let unexpected implementation errors reach the nearest existing logged boundary: `MediaProvider.safe_fetch(...)` for provider fetches or the shared download worker/retry helpers for individual sources. Do not add broad exception swallowing inside every parser, client, or provider.
 
 ## Parser and Client Rules
 
@@ -120,14 +121,14 @@ Use `MediaKind` to classify media and keep type-safe branching.
 
 ## Error Reporting
 
-Use structured logger calls such as `adebug`, `awarning`, `aerror`, and `aexception` for unexpected failures in provider/client/handler flow.
+Use structured logger calls such as `adebug`, `awarning`, `aerror`, and `aexception` at the layer with enough context to explain the failure.
 
 When logging failures:
 
 - Include `provider`.
 - Include `source_url` when available.
 - Include `stage`, `source_index`, or `source_kind` when they help reproduction.
-- Keep the failure path soft and return `None` instead of raising from provider/client helpers.
+- Return `None` for expected domain outcomes and known recoverable transport failures. Raise unexpected defects to the appropriate shared logged boundary instead of silently converting every exception to `None`.
 
 Do not add manual Sentry capture inside medias. The module should rely on structured logs and the shared runtime logging path.
 

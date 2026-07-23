@@ -23,6 +23,13 @@ manifest = ModuleManifest(
 
 Utility packages under `src/korone/modules/`, such as `utils_`, are exempt when they are not listed in `korone.modules.MODULES`.
 
+## Discovery and Load Order
+
+- Add every new loadable module slug to the ordered `MODULES` tuple in `src/korone/modules/__init__.py`.
+- Keep utility-only packages out of `MODULES`.
+- Preserve intentional module order because routers are included and handlers are registered in that order.
+- Treat configuration load and exclusion lists as selectors over `MODULES`, not as alternate registration mechanisms.
+
 ## Router and Handlers
 
 - Define `router = Router(name="...")` for modules that register handlers or middlewares.
@@ -54,9 +61,10 @@ Prefer localized metadata values using `lazy_gettext as l_` and lazy description
 
 ## Setup Hook Contract
 
-- `pre_setup()` runs before module post-setup and receives no arguments.
+- `pre_setup()` receives no arguments and runs after routers are attached and handlers are registered, but before post-setup hooks.
 - `post_setup(modules: ModuleRegistry)` runs after module loading and receives the loaded module mapping.
 - Hooks may be sync or async. Sync hooks run through `asyncio.to_thread(...)`.
+- Hooks for different modules run concurrently within each setup phase; do not depend on sibling hook execution order.
 
 ## Loader Compatibility Rules
 
@@ -79,6 +87,8 @@ from korone.modules.metadata import ModuleManifest, ModulePackage
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
+from .handlers import HandlerA
+
 router = Router(name="module_name")
 
 manifest = ModuleManifest(
@@ -89,6 +99,6 @@ manifest = ModuleManifest(
         description=LazyProxy(lambda: Doc(l_("Longer user-facing description."))),
     ),
     router=router,
-    handlers=(HandlerA, HandlerB),
+    handlers=(HandlerA,),
 )
 ```

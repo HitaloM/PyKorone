@@ -5,16 +5,6 @@ description: Use when user-facing strings are added, changed, or removed in src/
 
 # Manual Localization Workflow for PyKorone
 
-## When This Applies
-
-Apply this workflow whenever any user-facing string is added, changed, or removed.
-
-Common triggers:
-
-- New or changed text wrapped in translation helpers such as `_`, `l_`, `p_`, and `pl_`.
-- Edited command descriptions, help text, captions, errors, button labels, or docs shown to users.
-- Any direct edit under `locales/`.
-
 ## Required Workflow
 
 1. Refresh extraction and catalog updates with `make update_lang`.
@@ -28,7 +18,8 @@ Common triggers:
 - Prefer repository Makefile targets over direct gettext commands when working on localization.
 - Use `make update_lang` for extraction and catalog updates instead of calling `pybabel`, `msgmerge`, or related tools manually.
 - Use `make compile_lang` to rebuild `.mo` files instead of running `msgfmt` directly.
-- Use `make new_locale` or `make new_lang LANG=...` only when bootstrapping a locale from scratch.
+- Use the actual helpers from `korone.utils.i18n`: `_`/`gettext` for runtime text, `l_`/`lazy_gettext` for deferred metadata, and the ngettext aliases for plural forms.
+- Use `make new_lang LANG=<locale>` to add one locale. Run `make new_locale` only when the user explicitly requests a destructive reset of the entire `locales/` directory.
 - Treat `msgcat` as part of the extraction pipeline defined in the Makefile, not as a manual editing step.
 - If a direct gettext command is needed for debugging, keep it read-only and do not bypass the normal translation review workflow.
 
@@ -38,7 +29,7 @@ Common triggers:
 - Preserve meaning, tone, and command intent from source text.
 - For pluralized messages, review all plural forms: `msgid_plural` and every `msgstr[n]`.
 - Resolve `fuzzy` entries created during updates in the same PR; this is a hard rule.
-- Machine translation is allowed.
+- Machine translation is allowed only with manual review of the final catalog entries.
 
 ## File Handling Rules
 

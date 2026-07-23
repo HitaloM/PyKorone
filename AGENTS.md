@@ -30,7 +30,9 @@ Keep repository guidance small and durable here. Use the domain skills under `.a
 ## Required Skills
 
 - Use `.agents/skills/python-code-standards/SKILL.md` when generating or reviewing Python under `src/korone/`.
+- Use `.agents/skills/issue-fixer/SKILL.md` when diagnosing or fixing reported bugs, regressions, exceptions, failing checks, or unexpected behavior.
 - Use `.agents/skills/aiogram-project-patterns/SKILL.md` when touching aiogram runtime, routers, handlers, filters, callback data, middleware, polling, or webhook code.
+- Use `.agents/skills/bot-handler-development/SKILL.md` when creating or modifying handlers, ASS arguments, STFU responses, handler flags, callbacks, FSM flows, or handler ID/data access.
 - Use `.agents/skills/korone-modules-plugin-contract/SKILL.md` when creating or editing top-level module package files under `src/korone/modules/*/__init__.py`.
 - Use `.agents/skills/medias-module-patterns/SKILL.md` for any change under `src/korone/modules/medias/`.
 - Use `.agents/skills/development-tooling/SKILL.md` when changing uv, Ruff, Pyright, pre-commit, Alembic, Babel, Docker, Makefile, runtime bootstrap, or workflow configuration.

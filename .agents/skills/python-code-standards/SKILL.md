@@ -7,30 +7,29 @@ description: Use when generating, editing, or reviewing Python code in this proj
 
 This project maintains strict code quality standards using Ruff, Pyright, and comprehensive type hints. Match the existing code first, then these conventions.
 
-For top-level module package wiring, also use `.agents/skills/korone-modules-plugin-contract/SKILL.md`. For aiogram-specific code, also use `.agents/skills/aiogram-project-patterns/SKILL.md`. For media module code, also use `.agents/skills/medias-module-patterns/SKILL.md`.
+For top-level module package wiring, also use `.agents/skills/korone-modules-plugin-contract/SKILL.md`. For aiogram-specific code, also use `.agents/skills/aiogram-project-patterns/SKILL.md`. For handlers, also use `.agents/skills/bot-handler-development/SKILL.md`. For media module code, also use `.agents/skills/medias-module-patterns/SKILL.md`.
 
 ## Type Hints and Annotations
 
 - All new and edited function parameters and return types must have type hints.
 - Use modern Python syntax: `int | None` instead of `Optional[int]`.
-- Use `TypeVar` only when a helper genuinely needs a generic type parameter.
+- Prefer Python 3.14 type parameter syntax such as `def first[T](...)` and `class Cache[T]` for new generics.
+- Keep `TypeVar`, `ParamSpec`, or compatibility forms only when framework interoperability or nearby code requires them.
 - Use `TYPE_CHECKING` guards for conditional imports to avoid circular dependencies.
 
 ```python
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from some_module import SomeType
 
-T = TypeVar("T")
+
+def first[T](items: list[T]) -> T | None:
+    return items[0] if items else None
 
 
-def process_data(value: int | None, items: list[str]) -> dict[str, Any]:
-    return {}
-
-
-async def fetch_async(url: str) -> bytes | None:
-    return None
+def describe(item: SomeType) -> str:
+    return str(item)
 ```
 
 ## ORM Types
@@ -39,14 +38,13 @@ async def fetch_async(url: str) -> bytes | None:
 - Declare columns with proper typing in model classes.
 
 ```python
-from typing import Any
-
+from sqlalchemy import BigInteger
 from sqlalchemy.orm import Mapped, mapped_column
 
 
-class Chat(Base):
+class ChatModel(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
-    settings: Mapped[dict[str, Any]]
+    chat_id: Mapped[int] = mapped_column(BigInteger, unique=True)
 ```
 
 ## Naming Conventions
@@ -78,18 +76,16 @@ DEFAULT_LANGUAGE: Final[str] = "en_US"
 ```python
 from typing import TYPE_CHECKING
 
-from aiogram import Router
-from sqlalchemy import func, select
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from korone.db.models.chat import ChatModel
 from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from aiogram.types import Message
 
 logger = get_logger(__name__)
-router = Router(name="example")
+
+
+async def log_message(message: Message) -> None:
+    await logger.adebug("message_received", message_id=message.message_id)
 ```
 
 ## Repository Pattern
@@ -119,23 +115,9 @@ class ChatRepository:
 
 ## Handlers
 
-Extend project handler bases from `korone.utils.handlers` and follow naming patterns.
-
-```python
-from aiogram.filters import CommandStart
-
-from korone.filters.chat_status import PrivateChatFilter
-from korone.utils.handlers import KoroneMessageHandler
-
-
-class StartHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
-        return CommandStart(), PrivateChatFilter()
-
-    async def handle(self) -> None:
-        await self.answer("Welcome")
-```
+- Follow `.agents/skills/bot-handler-development/SKILL.md` instead of duplicating handler architecture here.
+- Extend the project bases from `korone.utils.handlers`; do not assume helpers exist across all three bases.
+- Use `self.event.reply(...)` for `KoroneMessageHandler`, callback helpers for `KoroneCallbackQueryHandler`, and `self.answer(...)` only for `KoroneMessageCallbackQueryHandler`.
 
 ## Async-First Architecture
 

@@ -29,6 +29,7 @@ Treat the current PyKorone code as authoritative. Use the project's ASS argument
 - Extend `KoroneMessageHandler` for messages, `KoroneCallbackQueryHandler` for callbacks, or `KoroneMessageCallbackQueryHandler` only when one class genuinely handles both event types.
 - Implement `filters()` and `async def handle(self)`. Override `register(...)` only for dual-event or custom registration.
 - Use `self.event`, `self.bot`, `self.state`, `self.chat`, `self.context`, and `self.current_locale` instead of rebuilding middleware or aiogram plumbing.
+- Reply through `self.event.reply(...)` in message handlers. Use `self.edit_text(...)` in callback handlers and `self.answer(...)` only in the hybrid message/callback base where that helper is defined.
 - Guard optional Telegram data such as `from_user`, callback messages, and inaccessible messages. Use `check_for_message()` and project exceptions where appropriate.
 - Do not instantiate feature-local `Bot` or `Dispatcher` objects. Create a module router only in the package manifest and register handlers through `manifest.handlers`.
 - Keep every new or edited function fully annotated and keep imports explicit.
