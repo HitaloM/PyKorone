@@ -1027,21 +1027,21 @@ msgstr "1 ano"
 msgid "all-time"
 msgstr "todo o período"
 
-#: src/korone/modules/medias/__init__.py:19
+#: src/korone/modules/medias/__init__.py:20
 msgid "Medias"
 msgstr "Mídias"
 
-#: src/korone/modules/medias/__init__.py:21
+#: src/korone/modules/medias/__init__.py:22
 msgid "Automatic media downloads from supported links"
 msgstr "Download automático de mídia a partir de links compatíveis"
 
-#: src/korone/modules/medias/__init__.py:24
+#: src/korone/modules/medias/__init__.py:25
 msgid "Fetch media when supported links are posted in group chats."
 msgstr "Baixe mídia quando links compatíveis forem enviados em grupos."
 
-#: src/korone/modules/medias/__init__.py:25
-msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."
-msgstr "Plataformas compatíveis atualmente: Twitter, Bluesky, Instagram, Reddit e TikTok."
+#: src/korone/modules/medias/__init__.py:26
+msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Pinterest, Reddit, and TikTok."
+msgstr "Plataformas compatíveis atualmente: Twitter, Bluesky, Instagram, Pinterest, Reddit e TikTok."
 
 #: src/korone/modules/medias/handlers/base.py:545
 #, python-brace-format

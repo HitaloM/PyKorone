@@ -7,6 +7,7 @@ from korone.utils.i18n import lazy_gettext as l_
 
 from .handlers.bluesky import BlueskyMediaHandler
 from .handlers.instagram import InstagramMediaHandler
+from .handlers.pinterest import PinterestMediaHandler
 from .handlers.reddit import RedditMediaHandler
 from .handlers.status import MediaAutoDownloadStatus
 from .handlers.tiktok import TikTokMediaHandler
@@ -22,7 +23,7 @@ manifest = ModuleManifest(
         description=LazyProxy(
             lambda: Doc(
                 l_("Fetch media when supported links are posted in group chats."),
-                l_("Currently supported platforms: Twitter, Bluesky, Instagram, Reddit, and TikTok."),
+                l_("Currently supported platforms: Twitter, Bluesky, Instagram, Pinterest, Reddit, and TikTok."),
             )
         ),
     ),
@@ -32,6 +33,7 @@ manifest = ModuleManifest(
         TwitterMediaHandler,
         BlueskyMediaHandler,
         InstagramMediaHandler,
+        PinterestMediaHandler,
         RedditMediaHandler,
         TikTokMediaHandler,
     ),
