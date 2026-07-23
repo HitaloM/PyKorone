@@ -1,0 +1,4 @@
+interface:
+  display_name: "Issue Fixer"
+  short_description: "Root-cause bug fixing for PyKorone"
+  default_prompt: "Use $issue-fixer to diagnose and fix this PyKorone issue at its root cause."
