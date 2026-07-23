@@ -6,7 +6,7 @@ from aiogram.handlers import BaseHandler, BaseHandlerMixin
 from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, Message
 
 from korone.middlewares.context_data import as_korone_context
-from korone.modules.utils_.reply_or_edit import reply_or_edit
+from korone.modules.utils_.reply_or_edit import edit_message_text, reply_or_edit
 from korone.utils.exception import KoroneError
 
 if TYPE_CHECKING:
@@ -99,7 +99,7 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         if not isinstance(message, Message):
             raise KoroneError.inaccessible_message()
         try:
-            await message.edit_text(str(text), **cast("dict[str, Any]", kwargs))
+            await edit_message_text(message, text, **kwargs)
         except TelegramBadRequest as exc:
             if not self._is_message_not_modified_error(exc):
                 raise
@@ -127,11 +127,11 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
             message = self.event.message
             if not message or isinstance(message, InaccessibleMessage):
                 raise KoroneError.inaccessible_message()
+            media = InputMediaPhoto(media=f, caption=caption)
+            if message.ephemeral_message_id is not None:
+                return await message.edit_ephemeral_media(media=media, **cast("dict[str, Any]", kwargs))
             return await self.bot.edit_message_media(
-                media=InputMediaPhoto(media=f, caption=caption),
-                chat_id=message.chat.id,
-                message_id=message.message_id,
-                **cast("dict[str, Any]", kwargs),
+                media=media, chat_id=message.chat.id, message_id=message.message_id, **cast("dict[str, Any]", kwargs)
             )
         if isinstance(self.event, Message):
             return await self.bot.send_photo(

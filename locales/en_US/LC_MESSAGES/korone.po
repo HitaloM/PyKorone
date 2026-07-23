@@ -144,9 +144,8 @@ msgstr ""
 
 #: src/korone/middlewares/save_chats.py:332
 #: src/korone/modules/help/__init__.py:29
-#: src/korone/modules/help/handlers/help_group.py:30
-#: src/korone/modules/help/handlers/pm_modules.py:69
 #: src/korone/modules/help/handlers/start_group.py:35
+#: src/korone/modules/help/utils/menu.py:46
 msgid "Help"
 msgstr ""
 
@@ -357,151 +356,151 @@ msgstr ""
 msgid "Error searching GSMArena. Please try again later."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:34
+#: src/korone/modules/gsm_arena/utils/formatters.py:46
 msgid "Overview"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:36
+#: src/korone/modules/gsm_arena/utils/formatters.py:48
 msgid "Announced"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:37
+#: src/korone/modules/gsm_arena/utils/formatters.py:49
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:38
+#: src/korone/modules/gsm_arena/utils/formatters.py:50
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:39
+#: src/korone/modules/gsm_arena/utils/formatters.py:51
 msgid "Operating system"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:40
+#: src/korone/modules/gsm_arena/utils/formatters.py:52
 msgid "Dimensions"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:41
+#: src/korone/modules/gsm_arena/utils/formatters.py:53
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:42
+#: src/korone/modules/gsm_arena/utils/formatters.py:54
 msgid "Build"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:43
+#: src/korone/modules/gsm_arena/utils/formatters.py:55
 msgid "SIM"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:47
+#: src/korone/modules/gsm_arena/utils/formatters.py:59
 msgid "Display and Hardware"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:49
+#: src/korone/modules/gsm_arena/utils/formatters.py:61
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:50
+#: src/korone/modules/gsm_arena/utils/formatters.py:62
 msgid "Protection"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:51
+#: src/korone/modules/gsm_arena/utils/formatters.py:63
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:52
+#: src/korone/modules/gsm_arena/utils/formatters.py:64
 msgid "Processor"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:53
+#: src/korone/modules/gsm_arena/utils/formatters.py:65
 msgid "Graphics"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:54
+#: src/korone/modules/gsm_arena/utils/formatters.py:66
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:55
+#: src/korone/modules/gsm_arena/utils/formatters.py:67
 msgid "Card slot"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:59
+#: src/korone/modules/gsm_arena/utils/formatters.py:71
 msgid "Cameras"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:61
+#: src/korone/modules/gsm_arena/utils/formatters.py:73
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:62
+#: src/korone/modules/gsm_arena/utils/formatters.py:74
 msgid "Features"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:63
+#: src/korone/modules/gsm_arena/utils/formatters.py:75
 msgid "Rear Camera Video"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:64
+#: src/korone/modules/gsm_arena/utils/formatters.py:76
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:65
+#: src/korone/modules/gsm_arena/utils/formatters.py:77
 msgid "Front Camera Video"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:69
+#: src/korone/modules/gsm_arena/utils/formatters.py:81
 msgid "Connectivity"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:71
+#: src/korone/modules/gsm_arena/utils/formatters.py:83
 msgid "WLAN"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:72
+#: src/korone/modules/gsm_arena/utils/formatters.py:84
 msgid "Bluetooth"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:73
+#: src/korone/modules/gsm_arena/utils/formatters.py:85
 msgid "Positioning"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:74
+#: src/korone/modules/gsm_arena/utils/formatters.py:86
 msgid "NFC"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:75
+#: src/korone/modules/gsm_arena/utils/formatters.py:87
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:76
+#: src/korone/modules/gsm_arena/utils/formatters.py:88
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:77
+#: src/korone/modules/gsm_arena/utils/formatters.py:89
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:81
+#: src/korone/modules/gsm_arena/utils/formatters.py:93
 msgid "Battery and Other"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:83
+#: src/korone/modules/gsm_arena/utils/formatters.py:95
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:84
+#: src/korone/modules/gsm_arena/utils/formatters.py:96
 msgid "Charging"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:85
+#: src/korone/modules/gsm_arena/utils/formatters.py:97
 msgid "Colors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:86
+#: src/korone/modules/gsm_arena/utils/formatters.py:98
 msgid "Models"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/formatters.py:87
+#: src/korone/modules/gsm_arena/utils/formatters.py:99
 msgid "Price"
 msgstr ""
 
@@ -514,88 +513,34 @@ msgid "Browse modules, command usage, and availability rules in one place."
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:35
-msgid "Use private chat to access the full interactive help menu."
+msgid "Open the interactive help menu privately in any chat."
 msgstr ""
 
-#: src/korone/modules/help/handlers/help_group.py:19
-msgid "Open the full help menu in private chat."
-msgstr ""
-
-#: src/korone/modules/help/handlers/help_group.py:26
-msgid "Need the full command guide? Open private chat with me and I'll show the interactive help menu."
+#: src/korone/modules/help/handlers/help_group.py:17
+msgid "Show the full help menu privately in this chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:33
 msgid "Show the full help menu."
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:58
-#: src/korone/modules/help/handlers/pm_modules.py:138
+#: src/korone/modules/help/handlers/pm_modules.py:54
+msgid "Module not found."
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:74
+#, python-brace-format
+msgid "Shared commands from {module}"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:84
+#: src/korone/modules/help/utils/menu.py:35
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
 #: src/korone/modules/language/handlers/select.py:57
 #: src/korone/modules/language/handlers/select.py:61
 #: src/korone/modules/privacy/handlers/privacy.py:35
 msgid "⬅️ Back"
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:70
-msgid "Pick a module below to explore its commands, usage notes, and examples."
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:74
-#, python-brace-format
-msgid "Arguments: {required} is required, {optional} is optional."
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:78
-msgid "indicates commands available only in groups."
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:78
-#: src/korone/modules/help/utils/format_help.py:68
-msgid "— Only in groups"
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:79
-#: src/korone/modules/help/utils/format_help.py:125
-msgid "PM-only"
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:79
-msgid "lists commands available only in private chat."
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:80
-#: src/korone/modules/help/utils/format_help.py:127
-msgid "Only admins"
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:80
-msgid "lists commands that require admin rights."
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:82
-#: src/korone/modules/help/utils/format_help.py:69
-msgid "Toggleable"
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:84
-#, python-brace-format
-msgid "means admins can disable or re-enable the command with {disable} and {enable}."
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:90
-msgid "/help legend"
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:108
-msgid "Module not found."
-msgstr ""
-
-#: src/korone/modules/help/handlers/pm_modules.py:128
-#, python-brace-format
-msgid "Shared commands from {module}"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:21
@@ -653,12 +598,62 @@ msgstr ""
 msgid "For updates, follow my {channel}."
 msgstr ""
 
+#: src/korone/modules/help/utils/format_help.py:68
+#: src/korone/modules/help/utils/menu.py:55
+msgid "— Only in groups"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:69
+#: src/korone/modules/help/utils/menu.py:59
+msgid "Toggleable"
+msgstr ""
+
 #: src/korone/modules/help/utils/format_help.py:101
 msgid "Examples"
 msgstr ""
 
 #: src/korone/modules/help/utils/format_help.py:123
 msgid "Commands"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:125
+#: src/korone/modules/help/utils/menu.py:56
+msgid "PM-only"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:127
+#: src/korone/modules/help/utils/menu.py:57
+msgid "Only admins"
+msgstr ""
+
+#: src/korone/modules/help/utils/menu.py:47
+msgid "Pick a module below to explore its commands, usage notes, and examples."
+msgstr ""
+
+#: src/korone/modules/help/utils/menu.py:51
+#, python-brace-format
+msgid "Arguments: {required} is required, {optional} is optional."
+msgstr ""
+
+#: src/korone/modules/help/utils/menu.py:55
+msgid "indicates commands available only in groups."
+msgstr ""
+
+#: src/korone/modules/help/utils/menu.py:56
+msgid "lists commands available only in private chat."
+msgstr ""
+
+#: src/korone/modules/help/utils/menu.py:57
+msgid "lists commands that require admin rights."
+msgstr ""
+
+#: src/korone/modules/help/utils/menu.py:61
+#, python-brace-format
+msgid "means admins can disable or re-enable the command with {disable} and {enable}."
+msgstr ""
+
+#: src/korone/modules/help/utils/menu.py:67
+msgid "/help legend"
 msgstr ""
 
 #: src/korone/modules/language/__init__.py:21
@@ -2062,4 +2057,13 @@ msgid "Could not find the user mention"
 msgstr ""
 
 #~ msgid "Connectivity and Power"
+#~ msgstr ""
+
+#~ msgid "Use private chat to access the full interactive help menu."
+#~ msgstr ""
+
+#~ msgid "Open the full help menu in private chat."
+#~ msgstr ""
+
+#~ msgid "Need the full command guide? Open private chat with me and I'll show the interactive help menu."
 #~ msgstr ""

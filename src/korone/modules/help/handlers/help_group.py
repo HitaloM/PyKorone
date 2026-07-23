@@ -2,13 +2,11 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from aiogram.utils.deep_linking import create_start_link
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.filters.chat_status import GroupChatFilter
-from korone.modules.help.callbacks import HELP_START_PAYLOAD
+from korone.modules.help.utils.menu import build_help_menu
+from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneMessageHandler
-from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
@@ -16,17 +14,25 @@ if TYPE_CHECKING:
 
 
 @flags.disableable(name="help")
-@flags.help(description=l_("Open the full help menu in private chat."))
+@flags.help(description=l_("Show the full help menu privately in this chat."))
 class HelpGroupHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return Command("help"), GroupChatFilter()
 
     async def handle(self) -> None:
-        text = _("Need the full command guide? Open private chat with me and I'll show the interactive help menu.")
-        help_url = await create_start_link(self.bot, HELP_START_PAYLOAD)
+        if not self.event.from_user:
+            raise KoroneError.user_context_unavailable()
 
-        buttons = InlineKeyboardBuilder()
-        buttons.button(text=f"ℹ️ {_('Help')}", url=help_url)
+        text, reply_markup = build_help_menu()
+        if self.event.ephemeral_message_id is not None:
+            await self.event.reply(text, reply_markup=reply_markup, disable_web_page_preview=True)
+            return
 
-        await self.event.reply(str(text), reply_markup=buttons.as_markup())
+        await self.event.answer(
+            text,
+            receiver_user_id=self.event.from_user.id,
+            reply_parameters=self.event.as_reply_parameters(),
+            reply_markup=reply_markup,
+            disable_web_page_preview=True,
+        )

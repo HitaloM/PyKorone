@@ -1,6 +1,16 @@
-from html import escape
 from typing import TYPE_CHECKING
 
+from aiogram.types import (
+    InputMediaPhoto,
+    InputRichBlockDetails,
+    InputRichBlockPhoto,
+    InputRichBlockSectionHeading,
+    InputRichBlockTable,
+    InputRichBlockUnion,
+    InputRichMessage,
+    RichBlockCaption,
+    RichBlockTableCell,
+)
 from stfu_tg import Bold, Doc, KeyValue, Section
 
 from korone.utils.i18n import gettext as _
@@ -112,27 +122,36 @@ def format_phone(phone: Phone) -> str:
     return str(doc)
 
 
-def format_phone_rich(phone: Phone) -> str:
-    blocks = [f"<h1>{escape(phone.name)}</h1>"]
+def _build_rich_table(rows: SpecRows) -> InputRichBlockTable | None:
+    cells: list[list[RichBlockTableCell]] = []
+
+    for label, raw_value in rows:
+        value = _normalize_spec_value(raw_value)
+        if not value:
+            continue
+
+        cells.append([
+            RichBlockTableCell(align="left", valign="top", text=str(label), is_header=True),
+            RichBlockTableCell(align="left", valign="top", text=value),
+        ])
+
+    if not cells:
+        return None
+    return InputRichBlockTable(cells=cells, is_bordered=True, is_striped=True)
+
+
+def format_phone_rich(phone: Phone) -> InputRichMessage:
+    blocks: list[InputRichBlockUnion] = [InputRichBlockSectionHeading(text=phone.name, size=1)]
 
     if picture_url := frame_device_image_url(phone.picture):
         blocks.append(
-            f'<figure><img src="{escape(picture_url, quote=True)}"/>'
-            f"<figcaption>{escape(phone.name)}</figcaption></figure>"
+            InputRichBlockPhoto(photo=InputMediaPhoto(media=picture_url), caption=RichBlockCaption(text=phone.name))
         )
 
     for index, (title, rows) in enumerate(_phone_spec_sections(phone)):
-        normalized_rows = [(label, normalized) for label, value in rows if (normalized := _normalize_spec_value(value))]
-        if not normalized_rows:
+        if (table := _build_rich_table(rows)) is None:
             continue
 
-        table_rows = "".join(
-            f"<tr><th>{escape(str(label))}</th><td>{escape(value)}</td></tr>" for label, value in normalized_rows
-        )
-        open_attribute = " open" if index == 0 else ""
-        blocks.append(
-            f"<details{open_attribute}><summary>{escape(str(title))}</summary>"
-            f"<table bordered striped>{table_rows}</table></details>"
-        )
+        blocks.append(InputRichBlockDetails(summary=str(title), blocks=[table], is_open=index == 0))
 
-    return "".join(blocks)
+    return InputRichMessage(blocks=blocks)

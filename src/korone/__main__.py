@@ -23,7 +23,8 @@ from .middlewares.admin_cache import AdminCacheMiddleware
 from .middlewares.chat_context import ChatContextMiddleware
 from .middlewares.disabling import DisablingMiddleware
 from .middlewares.save_chats import SAVE_CHATS_REQUIRED_UPDATE_TYPES, SaveChatsMiddleware
-from .modules import load_modules
+from .modules import LOADED_MODULES, load_modules
+from .modules.help.utils.commands import sync_bot_commands
 from .utils.aiohttp_session import HTTPClient
 from .utils.i18n import i18n
 
@@ -76,6 +77,8 @@ async def prepare_runtime() -> list[str]:
     await migrate_db_if_needed()
     await ensure_bot_in_db()
     await load_modules(dp, CONFIG.modules_load, CONFIG.modules_not_load)
+    if "help" in LOADED_MODULES:
+        await sync_bot_commands(bot, i18n)
     allowed_updates = resolve_allowed_updates()
     await logger.ainfo("Allowed updates resolved", allowed_updates=allowed_updates)
     return allowed_updates

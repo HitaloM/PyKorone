@@ -22,7 +22,7 @@ async def get_device_presentation(url: str) -> DevicePresentation | None:
     if phone := await check_phone_details(url):
         return DevicePresentation(
             text=format_phone(phone),
-            rich_message=InputRichMessage(html=format_phone_rich(phone)),
+            rich_message=format_phone_rich(phone),
             preview_options=LinkPreviewOptions(
                 is_disabled=False, url=phone.picture or phone.url, prefer_large_media=True, show_above_text=True
             ),

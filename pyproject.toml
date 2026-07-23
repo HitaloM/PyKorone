@@ -7,7 +7,7 @@ license = { file = "LICENSE" }
 authors = [{ name = "Hitalo M." }]
 requires-python = ">=3.14"
 dependencies = [
-    "aiogram>=3.29.0",
+    "aiogram>=3.30.0,<4",
     "redis>=7",
     "alembic>=1.18.4",
     "sqlalchemy[asyncio]>=2.0.0",
@@ -30,7 +30,15 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["pre-commit>=4.5.1", "ruff>=0.14.14", "pyright>=1.1.408"]
+dev = [
+    "pre-commit>=4.5.1",
+    "ruff>=0.14.14",
+    "pyright>=1.1.408",
+]
+
+[tool.pyright]
+venv = ".venv"
+venvPath = "."
 
 [build-system]
 requires = ["uv_build>=0.11,<0.12"]

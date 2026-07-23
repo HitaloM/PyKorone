@@ -32,7 +32,7 @@ manifest = ModuleManifest(
         description=LazyProxy(
             lambda: Doc(
                 l_("Browse modules, command usage, and availability rules in one place."),
-                l_("Use private chat to access the full interactive help menu."),
+                l_("Open the interactive help menu privately in any chat."),
             )
         ),
     ),
