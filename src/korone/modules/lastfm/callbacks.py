@@ -2,7 +2,7 @@ from enum import StrEnum
 
 from aiogram.filters.callback_data import CallbackData
 
-from .utils.periods import LastFMPeriod  # noqa: TC001
+from .utils.periods import LastFMPeriod  # ruff: ignore[typing-only-first-party-import]
 
 
 class LastFMMode(StrEnum):

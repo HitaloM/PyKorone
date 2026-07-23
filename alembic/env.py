@@ -28,8 +28,8 @@ def _bootstrap_korone_namespace() -> None:
 
 _bootstrap_korone_namespace()
 
-from korone.db import models as _models  # noqa: E402, F401
-from korone.db.base import Base  # noqa: E402
+from korone.db import models as _models  # ruff: ignore[module-import-not-at-top-of-file, unused-import]
+from korone.db.base import Base  # ruff: ignore[module-import-not-at-top-of-file]
 
 if TYPE_CHECKING:
     from sqlalchemy import Connection

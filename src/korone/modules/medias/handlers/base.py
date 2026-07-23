@@ -330,7 +330,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 timeout_seconds=self.PHOTO_COMPRESSION_TIMEOUT_SECONDS,
             )
             return media
-        except Exception:  # noqa: BLE001
+        except Exception:  # ruff: ignore[blind-except]
             return media
 
         if not compressed_payload:
@@ -694,7 +694,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             await self._set_post_cache(source_url, post, cached_media_payload)
         except asyncio.CancelledError:
             raise
-        except Exception as error:  # noqa: BLE001
+        except Exception as error:  # ruff: ignore[blind-except]
             if isinstance(error, TelegramNetworkError) and self._is_request_timeout_network_error(error):
                 await logger.awarning(
                     "[Medias] Media send request timed out; delivery status is unknown",

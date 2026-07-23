@@ -69,7 +69,7 @@ class MediaProvider(ABC):
         except TimeoutError:
             await logger.awarning("[Medias] Provider fetch timed out", provider=cls.name, source_url=url)
             return None
-        except Exception:  # noqa: BLE001
+        except Exception:  # ruff: ignore[blind-except]
             await logger.aexception("[Medias] Provider fetch failed", provider=cls.name, source_url=url)
             return None
 
@@ -123,7 +123,7 @@ class MediaProvider(ABC):
                 source_index=source_index,
                 source_kind=source.kind.value,
             )
-        except Exception:  # noqa: BLE001
+        except Exception:  # ruff: ignore[blind-except]
             await logger.aexception(
                 "[Medias] Download worker failed",
                 provider=label,
@@ -287,7 +287,7 @@ class MediaProvider(ABC):
                     source_index=source_index,
                 )
                 return None
-            except Exception:  # noqa: BLE001
+            except Exception:  # ruff: ignore[blind-except]
                 await cls._log_unexpected_download_error(
                     label=label, url=url, stage=stage, source_kind=source_kind, source_index=source_index
                 )

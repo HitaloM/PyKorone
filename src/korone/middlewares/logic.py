@@ -26,7 +26,7 @@ class OrMiddleware(BaseMiddleware):
         for middleware in self.middlewares:
             try:
                 return await middleware(handler, event, data)
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:  # ruff: ignore[blind-except]
                 await logger.awarning("OrMiddleware: middleware failed, trying next", exc=exc, middleware=middleware)
                 last_exception = exc
 
