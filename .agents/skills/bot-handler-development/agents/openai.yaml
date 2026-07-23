@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bot Handler Development"
+  short_description: "PyKorone handlers, arguments and responses"
+  default_prompt: "Use $bot-handler-development to create or modify a PyKorone Telegram handler."
