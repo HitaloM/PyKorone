@@ -1,4 +1,0 @@
-interface:
-  display_name: "Python Code Standards"
-  short_description: "Typed Python and Ruff standards"
-  default_prompt: "Use $python-code-standards when editing Python code in PyKorone."

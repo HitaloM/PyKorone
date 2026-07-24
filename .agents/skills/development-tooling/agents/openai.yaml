@@ -1,4 +1,0 @@
-interface:
-  display_name: "Development Tooling"
-  short_description: "uv, Ruff, Alembic and Docker rules"
-  default_prompt: "Use $development-tooling when changing PyKorone tooling or workflows."

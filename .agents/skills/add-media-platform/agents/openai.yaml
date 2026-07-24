@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Media Platform"
+  short_description: "Add a complete PyKorone media provider"
+  default_prompt: "Use $add-media-platform to add support for a new media platform to PyKorone."

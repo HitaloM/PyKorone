@@ -29,14 +29,11 @@ Keep repository guidance small and durable here. Use the domain skills under `.a
 
 ## Required Skills
 
-- Use `.agents/skills/python-code-standards/SKILL.md` when generating or reviewing Python under `src/korone/`.
+- Use `.agents/skills/py-korone-development/SKILL.md` when implementing or reviewing code under `src/korone/` or changing project tooling. Load only the references matching the affected area.
 - Use `.agents/skills/issue-fixer/SKILL.md` when diagnosing or fixing reported bugs, regressions, exceptions, failing checks, or unexpected behavior.
-- Use `.agents/skills/aiogram-project-patterns/SKILL.md` when touching aiogram runtime, routers, handlers, filters, callback data, middleware, polling, or webhook code.
-- Use `.agents/skills/bot-handler-development/SKILL.md` when creating or modifying handlers, ASS arguments, STFU responses, handler flags, callbacks, FSM flows, or handler ID/data access.
-- Use `.agents/skills/korone-modules-plugin-contract/SKILL.md` when creating or editing top-level module package files under `src/korone/modules/*/__init__.py`.
-- Use `.agents/skills/medias-module-patterns/SKILL.md` for any change under `src/korone/modules/medias/`.
-- Use `.agents/skills/development-tooling/SKILL.md` when changing uv, Ruff, Pyright, pre-commit, Alembic, Babel, Docker, Makefile, runtime bootstrap, or workflow configuration.
-- Use `.agents/skills/localization-manual-translation/SKILL.md` whenever user-facing strings or locale catalogs change.
+- Use `.agents/skills/localization-workflow/SKILL.md` whenever user-facing strings or gettext catalogs change.
+- Use `.agents/skills/add-media-platform/SKILL.md` only when adding a completely new supported media platform. Use `issue-fixer` for bugs and `py-korone-development` for refactors of existing platforms.
+- Use `.agents/skills/create-korone-module/SKILL.md` only when creating and registering a new top-level loadable module. Use `py-korone-development` for ordinary edits to existing modules.
 
 ## Project Rules
 

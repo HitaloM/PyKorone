@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Korone Module"
+  short_description: "Scaffold and register a PyKorone module"
+  default_prompt: "Use $create-korone-module to create and register a new top-level PyKorone module."

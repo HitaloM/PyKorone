@@ -1,4 +1,0 @@
-interface:
-  display_name: "Medias Module Patterns"
-  short_description: "Media providers and handlers"
-  default_prompt: "Use $medias-module-patterns when adding or changing a PyKorone media platform."

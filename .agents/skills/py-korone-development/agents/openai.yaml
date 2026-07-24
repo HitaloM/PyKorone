@@ -1,0 +1,4 @@
+interface:
+  display_name: "PyKorone Development"
+  short_description: "Project coding patterns and validation"
+  default_prompt: "Use $py-korone-development to implement this PyKorone change using the relevant project references."

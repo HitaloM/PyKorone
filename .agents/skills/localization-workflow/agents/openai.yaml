@@ -1,0 +1,4 @@
+interface:
+  display_name: "Localization Workflow"
+  short_description: "Manual gettext review and compilation"
+  default_prompt: "Use $localization-workflow when changing PyKorone user-facing strings or locale catalogs."
