@@ -1,7 +1,5 @@
-from aiogram.types import BufferedInputFile
-
 from korone.modules.medias.utils.provider_base import MediaProvider
-from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
+from korone.modules.medias.utils.types import MediaPost, MediaSource
 
 from . import client, parser
 from .constants import PATTERN, POST_PATTERN
@@ -24,9 +22,11 @@ class InstagramProvider(MediaProvider):
         if not data:
             return None
 
-        media_kind = MediaKind.VIDEO if data.media_type == "video" else MediaKind.PHOTO
-        media_item = await cls._download_media(data.media_url, media_kind)
-        if not media_item:
+        sources = [
+            MediaSource(kind=media.kind, url=media.url, thumbnail_url=media.thumbnail_url) for media in data.media
+        ]
+        media_items = await cls.download_media(sources, filename_prefix="instagram")
+        if not media_items:
             return None
 
         author_name = data.username or "Instagram"
@@ -39,14 +39,5 @@ class InstagramProvider(MediaProvider):
             text=data.description or "",
             url=post_url,
             website=cls.website,
-            media=[media_item],
+            media=media_items,
         )
-
-    @classmethod
-    async def _download_media(cls, url: str, kind: MediaKind) -> MediaItem | None:
-        payload = await client.download_media(url)
-        if payload is None:
-            return None
-
-        filename = parser.make_filename(url, kind)
-        return MediaItem(kind=kind, file=BufferedInputFile(payload, filename), filename=filename, source_url=url)

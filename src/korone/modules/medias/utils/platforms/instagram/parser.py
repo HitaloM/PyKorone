@@ -1,15 +1,13 @@
 import html
-import re
-from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import urlsplit, urlunsplit
 
 from lxml import html as lxml_html
 
 from korone.modules.medias.utils.parsing import coerce_str, ensure_url_scheme
 from korone.modules.medias.utils.types import MediaKind
 
-from .constants import INSTAFIX_HOST, INSTAGRAM_HOST
-from .types import InstaData
+from .constants import INSTAFIX_HOST, INSTAGRAM_HOST, POST_PATTERN
+from .types import InstaData, InstaMedia
 
 
 def build_instafix_url(url: str) -> str:
@@ -46,16 +44,25 @@ def scrape_instafix_data(html_content: str) -> InstaData | None:
             username = content.lstrip("@")
         elif prop == "og:description":
             description = coerce_str(html.unescape(content)) or ""
-        elif prop == "og:image" and not media_url:
-            media_type = "photo"
-            image_url = content.replace("/images/", "/grid/")
-            image_url = re.sub(r"/\d+$", "/", image_url)
-            media_url = build_instafix_media_url(image_url)
+        elif prop == "og:image":
+            image_url = build_instafix_media_url(content)
+            if not media_url:
+                media_type = "photo"
+                media_url = image_url
 
     if not media_url:
         return None
 
-    return InstaData(media_url=media_url, username=username, description=description, media_type=media_type)
+    return InstaData(
+        media=(
+            InstaMedia(
+                url=media_url,
+                kind=MediaKind.VIDEO if media_type == "video" else MediaKind.PHOTO,
+            ),
+        ),
+        username=username,
+        description=description,
+    )
 
 
 def build_instafix_media_url(path_or_url: str) -> str:
@@ -64,9 +71,12 @@ def build_instafix_media_url(path_or_url: str) -> str:
     return ensure_url_scheme(f"{INSTAFIX_HOST}{path_or_url}")
 
 
-def make_filename(url: str, kind: MediaKind) -> str:
-    parsed = urlparse(url)
-    suffix = Path(parsed.path).suffix
-    if not suffix:
-        suffix = ".mp4" if kind == MediaKind.VIDEO else ".jpg"
-    return f"instagram_media{suffix}"
+def extract_post_id(url: str) -> str | None:
+    match = POST_PATTERN.search(url)
+    return match.group("post_id") if match else None
+
+
+def build_offload_url(instafix_url: str, post_id: str, media_index: int, *, thumbnail: bool = False) -> str:
+    parsed = urlsplit(ensure_url_scheme(instafix_url))
+    query = "thumbnail=1" if thumbnail else ""
+    return urlunsplit(parsed._replace(path=f"/offload/{post_id}/{media_index}", query=query, fragment=""))
