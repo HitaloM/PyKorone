@@ -50,29 +50,29 @@ select = [
     "FLY",
 ]
 ignore = [
-    "RUF001",
-    "RUF002",
-    "RUF003",
-    "RUF067",
-    "N807",
-    "PLC2701",
-    "PLR2004",
-    "PLR0917",
-    "PLR0913",
-    "PLR0914",
-    "PLR0911",
-    "PLR0912",
-    "PLR0915",
-    "PLW0717",
+    "ambiguous-unicode-character-string",
+    "ambiguous-unicode-character-docstring",
+    "ambiguous-unicode-character-comment",
+    "non-empty-init-module",
+    "dunder-function-name",
+    "import-private-name",
+    "magic-value-comparison",
+    "too-many-positional-arguments",
+    "too-many-arguments",
+    "too-many-locals",
+    "too-many-return-statements",
+    "too-many-branches",
+    "too-many-statements",
+    "too-many-statements-in-try-clause",
 ]
 per-file-ignores = { "alembic/env.py" = [
-    "INP001",
+    "implicit-namespace-package",
 ], "alembic/versions/*.py" = [
-    "INP001",
+    "implicit-namespace-package",
 ], "src/korone/middlewares/*" = [
-    "ANN401",
+    "any-type",
 ], "src/korone/utils/cached.py" = [
-    "ANN401",
+    "any-type",
 ] }
 logger-objects = ["logging.get_logger"]
 

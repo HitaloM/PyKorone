@@ -6,10 +6,10 @@ import polib
 from aiogram.utils.i18n import I18n
 from babel.core import Locale
 from babel.support import LazyProxy as BabelLazyProxy
-from flag import flag
 
 from korone.config import CONFIG
 from korone.logger import get_logger
+from korone.utils.country import country_flag
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -73,7 +73,7 @@ class I18nNew(I18n):
 
     @staticmethod
     def locale_display(locale: Locale) -> str:
-        return f"{flag(locale.territory or '')} {locale.display_name}"
+        return f"{country_flag(locale.territory or '')} {locale.display_name}"
 
     @property
     def current_locale_display(self) -> str:

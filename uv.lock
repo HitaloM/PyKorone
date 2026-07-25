@@ -317,15 +317,6 @@ wheels = [
 ]
 
 [[package]]
-name = "emoji-country-flag"
-version = "2.1.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b8/7e/cd3aa382cda168be39cc7ca5f4062dff2ab7c91f58376479c589a949dec5/emoji_country_flag-2.1.0.tar.gz", hash = "sha256:3b4df6a9d9961ab7716090689c2e96405baff68e46849ab2704335d904589f2a", size = 81130, upload-time = "2025-09-21T22:34:24.902Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/34/e6/2f6c0164453535379e62cc9a7ccc1a864b8f01ff935d567fe471beeb6f84/emoji_country_flag-2.1.0-py3-none-any.whl", hash = "sha256:224b19583210901b950a624ab0b0896cdf0764b36f8bd1463868b15fb8c10f6a", size = 25804, upload-time = "2025-09-21T22:34:23.463Z" },
-]
-
-[[package]]
 name = "filelock"
 version = "3.32.0"
 source = { registry = "https://pypi.org/simple" }
@@ -450,7 +441,6 @@ dependencies = [
     { name = "alembic" },
     { name = "asyncpg" },
     { name = "babel" },
-    { name = "emoji-country-flag" },
     { name = "lxml" },
     { name = "orjson" },
     { name = "pillow" },
@@ -479,7 +469,6 @@ requires-dist = [
     { name = "alembic", specifier = ">=1.18.4" },
     { name = "asyncpg", specifier = ">=0.30" },
     { name = "babel", specifier = ">=2.9.1" },
-    { name = "emoji-country-flag", specifier = ">=2,<3" },
     { name = "lxml", specifier = ">=6.0.2" },
     { name = "orjson", specifier = ">=3.11.7" },
     { name = "pillow", specifier = ">=10.0.0" },

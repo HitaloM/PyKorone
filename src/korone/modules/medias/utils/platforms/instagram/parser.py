@@ -54,12 +54,7 @@ def scrape_instafix_data(html_content: str) -> InstaData | None:
         return None
 
     return InstaData(
-        media=(
-            InstaMedia(
-                url=media_url,
-                kind=MediaKind.VIDEO if media_type == "video" else MediaKind.PHOTO,
-            ),
-        ),
+        media=(InstaMedia(url=media_url, kind=MediaKind.VIDEO if media_type == "video" else MediaKind.PHOTO),),
         username=username,
         description=description,
     )

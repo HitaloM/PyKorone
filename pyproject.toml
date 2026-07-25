@@ -14,7 +14,6 @@ dependencies = [
     "asyncpg>=0.30",
     "Babel>=2.9.1",
     "pydantic>=2",
-    "emoji-country-flag>=2,<3",
     "pydantic-settings>=2,<3",
     "structlog>=25",
     "uvloop>=0.21",

@@ -21,10 +21,7 @@ async def get_instafix_data(instafix_url: str) -> InstaData | None:
     try:
         session = await HTTPClient.get_session()
         async with session.get(
-            instafix_url,
-            timeout=MediaProvider._DEFAULT_TIMEOUT,
-            headers=_INSTAFIX_HEADERS,
-            allow_redirects=True,
+            instafix_url, timeout=MediaProvider._DEFAULT_TIMEOUT, headers=_INSTAFIX_HEADERS, allow_redirects=True
         ) as response:
             if response.status != 200:
                 await logger.adebug("[Instagram] Non-200 response", status=response.status, url=instafix_url)
@@ -64,25 +61,17 @@ async def discover_instafix_media(instafix_url: str) -> tuple[InstaMedia, ...]:
     return tuple(media)
 
 
-async def _probe_media(
-    instafix_url: str,
-    post_id: str,
-    media_index: int,
-    results: list[InstaMedia | None],
-) -> None:
+async def _probe_media(instafix_url: str, post_id: str, media_index: int, results: list[InstaMedia | None]) -> None:
     media_url = parser.build_offload_url(instafix_url, post_id, media_index)
     try:
         session = await HTTPClient.get_session()
         async with session.head(
-            media_url,
-            timeout=_MEDIA_PROBE_TIMEOUT,
-            headers=MediaProvider._DEFAULT_HEADERS,
-            allow_redirects=False,
+            media_url, timeout=_MEDIA_PROBE_TIMEOUT, headers=MediaProvider._DEFAULT_HEADERS, allow_redirects=False
         ) as response:
             media = _media_from_probe(media_url, response)
             if media is not None:
                 results[media_index - 1] = media
-    except (TimeoutError, aiohttp.ClientError):
+    except TimeoutError, aiohttp.ClientError:
         return
 
 
@@ -94,11 +83,7 @@ def _media_from_probe(media_url: str, response: aiohttp.ClientResponse) -> Insta
 
     content_type = response.headers.get("Content-Type", "").partition(";")[0].strip().casefold()
     if content_type.startswith("video/"):
-        return InstaMedia(
-            url=media_url,
-            kind=MediaKind.VIDEO,
-            thumbnail_url=f"{media_url}?thumbnail=1",
-        )
+        return InstaMedia(url=media_url, kind=MediaKind.VIDEO, thumbnail_url=f"{media_url}?thumbnail=1")
     if content_type.startswith("image/"):
         return InstaMedia(url=media_url, kind=MediaKind.PHOTO)
     return None
