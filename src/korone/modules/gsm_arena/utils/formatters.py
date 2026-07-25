@@ -11,8 +11,8 @@ from aiogram.types import (
     RichBlockCaption,
     RichBlockTableCell,
 )
-from stfu_tg import Bold, Doc, KeyValue, Section
 
+from korone.utils.formatting import Bold, Doc, KeyValue, Section
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:

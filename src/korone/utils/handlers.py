@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.handlers import BaseHandler, BaseHandlerMixin
@@ -15,11 +15,11 @@ if TYPE_CHECKING:
     from aiogram.filters.callback_data import CallbackData
     from aiogram.fsm.context import FSMContext
     from aiogram.types import InputFile
-    from ass_tg.types.base_abc import ArgFabric
-    from stfu_tg.doc import Element
 
+    from korone.args import ArgumentsMap
     from korone.middlewares.chat_context import ChatContext
     from korone.middlewares.context_data import KoroneContextData
+    from korone.utils.formatting import Element
 
 T = TypeVar("T")
 
@@ -52,9 +52,7 @@ class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
 
 
 class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {}
+    arguments: ClassVar[ArgumentsMap | None] = None
 
     @staticmethod
     @abstractmethod
@@ -63,7 +61,7 @@ class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
 
     @classmethod
     def register(cls, router: Router) -> None:
-        flags = {"args": cls.handler_args}
+        flags = {"args": cls.arguments} if cls.arguments else None
 
         router.message.register(cls, *cls.filters(), flags=flags)
 

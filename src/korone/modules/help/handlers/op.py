@@ -2,11 +2,11 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from stfu_tg import Doc, Section
 
 from korone.filters.user_status import IsOP
 from korone.modules.help.utils.extract_info import HELP_MODULES
 from korone.modules.help.utils.format_help import format_handlers
+from korone.utils.formatting import Doc, Section
 from korone.utils.handlers import KoroneMessageHandler
 
 if TYPE_CHECKING:

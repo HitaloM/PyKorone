@@ -1,6 +1,5 @@
-from stfu_tg import Code, KeyValue, Section
-
 from korone.db.repositories.sticker_pack import StickerPackRepository
+from korone.utils.formatting import Code, KeyValue, Section
 
 
 async def stickers_stats() -> Section:

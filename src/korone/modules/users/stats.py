@@ -1,7 +1,7 @@
 from aiogram.enums import ChatType
-from stfu_tg import Code, HList, KeyValue, Section
 
 from korone.db.repositories.chat import ChatRepository
+from korone.utils.formatting import Code, HList, KeyValue, Section
 
 
 async def users_stats() -> Section:

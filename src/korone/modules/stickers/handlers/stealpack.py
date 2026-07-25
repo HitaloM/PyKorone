@@ -1,13 +1,12 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
-from ass_tg.types import OptionalArg, TextArg
-from stfu_tg import Code, Doc, Template, Url
 
+from korone.args import OptionalArg, TextArg, define_arguments
 from korone.db.repositories.sticker_pack import StickerPackRepository
 from korone.modules.stickers.utils import (
     DEFAULT_EMOJI,
@@ -23,22 +22,20 @@ from korone.modules.stickers.utils import (
     suffix_from_sticker,
 )
 from korone.modules.utils_.message import is_real_reply
+from korone.utils.formatting import Code, Doc, Template, Url
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message, Sticker
-    from ass_tg.types.base_abc import ArgFabric
+    from aiogram.types import Sticker
 
 
 @flags.help(description=l_("Copy an entire sticker set into one of your packs."))
 @flags.disableable(name="stealpack")
 class StickerStealPackHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"pack_name": OptionalArg(TextArg(l_("Target pack name")))}
+    arguments = define_arguments(pack_name=OptionalArg(TextArg(l_("Target pack name"))))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

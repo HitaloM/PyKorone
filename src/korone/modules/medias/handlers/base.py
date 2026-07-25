@@ -9,7 +9,6 @@ from aiogram.utils.chat_action import ChatActionSender
 from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.media_group import MediaGroupBuilder
-from stfu_tg import Template
 
 from korone.constants import (
     TELEGRAM_PHOTO_MAX_ASPECT_RATIO,
@@ -32,6 +31,7 @@ from korone.modules.utils_.file_id_cache import (
     set_cached_file_payload,
 )
 from korone.modules.utils_.telegram_exceptions import REPLIED_NOT_FOUND
+from korone.utils.formatting import Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 

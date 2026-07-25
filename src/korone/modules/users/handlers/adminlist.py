@@ -2,20 +2,21 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from stfu_tg import Doc, Section, Template, Title, UserLink, VList
 
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
 from korone.db.repositories.chat import ChatRepository
 from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.utils_.admin import get_admins_rights
+from korone.utils.formatting import Doc, Section, Template, Title, UserLink, VList
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from stfu_tg.doc import Element
+
+    from korone.utils.formatting import Element
 
 
 @flags.help(description=l_("List visible administrators in the current chat."))

@@ -1,27 +1,23 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from ass_tg.types import WordArg
-from stfu_tg import Code, Doc, KeyValue, Template, Title
 
+from korone.args import WordArg, define_arguments
 from korone.modules.web.utils.whois import normalize_domain, parse_whois_output, query_whois
+from korone.utils.formatting import Code, Doc, KeyValue, Template, Title
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
 
 @flags.help(description=l_("Look up WHOIS information for a domain."))
 @flags.disableable(name="whois")
 class WhoisHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"domain": WordArg(l_("Domain"))}
+    arguments = define_arguments(domain=WordArg(l_("Domain")))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

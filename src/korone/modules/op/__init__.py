@@ -1,7 +1,7 @@
 from aiogram import Router
-from stfu_tg import Doc
 
 from korone.modules.metadata import ModuleManifest, ModulePackage
+from korone.utils.formatting import Doc
 
 from .handlers.event import EventHandler
 from .handlers.redis_clear import RedisClearHandler

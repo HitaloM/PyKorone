@@ -5,20 +5,18 @@ import orjson
 from aiogram import flags
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from ass_tg.types import TextArg
-from stfu_tg import Code, Doc, Italic, KeyValue, Template, Title
 
+from korone.args import TextArg, define_arguments
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
 from korone.modules.web.utils.ip import fetch_ip_info, get_ips_from_string
 from korone.utils.aiohttp_session import HTTPClient
+from korone.utils.formatting import Code, Doc, Italic, KeyValue, Template, Title
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
 
 IP_FIELDS = {
@@ -55,9 +53,7 @@ class IPInfoHandler(KoroneMessageHandler):
     IPINFO_URL = "https://ipinfo.io/{target}/json"
     CF_DNS_URL = "https://cloudflare-dns.com/dns-query"
 
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"target": TextArg(l_("IP or domain"))}
+    arguments = define_arguments(target=TextArg(l_("IP or domain")))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

@@ -1,17 +1,17 @@
 import re
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.filters import Command, CommandStart, StateFilter
-from ass_tg.types import OptionalArg, WordArg
 from magic_filter import F
-from stfu_tg import Code, Template
 
+from korone.args import OptionalArg, WordArg, define_arguments
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.filters.chat_status import PrivateChatFilter
 from korone.modules.lastfm.handlers.base import LASTFM_SET_START_PAYLOAD, LastFMHandlerSupport, LastFMSetState
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
+from korone.utils.formatting import Code, Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -19,7 +19,6 @@ from korone.utils.i18n import lazy_gettext as l_
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
 
 USERNAME_RE = re.compile(r"^[A-Za-z0-9_.-]{1,64}$")
@@ -69,9 +68,7 @@ async def _set_lastfm_username(message: Message, raw_username: str) -> bool:
 @flags.help(description=l_("Set your Last.fm username for status commands."))
 @flags.disableable(name="setlfm")
 class LastFMSetHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"username": OptionalArg(WordArg(l_("Username")))}
+    arguments = define_arguments(username=OptionalArg(WordArg(l_("Username"))))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

@@ -4,13 +4,13 @@ from aiogram.enums import ButtonStyle
 from aiogram.filters import Command, CommandStart
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
-from stfu_tg import Doc, HList, Section, Template, Title
 
 from korone.filters.chat_status import PrivateChatFilter
 from korone.modules.help.callbacks import HELP_START_PAYLOAD, PMHelpModule, PMHelpModules
 from korone.modules.help.utils.extract_info import HELP_MODULES, get_aliased_cmds
 from korone.modules.help.utils.format_help import format_examples, format_handlers, group_handlers
 from korone.modules.help.utils.menu import build_help_menu
+from korone.utils.formatting import Doc, HList, Section, Template, Title
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_

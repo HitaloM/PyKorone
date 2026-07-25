@@ -1,11 +1,10 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ChatAction
 from aiogram.filters import Command
-from ass_tg.types import TextArg
-from stfu_tg import Bold, Code, Doc, Template
 
+from korone.args import TextArg, define_arguments
 from korone.logger import get_logger
 from korone.modules.gsm_arena.utils.device import get_device_presentation, reply_with_device
 from korone.modules.gsm_arena.utils.errors import GSMArenaError
@@ -13,14 +12,13 @@ from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
 from korone.modules.gsm_arena.utils.scraper import search_phone
 from korone.modules.gsm_arena.utils.session import create_search_session
 from korone.utils.exception import KoroneError
+from korone.utils.formatting import Bold, Code, Doc, Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
     from korone.modules.gsm_arena.utils.types import PhoneSearchResult
 
@@ -31,9 +29,7 @@ logger = get_logger(__name__)
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="device")
 class DeviceSearchHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"device": TextArg(l_("Device"))}
+    arguments = define_arguments(device=TextArg(l_("Device")))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

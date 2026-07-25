@@ -2,9 +2,9 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from stfu_tg import Code, Section, Template, Url
 
 from korone.modules.stickers.utils import get_valid_user_packs
+from korone.utils.formatting import Code, Section, Template, Url
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_

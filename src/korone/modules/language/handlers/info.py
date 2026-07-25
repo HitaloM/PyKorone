@@ -5,11 +5,11 @@ from aiogram.enums import ButtonStyle, ChatType
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
-from stfu_tg import Code, KeyValue, Section
 
 from korone.filters.chat_status import PrivateChatFilter
 from korone.modules.language.callbacks import LangMenu, LangMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
+from korone.utils.formatting import Code, KeyValue, Section
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _

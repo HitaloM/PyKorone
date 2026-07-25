@@ -1,29 +1,25 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from ass_tg.types import WordArg
-from stfu_tg import Code, Italic, KeyValue, Section, Template
 
+from korone.args import WordArg, define_arguments
 from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.modules.disabling.utils.get_disabled import get_cmd_help_by_name, get_disabled_handlers
 from korone.modules.help.utils.format_help import format_cmd
+from korone.utils.formatting import Code, Italic, KeyValue, Section, Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
 
 @flags.help(description=l_("Re-enable a command in this chat."))
 class EnableHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"cmd": WordArg(l_("Command"))}
+    arguments = define_arguments(cmd=WordArg(l_("Command")))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

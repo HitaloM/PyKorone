@@ -9,9 +9,9 @@ from typing import TYPE_CHECKING
 import orjson
 from aiogram.types import FSInputFile, InputSticker
 from PIL import Image
-from stfu_tg import Template
 
 from korone.modules.utils_.telegram_file import download_telegram_file
+from korone.utils.formatting import Template
 from korone.utils.i18n import gettext as _
 
 from .constants import MAX_STICKER_SIDE, MAX_VIDEO_SECONDS, MAX_VIDEO_SIZE_BYTES, VIDEO_EXTENSIONS

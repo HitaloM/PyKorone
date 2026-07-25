@@ -150,19 +150,6 @@ wheels = [
 ]
 
 [[package]]
-name = "ass-tg"
-version = "2.4.6"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "aiogram" },
-    { name = "babel" },
-    { name = "stfu-tg" },
-]
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/1b/10/c44bc87eaec22037875f924b8618bfd6b094ff12cd99796fc46ec4ceacd9/ass_tg-2.4.6-py3-none-any.whl", hash = "sha256:bb6b4ea255f8df626d5e10b5b0f0ad88c6fd8f54563e89de196272d54fbb1381", size = 37901, upload-time = "2026-06-10T20:01:27.794Z" },
-]
-
-[[package]]
 name = "asyncpg"
 version = "0.31.0"
 source = { registry = "https://pypi.org/simple" }
@@ -461,7 +448,6 @@ dependencies = [
     { name = "aiogram" },
     { name = "aiohttp", extra = ["speedups"] },
     { name = "alembic" },
-    { name = "ass-tg" },
     { name = "asyncpg" },
     { name = "babel" },
     { name = "emoji-country-flag" },
@@ -474,7 +460,6 @@ dependencies = [
     { name = "redis" },
     { name = "sentry-sdk" },
     { name = "sqlalchemy", extra = ["asyncio"] },
-    { name = "stfu-tg" },
     { name = "structlog" },
     { name = "url-normalize" },
     { name = "uvloop" },
@@ -492,7 +477,6 @@ requires-dist = [
     { name = "aiogram", specifier = ">=3.30.0,<4" },
     { name = "aiohttp", extras = ["speedups"], specifier = ">=3.13.3" },
     { name = "alembic", specifier = ">=1.18.4" },
-    { name = "ass-tg", specifier = ">=2.4.3" },
     { name = "asyncpg", specifier = ">=0.30" },
     { name = "babel", specifier = ">=2.9.1" },
     { name = "emoji-country-flag", specifier = ">=2,<3" },
@@ -505,7 +489,6 @@ requires-dist = [
     { name = "redis", specifier = ">=7" },
     { name = "sentry-sdk", specifier = ">=2.53.0" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.0.0" },
-    { name = "stfu-tg", specifier = ">=3.4" },
     { name = "structlog", specifier = ">=25" },
     { name = "url-normalize", specifier = ">=2.2.1" },
     { name = "uvloop", specifier = ">=0.21" },
@@ -1069,14 +1052,6 @@ wheels = [
 [package.optional-dependencies]
 asyncio = [
     { name = "greenlet" },
-]
-
-[[package]]
-name = "stfu-tg"
-version = "3.4"
-source = { registry = "https://pypi.org/simple" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/bb/6f/9092db0900b8e608e5c544d6a1d4f42a20d786f928f23308733badfc2016/stfu_tg-3.4-py3-none-any.whl", hash = "sha256:b6d2ae51f018cc74f839ac00a279f290aca6dc6ce5acba3a84495b075dea2ca9", size = 18968, upload-time = "2024-11-27T09:08:00.463Z" },
 ]
 
 [[package]]

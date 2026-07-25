@@ -1,6 +1,5 @@
-from stfu_tg import Code, KeyValue, Section
-
 from korone.db.repositories.lastfm import LastFMRepository
+from korone.utils.formatting import Code, KeyValue, Section
 
 
 async def lastfm_stats() -> Section:

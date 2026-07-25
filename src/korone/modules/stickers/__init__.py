@@ -1,7 +1,7 @@
 from aiogram import Router
-from stfu_tg import Doc
 
 from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage
+from korone.utils.formatting import Doc
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 

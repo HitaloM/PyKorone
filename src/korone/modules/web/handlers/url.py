@@ -1,27 +1,23 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from ass_tg.types import TextArg
-from stfu_tg import Code, Doc, KeyValue, Template, Title
 
+from korone.args import TextArg, define_arguments
 from korone.modules.web.utils.misc import normalize_url
+from korone.utils.formatting import Code, Doc, KeyValue, Template, Title
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
 
 @flags.help(description=l_("Normalize a URL."))
 @flags.disableable(name="url")
 class URLNormalizeHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"url": TextArg(l_("URL"))}
+    arguments = define_arguments(url=TextArg(l_("URL")))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

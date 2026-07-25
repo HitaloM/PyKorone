@@ -2,11 +2,11 @@ from typing import TYPE_CHECKING
 
 from aiogram.enums import ButtonStyle
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Code, Doc, HList, Italic, Section, Template, Title, VList
 
 from korone.modules.help.callbacks import PMHelpModule, PMHelpModules
 from korone.modules.help.utils.extract_info import HELP_MODULES
 from korone.modules.utils_.callbacks import GoToStartCallback
+from korone.utils.formatting import Code, Doc, HList, Italic, Section, Template, Title, VList
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:

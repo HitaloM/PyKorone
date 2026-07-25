@@ -1,5 +1,4 @@
-from stfu_tg import Code, KeyValue, Section
-
+from korone.utils.formatting import Code, KeyValue, Section
 from korone.utils.i18n import get_i18n
 
 

@@ -6,10 +6,10 @@ from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.types import FSInputFile
-from stfu_tg import Code, Doc, KeyValue, Template, Url
 
 from korone.modules.stickers.utils import download_file, suffix_from_sticker
 from korone.modules.utils_.message import is_real_reply
+from korone.utils.formatting import Code, Doc, KeyValue, Template, Url
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_

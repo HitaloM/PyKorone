@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, cast, override
+from typing import TYPE_CHECKING, cast, override
 from urllib.parse import quote_plus
 
 from aiogram import flags
@@ -8,15 +8,15 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.types import BufferedInputFile, InputMediaPhoto
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from ass_tg.types import OptionalArg, TextArg
-from stfu_tg import Template, Url
 
+from korone.args import OptionalArg, TextArg, define_arguments
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.lastfm.callbacks import LastFMCollageCallback
 from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, create_album_collage, format_lastfm_error
 from korone.modules.lastfm.utils.collage import MAX_SIZE, MIN_SIZE, LastFMCollageError
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
+from korone.utils.formatting import Template, Url
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -25,7 +25,6 @@ if TYPE_CHECKING:
     from aiogram import Router
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import InlineKeyboardMarkup, Message
-    from ass_tg.types.base_abc import ArgFabric
 
 
 COLLAGE_CLEAN_TOKENS = {"clean", "notext", "nonames"}
@@ -139,9 +138,7 @@ class LastFMCollageSupport(LastFMHandlerSupport):
 @flags.chat_action(action=ChatAction.UPLOAD_PHOTO, initial_sleep=0.2, interval=4.0)
 @flags.disableable(name="lfmcollage")
 class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"options": OptionalArg(TextArg(l_("Options")))}
+    arguments = define_arguments(options=OptionalArg(TextArg(l_("Options"))))
 
     @staticmethod
     @override

@@ -1,8 +1,8 @@
 from aiogram import Router
 from aiogram.utils.chat_action import ChatActionMiddleware
-from stfu_tg import Doc
 
 from korone.modules.metadata import ModuleManifest, ModulePackage, ModuleScripts
+from korone.utils.formatting import Doc
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 

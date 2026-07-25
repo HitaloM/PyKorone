@@ -1,9 +1,9 @@
 from aiogram import Router
-from stfu_tg import Doc
 
 from korone.filters.user_status import IsOP as IsOP
 from korone.middlewares import try_localization_middleware
 from korone.modules.metadata import ModuleManifest, ModulePackage, ModuleScripts
+from korone.utils.formatting import Doc
 
 from .handlers.crash_handler import CrashHandler
 from .handlers.error import KoroneErrorHandler

@@ -1,27 +1,25 @@
-from typing import TYPE_CHECKING, Any, override
+from typing import TYPE_CHECKING, override
 from urllib.parse import quote_plus
 
 from aiogram import flags
 from aiogram.enums import ChatAction
 from aiogram.filters import Command
 from aiogram.types import User
-from ass_tg.types import OptionalArg, WordArg
-from stfu_tg import Code, Template, Url
 
+from korone.args import OptionalArg, WordArg, define_arguments
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
 from korone.modules.utils_.get_user import get_arg_or_reply_user
 from korone.utils.exception import KoroneError
+from korone.utils.formatting import Code, Template, Url
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
 
 COMPAT_MUTUAL_ARTISTS_LIMIT = 8
@@ -78,9 +76,7 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmcompat")
 class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"period": OptionalArg(WordArg(l_("Period")))}
+    arguments = define_arguments(period=OptionalArg(WordArg(l_("Period"))))
 
     @staticmethod
     @override

@@ -1,11 +1,10 @@
 from typing import TYPE_CHECKING, Any
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from stfu_tg import Code, Doc, Italic, KeyValue, Title
-from stfu_tg.doc import Element
 
 from korone.config import CONFIG
 from korone.utils.exception import KoroneError
+from korone.utils.formatting import Code, Doc, Element, Italic, KeyValue, Title
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 

@@ -6,7 +6,6 @@ from aiogram.enums import ChatMemberStatus, ChatType
 from aiogram.filters import Filter
 from aiogram.types import Message
 from aiogram.types.callback_query import CallbackQuery
-from stfu_tg import Doc, Section, VList
 
 from korone.config import CONFIG
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
@@ -14,6 +13,7 @@ from korone.db.repositories.chat import ChatRepository
 from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.modules.utils_.admin import check_user_admin_permissions
 from korone.modules.utils_.common_try import common_try
+from korone.utils.formatting import Doc, Section, VList
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:

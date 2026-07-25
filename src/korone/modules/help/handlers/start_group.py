@@ -4,11 +4,11 @@ from aiogram import flags
 from aiogram.filters import CommandStart
 from aiogram.utils.deep_linking import create_start_link
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Doc, Template, Url
 
 from korone.config import CONFIG
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.help.callbacks import HELP_START_PAYLOAD
+from korone.utils.formatting import Doc, Template, Url
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_

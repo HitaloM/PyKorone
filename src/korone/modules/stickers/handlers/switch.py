@@ -1,20 +1,18 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from ass_tg.types import OptionalArg, TextArg
-from stfu_tg import Code, Template
 
+from korone.args import OptionalArg, TextArg, define_arguments
 from korone.db.repositories.sticker_pack import StickerPackRepository
 from korone.modules.stickers.utils import get_valid_user_packs
+from korone.utils.formatting import Code, Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
     from korone.db.models.sticker_pack import StickerPackModel
 
@@ -22,9 +20,7 @@ if TYPE_CHECKING:
 @flags.help(description=l_("Set your default sticker pack by index or name."))
 @flags.disableable(name="switch")
 class StickerSwitchDefaultPackHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"target": OptionalArg(TextArg(l_("Pack index or name")))}
+    arguments = define_arguments(target=OptionalArg(TextArg(l_("Pack index or name"))))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

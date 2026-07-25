@@ -1,16 +1,13 @@
 from typing import TYPE_CHECKING
 
-from stfu_tg import Code, HList, Italic, Section, Template, VList
-
+from korone.utils.formatting import Code, Element, HList, Italic, Section, Template, VList
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from collections.abc import Mapping, Sequence
 
-    from ass_tg.types.base_abc import ArgFabric
-    from stfu_tg.doc import Element
-
+    from korone.args import Argument
     from korone.modules.help.utils.extract_info import HandlerHelp
     from korone.utils.i18n import LazyProxy
 
@@ -19,13 +16,13 @@ def format_cmd(cmd: str, *, raw: bool = False) -> Element:
     return Code(cmd if raw else f"/{cmd}")
 
 
-def format_cmd_args(arguments: Mapping[str, ArgFabric], *, as_code: bool = False) -> HList:
+def format_cmd_args(arguments: Mapping[str, Argument[object]], *, as_code: bool = False) -> HList:
     formatted: list[Element | str] = []
     for arg in arguments.values():
-        if arg.description is None:
+        if arg.help_description is None:
             continue
 
-        rendered = f"<{arg.description}>"
+        rendered = f"<{arg.help_description}>"
         formatted.append(Code(rendered) if as_code else rendered)
 
     return HList(*formatted)

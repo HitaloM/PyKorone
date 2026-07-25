@@ -3,12 +3,12 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from stfu_tg import Code, Doc, KeyValue, Section, Template
 
 from korone import aredis
 from korone.db.session import get_postgres_stats
 from korone.filters.user_status import IsOP
 from korone.modules import LOADED_MODULES
+from korone.utils.formatting import Code, Doc, KeyValue, Section, Template
 from korone.utils.handlers import KoroneMessageHandler
 
 if TYPE_CHECKING:

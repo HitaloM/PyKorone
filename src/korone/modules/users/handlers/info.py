@@ -1,33 +1,29 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ChatType
 from aiogram.filters import Command
-from ass_tg.types import OptionalArg
-from stfu_tg import Doc, KeyValue, Section, Title, UserLink
 
+from korone.args import OptionalArg, define_arguments
 from korone.args.users import KoroneUserArg
 from korone.db.models.chat import ChatModel
 from korone.db.repositories.chat import ChatRepository, UserInGroupRepository
 from korone.modules.utils_.admin import is_chat_creator, is_user_admin
 from korone.modules.utils_.get_user import get_arg_or_reply_user
 from korone.utils.exception import KoroneError
+from korone.utils.formatting import Doc, KeyValue, Section, Title, UserLink
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
 
 @flags.help(description=l_("Show detailed information about a user."))
 @flags.disableable(name="info")
 class UserInfoHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"user": OptionalArg(KoroneUserArg(l_("User")))}
+    arguments = define_arguments(user=OptionalArg(KoroneUserArg(l_("User"))))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

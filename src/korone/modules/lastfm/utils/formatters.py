@@ -3,8 +3,7 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 from urllib.parse import quote_plus
 
-from stfu_tg import Bold, HList, Italic, Template, Url
-
+from korone.utils.formatting import Bold, HList, Italic, Template, Url
 from korone.utils.i18n import gettext as _
 
 from .errors import LastFMAPIError, LastFMConfigurationError, LastFMRequestError

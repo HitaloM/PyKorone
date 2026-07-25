@@ -1,6 +1,5 @@
-from stfu_tg import Code, KeyValue, Section, Template
-
 from korone.modules.help.utils.extract_info import HELP_MODULES
+from korone.utils.formatting import Code, KeyValue, Section, Template
 
 
 def help_stats() -> Section:

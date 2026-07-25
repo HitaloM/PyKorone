@@ -1,19 +1,14 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
+from typing import TYPE_CHECKING, ClassVar, TypeVar, cast
 
-from ass_tg.types import BooleanArg, OptionalArg
-from stfu_tg import Italic, KeyValue, Section, Template
-
+from korone.args import BooleanArg, OptionalArg, define_arguments
+from korone.utils.formatting import Element, Italic, KeyValue, Section, Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
-
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
-    from stfu_tg.doc import Element
 
     from korone.utils.i18n import LazyProxy
 
@@ -26,9 +21,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
     change_command: str | None = None
     change_args: str = "on / off"
 
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"new_status": OptionalArg(BooleanArg(l_("New status")))}
+    arguments = define_arguments(new_status=OptionalArg(BooleanArg(l_("New status"))))
 
     @abstractmethod
     async def get_status(self) -> T:

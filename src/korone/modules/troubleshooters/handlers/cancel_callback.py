@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING, cast
 
 from aiogram.types import Message
-from stfu_tg import Template, UserLink
 
 from korone.modules.troubleshooters.callbacks import CallbackActionCancel, CancelCallback
 from korone.modules.utils_.admin import is_user_admin
 from korone.modules.utils_.callbacks import CancelActionCallback
+from korone.utils.formatting import Template, UserLink
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 

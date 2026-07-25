@@ -1,9 +1,9 @@
 from aiogram import Router
-from stfu_tg import Doc
 
 from korone.filters.admin_rights import UserRestricting as UserRestricting
 from korone.filters.user_status import IsOP as IsOP
 from korone.modules.metadata import ModuleManifest, ModulePackage
+from korone.utils.formatting import Doc
 from korone.utils.i18n import LazyProxy as LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 

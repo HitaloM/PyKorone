@@ -1,16 +1,13 @@
 from collections import OrderedDict
-from collections.abc import Awaitable, Callable, Mapping, Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from inspect import isawaitable
 from itertools import chain
 from typing import TYPE_CHECKING, Any, cast, overload
 
 from aiogram.filters import Command
 from aiogram.filters.logic import _InvertFilter
-from aiogram.types import Message
-from ass_tg.types.base_abc import ArgFabric
-from ass_tg.types.logic import OptionalArg
 
+from korone.args import Argument, ArgumentsMap
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import GroupChatFilter, PrivateChatFilter
 from korone.filters.user_status import IsOP
@@ -20,13 +17,10 @@ from korone.utils.i18n import LazyProxy as KoroneLazyProxy
 if TYPE_CHECKING:
     from aiogram import Router
     from babel.support import LazyProxy
-    from stfu_tg import Doc
 
     from korone.modules.metadata import LoadedModule
+    from korone.utils.formatting import Doc
 
-type ArgsMap = dict[str, ArgFabric]
-type ArgsProvider = Callable[[Message | None, dict[str, Any]], ArgsMap | Awaitable[ArgsMap]]
-type ArgsSource = ArgsMap | ArgsProvider | None
 type HelpFlags = Mapping[str, object]
 type HelpExample = tuple[object | None, str]
 
@@ -36,7 +30,7 @@ logger = get_logger(__name__)
 @dataclass(frozen=True, slots=True, kw_only=True)
 class HandlerHelp:
     cmds: tuple[str, ...]
-    args: ArgsMap | None
+    args: ArgumentsMap | None
     description: LazyProxy | str | None
     examples: tuple[HelpExample, ...]
     only_admin: bool
@@ -129,42 +123,14 @@ def _clone_without_cache(description: LazyProxy | str | Doc | None) -> LazyProxy
     return KoroneLazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)
 
 
-def _normalize_arg_description(fabric: ArgFabric) -> ArgFabric:
-    description = _clone_without_cache(fabric.description)
-    if isinstance(fabric, OptionalArg):
-        if description is not None:
-            fabric.description = KoroneLazyProxy(lambda d=description: f"?{d}", enable_cache=False)
-        return fabric
-    fabric.description = description
-    return fabric
-
-
-def _prepare_args(args: Mapping[str, ArgFabric]) -> ArgsMap:
-    normalized: ArgsMap = {}
-    for arg_name, fabric in args.items():
-        try:
-            normalized[arg_name] = _normalize_arg_description(fabric)
-        except TypeError:
-            normalized[arg_name] = fabric
-    return normalized
-
-
-async def gather_cmd_args(args: ArgsSource) -> ArgsMap | None:
+def gather_cmd_args(args: object) -> ArgumentsMap | None:
     if args is None:
         return None
 
-    if isinstance(args, Mapping):
-        return _prepare_args(args)
-
-    if callable(args):
-        result = args(None, {})
-        if isawaitable(result):
-            result = await cast("Awaitable[ArgsMap]", result)
-        if isinstance(result, Mapping):
-            return _prepare_args(result)
-
-        msg = f"Unsupported args provider return type: {type(result)!r}"
-        raise TypeError(msg)
+    if isinstance(args, Mapping) and all(
+        isinstance(name, str) and isinstance(argument, Argument) for name, argument in args.items()
+    ):
+        return cast("ArgumentsMap", args)
 
     msg = "Unsupported args type"
     raise TypeError(msg)
@@ -231,9 +197,9 @@ def _extract_visibility_flags(filters: Sequence[Any]) -> tuple[bool, bool, bool,
     return only_admin, only_op, only_pm, only_chats
 
 
-async def _extract_args(flags: Mapping[str, object], help_flags: HelpFlags) -> ArgsMap | None:
+def _extract_args(flags: Mapping[str, object], help_flags: HelpFlags) -> ArgumentsMap | None:
     args_source = help_flags["args"] if "args" in help_flags else flags.get("args")
-    return await gather_cmd_args(cast("ArgsSource", args_source))
+    return gather_cmd_args(args_source)
 
 
 def _normalize_example(value: object) -> HelpExample | None:
@@ -285,7 +251,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             continue
 
         only_admin, only_op, only_pm, only_chats = _extract_visibility_flags(handler.filters)
-        args = await _extract_args(handler.flags, help_flags)
+        args = _extract_args(handler.flags, help_flags)
         examples = _extract_examples(help_flags)
 
         disableable = handler.flags.get("disableable")

@@ -2,10 +2,10 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
-from stfu_tg import Section
 
 from korone.modules.disabling.utils.get_disabled import get_disabled_handlers
 from korone.modules.help.utils.format_help import format_handlers
+from korone.utils.formatting import Section
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_

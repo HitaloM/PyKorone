@@ -2,7 +2,8 @@ import re
 from typing import TYPE_CHECKING
 
 from aiogram.filters import BaseFilter
-from stfu_tg import Template
+
+from korone.utils.formatting import Template
 
 if TYPE_CHECKING:
     from aiogram.types import Message

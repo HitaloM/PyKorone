@@ -1,10 +1,10 @@
 import orjson
 from aiogram import flags
 from aiogram.filters import Command
-from stfu_tg import Code
 
 from korone.constants import TELEGRAM_MESSAGE_LENGTH_LIMIT
 from korone.filters.user_status import IsOP
+from korone.utils.formatting import Code
 from korone.utils.handlers import KoroneMessageHandler
 
 

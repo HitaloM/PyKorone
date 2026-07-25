@@ -3,13 +3,13 @@ from typing import TYPE_CHECKING, cast
 from aiogram import flags
 from aiogram.enums import ButtonStyle
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Doc, Template
 
 from korone.config import CONFIG
 from korone.db.repositories.language import LanguageRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.modules.language.callbacks import SetLangCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
+from korone.utils.formatting import Doc, Template
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _

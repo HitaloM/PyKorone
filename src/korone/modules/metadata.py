@@ -10,7 +10,8 @@ if TYPE_CHECKING:
 
     from aiogram import Dispatcher, Router
     from babel.support import LazyProxy
-    from stfu_tg import Doc
+
+    from korone.utils.formatting import Doc
 
 type MaybeAwaitable[T] = T | Awaitable[T]
 type ModuleText = str | LazyProxy

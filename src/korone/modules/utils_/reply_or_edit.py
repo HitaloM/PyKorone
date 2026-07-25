@@ -7,7 +7,7 @@ from aiogram.types import CallbackQuery, InaccessibleMessage, Message
 from korone.utils.exception import KoroneError
 
 if TYPE_CHECKING:
-    from stfu_tg.doc import Element
+    from korone.utils.formatting import Element
 
 
 def _is_message_not_modified_error(exc: TelegramBadRequest) -> bool:

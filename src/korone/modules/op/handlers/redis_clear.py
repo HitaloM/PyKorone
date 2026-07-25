@@ -1,9 +1,9 @@
 from aiogram import flags
 from aiogram.filters import Command
-from stfu_tg import Code, Doc, Template
 
 from korone import aredis
 from korone.filters.user_status import IsOP
+from korone.utils.formatting import Code, Doc, Template
 from korone.utils.handlers import KoroneMessageHandler
 
 

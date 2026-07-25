@@ -5,13 +5,13 @@ from aiogram.enums import ButtonStyle
 from aiogram.filters import CommandStart
 from aiogram.utils.deep_linking import create_startgroup_link
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Doc, Template, Url
 
 from korone.config import CONFIG
 from korone.filters.chat_status import PrivateChatFilter
 from korone.modules.help.callbacks import PMHelpModules
 from korone.modules.privacy import PrivacyMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback, LanguageButtonCallback
+from korone.utils.formatting import Doc, Template, Url
 from korone.utils.handlers import KoroneMessageCallbackQueryHandler
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _

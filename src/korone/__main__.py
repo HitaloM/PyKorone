@@ -6,11 +6,11 @@ import sentry_sdk
 import uvloop
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
-from ass_tg.middleware import ArgsMiddleware
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
+from korone.args.middleware import ArgumentsMiddleware
 from korone.modules.error.utils.ignored import IGNORED_EXCEPTIONS
 
 from . import aredis, bot, dp
@@ -43,7 +43,7 @@ async def ensure_bot_in_db() -> None:
 def configure_dispatcher() -> None:
     dp.update.middleware(localization_middleware)
     dp.message.middleware(DisablingMiddleware())
-    dp.message.middleware(ArgsMiddleware(i18n=i18n))
+    dp.message.middleware(ArgumentsMiddleware())
     dp.update.outer_middleware(SaveChatsMiddleware())
     dp.update.middleware(AdminCacheMiddleware())
     dp.update.middleware(ChatContextMiddleware())

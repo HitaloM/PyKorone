@@ -4,13 +4,13 @@ from aiogram import flags
 from aiogram.enums import ButtonStyle
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Italic, Template
 
 from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.modules.disabling.callbacks import EnableAllCallback
 from korone.modules.utils_.callbacks import CancelActionCallback
 from korone.utils.exception import KoroneError
+from korone.utils.formatting import Italic, Template
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_

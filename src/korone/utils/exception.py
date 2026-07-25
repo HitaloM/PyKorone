@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
-    from stfu_tg.doc import Element
+    from korone.utils.formatting import Element
 
 
 type DocElement = str | Element

@@ -1,21 +1,19 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ChatType
 from aiogram.filters import Command
-from ass_tg.types import OptionalArg
-from stfu_tg import Code, Doc, Template, UserLink
 
+from korone.args import OptionalArg, define_arguments
 from korone.args.users import KoroneUserArg
 from korone.modules.utils_.message import is_real_reply
+from korone.utils.formatting import Code, Doc, Template, UserLink
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
-    from ass_tg.types.base_abc import ArgFabric
 
     from korone.db.models.chat import ChatModel
 
@@ -23,9 +21,7 @@ if TYPE_CHECKING:
 @flags.help(description=l_("Show user, chat, and topic IDs."))
 @flags.disableable(name="id")
 class ShowIDHandler(KoroneMessageHandler):
-    @classmethod
-    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"user": OptionalArg(KoroneUserArg(l_("User")))}
+    arguments = define_arguments(user=OptionalArg(KoroneUserArg(l_("User"))))
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
