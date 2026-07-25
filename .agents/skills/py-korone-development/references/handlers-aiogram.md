@@ -14,7 +14,7 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 
 1. Read the nearest handlers, callbacks, manifest, filters, utilities, and repositories.
 2. Choose `KoroneMessageHandler`, `KoroneCallbackQueryHandler`, or `KoroneMessageCallbackQueryHandler` for the incoming event.
-3. Define filters, ASS arguments, flags, callbacks, and FSM states declaratively.
+3. Define filters, project arguments, flags, callbacks, and FSM states declaratively.
 4. Implement `filters()` and `async def handle(self)`.
 5. Override `register(...)` only for dual-event or custom registration.
 6. Register the class in `ModuleManifest.handlers`.
@@ -31,9 +31,10 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 
 ## Arguments, Filters, and Flags
 
-- Use ASS types instead of manually splitting commands with arguments.
-- Declare arguments in `handler_args(message, data) -> dict[str, ArgFabric]` and read parsed values from `self.data`.
-- Prefer existing fabrics such as `TextArg`, `WordArg`, `BooleanArg`, `OptionalArg`, and `KoroneUserArg`.
+- Use argument types from `korone.args` instead of manually splitting commands with arguments.
+- Declare arguments once as `arguments = define_arguments(...)` on the `KoroneMessageHandler` subclass and read parsed values from `self.data`.
+- Prefer existing types such as `TextArg`, `WordArg`, `BooleanArg`, `OptionalArg`, and `KoroneUserArg`.
+- Leave `arguments` unset for handlers without command arguments so `ArgumentsMiddleware` can take its fast path.
 - Localize argument descriptions with `lazy_gettext as l_`.
 - Use aiogram `Command`, `CommandStart`, `StateFilter`, and `F` with reusable filters from `korone.filters`.
 - Return a tuple from `filters()`.
@@ -43,7 +44,7 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 ## Responses and Localization
 
 - Wrap runtime text with `gettext as _` and deferred metadata with `lazy_gettext as l_`.
-- Use STFU elements such as `Doc`, `Title`, `Section`, `Template`, `Bold`, `Code`, `Url`, and `UserLink` for structured output.
+- Import elements such as `Doc`, `Title`, `Section`, `Template`, `Bold`, `Code`, `Url`, and `UserLink` from `korone.utils.formatting` for structured output.
 - Pass dynamic values through `Template` or semantic elements instead of hand-built HTML.
 - Use plain translated strings for simple messages.
 - Run `localization-workflow` whenever visible text changes.

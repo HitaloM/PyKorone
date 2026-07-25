@@ -20,7 +20,8 @@ Apply these rules to repository tooling, developer workflows, dependencies, migr
 
 ## Localization Tooling
 
-- Preserve the Makefile extraction, update, merge, and compile sequence.
+- Treat `locales/korone.pot` as the only catalog template.
+- Preserve the Makefile extraction, update, obsolete-entry cleanup, and compile sequence.
 - Use `localization-workflow` for user-facing strings or catalog edits.
 - Do not change locale command semantics without updating dependent artifacts.
 

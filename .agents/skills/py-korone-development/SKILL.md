@@ -13,7 +13,7 @@ Implement changes by treating the current repository as authoritative and loadin
 2. Read the nearest existing implementation before designing the change.
 3. Read each relevant reference completely before editing:
    - Any Python change: [references/python.md](references/python.md)
-   - Handlers, aiogram, callbacks, filters, flags, ASS arguments, STFU, FSM, or middleware:
+   - Handlers, aiogram, callbacks, filters, flags, project arguments, structured formatting, FSM, or middleware:
      [references/handlers-aiogram.md](references/handlers-aiogram.md)
    - Module manifests, package metadata, loader registration, hooks, stats, or exports:
      [references/modules.md](references/modules.md)

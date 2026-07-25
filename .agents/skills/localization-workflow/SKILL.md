@@ -20,6 +20,8 @@ Complete the catalog update, manual review, and compilation in the same change a
 ## Tooling
 
 - Prefer Makefile targets over direct gettext commands.
+- Treat `locales/korone.pot` as the only catalog template; do not recreate provider-specific or intermediate POT files.
+- Expect `make update_lang` to remove obsolete entries from every PO catalog.
 - Use `make new_lang LANG=<locale>` to add one locale.
 - Use `make new_locale` only when the user explicitly requests the destructive full locale reset.
 - Treat direct gettext commands as read-only debugging unless the normal Makefile flow cannot express the task.
@@ -38,5 +40,6 @@ Complete the catalog update, manual review, and compilation in the same change a
 
 - Expect visible source changes to produce a corresponding `pt_BR` catalog change; explain explicitly when they do not.
 - Confirm no placeholder mismatch between each source and translation.
+- Confirm no obsolete `#~` entries remain after updating catalogs.
 - Confirm compilation succeeds.
-- Keep translator comments, context, and unrelated catalog entries intact.
+- Keep active translator comments, context, and unrelated catalog entries intact.

@@ -40,7 +40,7 @@ Use a fallback only when absence is valid by design. Represent it in the type an
 
 ## Boundary Checks
 
-- Handlers: trace `self.data`, ASS arguments, flags, filters, middleware order, manifest registration, disabling, and allowed updates.
+- Handlers: trace `self.data`, `arguments` declarations, local argument parsing, flags, filters, middleware order, manifest registration, disabling, and allowed updates.
 - Callbacks and FSM: verify typed payloads, owner checks, message accessibility, state transitions, and clearing.
 - Database: inspect repository transaction scope, Telegram versus database IDs, migration state, and required backfills.
 - Cache: inspect key construction, serialization, expiry, and invalidation.

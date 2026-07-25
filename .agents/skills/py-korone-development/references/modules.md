@@ -36,7 +36,7 @@ manifest = ModuleManifest(
 
 - Provide `name`, `icon`, `summary`, `description`, and `public` through `ModulePackage`.
 - Localize public metadata with `lazy_gettext as l_`.
-- Use `LazyProxy` and STFU `Doc` for lazy structured descriptions.
+- Use `LazyProxy` and `korone.utils.formatting.Doc` for lazy structured descriptions.
 - Use plain strings with `public=False` for internal modules where appropriate.
 
 ## Optional Contracts
