@@ -2,7 +2,7 @@
 
 ## Repository Context
 
-PyKorone is a modular Telegram bot built with Python 3.14+, aiogram 3.x, PostgreSQL, Redis, SQLAlchemy async, Alembic, Ruff, Pyright, uv, and gettext catalogs.
+PyKorone is a modular Telegram bot built with Python, aiogram, PostgreSQL, Redis, SQLAlchemy async, Alembic, Ruff, Pyright, uv, and gettext catalogs. Treat `pyproject.toml` and `.python-version` as the sources of truth for the supported and local Python versions.
 
 Keep repository guidance small and durable here. Use the domain skills under `.agents/skills/` for detailed workflows.
 
@@ -22,18 +22,27 @@ Keep repository guidance small and durable here. Use the domain skills under `.a
 - Ruff lint: `uv run ruff check`
 - Ruff format: `uv run ruff format`
 - Type check: `uv run pyright`
+- Tests: no test suite is currently configured; use the smallest deterministic reproduction plus Ruff and Pyright checks relevant to the change.
 - Update locale catalogs: `make update_lang`
 - Compile locale catalogs: `make compile_lang`
 - Create Alembic revision: `make db_revision m="message"`
 - Apply migrations: `make db_upgrade`
 
-## Required Skills
+## Skill Routing
 
-- Use `.agents/skills/py-korone-development/SKILL.md` when implementing or reviewing code under `src/korone/` or changing project tooling. Load only the references matching the affected area.
-- Use `.agents/skills/issue-fixer/SKILL.md` when diagnosing or fixing reported bugs, regressions, exceptions, failing checks, or unexpected behavior.
-- Use `.agents/skills/localization-workflow/SKILL.md` whenever user-facing strings or gettext catalogs change.
-- Use `.agents/skills/add-media-platform/SKILL.md` only when adding a completely new supported media platform. Use `issue-fixer` for bugs and `py-korone-development` for refactors of existing platforms.
-- Use `.agents/skills/create-korone-module/SKILL.md` only when creating and registering a new top-level loadable module. Use `py-korone-development` for ordinary edits to existing modules.
+- Use `issue-fixer` as the primary workflow for bugs, regressions, exceptions, failing checks, and unexpected behavior.
+- Use `review-aiogram-updates` as the primary workflow for assessing recent aiogram releases and their impact on PyKorone.
+- Use `add-media-platform` as the primary workflow only for a completely new supported media platform.
+- Use `create-korone-module` as the primary workflow only for a new top-level loadable module.
+- Otherwise, use `py-korone-development` for implementation or review under `src/korone/` and for project tooling, loading only references relevant to the affected boundary.
+- Add `localization-workflow` whenever user-facing strings or gettext catalogs change.
+- Use `commit-by-scope` only when the user explicitly asks to create one or more commits.
+
+## Code Review Rules
+
+- Flag changes that bypass repository classes, project handler bases, module loader contracts, or the localization workflow.
+- Require focused regression evidence for behavior changes and validation proportional to the affected boundary.
+- Focus review comments on correctness, security, data flow, and project contracts; leave mechanically enforced formatting, lint, and typing findings to Ruff and Pyright.
 
 ## Project Rules
 
