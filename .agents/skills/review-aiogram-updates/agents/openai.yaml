@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review aiogram Updates"
+  short_description: "Assess recent aiogram changes for PyKorone"
+  default_prompt: "Use $review-aiogram-updates to analyze recent aiogram changes and assess their impact on PyKorone."
