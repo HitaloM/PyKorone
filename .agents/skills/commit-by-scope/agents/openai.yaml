@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit by Scope"
+  short_description: "Create atomic Conventional Commits by scope"
+  default_prompt: "Use $commit-by-scope to inspect my changes and commit them atomically by scope with Conventional Commits."
