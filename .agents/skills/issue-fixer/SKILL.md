@@ -1,11 +1,11 @@
 ---
 name: issue-fixer
-description: Diagnose and fix PyKorone bugs through evidence-driven root-cause analysis. Use for issue reports, exceptions, regressions, failing checks, incorrect Telegram behavior, broken module loading, middleware or handler context failures, database inconsistencies, cache problems, and unexpected external-provider responses.
+description: Diagnose PyKorone bugs and, when implementation is requested, fix them through evidence-driven root-cause analysis. Use for issue reports, exceptions, regressions, failing checks, incorrect Telegram behavior, broken module loading, middleware or handler context failures, database inconsistencies, cache problems, and unexpected external-provider responses.
 ---
 
 # Issue Fixer
 
-Fix the earliest verified divergence from the required contract. Treat the exception, failed assertion, or visible misbehavior as evidence, not automatically as the defect.
+Identify the earliest verified divergence from the required contract. When implementation is requested, fix it with the smallest coherent patch. Treat the exception, failed assertion, or visible misbehavior as evidence, not automatically as the defect.
 
 ## Scope and Evidence
 
