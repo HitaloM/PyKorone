@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 @flags.help(description=l_("Show how to delete sticker packs and refresh your tracked list."))
 @flags.disableable(name="delpack")
 class StickerDeletePackHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("delpack"),)
 
     async def handle(self) -> None:

@@ -37,8 +37,8 @@ if TYPE_CHECKING:
 class StickerStealPackHandler(KoroneMessageHandler):
     arguments = define_arguments(pack_name=OptionalArg(TextArg(l_("Target pack name"))))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("kangpack", "stealpack"),)
 
     async def _copy_single_sticker(

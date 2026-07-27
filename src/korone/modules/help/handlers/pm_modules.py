@@ -41,8 +41,8 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
 
 
 class PMModuleHelp(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (PMHelpModule.filter(),)
 
     async def handle(self) -> None:

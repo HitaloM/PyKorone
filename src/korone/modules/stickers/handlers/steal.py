@@ -39,8 +39,8 @@ if TYPE_CHECKING:
 class StickerStealHandler(KoroneMessageHandler):
     arguments = define_arguments(args=OptionalArg(TextArg(l_("Pack name and optional emoji"))))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("kang", "steal"),)
 
     async def handle(self) -> None:

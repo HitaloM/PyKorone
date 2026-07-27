@@ -22,8 +22,8 @@ if TYPE_CHECKING:
 class StickerSwitchDefaultPackHandler(KoroneMessageHandler):
     arguments = define_arguments(target=OptionalArg(TextArg(l_("Pack index or name"))))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("switch"),)
 
     async def handle(self) -> None:

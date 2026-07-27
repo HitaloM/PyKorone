@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 @flags.help(description=l_("List sticker packs currently tracked for your account."))
 @flags.disableable(name="mypacks")
 class StickerMyPacksHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("mypacks"),)
 
     async def handle(self) -> None:

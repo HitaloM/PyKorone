@@ -70,8 +70,8 @@ async def _set_lastfm_username(message: Message, raw_username: str) -> bool:
 class LastFMSetHandler(KoroneMessageHandler):
     arguments = define_arguments(username=OptionalArg(WordArg(l_("Username"))))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("setlfm"),)
 
     async def handle(self) -> None:
@@ -88,8 +88,8 @@ class LastFMSetHandler(KoroneMessageHandler):
 @flags.help(exclude=True)
 @flags.disableable(name="setlfm")
 class LastFMSetStartHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (CommandStart(deep_link=True, magic=F.args == LASTFM_SET_START_PAYLOAD), PrivateChatFilter())
 
     async def handle(self) -> None:
@@ -99,8 +99,8 @@ class LastFMSetStartHandler(KoroneMessageHandler):
 
 @flags.help(exclude=True)
 class LastFMSetReplyHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (StateFilter(LastFMSetState.waiting_username), PrivateChatFilter())
 
     async def handle(self) -> None:

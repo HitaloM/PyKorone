@@ -55,8 +55,8 @@ class IPInfoHandler(KoroneMessageHandler):
 
     arguments = define_arguments(target=TextArg(l_("IP or domain")))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("ip", "ipinfo"),)
 
     async def fetch_ip_info(self, ip_or_domain: str) -> dict[str, Any] | None:
@@ -124,8 +124,8 @@ class IPInfoHandler(KoroneMessageHandler):
 
 @flags.help(exclude=True)
 class IPInfoCallbackHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (GetIPCallback.filter(),)
 
     async def handle(self) -> None:

@@ -25,8 +25,8 @@ if TYPE_CHECKING:
 class UserInfoHandler(KoroneMessageHandler):
     arguments = define_arguments(user=OptionalArg(KoroneUserArg(l_("User"))))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("info"),)
 
     async def handle(self) -> None:

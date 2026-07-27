@@ -112,7 +112,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         return any(token in normalized_message for token in cls._REQUEST_TIMEOUT_NETWORK_ERROR_TOKENS)
 
     @classmethod
-    def filters(cls) -> tuple[CallbackType, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (MediaUrlFilter(cls.PROVIDER.pattern),)
 
     @staticmethod

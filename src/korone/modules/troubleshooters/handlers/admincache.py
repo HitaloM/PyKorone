@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 
 @flags.help(description=l_("Refresh cached admin rights for this chat."))
 class ResetAdminCache(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("admincache"), UserRestricting(admin=True), GroupChatFilter(notify_on_fail=True))
 
     async def handle(self) -> None:

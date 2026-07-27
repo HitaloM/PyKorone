@@ -22,8 +22,8 @@ if TYPE_CHECKING:
 @flags.help(description=l_("Send the replied sticker as a file with basic metadata."))
 @flags.disableable(name="getsticker")
 class StickerGetStickerHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("getsticker"),)
 
     async def handle(self) -> None:

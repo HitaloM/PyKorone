@@ -23,8 +23,8 @@ if TYPE_CHECKING:
 class ShowIDHandler(KoroneMessageHandler):
     arguments = define_arguments(user=OptionalArg(KoroneUserArg(l_("User"))))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("id"),)
 
     async def handle(self) -> None:

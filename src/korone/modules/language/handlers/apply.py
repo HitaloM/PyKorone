@@ -66,8 +66,8 @@ def build_keyboard(language: str, i18n: I18nNew, *, back_to_start: bool = False)
 
 @flags.help(exclude=True)
 class ApplyLanguageHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (SetLangCallback.filter(), UserRestricting(admin=True))
 
     async def handle(self) -> None:

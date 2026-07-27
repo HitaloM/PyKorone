@@ -12,8 +12,8 @@ if TYPE_CHECKING:
 
 @flags.help(description=("Crash the bot intentionally for operator testing."))
 class CrashHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("op_crash"), IsOP(is_op=True))
 
     async def handle(self) -> None:

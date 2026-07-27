@@ -93,17 +93,17 @@ class LastFMAlbumView:
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmalbum")
 class LastFMAlbumHandler(LastFMAlbumView, BaseLastFMMessageHandler[LastFMAlbumPayload]):
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("lfmalbum", "lalb"),)
 
 
 @flags.help(exclude=True)
 class LastFMAlbumCallbackHandler(LastFMAlbumView, BaseLastFMCallbackHandler[LastFMCallbackContext, LastFMAlbumPayload]):
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return ()
 
     @classmethod

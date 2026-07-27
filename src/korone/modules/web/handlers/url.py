@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 class URLNormalizeHandler(KoroneMessageHandler):
     arguments = define_arguments(url=TextArg(l_("URL")))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("url"),)
 
     async def handle(self) -> None:

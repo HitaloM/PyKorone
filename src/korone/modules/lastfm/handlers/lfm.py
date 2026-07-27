@@ -113,9 +113,9 @@ class LastFMStatusView:
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lastfm")
 class LastFMStatusHandler(LastFMStatusView, BaseLastFMMessageHandler[LastFMStatusPayload]):
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("lfm", "lastfm", "lmu", "np"),)
 
 
@@ -123,9 +123,9 @@ class LastFMStatusHandler(LastFMStatusView, BaseLastFMMessageHandler[LastFMStatu
 class LastFMStatusCallbackHandler(
     LastFMStatusView, BaseLastFMCallbackHandler[LastFMStatusCallbackContext, LastFMStatusPayload]
 ):
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return ()
 
     @classmethod

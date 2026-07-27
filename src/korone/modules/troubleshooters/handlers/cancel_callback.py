@@ -14,8 +14,8 @@ if TYPE_CHECKING:
 
 
 class CancelCallbackHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (CancelActionCallback.filter(),)
 
     async def handle(self) -> None:
@@ -36,8 +36,8 @@ class CancelCallbackHandler(KoroneCallbackQueryHandler):
 
 
 class TypedCancelCallbackHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (CancelCallback.filter(),)
 
     async def handle(self) -> None:
@@ -54,8 +54,8 @@ class TypedCancelCallbackHandler(KoroneCallbackQueryHandler):
 
 
 class CallbackActionCancelHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (CallbackActionCancel.filter(),)
 
     async def handle(self) -> None:

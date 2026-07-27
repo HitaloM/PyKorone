@@ -22,8 +22,8 @@ if TYPE_CHECKING:
 @flags.help(description=l_("List visible administrators in the current chat."))
 @flags.disableable(name="adminlist")
 class AdminListHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("adminlist", "admins"), GroupChatFilter(notify_on_fail=True))
 
     async def handle(self) -> None:

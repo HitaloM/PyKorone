@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 @flags.disableable(name="help")
 @flags.help(description=l_("Show the full help menu privately in this chat."))
 class HelpGroupHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return Command("help"), GroupChatFilter()
 
     async def handle(self) -> None:

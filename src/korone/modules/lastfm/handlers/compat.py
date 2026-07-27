@@ -78,9 +78,9 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
 class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
     arguments = define_arguments(period=OptionalArg(WordArg(l_("Period"))))
 
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("lfmcompat", "lcompat"),)
 
     @override

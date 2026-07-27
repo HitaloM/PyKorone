@@ -47,8 +47,8 @@ def _make_serializable(obj: ExportValue | Enum | datetime | _date) -> ExportValu
 
 @flags.help(description=l_("Export your available data as a JSON file."))
 class TriggerExport(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return Command("export"), UserRestricting(admin=True)
 
     @staticmethod

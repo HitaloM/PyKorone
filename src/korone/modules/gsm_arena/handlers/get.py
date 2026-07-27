@@ -21,8 +21,8 @@ logger = get_logger(__name__)
 
 @flags.help(exclude=True)
 class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (GetDeviceCallback.filter(),)
 
     async def handle(self) -> None:

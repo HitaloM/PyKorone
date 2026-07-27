@@ -140,9 +140,9 @@ class LastFMCollageSupport(LastFMHandlerSupport):
 class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
     arguments = define_arguments(options=OptionalArg(TextArg(l_("Options"))))
 
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("lfmcollage", "lcollage"),)
 
     @override
@@ -174,9 +174,9 @@ class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
 
 @flags.help(exclude=True)
 class LastFMCollageCallbackHandler(LastFMCollageSupport, KoroneCallbackQueryHandler):
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return ()
 
     @classmethod

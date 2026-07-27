@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 @flags.help(description=l_("List commands that can be disabled in this chat."))
 @flags.disableable(name="disableable")
 class ListDisableable(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("disableable"),)
 
     @staticmethod

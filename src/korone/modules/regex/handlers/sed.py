@@ -20,8 +20,8 @@ if TYPE_CHECKING:
 )
 @flags.disableable(name="sed")
 class SedHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (SedPatternFilter(SED_PATTERN),)
 
     async def handle(self) -> None:

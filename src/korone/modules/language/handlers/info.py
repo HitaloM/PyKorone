@@ -52,8 +52,8 @@ def build_keyboard(*, is_private: bool, back_to_start: bool = False) -> InlineKe
 
 @flags.help(description=l_("Show current language settings for this chat."))
 class LanguageInfoHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("language"),)
 
     async def handle(self) -> None:
@@ -68,8 +68,8 @@ class LanguageInfoHandler(KoroneMessageHandler):
 
 @flags.help(exclude=True)
 class LanguageInfoCallbackHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (LangMenuCallback.filter(F.menu == LangMenu.Language), PrivateChatFilter())
 
     async def handle(self) -> None:

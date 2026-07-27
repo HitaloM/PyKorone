@@ -9,8 +9,8 @@ from korone.utils.handlers import KoroneMessageHandler
 
 @flags.help(description="Clear the bot Redis cache.")
 class RedisClearHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple:
+    @classmethod
+    def filters(cls) -> tuple:
         return (Command("flushredis"), IsOP(is_op=True))
 
     async def handle(self) -> None:

@@ -21,8 +21,8 @@ if TYPE_CHECKING:
 @flags.help(description=l_("Show the welcome message."))
 @flags.disableable(name="start")
 class StartGroupHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return CommandStart(), GroupChatFilter()
 
     async def handle(self) -> None:

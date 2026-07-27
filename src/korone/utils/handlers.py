@@ -54,9 +54,9 @@ class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
 class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
     arguments: ClassVar[ArgumentsMap | None] = None
 
-    @staticmethod
+    @classmethod
     @abstractmethod
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         pass
 
     @classmethod
@@ -71,9 +71,9 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
     def _is_message_not_modified_error(exc: TelegramBadRequest) -> bool:
         return "message is not modified" in exc.message.casefold()
 
-    @staticmethod
+    @classmethod
     @abstractmethod
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         pass
 
     @classmethod

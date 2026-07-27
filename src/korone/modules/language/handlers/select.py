@@ -75,8 +75,8 @@ def build_language_selection_keyboard(
 
 @flags.help(description=l_("Open the language selection menu for this chat."))
 class LanguageSelectHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("languages"), UserRestricting(admin=True))
 
     async def handle(self) -> None:
@@ -91,8 +91,8 @@ class LanguageSelectHandler(KoroneMessageHandler):
 
 @flags.help(exclude=True)
 class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (LangMenuCallback.filter(F.menu == LangMenu.Languages), UserRestricting(admin=True))
 
     async def handle(self) -> None:
@@ -117,8 +117,8 @@ class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
 
 @flags.help(exclude=True)
 class LanguageSelectPMHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (LanguageButtonCallback.filter(), PrivateChatFilter())
 
     async def handle(self) -> None:

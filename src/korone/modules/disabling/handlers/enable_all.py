@@ -21,8 +21,8 @@ if TYPE_CHECKING:
 
 @flags.help(description=l_("Re-enable all disabled commands in this chat."))
 class EnableAllHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("enableall"), UserRestricting(admin=True))
 
     async def handle(self) -> None:
@@ -47,8 +47,8 @@ class EnableAllHandler(KoroneMessageHandler):
 
 
 class DisableAllCbHandler(KoroneCallbackQueryHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return EnableAllCallback.filter(), UserRestricting(admin=True)
 
     async def handle(self) -> None:

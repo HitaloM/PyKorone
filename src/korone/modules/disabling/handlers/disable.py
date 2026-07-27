@@ -21,8 +21,8 @@ if TYPE_CHECKING:
 class DisableHandler(KoroneMessageHandler):
     arguments = define_arguments(cmd=WordArg(l_("Command")))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("disable"), UserRestricting(admin=True))
 
     @staticmethod

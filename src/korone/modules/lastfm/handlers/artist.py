@@ -78,9 +78,9 @@ class LastFMArtistView:
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmartist")
 class LastFMArtistHandler(LastFMArtistView, BaseLastFMMessageHandler[LastFMArtistPayload]):
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("lfmartist", "lart"),)
 
 
@@ -88,9 +88,9 @@ class LastFMArtistHandler(LastFMArtistView, BaseLastFMMessageHandler[LastFMArtis
 class LastFMArtistCallbackHandler(
     LastFMArtistView, BaseLastFMCallbackHandler[LastFMCallbackContext, LastFMArtistPayload]
 ):
-    @staticmethod
+    @classmethod
     @override
-    def filters() -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:
         return ()
 
     @classmethod

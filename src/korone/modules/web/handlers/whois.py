@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 class WhoisHandler(KoroneMessageHandler):
     arguments = define_arguments(domain=WordArg(l_("Domain")))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("whois"),)
 
     async def handle(self) -> None:

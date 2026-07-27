@@ -21,8 +21,8 @@ class MediaAutoDownloadStatus(StatusBoolHandlerABC):
     change_command = "mediaauto"
     change_args = "on / off"
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("mediaauto"), GroupChatFilter(notify_on_fail=True), UserRestricting(admin=True))
 
     async def get_status(self) -> bool:

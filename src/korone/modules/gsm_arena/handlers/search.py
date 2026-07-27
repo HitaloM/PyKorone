@@ -31,8 +31,8 @@ logger = get_logger(__name__)
 class DeviceSearchHandler(KoroneMessageHandler):
     arguments = define_arguments(device=TextArg(l_("Device")))
 
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("device", "specs", "d"),)
 
     async def _handle_search_results(self, query: str, devices: list[PhoneSearchResult]) -> None:

@@ -18,8 +18,8 @@ if TYPE_CHECKING:
 @flags.help(description=l_("Remove a sticker from one of your tracked packs."))
 @flags.disableable(name="delsticker")
 class StickerDeleteStickerHandler(KoroneMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
+    @classmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("delsticker"),)
 
     async def handle(self) -> None:
