@@ -60,7 +60,11 @@ def _db_url_from_env_file() -> str | None:
 
 
 def _database_url() -> str:
-    return os.getenv("DB_URL") or _db_url_from_env_file() or config.get_main_option("sqlalchemy.url")  # pyright: ignore[reportReturnType]
+    url = os.getenv("DB_URL") or _db_url_from_env_file() or config.get_main_option("sqlalchemy.url")
+    if url is None:
+        msg = "Database URL is not configured"
+        raise RuntimeError(msg)
+    return url
 
 
 config.set_main_option("sqlalchemy.url", _database_url().replace("%", "%%"))
