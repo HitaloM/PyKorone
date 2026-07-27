@@ -53,7 +53,7 @@ class I18nNew(I18n):
 
         try:
             po = polib.pofile(path)
-        except (OSError, UnicodeDecodeError, polib.errors.POFileError) as exc:  # type: ignore[attr-defined]
+        except (OSError, UnicodeDecodeError) as exc:
             logger.debug("Can't parse stats for locale", locale=locale_code, error=str(exc))
             return None
 
