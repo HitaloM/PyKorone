@@ -6,7 +6,7 @@ from aiogram.handlers import BaseHandler, BaseHandlerMixin
 from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, Message
 
 from korone.middlewares.context_data import as_korone_context
-from korone.modules.utils_.reply_or_edit import edit_message_text, reply_or_edit
+from korone.modules.utils_.reply_or_edit import edit_message_rich, edit_message_text, reply_or_edit, reply_or_edit_rich
 from korone.utils.exception import KoroneError
 
 if TYPE_CHECKING:
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.filters.callback_data import CallbackData
     from aiogram.fsm.context import FSMContext
-    from aiogram.types import InputFile
+    from aiogram.types import InputFile, InputRichMessage
 
     from korone.args import ArgumentsMap
     from korone.middlewares.chat_context import ChatContext
@@ -102,6 +102,17 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
             if not self._is_message_not_modified_error(exc):
                 raise
 
+    async def edit_rich(self, rich_message: InputRichMessage, **kwargs: object) -> None:
+        await self.check_for_message()
+        message = self.event.message
+        if not isinstance(message, Message):
+            raise KoroneError.inaccessible_message()
+        try:
+            await edit_message_rich(message, rich_message, **kwargs)
+        except TelegramBadRequest as exc:
+            if not self._is_message_not_modified_error(exc):
+                raise
+
 
 class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuery], ABC):
     @property
@@ -140,3 +151,6 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
 
     async def answer(self, text: Element | str, **kwargs: object) -> Message | bool:
         return await reply_or_edit(self.event, text, **kwargs)
+
+    async def answer_rich(self, rich_message: InputRichMessage, **kwargs: object) -> Message | bool:
+        return await reply_or_edit_rich(self.event, rich_message, **kwargs)

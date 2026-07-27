@@ -1,19 +1,33 @@
 from typing import TYPE_CHECKING
 
 from aiogram.enums import ButtonStyle
+from aiogram.types import InputRichMessage
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.modules.help.callbacks import PMHelpModule, PMHelpModules
 from korone.modules.help.utils.extract_info import HELP_MODULES
 from korone.modules.utils_.callbacks import GoToStartCallback
-from korone.utils.formatting import Code, Doc, HList, Italic, Section, Template, Title, VList
+from korone.utils.formatting import (
+    Code,
+    Doc,
+    Heading,
+    HList,
+    Italic,
+    ListItem,
+    Paragraph,
+    Section,
+    Template,
+    Title,
+    UnorderedList,
+    VList,
+)
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram.types import InlineKeyboardMarkup
 
 
-def build_help_menu(callback_data: PMHelpModules | None = None) -> tuple[str, InlineKeyboardMarkup]:
+def _build_help_menu_buttons(callback_data: PMHelpModules | None) -> InlineKeyboardMarkup:
     modules = sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name))
 
     buttons = InlineKeyboardBuilder()
@@ -42,6 +56,10 @@ def build_help_menu(callback_data: PMHelpModules | None = None) -> tuple[str, In
     if widths:
         buttons.adjust(*widths)
 
+    return buttons.as_markup()
+
+
+def build_help_menu(callback_data: PMHelpModules | None = None) -> tuple[str, InlineKeyboardMarkup]:
     doc = Doc(
         Title(_("Help")),
         _("Pick a module below to explore its commands, usage notes, and examples."),
@@ -67,4 +85,35 @@ def build_help_menu(callback_data: PMHelpModules | None = None) -> tuple[str, In
             title=_("/help legend"),
         ),
     )
-    return str(doc), buttons.as_markup()
+    return str(doc), _build_help_menu_buttons(callback_data)
+
+
+def build_rich_help_menu(callback_data: PMHelpModules | None = None) -> tuple[InputRichMessage, InlineKeyboardMarkup]:
+    doc = Doc(
+        Heading(_("Help")),
+        Paragraph(_("Pick a module below to explore its commands, usage notes, and examples.")),
+        Heading(_("/help legend"), level=2),
+        UnorderedList(
+            ListItem(
+                Template(
+                    _("Arguments: {required} is required, {optional} is optional."),
+                    required=Code("<arg>"),
+                    optional=Code("<?arg>"),
+                )
+            ),
+            ListItem(HList(Italic(_("— Only in groups")), _("indicates commands available only in groups."))),
+            ListItem(HList(Italic(_("PM-only")), _("lists commands available only in private chat."))),
+            ListItem(HList(Italic(_("Only admins")), _("lists commands that require admin rights."))),
+            ListItem(
+                HList(
+                    Italic(Template("({label})", label=_("Toggleable"))),
+                    Template(
+                        _("means admins can disable or re-enable the command with {disable} and {enable}."),
+                        disable=Code("/disable"),
+                        enable=Code("/enable"),
+                    ),
+                )
+            ),
+        ),
+    )
+    return InputRichMessage(html=str(doc)), _build_help_menu_buttons(callback_data)

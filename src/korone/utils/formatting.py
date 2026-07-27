@@ -1,7 +1,7 @@
 import html
 import re
 from abc import ABC, abstractmethod
-from typing import ClassVar, Self
+from typing import ClassVar, Self, override
 
 type Renderable = Element | object
 
@@ -146,6 +146,46 @@ class Title(Element):
     def to_html(self) -> str:
         rendered = f"{_render_html(self.prefix)}{_render_html(self.item)}{_render_html(self.postfix)}"
         return f"<b>{rendered}</b>" if self.bold else rendered
+
+
+class Heading(Element):
+    __slots__ = ("item", "level")
+
+    def __init__(self, item: Renderable, *, level: int = 1) -> None:
+        if level not in {1, 2, 3}:
+            msg = f"Rich-message heading level must be between 1 and 3, got {level}"
+            raise ValueError(msg)
+        self.item = item
+        self.level = level
+
+    def to_html(self) -> str:
+        return f"<h{self.level}>{_render_html(self.item)}</h{self.level}>"
+
+
+class Paragraph(StyleElement):
+    prefix = "<p>"
+    postfix = "</p>"
+
+
+class RichBlockQuote(StyleElement):
+    prefix = "<blockquote>"
+    postfix = "</blockquote>"
+
+
+class LineBreak(Element):
+    @override
+    def to_html(self) -> str:
+        return "<br>"
+
+
+class ListItem(StyleElement):
+    prefix = "<li>"
+    postfix = "</li>"
+
+
+class UnorderedList(Doc):
+    def to_html(self) -> str:
+        return f"<ul>{''.join(_render_html(item) for item in self)}</ul>"
 
 
 class KeyValue(Element):

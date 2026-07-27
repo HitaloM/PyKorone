@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from korone.utils.formatting import Code, Element, HList, Italic, Section, Template, VList
+from korone.utils.formatting import Code, Element, HList, Italic, LineBreak, Paragraph, Section, Template, VList
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -41,14 +41,12 @@ def _format_example(handler: HandlerHelp, example: str) -> Element:
     return Code(f"{command_prefix} {normalized_example}".strip())
 
 
-def _format_example_entry(handler: HandlerHelp, example: object, description: str) -> Element:
-    formatted_example = _format_example(handler, description)
-    if isinstance(example, str) or example is None:
+def _format_example_entry(handler: HandlerHelp, label: object, example: str) -> Element:
+    formatted_example = _format_example(handler, example)
+    if label is None:
         return formatted_example
 
-    return Section(
-        formatted_example, title=example, title_bold=False, title_underline=False, title_postfix="", indent=4
-    )
+    return Section(formatted_example, title=label, title_bold=False, title_underline=False, title_postfix="", indent=1)
 
 
 def format_handler(
@@ -82,15 +80,46 @@ def format_handlers(all_cmds: Sequence[HandlerHelp], **kwargs: bool) -> VList:
     return VList(*(format_handler(handler, **kwargs) for handler in all_cmds))
 
 
-def format_examples(all_cmds: Sequence[HandlerHelp]) -> Section | None:
-    examples: list[Element] = []
-    for handler in all_cmds:
-        if not handler.examples:
-            continue
+def format_handler_item(handler: HandlerHelp) -> Element:
+    command_and_args = HList(
+        HList(*(format_cmd(cmd, raw=handler.raw_cmds) for cmd in handler.cmds)),
+        format_cmd_args(handler.args) if handler.args else None,
+        Italic(_("— Only in groups")) if handler.only_chats else None,
+        Italic(Template("({label})", label=_("Toggleable"))) if handler.disableable else None,
+    )
+    if not handler.description:
+        return command_and_args
 
-        examples.extend(
-            _format_example_entry(handler, example, description) for example, description in handler.examples
-        )
+    return Template(
+        "{command_and_args}: {description}", command_and_args=command_and_args, description=handler.description
+    )
+
+
+def format_example_items(all_cmds: Sequence[HandlerHelp]) -> list[Element]:
+    return [
+        _format_example_entry(handler, label, example) for handler in all_cmds for label, example in handler.examples
+    ]
+
+
+def format_rich_examples(all_cmds: Sequence[HandlerHelp]) -> list[Paragraph]:
+    examples: list[Paragraph] = []
+    for handler in all_cmds:
+        for label, example in handler.examples:
+            formatted_example = _format_example(handler, example)
+            if label is None:
+                examples.append(Paragraph(formatted_example))
+                continue
+
+            examples.append(
+                Paragraph(
+                    HList(label, LineBreak(), HList(formatted_example, prefix="\N{NO-BREAK SPACE}" * 2), divider="")
+                )
+            )
+    return examples
+
+
+def format_examples(all_cmds: Sequence[HandlerHelp]) -> Section | None:
+    examples = format_example_items(all_cmds)
 
     if not examples:
         return None
