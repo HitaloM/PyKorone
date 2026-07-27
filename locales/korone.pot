@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-07-25 09:00-0300\n"
+"POT-Creation-Date: 2026-07-27 18:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1066,14 +1066,14 @@ msgid "Automatic media downloads from supported links"
 msgstr ""
 
 #: src/korone/modules/medias/__init__.py:25
-msgid "Fetch media when supported links are posted in group chats."
+msgid "Fetch media when supported links are posted in private or group chats."
 msgstr ""
 
 #: src/korone/modules/medias/__init__.py:26
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Pinterest, Reddit, and TikTok."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/base.py:545
+#: src/korone/modules/medias/handlers/base.py:544
 #, python-brace-format
 msgid "Open in {website}"
 msgstr ""

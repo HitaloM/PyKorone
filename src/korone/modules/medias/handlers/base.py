@@ -15,7 +15,6 @@ from korone.constants import (
     TELEGRAM_PHOTO_MAX_DIMENSIONS_SUM,
     TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES,
 )
-from korone.filters.chat_status import GroupChatFilter
 from korone.logger import get_logger
 from korone.modules.medias.filters import MediaUrlFilter
 from korone.modules.medias.utils.photo_compression import (
@@ -114,7 +113,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
-        return (GroupChatFilter(), MediaUrlFilter(cls.PROVIDER.pattern))
+        return (MediaUrlFilter(cls.PROVIDER.pattern),)
 
     @staticmethod
     def _post_cache_candidates(*urls: str) -> set[str]:

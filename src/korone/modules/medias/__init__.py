@@ -22,7 +22,7 @@ manifest = ModuleManifest(
         summary=l_("Automatic media downloads from supported links"),
         description=LazyProxy(
             lambda: Doc(
-                l_("Fetch media when supported links are posted in group chats."),
+                l_("Fetch media when supported links are posted in private or group chats."),
                 l_("Currently supported platforms: Twitter, Bluesky, Instagram, Pinterest, Reddit, and TikTok."),
             )
         ),

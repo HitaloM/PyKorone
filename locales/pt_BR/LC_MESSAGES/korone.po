@@ -1070,14 +1070,14 @@ msgid "Automatic media downloads from supported links"
 msgstr "Download automático de mídia a partir de links compatíveis"
 
 #: src/korone/modules/medias/__init__.py:25
-msgid "Fetch media when supported links are posted in group chats."
-msgstr "Baixe mídia quando links compatíveis forem enviados em grupos."
+msgid "Fetch media when supported links are posted in private or group chats."
+msgstr "Baixe mídia quando links compatíveis forem enviados em conversas privadas ou grupos."
 
 #: src/korone/modules/medias/__init__.py:26
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Pinterest, Reddit, and TikTok."
 msgstr "Plataformas compatíveis atualmente: Twitter, Bluesky, Instagram, Pinterest, Reddit e TikTok."
 
-#: src/korone/modules/medias/handlers/base.py:545
+#: src/korone/modules/medias/handlers/base.py:544
 #, python-brace-format
 msgid "Open in {website}"
 msgstr "Abrir em {website}"
