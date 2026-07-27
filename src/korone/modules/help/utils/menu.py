@@ -1,30 +1,26 @@
 from typing import TYPE_CHECKING
 
 from aiogram.enums import ButtonStyle
-from aiogram.types import InputRichMessage
+from aiogram.types import (
+    InputRichBlockList,
+    InputRichBlockListItem,
+    InputRichBlockParagraph,
+    InputRichBlockSectionHeading,
+    InputRichMessage,
+    RichTextCode,
+    RichTextItalic,
+)
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.modules.help.callbacks import PMHelpModule, PMHelpModules
 from korone.modules.help.utils.extract_info import HELP_MODULES
+from korone.modules.help.utils.format_help import format_rich_template
 from korone.modules.utils_.callbacks import GoToStartCallback
-from korone.utils.formatting import (
-    Code,
-    Doc,
-    Heading,
-    HList,
-    Italic,
-    ListItem,
-    Paragraph,
-    Section,
-    Template,
-    Title,
-    UnorderedList,
-    VList,
-)
+from korone.utils.formatting import Code, Doc, HList, Italic, Section, Template, Title, VList
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
-    from aiogram.types import InlineKeyboardMarkup
+    from aiogram.types import InlineKeyboardMarkup, RichTextUnion
 
 
 def _build_help_menu_buttons(callback_data: PMHelpModules | None) -> InlineKeyboardMarkup:
@@ -88,32 +84,54 @@ def build_help_menu(callback_data: PMHelpModules | None = None) -> tuple[str, In
     return str(doc), _build_help_menu_buttons(callback_data)
 
 
+def _rich_list_item(text: RichTextUnion) -> InputRichBlockListItem:
+    return InputRichBlockListItem(blocks=[InputRichBlockParagraph(text=text)])
+
+
 def build_rich_help_menu(callback_data: PMHelpModules | None = None) -> tuple[InputRichMessage, InlineKeyboardMarkup]:
-    doc = Doc(
-        Heading(_("Help")),
-        Paragraph(_("Pick a module below to explore its commands, usage notes, and examples.")),
-        Heading(_("/help legend"), level=2),
-        UnorderedList(
-            ListItem(
-                Template(
+    legend = InputRichBlockList(
+        items=[
+            _rich_list_item(
+                format_rich_template(
                     _("Arguments: {required} is required, {optional} is optional."),
-                    required=Code("<arg>"),
-                    optional=Code("<?arg>"),
+                    required=RichTextCode(text="<arg>"),
+                    optional=RichTextCode(text="<?arg>"),
                 )
             ),
-            ListItem(HList(Italic(_("— Only in groups")), _("indicates commands available only in groups."))),
-            ListItem(HList(Italic(_("PM-only")), _("lists commands available only in private chat."))),
-            ListItem(HList(Italic(_("Only admins")), _("lists commands that require admin rights."))),
-            ListItem(
-                HList(
-                    Italic(Template("({label})", label=_("Toggleable"))),
-                    Template(
-                        _("means admins can disable or re-enable the command with {disable} and {enable}."),
-                        disable=Code("/disable"),
-                        enable=Code("/enable"),
-                    ),
-                )
-            ),
-        ),
+            _rich_list_item([
+                RichTextItalic(text=str(_("— Only in groups"))),
+                " ",
+                str(_("indicates commands available only in groups.")),
+            ]),
+            _rich_list_item([
+                RichTextItalic(text=str(_("PM-only"))),
+                " ",
+                str(_("lists commands available only in private chat.")),
+            ]),
+            _rich_list_item([
+                RichTextItalic(text=str(_("Only admins"))),
+                " ",
+                str(_("lists commands that require admin rights.")),
+            ]),
+            _rich_list_item([
+                RichTextItalic(text=f"({_('Toggleable')})"),
+                " ",
+                format_rich_template(
+                    _("means admins can disable or re-enable the command with {disable} and {enable}."),
+                    disable=RichTextCode(text="/disable"),
+                    enable=RichTextCode(text="/enable"),
+                ),
+            ]),
+        ]
     )
-    return InputRichMessage(html=str(doc)), _build_help_menu_buttons(callback_data)
+    rich_message = InputRichMessage(
+        blocks=[
+            InputRichBlockSectionHeading(text=str(_("Help")), size=1),
+            InputRichBlockParagraph(
+                text=str(_("Pick a module below to explore its commands, usage notes, and examples."))
+            ),
+            InputRichBlockSectionHeading(text=str(_("/help legend")), size=2),
+            legend,
+        ]
+    )
+    return rich_message, _build_help_menu_buttons(callback_data)

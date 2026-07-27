@@ -1,11 +1,23 @@
+from string import Formatter
 from typing import TYPE_CHECKING
 
-from korone.utils.formatting import Code, Element, HList, Italic, LineBreak, Paragraph, Section, Template, VList
+from aiogram.types import (
+    InputRichBlockList,
+    InputRichBlockListItem,
+    InputRichBlockParagraph,
+    RichTextBotCommand,
+    RichTextCode,
+    RichTextItalic,
+)
+
+from korone.utils.formatting import Code, Doc, Element, HList, Italic, Section, Template, VList
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from collections.abc import Mapping, Sequence
+
+    from aiogram.types import InputRichBlockUnion, RichTextUnion
 
     from korone.args import Argument
     from korone.modules.help.utils.extract_info import HandlerHelp
@@ -28,17 +40,21 @@ def format_cmd_args(arguments: Mapping[str, Argument[object]], *, as_code: bool 
     return HList(*formatted)
 
 
-def _format_example(handler: HandlerHelp, example: str) -> Element:
+def _format_example_text(handler: HandlerHelp, example: str) -> str:
     normalized_example = example.strip()
     if not normalized_example:
-        return Code("")
+        return ""
 
     if normalized_example.startswith(("/", "!")):
-        return Code(normalized_example)
+        return normalized_example
 
     command = handler.cmds[0] if handler.cmds else ""
     command_prefix = command if handler.raw_cmds else f"/{command}"
-    return Code(f"{command_prefix} {normalized_example}".strip())
+    return f"{command_prefix} {normalized_example}".strip()
+
+
+def _format_example(handler: HandlerHelp, example: str) -> Element:
+    return Code(_format_example_text(handler, example))
 
 
 def _format_example_entry(handler: HandlerHelp, label: object, example: str) -> Element:
@@ -80,41 +96,91 @@ def format_handlers(all_cmds: Sequence[HandlerHelp], **kwargs: bool) -> VList:
     return VList(*(format_handler(handler, **kwargs) for handler in all_cmds))
 
 
-def format_handler_item(handler: HandlerHelp) -> Element:
-    command_and_args = HList(
-        HList(*(format_cmd(cmd, raw=handler.raw_cmds) for cmd in handler.cmds)),
-        format_cmd_args(handler.args) if handler.args else None,
-        Italic(_("— Only in groups")) if handler.only_chats else None,
-        Italic(Template("({label})", label=_("Toggleable"))) if handler.disableable else None,
-    )
-    if not handler.description:
-        return command_and_args
-
-    return Template(
-        "{command_and_args}: {description}", command_and_args=command_and_args, description=handler.description
-    )
-
-
 def format_example_items(all_cmds: Sequence[HandlerHelp]) -> list[Element]:
     return [
         _format_example_entry(handler, label, example) for handler in all_cmds for label, example in handler.examples
     ]
 
 
-def format_rich_examples(all_cmds: Sequence[HandlerHelp]) -> list[Paragraph]:
-    examples: list[Paragraph] = []
+def format_rich_text(value: object) -> RichTextUnion:
+    if not isinstance(value, Doc):
+        return str(value)
+
+    parts: list[RichTextUnion] = []
+    for item in value:
+        if parts:
+            parts.append("\n")
+        parts.append(str(item))
+    return parts
+
+
+def format_rich_template(template: object, **placeholders: RichTextUnion) -> RichTextUnion:
+    parts: list[RichTextUnion] = []
+    for literal, field_name, format_spec, conversion in Formatter().parse(str(template)):
+        if literal:
+            parts.append(literal)
+        if field_name is None:
+            continue
+        if format_spec or conversion:
+            msg = "Rich-text templates only support simple placeholders"
+            raise ValueError(msg)
+        try:
+            parts.append(placeholders[field_name])
+        except KeyError as exc:
+            msg = f"Missing rich-text template placeholder: {field_name}"
+            raise ValueError(msg) from exc
+    return parts
+
+
+def _format_rich_command(handler: HandlerHelp, command: str) -> RichTextUnion:
+    if handler.raw_cmds:
+        return RichTextCode(text=command)
+
+    command_text = f"/{command}"
+    return RichTextBotCommand(text=command_text, bot_command=command_text)
+
+
+def format_rich_handler(handler: HandlerHelp) -> RichTextUnion:
+    parts: list[RichTextUnion] = []
+    for command in handler.cmds:
+        if parts:
+            parts.append(" ")
+        parts.append(_format_rich_command(handler, command))
+
+    if handler.args:
+        for argument in handler.args.values():
+            if argument.help_description is None:
+                continue
+            parts.extend((" ", RichTextCode(text=f"<{argument.help_description}>")))
+
+    if handler.only_chats:
+        parts.extend((" ", RichTextItalic(text=str(_("— Only in groups")))))
+    if handler.disableable:
+        parts.extend((" ", RichTextItalic(text=f"({_('Toggleable')})")))
+    if handler.description:
+        parts.extend((": ", str(handler.description)))
+    return parts
+
+
+def format_rich_handlers(all_cmds: Sequence[HandlerHelp]) -> InputRichBlockList:
+    return InputRichBlockList(
+        items=[
+            InputRichBlockListItem(blocks=[InputRichBlockParagraph(text=format_rich_handler(handler))])
+            for handler in all_cmds
+        ]
+    )
+
+
+def format_rich_examples(all_cmds: Sequence[HandlerHelp]) -> list[InputRichBlockUnion]:
+    examples: list[InputRichBlockUnion] = []
     for handler in all_cmds:
         for label, example in handler.examples:
-            formatted_example = _format_example(handler, example)
+            formatted_example = RichTextCode(text=_format_example_text(handler, example))
             if label is None:
-                examples.append(Paragraph(formatted_example))
+                examples.append(InputRichBlockParagraph(text=formatted_example))
                 continue
 
-            examples.append(
-                Paragraph(
-                    HList(label, LineBreak(), HList(formatted_example, prefix="\N{NO-BREAK SPACE}" * 2), divider="")
-                )
-            )
+            examples.append(InputRichBlockParagraph(text=[str(label), "\n  ", formatted_example]))
     return examples
 
 

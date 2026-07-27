@@ -19,8 +19,8 @@ msgstr ""
 "Generated-By: Babel 2.18.0\n"
 
 #: src/korone/args/middleware.py:53
-#: src/korone/modules/help/handlers/pm_modules.py:74
-#: src/korone/modules/help/utils/format_help.py:112
+#: src/korone/modules/help/handlers/pm_modules.py:84
+#: src/korone/modules/help/utils/format_help.py:193
 msgid "Examples"
 msgstr "Exemplos"
 
@@ -184,8 +184,8 @@ msgstr "Chat privado"
 #: src/korone/middlewares/save_chats.py:332
 #: src/korone/modules/help/__init__.py:29
 #: src/korone/modules/help/handlers/start_group.py:35
-#: src/korone/modules/help/utils/menu.py:64
-#: src/korone/modules/help/utils/menu.py:93
+#: src/korone/modules/help/utils/menu.py:60
+#: src/korone/modules/help/utils/menu.py:129
 msgid "Help"
 msgstr "Ajuda"
 
@@ -560,21 +560,22 @@ msgstr "Abra o menu interativo de ajuda de forma privada em qualquer chat."
 msgid "Show the full help menu privately in this chat."
 msgstr "Mostre o menu completo de ajuda de forma privada neste chat."
 
-#: src/korone/modules/help/handlers/pm_modules.py:65
+#: src/korone/modules/help/handlers/pm_modules.py:68
+#: src/korone/modules/help/handlers/pm_modules.py:74
 #, python-brace-format
 msgid "Shared commands from {module}"
 msgstr "Comandos compartilhados de {module}"
 
-#: src/korone/modules/help/handlers/pm_modules.py:90
+#: src/korone/modules/help/handlers/pm_modules.py:100
 msgid "Show the full help menu."
 msgstr "Mostre o menu de ajuda completo."
 
-#: src/korone/modules/help/handlers/pm_modules.py:118
+#: src/korone/modules/help/handlers/pm_modules.py:128
 msgid "Module not found."
 msgstr "Módulo não encontrado."
 
-#: src/korone/modules/help/handlers/pm_modules.py:126
-#: src/korone/modules/help/utils/menu.py:49
+#: src/korone/modules/help/handlers/pm_modules.py:136
+#: src/korone/modules/help/utils/menu.py:45
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
 #: src/korone/modules/language/handlers/select.py:57
@@ -638,70 +639,70 @@ msgstr "Oi, sou o Korone, seu assistente tudo-em-um para este chat. Use os botõ
 msgid "For updates, follow my {channel}."
 msgstr "Para atualizações, siga meu {channel}."
 
-#: src/korone/modules/help/utils/format_help.py:65
-#: src/korone/modules/help/utils/format_help.py:89
-#: src/korone/modules/help/utils/menu.py:73
-#: src/korone/modules/help/utils/menu.py:104
+#: src/korone/modules/help/utils/format_help.py:79
+#: src/korone/modules/help/utils/format_help.py:157
+#: src/korone/modules/help/utils/menu.py:69
+#: src/korone/modules/help/utils/menu.py:102
 msgid "— Only in groups"
 msgstr "— Somente em grupos"
 
-#: src/korone/modules/help/utils/format_help.py:66
-#: src/korone/modules/help/utils/format_help.py:90
-#: src/korone/modules/help/utils/menu.py:77
-#: src/korone/modules/help/utils/menu.py:109
+#: src/korone/modules/help/utils/format_help.py:80
+#: src/korone/modules/help/utils/format_help.py:159
+#: src/korone/modules/help/utils/menu.py:73
+#: src/korone/modules/help/utils/menu.py:117
 msgid "Toggleable"
 msgstr "Desativável"
 
-#: src/korone/modules/help/utils/format_help.py:134
+#: src/korone/modules/help/utils/format_help.py:215
 msgid "Commands"
 msgstr "Comandos"
 
-#: src/korone/modules/help/utils/format_help.py:136
-#: src/korone/modules/help/utils/menu.py:74
-#: src/korone/modules/help/utils/menu.py:105
+#: src/korone/modules/help/utils/format_help.py:217
+#: src/korone/modules/help/utils/menu.py:70
+#: src/korone/modules/help/utils/menu.py:107
 msgid "PM-only"
 msgstr "Somente PM"
 
-#: src/korone/modules/help/utils/format_help.py:138
-#: src/korone/modules/help/utils/menu.py:75
-#: src/korone/modules/help/utils/menu.py:106
+#: src/korone/modules/help/utils/format_help.py:219
+#: src/korone/modules/help/utils/menu.py:71
+#: src/korone/modules/help/utils/menu.py:112
 msgid "Only admins"
 msgstr "Somente administradores"
 
-#: src/korone/modules/help/utils/menu.py:65
-#: src/korone/modules/help/utils/menu.py:94
+#: src/korone/modules/help/utils/menu.py:61
+#: src/korone/modules/help/utils/menu.py:131
 msgid "Pick a module below to explore its commands, usage notes, and examples."
 msgstr "Escolha um módulo abaixo para explorar seus comandos, notas de uso e exemplos."
 
-#: src/korone/modules/help/utils/menu.py:69
-#: src/korone/modules/help/utils/menu.py:99
+#: src/korone/modules/help/utils/menu.py:65
+#: src/korone/modules/help/utils/menu.py:96
 #, python-brace-format
 msgid "Arguments: {required} is required, {optional} is optional."
 msgstr "Argumentos: {required} é obrigatório e {optional} é opcional."
 
-#: src/korone/modules/help/utils/menu.py:73
+#: src/korone/modules/help/utils/menu.py:69
 #: src/korone/modules/help/utils/menu.py:104
 msgid "indicates commands available only in groups."
 msgstr "indica comandos disponíveis apenas em grupos."
 
-#: src/korone/modules/help/utils/menu.py:74
-#: src/korone/modules/help/utils/menu.py:105
+#: src/korone/modules/help/utils/menu.py:70
+#: src/korone/modules/help/utils/menu.py:109
 msgid "lists commands available only in private chat."
 msgstr "lista comandos disponíveis apenas no chat privado."
 
-#: src/korone/modules/help/utils/menu.py:75
-#: src/korone/modules/help/utils/menu.py:106
+#: src/korone/modules/help/utils/menu.py:71
+#: src/korone/modules/help/utils/menu.py:114
 msgid "lists commands that require admin rights."
 msgstr "lista comandos que exigem permissões de administrador."
 
-#: src/korone/modules/help/utils/menu.py:79
-#: src/korone/modules/help/utils/menu.py:111
+#: src/korone/modules/help/utils/menu.py:75
+#: src/korone/modules/help/utils/menu.py:120
 #, python-brace-format
 msgid "means admins can disable or re-enable the command with {disable} and {enable}."
 msgstr "indica que administradores podem desativar ou reativar o comando com {disable} e {enable}."
 
-#: src/korone/modules/help/utils/menu.py:85
-#: src/korone/modules/help/utils/menu.py:95
+#: src/korone/modules/help/utils/menu.py:81
+#: src/korone/modules/help/utils/menu.py:133
 msgid "/help legend"
 msgstr "Legenda do /help"
 
