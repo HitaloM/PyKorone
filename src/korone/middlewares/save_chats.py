@@ -367,13 +367,24 @@ class SaveChatsMiddleware(BaseMiddleware):
                 await logger.awarning(
                     "SaveChatsMiddleware: Bot restricted from sending messages, leaving chat", chat_id=event.chat.id
                 )
-                try:
-                    await event.bot.leave_chat(event.chat.id)  # pyright: ignore[reportOptionalMemberAccess]
-                    await logger.ainfo("SaveChatsMiddleware: Successfully left restricted chat", chat_id=event.chat.id)
-                except TelegramAPIError as error:
-                    await logger.aexception(
-                        "SaveChatsMiddleware: Failed to leave restricted chat", chat_id=event.chat.id, error=str(error)
+                bot = event.bot
+                if bot is None:
+                    await logger.awarning(
+                        "SaveChatsMiddleware: Bot instance unavailable while leaving restricted chat",
+                        chat_id=event.chat.id,
                     )
+                else:
+                    try:
+                        await bot.leave_chat(event.chat.id)
+                        await logger.ainfo(
+                            "SaveChatsMiddleware: Successfully left restricted chat", chat_id=event.chat.id
+                        )
+                    except TelegramAPIError as error:
+                        await logger.aexception(
+                            "SaveChatsMiddleware: Failed to leave restricted chat",
+                            chat_id=event.chat.id,
+                            error=str(error),
+                        )
                 if group := await ChatRepository.get_by_chat_id(event.chat.id):
                     await ChatRepository.delete_chat(group)
                 return False
