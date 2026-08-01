@@ -2,11 +2,11 @@ import asyncio
 from dataclasses import replace
 from pathlib import Path
 from time import perf_counter
-from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
+from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict, overload
 
 import sentry_sdk
 from aiogram import flags
-from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError
+from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError, TelegramRetryAfter
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
 from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink
@@ -37,9 +37,10 @@ from korone.modules.utils_.telegram_exceptions import REPLIED_NOT_FOUND
 from korone.utils.formatting import Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
+from korone.utils.telegram_permissions import handle_no_rights_error, is_no_rights_error
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Awaitable, Callable
     from contextlib import AbstractAsyncContextManager
 
     from aiogram.dispatcher.event.handler import CallbackType
@@ -81,6 +82,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     PHOTO_MAX_ASPECT_RATIO: ClassVar[int] = TELEGRAM_PHOTO_MAX_ASPECT_RATIO
     PHOTO_COMPRESSION_TIMEOUT_SECONDS: ClassVar[float] = 12.0
     MEDIA_SEND_REQUEST_TIMEOUT_SECONDS: ClassVar[int] = 180
+    MEDIA_SEND_RETRY_ATTEMPTS: ClassVar[int] = 3
     VIDEO_SUPPORTS_STREAMING: ClassVar[bool] = True
     POST_CACHE_NAMESPACE: ClassVar[str] = "media-post"
     MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
@@ -438,14 +440,43 @@ class BaseMediaHandler(KoroneMessageHandler):
     async def _send_media(
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
-        match media.kind:
-            case MediaKind.PHOTO:
-                return await self._send_photo_with_resize_fallback(media, caption, keyboard, reply=reply)
-            case MediaKind.VIDEO:
-                return await self._send_video(media, caption, keyboard, reply=reply)
-            case _:
-                msg = f"Unsupported media kind: {media.kind!r}"
-                raise ValueError(msg)
+        async def send() -> Message:
+            match media.kind:
+                case MediaKind.PHOTO:
+                    return await self._send_photo_with_resize_fallback(media, caption, keyboard, reply=reply)
+                case MediaKind.VIDEO:
+                    return await self._send_video(media, caption, keyboard, reply=reply)
+                case _:
+                    msg = f"Unsupported media kind: {media.kind!r}"
+                    raise ValueError(msg)
+
+        return await self._retry_after_flood_control(send)
+
+    @overload
+    async def _retry_after_flood_control(self, operation: Callable[[], Awaitable[Message]]) -> Message: ...
+
+    @overload
+    async def _retry_after_flood_control(self, operation: Callable[[], Awaitable[list[Message]]]) -> list[Message]: ...
+
+    async def _retry_after_flood_control(
+        self, operation: Callable[[], Awaitable[Message | list[Message]]]
+    ) -> Message | list[Message]:
+        for attempt in range(1, self.MEDIA_SEND_RETRY_ATTEMPTS + 1):
+            try:
+                return await operation()
+            except TelegramRetryAfter as error:
+                if attempt == self.MEDIA_SEND_RETRY_ATTEMPTS:
+                    raise
+                await logger.awarning(
+                    "[Medias] Telegram flood control requested a retry",
+                    chat_id=self.event.chat.id,
+                    attempt=attempt,
+                    retry_after_seconds=error.retry_after,
+                )
+                await asyncio.sleep(error.retry_after)
+
+        msg = "Media send retry loop exhausted without returning or raising"
+        raise RuntimeError(msg)
 
     @classmethod
     async def _cache_media_source_file_id(cls, source_url: str, file_id: str) -> None:
@@ -495,23 +526,23 @@ class BaseMediaHandler(KoroneMessageHandler):
                 raise ValueError(msg)
 
     async def _send_media_group_messages(self, media_group: list[Any]) -> list[Message]:
-        try:
-            return await self.bot.send_media_group(
-                chat_id=self.event.chat.id,
-                media=media_group,
-                reply_to_message_id=self.event.message_id,
-                message_thread_id=self.event.message_thread_id,
-                request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
+        async def send(reply_to_message_id: int | None) -> list[Message]:
+            return await self._retry_after_flood_control(
+                lambda: self.bot.send_media_group(
+                    chat_id=self.event.chat.id,
+                    media=media_group,
+                    reply_to_message_id=reply_to_message_id,
+                    message_thread_id=self.event.message_thread_id,
+                    request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
+                )
             )
+
+        try:
+            return await send(self.event.message_id)
         except TelegramBadRequest as error:
             if not self._is_missing_reply_error(error):
                 raise
-            return await self.bot.send_media_group(
-                chat_id=self.event.chat.id,
-                media=media_group,
-                message_thread_id=self.event.message_thread_id,
-                request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
-            )
+            return await send(None)
 
     def _build_media_group(self, media_items: list[MediaItem], caption: str) -> list[Any]:
         builder = MediaGroupBuilder()
@@ -788,6 +819,23 @@ class BaseMediaHandler(KoroneMessageHandler):
                     handler=self.__class__.__name__,
                     request_timeout_seconds=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
                 )
+                return
+
+            if isinstance(error, TelegramRetryAfter):
+                outcome = "rate_limited"
+                sentry_sdk.set_tag("korone.media_outcome", outcome)
+                await logger.awarning(
+                    "[Medias] Media send remained rate limited after retries",
+                    provider=self.PROVIDER.name,
+                    source_id=source_identifier,
+                    chat_id=self.event.chat.id,
+                    retry_after_seconds=error.retry_after,
+                )
+                return
+
+            if is_no_rights_error(error) and await handle_no_rights_error(self.bot, self.event.chat, error):
+                outcome = "permission_denied"
+                sentry_sdk.set_tag("korone.media_outcome", outcome)
                 return
 
             await logger.aexception(

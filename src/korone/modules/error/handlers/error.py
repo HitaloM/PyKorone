@@ -11,7 +11,7 @@ from korone.modules.error.utils.backoff import compute_error_signature, should_n
 from korone.modules.error.utils.capture import capture_sentry
 from korone.modules.error.utils.error_message import generic_error_message
 from korone.modules.error.utils.ignored import QUIET_EXCEPTIONS
-from korone.modules.error.utils.permission_errors import handle_no_rights_error, is_no_rights_error
+from korone.utils.telegram_permissions import handle_no_rights_error, is_no_rights_error
 
 if TYPE_CHECKING:
     from types import TracebackType

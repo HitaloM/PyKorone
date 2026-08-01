@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 from urllib.parse import quote
 
+from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.modules.medias.utils.types import MediaPost
@@ -64,7 +65,9 @@ class TwitterProvider(MediaProvider):
 
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
-        return await cls.download_media(sources, filename_prefix="x_media", log_label="FXTwitter")
+        return await cls.download_media(
+            sources, filename_prefix="x_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="FXTwitter"
+        )
 
     @classmethod
     async def _fetch_tweet(cls, status_id: str) -> dict[str, Any] | None:

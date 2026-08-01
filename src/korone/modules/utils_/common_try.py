@@ -9,13 +9,13 @@ from aiogram.exceptions import (
 )
 
 from korone.logger import get_logger
-from korone.modules.error.utils.permission_errors import is_no_rights_error
 from korone.modules.utils_.telegram_exceptions import (
     CAN_NOT_BE_DELETED,
     MSG_TO_DEL_NOT_FOUND,
     REPLIED_NOT_FOUND,
     USER_ALREADY_PARTICIPANT,
 )
+from korone.utils.telegram_permissions import is_no_rights_error
 
 type COROUTINE_TYPE[T] = Awaitable[T]
 type CALLBACK_COROUTINE_TYPE[T] = Callable[[], COROUTINE_TYPE[T]]
