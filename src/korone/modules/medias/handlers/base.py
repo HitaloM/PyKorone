@@ -5,6 +5,7 @@ from time import perf_counter
 from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
 
 import sentry_sdk
+from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
@@ -19,7 +20,6 @@ from korone.constants import (
 )
 from korone.logger import get_logger
 from korone.modules.medias.filters import MediaUrlFilter
-from korone.modules.medias.middlewares import MEDIA_PROCESSING_FLAG
 from korone.modules.medias.utils.photo_compression import (
     compress_photo_payload_to_safe_jpeg,
     photo_payload_needs_resize,
@@ -42,7 +42,6 @@ if TYPE_CHECKING:
     from collections.abc import Callable
     from contextlib import AbstractAsyncContextManager
 
-    from aiogram import Router
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import InlineKeyboardMarkup, Message
 
@@ -73,6 +72,7 @@ class PostCachePayload(TypedDict):
 logger = get_logger(__name__)
 
 
+@flags.defer_media_processing
 class BaseMediaHandler(KoroneMessageHandler):
     CAPTION_LIMIT: ClassVar[int] = 1024
     MEDIA_GROUP_LIMIT: ClassVar[int] = 10
@@ -119,10 +119,6 @@ class BaseMediaHandler(KoroneMessageHandler):
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
         return (MediaUrlFilter(cls.PROVIDER.pattern),)
-
-    @classmethod
-    def register(cls, router: Router) -> None:
-        router.message.register(cls, *cls.filters(), flags={MEDIA_PROCESSING_FLAG: True})
 
     @staticmethod
     def _post_cache_candidates(*urls: str) -> set[str]:
