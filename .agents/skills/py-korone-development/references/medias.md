@@ -5,6 +5,8 @@ Apply these contracts to changes under `src/korone/modules/medias/`. For a compl
 ## Layers
 
 - Keep `handlers/<platform>.py` thin.
+- Keep aiogram middleware adapters in `middlewares/`, separate from processing managers, locks, jobs, and other
+  reusable services under `utils/`.
 - Keep URL and endpoint constants in `utils/platforms/<platform>/constants.py`.
 - Keep deterministic extraction and normalization in `parser.py`.
 - Keep network calls and payload decoding in `client.py`.
@@ -63,3 +65,5 @@ Do not change these without an explicit migration:
 - `BaseMediaHandler.filters()` combines the group filter and `MediaUrlFilter(PROVIDER.pattern)`.
 - `MediaProvider.safe_fetch(...)` standardizes provider failures.
 - `medias/__init__.py` registers handler classes through `ModuleManifest.handlers`.
+- `medias/__init__.py` registers media middleware and its lifecycle observers only from the `pre_setup()` hook
+  declared through `ModuleManifest.scripts`.

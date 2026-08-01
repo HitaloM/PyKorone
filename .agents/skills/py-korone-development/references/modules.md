@@ -32,6 +32,16 @@ manifest = ModuleManifest(
 - Store handler classes in a tuple, including a trailing comma for one handler.
 - Use the handler bases and registration model described in `handlers-aiogram.md`.
 
+## Module Middleware
+
+- Store module-specific middleware classes under `src/korone/modules/<module>/middlewares/` and expose the
+  intentional public surface from that package's `__init__.py`.
+- Register middleware in a typed `pre_setup()` hook and declare it with
+  `scripts=ModuleScripts(pre_setup=pre_setup)` on the `ModuleManifest`.
+- Register related router startup and shutdown observers in the same hook when they belong to that middleware's
+  lifecycle.
+- Do not register middleware or lifecycle observers as module-import side effects.
+
 ## Package Metadata
 
 - Provide `name`, `icon`, `summary`, `description`, and `public` through `ModulePackage`.

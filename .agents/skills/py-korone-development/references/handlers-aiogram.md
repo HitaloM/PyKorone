@@ -7,6 +7,10 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 - Reuse the shared `bot`, `dp`, configured storage, and dispatcher setup.
 - Do not instantiate feature-local `Bot` or `Dispatcher` objects.
 - Compose routing through module manifests and the loader.
+- Put module-specific middleware implementations in `src/korone/modules/<module>/middlewares/`; do not place
+  middleware classes in handlers, utilities, or the module `__init__.py`.
+- Export intentional middleware entry points from `middlewares/__init__.py` and register them in the module's
+  `pre_setup()` hook declared through `ModuleManifest.scripts`.
 - Keep polling, webhook, allowed-update resolution, and lifecycle logic centralized.
 - Preserve middleware registration order and use outer middleware only when logic must wrap the complete update path.
 
