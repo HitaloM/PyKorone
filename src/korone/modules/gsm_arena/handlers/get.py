@@ -29,6 +29,7 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
         await self.check_for_message()
 
         callback_data = cast("GetDeviceCallback", self.callback_data)
+        message = cast("Message", self.event.message)
 
         if self.event.from_user.id != callback_data.user_id:
             await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
@@ -53,14 +54,13 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
                 device_url=devices[callback_data.index].url,
                 error_type=type(exc).__name__,
             )
-            await self.event.answer(_("Error fetching device details"), show_alert=True)
+            await message.answer(_("Error fetching device details"))
             return
 
         if not presentation:
-            await self.event.answer(_("Error fetching device details"), show_alert=True)
+            await message.answer(_("Error fetching device details"))
             return
 
-        message = cast("Message", self.event.message)
         if message.chat.type == ChatType.PRIVATE:
             await reply_with_device(message, presentation)
         else:
