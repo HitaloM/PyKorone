@@ -7,6 +7,8 @@ type PortNumber = Annotated[int, Field(ge=1, le=65535)]
 type PositiveSeconds = Annotated[int, Field(gt=0)]
 type RedisDatabase = Annotated[int, Field(ge=0)]
 type WebhookConnections = Annotated[int, Field(ge=1, le=100)]
+type MediaConcurrency = Annotated[int, Field(ge=1, le=32)]
+type MediaPendingJobs = Annotated[int, Field(ge=1, le=1024)]
 
 
 class Config(BaseSettings):
@@ -30,6 +32,12 @@ class Config(BaseSettings):
     redis_fsm_key_prefix: str = "korone:fsm"
     redis_fsm_state_ttl: PositiveSeconds | None = 24 * 60 * 60
     redis_fsm_data_ttl: PositiveSeconds | None = 24 * 60 * 60
+    redis_fsm_lock_timeout: PositiveSeconds = 90
+
+    media_max_concurrent_jobs: MediaConcurrency = 4
+    media_max_pending_jobs: MediaPendingJobs = 64
+    media_processing_lock_timeout: PositiveSeconds = 60
+    media_shutdown_timeout: PositiveSeconds = 30
 
     botapi_server: AnyHttpUrl | None = None
     botapi_local_storage_root: str = "/var/lib/telegram-bot-api"

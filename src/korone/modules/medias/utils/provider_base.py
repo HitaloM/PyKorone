@@ -3,10 +3,12 @@ import mimetypes
 import random
 from abc import ABC, abstractmethod
 from pathlib import Path
+from time import perf_counter
 from typing import TYPE_CHECKING, ClassVar, Literal
 from urllib.parse import urlparse
 
 import aiohttp
+import sentry_sdk
 from aiogram.types import BufferedInputFile
 
 from korone.logger import get_logger
@@ -92,13 +94,32 @@ class MediaProvider(ABC):
     async def _process_downloads(
         cls, sources: Sequence[MediaSource], prefix: str, max_size: int | None, label: str
     ) -> list[MediaItem]:
+        started_at = perf_counter()
         results: list[MediaItem | None] = [None] * len(sources)
 
         async with asyncio.TaskGroup() as tg:
             for source_index, source in enumerate(sources, start=1):
                 tg.create_task(cls._download_worker(source_index, source, prefix, max_size, label, results))
 
-        return [item for item in results if item is not None]
+        downloaded = [item for item in results if item is not None]
+        duration = perf_counter() - started_at
+        sentry_sdk.set_context(
+            "media_download",
+            {
+                "provider": label,
+                "source_count": len(sources),
+                "downloaded_count": len(downloaded),
+                "duration_seconds": round(duration, 3),
+            },
+        )
+        await logger.ainfo(
+            "[Medias] Download batch finished",
+            provider=label,
+            source_count=len(sources),
+            downloaded_count=len(downloaded),
+            duration_seconds=round(duration, 3),
+        )
+        return downloaded
 
     @classmethod
     async def _download_worker(

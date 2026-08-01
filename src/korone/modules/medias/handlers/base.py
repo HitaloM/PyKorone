@@ -1,8 +1,10 @@
 import asyncio
 from dataclasses import replace
 from pathlib import Path
+from time import perf_counter
 from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict
 
+import sentry_sdk
 from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
@@ -17,10 +19,12 @@ from korone.constants import (
 )
 from korone.logger import get_logger
 from korone.modules.medias.filters import MediaUrlFilter
+from korone.modules.medias.middlewares import MEDIA_PROCESSING_FLAG
 from korone.modules.medias.utils.photo_compression import (
     compress_photo_payload_to_safe_jpeg,
     photo_payload_needs_resize,
 )
+from korone.modules.medias.utils.processing import media_source_id
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
 from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import (
@@ -38,6 +42,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
     from contextlib import AbstractAsyncContextManager
 
+    from aiogram import Router
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import InlineKeyboardMarkup, Message
 
@@ -114,6 +119,10 @@ class BaseMediaHandler(KoroneMessageHandler):
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
         return (MediaUrlFilter(cls.PROVIDER.pattern),)
+
+    @classmethod
+    def register(cls, router: Router) -> None:
+        router.message.register(cls, *cls.filters(), flags={MEDIA_PROCESSING_FLAG: True})
 
     @staticmethod
     def _post_cache_candidates(*urls: str) -> set[str]:
@@ -347,6 +356,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not indexes_to_process:
             return media_items
 
+        started_at = perf_counter()
         prepared = media_items.copy()
         tasks: dict[int, asyncio.Task[MediaItem]] = {}
         async with asyncio.TaskGroup() as tg:
@@ -355,6 +365,12 @@ class BaseMediaHandler(KoroneMessageHandler):
 
         for index, task in tasks.items():
             prepared[index] = task.result()
+        await logger.adebug(
+            "[Medias] Photo processing finished",
+            photo_count=len(indexes_to_process),
+            force=force,
+            duration_seconds=round(perf_counter() - started_at, 3),
+        )
         return prepared
 
     async def _send_photo(
@@ -663,6 +679,11 @@ class BaseMediaHandler(KoroneMessageHandler):
             return
 
         source_url: str | None = None
+        source_identifier: str | None = None
+        started_at = perf_counter()
+        stage = "resolve"
+        outcome = "ignored"
+        timings: dict[str, float] = {}
         try:
             match self.data.get("media_urls"):
                 case [str() as source_url, *_]:
@@ -670,35 +691,101 @@ class BaseMediaHandler(KoroneMessageHandler):
                 case _:
                     return
 
+            source_identifier = media_source_id(source_url)
+            sentry_sdk.set_tag("korone.media_stage", stage)
+            await logger.ainfo(
+                "[Medias] Handler started",
+                provider=self.PROVIDER.name,
+                handler=self.__class__.__name__,
+                source_id=source_identifier,
+                fsm_isolation="disabled",
+            )
+
+            stage = "cache_send"
+            sentry_sdk.set_tag("korone.media_stage", stage)
+            sent_at = perf_counter()
             if await self._try_send_cached_post(source_url):
-                await logger.adebug("[Medias] Cached post sent", provider=self.PROVIDER.name, source_url=source_url)
+                timings[stage] = perf_counter() - sent_at
+                outcome = "cached"
+                await logger.adebug(
+                    "[Medias] Cached post sent",
+                    provider=self.PROVIDER.name,
+                    source_id=source_identifier,
+                    duration_seconds=round(timings[stage], 3),
+                )
                 return
 
+            stage = "fetch"
+            sentry_sdk.set_tag("korone.media_stage", stage)
+            fetch_at = perf_counter()
             post = await self._fetch_post(source_url)
+            timings[stage] = perf_counter() - fetch_at
+            await logger.ainfo(
+                "[Medias] Fetch finished",
+                provider=self.PROVIDER.name,
+                source_id=source_identifier,
+                found=post is not None,
+                duration_seconds=round(timings[stage], 3),
+            )
             if not post:
-                await logger.adebug("[Medias] Could not fetch post", provider=self.PROVIDER.name, source_url=source_url)
+                outcome = "not_found"
+                await logger.adebug(
+                    "[Medias] Could not fetch post", provider=self.PROVIDER.name, source_id=source_identifier
+                )
                 return
 
+            stage = "send"
+            sentry_sdk.set_tag("korone.media_stage", stage)
+            send_at = perf_counter()
             cached_media_payload = await self._send_post(post)
+            timings[stage] = perf_counter() - send_at
+            await logger.ainfo(
+                "[Medias] Send finished",
+                provider=self.PROVIDER.name,
+                source_id=source_identifier,
+                sent_count=len(cached_media_payload),
+                duration_seconds=round(timings[stage], 3),
+            )
             if not cached_media_payload:
+                outcome = "send_failed"
                 await logger.adebug(
                     "[Medias] Could not send media",
                     provider=self.PROVIDER.name,
-                    source_url=source_url,
-                    post_url=post.url,
+                    source_id=source_identifier,
                     media_count=len(post.media),
                 )
                 return
 
+            stage = "cache_store"
+            sentry_sdk.set_tag("korone.media_stage", stage)
             await self._set_post_cache(source_url, post, cached_media_payload)
+            outcome = "sent"
         except asyncio.CancelledError:
+            outcome = "cancelled"
+            sentry_sdk.set_tag("korone.media_outcome", outcome)
             raise
         except Exception as error:  # ruff: ignore[blind-except]
+            outcome = "failed"
+            sentry_sdk.set_tag("korone.media_outcome", outcome)
+            sentry_sdk.set_context(
+                "media_handler",
+                {
+                    "provider": self.PROVIDER.name,
+                    "handler": self.__class__.__name__,
+                    "source_id": source_identifier,
+                    "stage": stage,
+                    "outcome": outcome,
+                    "duration_seconds": round(perf_counter() - started_at, 3),
+                    "stage_durations_seconds": {name: round(value, 3) for name, value in timings.items()},
+                },
+            )
             if isinstance(error, TelegramNetworkError) and self._is_request_timeout_network_error(error):
+                outcome = "send_timeout"
+                sentry_sdk.set_tag("korone.media_outcome", outcome)
                 await logger.awarning(
                     "[Medias] Media send request timed out; delivery status is unknown",
                     provider=self.PROVIDER.name,
-                    source_url=source_url,
+                    source_id=source_identifier,
                     chat_id=self.event.chat.id,
                     message_id=self.event.message_id,
                     message_thread_id=self.event.message_thread_id,
@@ -710,9 +797,35 @@ class BaseMediaHandler(KoroneMessageHandler):
             await logger.aexception(
                 "[Medias] Handler failed",
                 provider=self.PROVIDER.name,
-                source_url=source_url,
+                source_id=source_identifier,
                 chat_id=self.event.chat.id,
                 message_id=self.event.message_id,
                 message_thread_id=self.event.message_thread_id,
                 handler=self.__class__.__name__,
             )
+        finally:
+            if source_identifier is not None:
+                duration = perf_counter() - started_at
+                sentry_sdk.set_tag("korone.media_stage", stage)
+                sentry_sdk.set_tag("korone.media_outcome", outcome)
+                sentry_sdk.set_context(
+                    "media_handler",
+                    {
+                        "provider": self.PROVIDER.name,
+                        "handler": self.__class__.__name__,
+                        "source_id": source_identifier,
+                        "stage": stage,
+                        "outcome": outcome,
+                        "duration_seconds": round(duration, 3),
+                        "stage_durations_seconds": {name: round(value, 3) for name, value in timings.items()},
+                    },
+                )
+                await logger.ainfo(
+                    "[Medias] Handler finished",
+                    provider=self.PROVIDER.name,
+                    handler=self.__class__.__name__,
+                    source_id=source_identifier,
+                    stage=stage,
+                    outcome=outcome,
+                    duration_seconds=round(duration, 3),
+                )
