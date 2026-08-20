@@ -14,6 +14,7 @@ from korone.utils.formatting import Italic, Template
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+from korone.utils.i18n import ngettext as pl_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
@@ -63,12 +64,13 @@ class DisableAllCbHandler(KoroneCallbackQueryHandler):
 
         removed_count: int = len(model.cmds) if model else 0
 
-        await self.edit_text(
-            str(
-                Template(
-                    _("✅ All the commands ({removed_count}) have been enabled in the {chat_name}"),
-                    removed_count=Italic(removed_count),
-                    chat_name=self.chat.title,
-                )
+        if removed_count == 0:
+            message = _("✅ No commands were enabled in the {chat_name}")
+        else:
+            message = pl_(
+                "✅ {removed_count} command has been enabled in the {chat_name}",
+                "✅ {removed_count} commands have been enabled in the {chat_name}",
+                removed_count,
             )
-        )
+
+        await self.edit_text(str(Template(message, removed_count=Italic(removed_count), chat_name=self.chat.title)))

@@ -1,10 +1,12 @@
 import re
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING
 from urllib.parse import quote_plus
 
 from korone.utils.formatting import Bold, HList, Italic, Template, Url
+from korone.utils.i18n import format_relative_timedelta
 from korone.utils.i18n import gettext as _
+from korone.utils.i18n import ngettext as pl_
 
 from .errors import LastFMAPIError, LastFMConfigurationError, LastFMRequestError
 
@@ -29,16 +31,19 @@ def _format_elapsed_time(played_at: int | None) -> str | None:
     elapsed = datetime.now(tz=UTC) - played_at_datetime
 
     if elapsed.days > 0:
-        return str(Template(_(", {days} day(s) ago"), days=elapsed.days))
+        relative_time = format_relative_timedelta(timedelta(days=-elapsed.days), granularity="day")
+        return f", {relative_time}"
 
     elapsed_seconds = int(elapsed.total_seconds())
     hours, remainder = divmod(max(elapsed_seconds, 0), 3600)
     if hours > 0:
-        return str(Template(_(", {hours} hour(s) ago"), hours=hours))
+        relative_time = format_relative_timedelta(timedelta(hours=-hours), granularity="hour")
+        return f", {relative_time}"
 
     minutes, _seconds = divmod(remainder, 60)
     if minutes > 0:
-        return str(Template(_(", {minutes} minute(s) ago"), minutes=minutes))
+        relative_time = format_relative_timedelta(timedelta(minutes=-minutes), granularity="minute")
+        return f", {relative_time}"
 
     return _(", just now")
 
@@ -73,7 +78,7 @@ def _build_playcount_text(playcount: int) -> str | None:
     if playcount <= 0:
         return None
 
-    return str(Template(_(", {plays} plays"), plays=playcount))
+    return str(Template(pl_(", {plays} play", ", {plays} plays", playcount), plays=playcount))
 
 
 def _build_track_line(track: LastFMRecentTrack, *, user_playcount: int = 0) -> str:

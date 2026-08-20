@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, Literal, cast
 
 import polib
 from aiogram.utils.i18n import I18n
 from babel.core import Locale
+from babel.dates import format_timedelta
 from babel.support import LazyProxy as BabelLazyProxy
 
 from korone.config import CONFIG
@@ -13,6 +14,7 @@ from korone.utils.country import country_flag
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from datetime import timedelta
 
 logger = get_logger(__name__)
 
@@ -111,6 +113,19 @@ def get_i18n() -> I18nNew:
 
 def gettext(message: str, plural: str | None = None, n: int = 1, locale: str | None = None) -> str:
     return get_i18n().gettext(message, plural=plural, n=n, locale=locale)
+
+
+def format_relative_timedelta(
+    delta: timedelta, *, granularity: Literal["day", "hour", "minute", "second"] = "second"
+) -> str:
+    # Keep Babel from promoting an explicitly selected unit (for example, days to weeks).
+    return format_timedelta(
+        delta,
+        granularity=granularity,
+        threshold=float("inf"),
+        add_direction=True,
+        locale=get_i18n().current_locale_babel,
+    )
 
 
 class LazyProxy(BabelLazyProxy):

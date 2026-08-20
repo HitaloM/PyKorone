@@ -26,6 +26,7 @@ from korone.utils.formatting import Code, Doc, Template, Url
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+from korone.utils.i18n import ngettext as pl_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
@@ -169,7 +170,14 @@ class StickerStealPackHandler(KoroneMessageHandler):
             await status_message.edit_text(
                 str(
                     Doc(
-                        Template(_("Target pack got full after {added} stickers."), added=Code(added)),
+                        Template(
+                            pl_(
+                                "Target pack got full after {added} sticker.",
+                                "Target pack got full after {added} stickers.",
+                                added,
+                            ),
+                            added=Code(added),
+                        ),
                         Template(_("Pack: {pack}"), pack=Url(pack_title, pack_url)),
                     )
                 ),
@@ -181,7 +189,11 @@ class StickerStealPackHandler(KoroneMessageHandler):
             await status_message.edit_text(
                 str(
                     Doc(
-                        Template(_("Added {added}/{total} stickers."), added=Code(added), total=Code(total)),
+                        Template(
+                            pl_("Added {added}/{total} sticker.", "Added {added}/{total} stickers.", total),
+                            added=Code(added),
+                            total=Code(total),
+                        ),
                         Template(_("Skipped: {skipped}"), skipped=Code(skipped)),
                         Template(_("Pack: {pack}"), pack=Url(pack_title, pack_url)),
                     )

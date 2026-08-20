@@ -6,6 +6,7 @@ import aiohttp
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from korone.utils.aiohttp_session import HTTPClient
+from korone.utils.i18n import ngettext as pl_
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -74,7 +75,7 @@ async def _download_covers(urls: Sequence[str]) -> list[bytes | None]:
     return payloads
 
 
-def _render_tile_overlay(image: Image.Image, album: LastFMTopAlbum, *, font: FontType) -> None:
+def _render_tile_overlay(image: Image.Image, album: LastFMTopAlbum, *, playcount_text: str, font: FontType) -> None:
     draw = ImageDraw.Draw(image)
 
     draw.text(
@@ -94,17 +95,12 @@ def _render_tile_overlay(image: Image.Image, album: LastFMTopAlbum, *, font: Fon
         stroke_fill=(0, 0, 0),
     )
     draw.text(
-        (10, TILE_PX - 28),
-        f"{max(album.playcount, 0)} plays",
-        fill=(255, 255, 255),
-        font=font,
-        stroke_width=2,
-        stroke_fill=(0, 0, 0),
+        (10, TILE_PX - 28), playcount_text, fill=(255, 255, 255), font=font, stroke_width=2, stroke_fill=(0, 0, 0)
     )
 
 
 def _build_tile(
-    payload: bytes, album: LastFMTopAlbum, *, include_text: bool, font: FontType | None
+    payload: bytes, album: LastFMTopAlbum, *, playcount_text: str | None, font: FontType | None
 ) -> Image.Image | None:
     try:
         with Image.open(BytesIO(payload)) as source:
@@ -116,25 +112,30 @@ def _build_tile(
     except OSError, ValueError:
         return None
 
-    if include_text and font:
-        _render_tile_overlay(tile, album, font=font)
+    if playcount_text is not None and font:
+        _render_tile_overlay(tile, album, playcount_text=playcount_text, font=font)
 
     return tile
 
 
 def _compose_collage_sync(
-    *, albums: Sequence[LastFMTopAlbum], payloads: Sequence[bytes | None], size: int, include_text: bool
+    *,
+    albums: Sequence[LastFMTopAlbum],
+    payloads: Sequence[bytes | None],
+    playcount_texts: Sequence[str] | None,
+    size: int,
 ) -> bytes:
     image_size = TILE_PX * size
     collage = Image.new("RGB", (image_size, image_size), color=(0, 0, 0))
-    font = _load_font() if include_text else None
+    font = _load_font() if playcount_texts is not None else None
 
     try:
         for index, (album, payload) in enumerate(zip(albums, payloads, strict=False)):
             if not payload:
                 continue
 
-            tile = _build_tile(payload, album, include_text=include_text, font=font)
+            playcount_text = playcount_texts[index] if playcount_texts is not None else None
+            tile = _build_tile(payload, album, playcount_text=playcount_text, font=font)
             if tile is None:
                 continue
 
@@ -163,6 +164,13 @@ async def create_album_collage(*, albums: Sequence[LastFMTopAlbum], size: int, i
         msg = "Could not download album covers for this collage."
         raise LastFMCollageError(msg)
 
+    playcount_texts = None
+    if include_text:
+        playcount_texts = []
+        for album in selectable:
+            playcount = max(album.playcount, 0)
+            playcount_texts.append(pl_("{playcount} play", "{playcount} plays", playcount).format(playcount=playcount))
+
     return await asyncio.to_thread(
-        _compose_collage_sync, albums=selectable, payloads=payloads, size=valid_size, include_text=include_text
+        _compose_collage_sync, albums=selectable, payloads=payloads, playcount_texts=playcount_texts, size=valid_size
     )

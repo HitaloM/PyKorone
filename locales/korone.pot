@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-07-27 20:14-0300\n"
+"POT-Creation-Date: 2026-08-20 18:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -278,32 +278,39 @@ msgstr ""
 msgid "Command enabled"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:22
+#: src/korone/modules/disabling/handlers/enable_all.py:23
 msgid "Re-enable all disabled commands in this chat."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:34
+#: src/korone/modules/disabling/handlers/enable_all.py:35
 msgid "✅ Enable all"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:38
+#: src/korone/modules/disabling/handlers/enable_all.py:39
 #: src/korone/modules/language/handlers/select.py:52
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:43
+#: src/korone/modules/disabling/handlers/enable_all.py:44
 #, python-brace-format
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:59
+#: src/korone/modules/disabling/handlers/enable_all.py:60
 msgid "Only the initiator can confirm disabling all commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:69
+#: src/korone/modules/disabling/handlers/enable_all.py:68
 #, python-brace-format
-msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
+msgid "✅ No commands were enabled in the {chat_name}"
 msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_all.py:71
+#, python-brace-format
+msgid "✅ {removed_count} command has been enabled in the {chat_name}"
+msgid_plural "✅ {removed_count} commands have been enabled in the {chat_name}"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/korone/modules/error/utils/error_message.py:32
 msgid "😞 I've got an error trying to process this update"
@@ -935,7 +942,7 @@ msgid "This user needs to set Last.fm first with /setlfm."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/lfm.py:94
-#: src/korone/modules/lastfm/utils/formatters.py:130
+#: src/korone/modules/lastfm/utils/formatters.py:135
 msgid "No scrobbles found for this Last.fm user."
 msgstr ""
 
@@ -949,7 +956,7 @@ msgid "Invalid Last.fm username format."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:52
-#: src/korone/modules/lastfm/utils/formatters.py:209
+#: src/korone/modules/lastfm/utils/formatters.py:214
 msgid "Last.fm user not found."
 msgstr ""
 
@@ -962,90 +969,84 @@ msgstr ""
 msgid "Set your Last.fm username for status commands."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:32
+#: src/korone/modules/lastfm/utils/collage.py:172
 #, python-brace-format
-msgid ", {days} day(s) ago"
-msgstr ""
+msgid "{playcount} play"
+msgid_plural "{playcount} plays"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:37
-#, python-brace-format
-msgid ", {hours} hour(s) ago"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:41
-#, python-brace-format
-msgid ", {minutes} minute(s) ago"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:43
+#: src/korone/modules/lastfm/utils/formatters.py:48
 msgid ", just now"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:76
+#: src/korone/modules/lastfm/utils/formatters.py:81
 #, python-brace-format
-msgid ", {plays} plays"
-msgstr ""
+msgid ", {plays} play"
+msgid_plural ", {plays} plays"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:80
+#: src/korone/modules/lastfm/utils/formatters.py:85
 #, python-brace-format
 msgid ", [{album}]"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:82
+#: src/korone/modules/lastfm/utils/formatters.py:87
 msgid ", loved"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:136
+#: src/korone/modules/lastfm/utils/formatters.py:141
 #, python-brace-format
 msgid "{user} is now listening to"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:136
+#: src/korone/modules/lastfm/utils/formatters.py:141
 #, python-brace-format
 msgid "{user} was listening to"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:153
+#: src/korone/modules/lastfm/utils/formatters.py:158
 msgid "Unknown album"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:159
+#: src/korone/modules/lastfm/utils/formatters.py:164
 #, python-brace-format
 msgid "{user} is now listening to album"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:159
+#: src/korone/modules/lastfm/utils/formatters.py:164
 #, python-brace-format
 msgid "{user} was listening to album"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:185
+#: src/korone/modules/lastfm/utils/formatters.py:190
 #, python-brace-format
 msgid "{user} is now listening to artist"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:185
+#: src/korone/modules/lastfm/utils/formatters.py:190
 #, python-brace-format
 msgid "{user} was listening to artist"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:202
+#: src/korone/modules/lastfm/utils/formatters.py:207
 msgid "Last.fm API key is not configured on this bot."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:205
+#: src/korone/modules/lastfm/utils/formatters.py:210
 msgid "Could not reach Last.fm right now. Please try again later."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:211
+#: src/korone/modules/lastfm/utils/formatters.py:216
 msgid "This Last.fm profile is private."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:213
+#: src/korone/modules/lastfm/utils/formatters.py:218
 msgid "Last.fm rate limit exceeded. Please try again in a moment."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:216
+#: src/korone/modules/lastfm/utils/formatters.py:221
 msgid "Unexpected Last.fm error."
 msgstr ""
 
@@ -1231,7 +1232,7 @@ msgstr ""
 #: src/korone/modules/stickers/handlers/delsticker.py:27
 #: src/korone/modules/stickers/handlers/mypacks.py:25
 #: src/korone/modules/stickers/handlers/steal.py:48
-#: src/korone/modules/stickers/handlers/stealpack.py:79
+#: src/korone/modules/stickers/handlers/stealpack.py:80
 #: src/korone/modules/stickers/handlers/switch.py:31
 msgid "Could not identify your user."
 msgstr ""
@@ -1242,7 +1243,7 @@ msgstr ""
 
 #: src/korone/modules/stickers/handlers/delsticker.py:35
 #: src/korone/modules/stickers/handlers/steal.py:56
-#: src/korone/modules/stickers/handlers/stealpack.py:98
+#: src/korone/modules/stickers/handlers/stealpack.py:99
 #, python-brace-format
 msgid "Then use {command}."
 msgstr ""
@@ -1367,9 +1368,9 @@ msgstr ""
 
 #: src/korone/modules/stickers/handlers/steal.py:116
 #: src/korone/modules/stickers/handlers/steal.py:119
-#: src/korone/modules/stickers/handlers/stealpack.py:173
-#: src/korone/modules/stickers/handlers/stealpack.py:186
-#: src/korone/modules/stickers/handlers/stealpack.py:195
+#: src/korone/modules/stickers/handlers/stealpack.py:181
+#: src/korone/modules/stickers/handlers/stealpack.py:198
+#: src/korone/modules/stickers/handlers/stealpack.py:207
 #, python-brace-format
 msgid "Pack: {pack}"
 msgstr ""
@@ -1378,60 +1379,64 @@ msgstr ""
 msgid "Sticker saved successfully."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:35
+#: src/korone/modules/stickers/handlers/stealpack.py:36
 msgid "Copy an entire sticker set into one of your packs."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:38
+#: src/korone/modules/stickers/handlers/stealpack.py:39
 msgid "Target pack name"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:87
+#: src/korone/modules/stickers/handlers/stealpack.py:88
 #, python-brace-format
 msgid "Usage: {command} {pack_name}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:97
+#: src/korone/modules/stickers/handlers/stealpack.py:98
 msgid "Reply to a sticker from the source pack first."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:106
+#: src/korone/modules/stickers/handlers/stealpack.py:107
 msgid "Reply to a sticker that belongs to a sticker set."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:109
+#: src/korone/modules/stickers/handlers/stealpack.py:110
 msgid "Stealing sticker pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:116
+#: src/korone/modules/stickers/handlers/stealpack.py:117
 msgid "The source sticker pack does not exist anymore."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:156
+#: src/korone/modules/stickers/handlers/stealpack.py:157
 #, python-brace-format
 msgid "Stealing sticker pack... {current}/{total}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:162
+#: src/korone/modules/stickers/handlers/stealpack.py:163
 msgid "Could not add any sticker from that pack."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:172
+#: src/korone/modules/stickers/handlers/stealpack.py:175
 #, python-brace-format
-msgid "Target pack got full after {added} stickers."
-msgstr ""
+msgid "Target pack got full after {added} sticker."
+msgid_plural "Target pack got full after {added} stickers."
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:184
+#: src/korone/modules/stickers/handlers/stealpack.py:193
 #, python-brace-format
-msgid "Added {added}/{total} stickers."
-msgstr ""
+msgid "Added {added}/{total} sticker."
+msgid_plural "Added {added}/{total} stickers."
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:185
+#: src/korone/modules/stickers/handlers/stealpack.py:197
 #, python-brace-format
 msgid "Skipped: {skipped}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/stealpack.py:195
+#: src/korone/modules/stickers/handlers/stealpack.py:207
 msgid "Sticker pack copied successfully."
 msgstr ""
 
