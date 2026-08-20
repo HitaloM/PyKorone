@@ -7,11 +7,7 @@ from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.modules.lastfm.callbacks import LastFMArtistRefreshCallback
-from korone.modules.lastfm.handlers.base import (
-    BaseLastFMCallbackHandler,
-    BaseLastFMMessageHandler,
-    LastFMCallbackContext,
-)
+from korone.modules.lastfm.handlers.base import BaseLastFMCallbackHandler, BaseLastFMMessageHandler, LastFMUserContext
 from korone.modules.lastfm.utils import DeezerClient, DeezerError, LastFMAPIError, LastFMClient, format_artist_status
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -26,29 +22,34 @@ if TYPE_CHECKING:
 
 @dataclass(slots=True, frozen=True)
 class LastFMArtistPayload:
-    username: str
+    user: LastFMUserContext
     track: LastFMRecentTrack
     artist_info: LastFMArtistInfo | None
     image_url: str | None
 
     @property
     def text(self) -> str:
-        return format_artist_status(username=self.username, track=self.track, artist_info=self.artist_info)
+        return format_artist_status(
+            username=self.user.username,
+            display_name=self.user.display_name,
+            track=self.track,
+            artist_info=self.artist_info,
+        )
 
 
 class LastFMArtistView:
     @classmethod
-    async def build_payload_for_username(cls, *, username: str) -> LastFMArtistPayload | None:
+    async def build_payload_for_user(cls, *, user: LastFMUserContext) -> LastFMArtistPayload | None:
         client = LastFMClient()
         deezer_client = DeezerClient()
-        recent_tracks = await client.get_recent_tracks(username=username, limit=1)
+        recent_tracks = await client.get_recent_tracks(username=user.username, limit=1)
         if not recent_tracks:
             return None
 
         track = recent_tracks[0]
         artist_info = None
         try:
-            artist_info = await client.get_artist_info(username=username, artist=track.artist)
+            artist_info = await client.get_artist_info(username=user.username, artist=track.artist)
         except LastFMAPIError:
             artist_info = None
 
@@ -59,18 +60,18 @@ class LastFMArtistView:
         except DeezerError:
             image_url = None
 
-        return LastFMArtistPayload(username=username, track=track, artist_info=artist_info, image_url=image_url)
+        return LastFMArtistPayload(user=user, track=track, artist_info=artist_info, image_url=image_url)
 
     @classmethod
     def empty_state_text(cls) -> str:
         return _("No artist information found for the current track.")
 
     @classmethod
-    def build_reply_markup_for_owner(
-        cls, *, username: str, owner_id: int, payload: LastFMArtistPayload
+    def build_reply_markup_for_user(
+        cls, *, user: LastFMUserContext, payload: LastFMArtistPayload
     ) -> InlineKeyboardMarkup:
         builder = InlineKeyboardBuilder()
-        builder.button(text="🔃", callback_data=LastFMArtistRefreshCallback(u=username, uid=owner_id))
+        builder.button(text="🔃", callback_data=LastFMArtistRefreshCallback(u=user.username, uid=user.telegram_user_id))
         return builder.as_markup()
 
 
@@ -85,9 +86,7 @@ class LastFMArtistHandler(LastFMArtistView, BaseLastFMMessageHandler[LastFMArtis
 
 
 @flags.help(exclude=True)
-class LastFMArtistCallbackHandler(
-    LastFMArtistView, BaseLastFMCallbackHandler[LastFMCallbackContext, LastFMArtistPayload]
-):
+class LastFMArtistCallbackHandler(LastFMArtistView, BaseLastFMCallbackHandler[LastFMUserContext, LastFMArtistPayload]):
     @classmethod
     @override
     def filters(cls) -> tuple[CallbackType, ...]:
@@ -99,11 +98,13 @@ class LastFMArtistCallbackHandler(
         router.callback_query.register(cls, LastFMArtistRefreshCallback.filter())
 
     @override
-    async def resolve_context(self) -> LastFMCallbackContext | None:
+    async def resolve_context(self) -> LastFMUserContext | None:
         callback_data = self.callback_data
         if not isinstance(callback_data, LastFMArtistRefreshCallback):
             return None
 
         owner_id = callback_data.uid
         username = await self.resolve_username_for_user(owner_id) or callback_data.u
-        return LastFMCallbackContext(username=username, owner_id=owner_id)
+        return LastFMUserContext(
+            username=username, display_name=self.event.from_user.first_name, telegram_user_id=owner_id
+        )

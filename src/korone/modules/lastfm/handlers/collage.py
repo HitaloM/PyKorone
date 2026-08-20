@@ -12,7 +12,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from korone.args import OptionalArg, TextArg, define_arguments
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.lastfm.callbacks import LastFMCollageCallback
-from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
+from korone.modules.lastfm.handlers.base import LastFMHandlerSupport, LastFMUserContext
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, create_album_collage, format_lastfm_error
 from korone.modules.lastfm.utils.collage import MAX_SIZE, MIN_SIZE, LastFMCollageError
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
@@ -72,12 +72,12 @@ class LastFMCollageSupport(LastFMHandlerSupport):
         return options
 
     @staticmethod
-    def build_caption(*, username: str, options: LastFMCollageOptions) -> str:
-        profile_url = f"https://www.last.fm/user/{quote_plus(username)}"
+    def build_caption(*, user: LastFMUserContext, options: LastFMCollageOptions) -> str:
+        profile_url = f"https://www.last.fm/user/{quote_plus(user.username)}"
         return str(
             Template(
                 _("{username}'s {period} album collage ({size}x{size})"),
-                username=Url(username, profile_url),
+                username=Url(user.display_name, profile_url),
                 period=period_label(options.period),
                 size=options.size,
             )
@@ -151,18 +151,19 @@ class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
             await self.event.reply(_("Could not identify the target user."))
             return
 
-        owner_id = self.event.from_user.id
-        username = await self.resolve_username_from_message(self.event)
-        if not username:
+        user = await self.resolve_user_context_from_message(self.event)
+        if not user:
             await type(self).reply_missing_username(self.event, bot=self.bot, state=self.state)
             return
 
         options = self.parse_options(str(self.data.get("options") or "").strip())
 
         try:
-            image_bytes = await self.render_collage(username=username, options=options)
-            keyboard = self.build_keyboard(owner_id=owner_id, target_id=owner_id, options=options)
-            caption = self.build_caption(username=username, options=options)
+            image_bytes = await self.render_collage(username=user.username, options=options)
+            keyboard = self.build_keyboard(
+                owner_id=user.telegram_user_id, target_id=user.telegram_user_id, options=options
+            )
+            caption = self.build_caption(user=user, options=options)
             await self.event.reply_photo(
                 photo=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"), caption=caption, reply_markup=keyboard
             )
@@ -204,13 +205,16 @@ class LastFMCollageCallbackHandler(LastFMCollageSupport, KoroneCallbackQueryHand
             await self.event.answer(_("Last.fm username not found for this user."), show_alert=True)
             return
 
+        user = LastFMUserContext(
+            username=username, display_name=self.event.from_user.first_name, telegram_user_id=callback_data.uid
+        )
         options = LastFMCollageOptions(size=callback_data.s, period=callback_data.p, include_text=bool(callback_data.t))
 
         message = cast("Message", self.event.message)
         try:
-            image_bytes = await self.render_collage(username=username, options=options)
+            image_bytes = await self.render_collage(username=user.username, options=options)
             keyboard = self.build_keyboard(owner_id=callback_data.uid, target_id=callback_data.uid, options=options)
-            caption = self.build_caption(username=username, options=options)
+            caption = self.build_caption(user=user, options=options)
             await message.edit_media(
                 media=InputMediaPhoto(
                     media=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"), caption=caption

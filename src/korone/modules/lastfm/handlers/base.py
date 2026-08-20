@@ -35,9 +35,10 @@ class LastFMResponsePayload(Protocol):
 
 
 @dataclass(slots=True, frozen=True)
-class LastFMCallbackContext:
+class LastFMUserContext:
     username: str
-    owner_id: int
+    display_name: str
+    telegram_user_id: int
 
 
 class LastFMSetState(StatesGroup):
@@ -81,11 +82,17 @@ class LastFMHandlerSupport:
         return await LastFMRepository.get_username(user_id)
 
     @classmethod
-    async def resolve_username_from_message(cls, message: Message) -> str | None:
+    async def resolve_user_context_from_message(cls, message: Message) -> LastFMUserContext | None:
         if not message.from_user:
             return None
 
-        return await cls.resolve_username_for_user(message.from_user.id)
+        username = await cls.resolve_username_for_user(message.from_user.id)
+        if not username:
+            return None
+
+        return LastFMUserContext(
+            username=username, display_name=message.from_user.first_name, telegram_user_id=message.from_user.id
+        )
 
     @staticmethod
     def missing_username_text() -> str:
@@ -162,12 +169,9 @@ class LastFMHandlerSupport:
 
 
 class BaseLastFMMessageHandler[P: LastFMResponsePayload](KoroneMessageHandler, LastFMHandlerSupport):
-    async def resolve_username(self) -> str | None:
-        return await type(self).resolve_username_from_message(self.event)
-
     @classmethod
     @abstractmethod
-    async def build_payload_for_username(cls, *, username: str) -> P | None:
+    async def build_payload_for_user(cls, *, user: LastFMUserContext) -> P | None:
         pass
 
     @classmethod
@@ -176,18 +180,18 @@ class BaseLastFMMessageHandler[P: LastFMResponsePayload](KoroneMessageHandler, L
         pass
 
     @classmethod
-    def build_reply_markup_for_owner(cls, *, username: str, owner_id: int, payload: P) -> InlineKeyboardMarkup | None:
+    def build_reply_markup_for_user(cls, *, user: LastFMUserContext, payload: P) -> InlineKeyboardMarkup | None:
         return None
 
     @override
     async def handle(self) -> None:
-        username = await self.resolve_username()
-        if not username:
+        user = await type(self).resolve_user_context_from_message(self.event)
+        if not user:
             await type(self).reply_missing_username(self.event, bot=self.bot, state=self.state)
             return
 
         try:
-            payload = await type(self).build_payload_for_username(username=username)
+            payload = await type(self).build_payload_for_user(user=user)
         except LastFMError as exc:
             await self.event.reply(format_lastfm_error(exc))
             return
@@ -196,14 +200,13 @@ class BaseLastFMMessageHandler[P: LastFMResponsePayload](KoroneMessageHandler, L
             await self.event.reply(type(self).empty_state_text())
             return
 
-        owner_id = self.event.from_user.id if self.event.from_user else 0
-        reply_markup = type(self).build_reply_markup_for_owner(username=username, owner_id=owner_id, payload=payload)
+        reply_markup = type(self).build_reply_markup_for_user(user=user, payload=payload)
         await type(self).send_response(
             self.event, text=payload.text, image_url=payload.image_url, reply_markup=reply_markup
         )
 
 
-class BaseLastFMCallbackHandler[C: LastFMCallbackContext, P: LastFMResponsePayload](
+class BaseLastFMCallbackHandler[C: LastFMUserContext, P: LastFMResponsePayload](
     KoroneCallbackQueryHandler, LastFMHandlerSupport
 ):
     @abstractmethod
@@ -212,12 +215,12 @@ class BaseLastFMCallbackHandler[C: LastFMCallbackContext, P: LastFMResponsePaylo
 
     @classmethod
     @abstractmethod
-    async def build_payload_for_username(cls, *, username: str) -> P | None:
+    async def build_payload_for_user(cls, *, user: LastFMUserContext) -> P | None:
         pass
 
     @classmethod
     async def build_payload(cls, *, context: C) -> P | None:
-        return await cls.build_payload_for_username(username=context.username)
+        return await cls.build_payload_for_user(user=context)
 
     @classmethod
     @abstractmethod
@@ -225,16 +228,14 @@ class BaseLastFMCallbackHandler[C: LastFMCallbackContext, P: LastFMResponsePaylo
         pass
 
     @classmethod
-    def build_reply_markup_for_owner(cls, *, username: str, owner_id: int, payload: P) -> InlineKeyboardMarkup | None:
+    def build_reply_markup_for_user(cls, *, user: LastFMUserContext, payload: P) -> InlineKeyboardMarkup | None:
         return None
 
     async def handle_not_modified(self) -> None:
         await self._answer_callback_safely(_("No updates from your profile."))
 
     async def render_response(self, message: Message, *, context: C, payload: P) -> None:
-        reply_markup = type(self).build_reply_markup_for_owner(
-            username=context.username, owner_id=context.owner_id, payload=payload
-        )
+        reply_markup = type(self).build_reply_markup_for_user(user=context, payload=payload)
         await type(self).edit_response(
             message, text=payload.text, image_url=payload.image_url, reply_markup=reply_markup
         )
@@ -267,7 +268,7 @@ class BaseLastFMCallbackHandler[C: LastFMCallbackContext, P: LastFMResponsePaylo
             await self._answer_callback_safely()
             return
 
-        if not self.can_use_buttons(callback_owner_id=context.owner_id, user_id=self.event.from_user.id):
+        if not self.can_use_buttons(callback_owner_id=context.telegram_user_id, user_id=self.event.from_user.id):
             await self._answer_callback_safely(_("You are not allowed to use this button."), show_alert=True)
             return
 

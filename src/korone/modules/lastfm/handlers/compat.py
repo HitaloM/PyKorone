@@ -8,7 +8,7 @@ from aiogram.types import User
 
 from korone.args import OptionalArg, WordArg, define_arguments
 from korone.db.repositories.lastfm import LastFMRepository
-from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
+from korone.modules.lastfm.handlers.base import LastFMHandlerSupport, LastFMUserContext
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
 from korone.modules.utils_.get_user import get_arg_or_reply_user
@@ -42,8 +42,8 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
     def format_result(
         cls,
         *,
-        username_a: str,
-        username_b: str,
+        user_a: LastFMUserContext,
+        user_b: LastFMUserContext,
         mutual_artists: list[str],
         common_artists_total: int,
         score: int,
@@ -52,8 +52,8 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
         return str(
             Template(
                 _("{user_a} and {user_b} listen to {artists}\n\nCompatibility score is {score}%, based on {period}"),
-                user_a=Url(username_a, cls.build_profile_url(username_a)),
-                user_b=Url(username_b, cls.build_profile_url(username_b)),
+                user_a=Url(user_a.display_name, cls.build_profile_url(user_a.username)),
+                user_b=Url(user_b.display_name, cls.build_profile_url(user_b.username)),
                 artists=cls.build_artists_preview(mutual_artists, common_artists_total=common_artists_total),
                 score=max(0, min(score, 100)),
                 period=period_label(period),
@@ -125,6 +125,12 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
             await self.event.reply(_("This user needs to set Last.fm first with /setlfm."))
             return
 
+        source_context = LastFMUserContext(
+            username=source_username, display_name=source_user.first_name, telegram_user_id=source_user.id
+        )
+        target_context = LastFMUserContext(
+            username=target_username, display_name=target_user.first_name, telegram_user_id=target_user.id
+        )
         period = parse_period_token(str(self.data.get("period") or "").strip(), default=LastFMPeriod.ONE_YEAR)
 
         try:
@@ -159,8 +165,8 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
 
         await self.event.reply(
             self.format_result(
-                username_a=source_username,
-                username_b=target_username,
+                user_a=source_context,
+                user_b=target_context,
                 mutual_artists=mutual_artists,
                 common_artists_total=numerator,
                 score=score,

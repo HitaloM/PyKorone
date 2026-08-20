@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 TAG_SANITIZER_RE = re.compile(r"[^a-z0-9]+")
 
 
-def _build_profile_link(username: str) -> Url:
-    return Url(username, f"https://www.last.fm/user/{quote_plus(username)}")
+def _build_profile_link(username: str, display_name: str) -> Url:
+    return Url(display_name, f"https://www.last.fm/user/{quote_plus(username)}")
 
 
 def _format_elapsed_time(played_at: int | None) -> str | None:
@@ -130,7 +130,9 @@ def _append_tags_block(lines: list[str], tags: tuple[str, ...]) -> None:
     lines.extend(("", tags_text, ""))
 
 
-def format_status(username: str, tracks: Sequence[LastFMRecentTrack], track_info: LastFMTrackInfo | None) -> str:
+def format_status(
+    username: str, display_name: str, tracks: Sequence[LastFMRecentTrack], track_info: LastFMTrackInfo | None
+) -> str:
     if not tracks:
         return _("No scrobbles found for this Last.fm user.")
 
@@ -139,7 +141,7 @@ def format_status(username: str, tracks: Sequence[LastFMRecentTrack], track_info
         str(
             Template(
                 _("{user} is now listening to") if first_track.now_playing else _("{user} was listening to"),
-                user=_build_profile_link(username),
+                user=_build_profile_link(username, display_name),
             )
         )
     ]
@@ -154,7 +156,9 @@ def format_status(username: str, tracks: Sequence[LastFMRecentTrack], track_info
     return "\n".join(lines)
 
 
-def format_album_status(username: str, track: LastFMRecentTrack, album_info: LastFMAlbumInfo | None) -> str:
+def format_album_status(
+    username: str, display_name: str, track: LastFMRecentTrack, album_info: LastFMAlbumInfo | None
+) -> str:
     album_name = album_info.name if album_info else (track.album or _("Unknown album"))
     album_artist = album_info.artist if album_info else track.artist
 
@@ -162,7 +166,7 @@ def format_album_status(username: str, track: LastFMRecentTrack, album_info: Las
         str(
             Template(
                 _("{user} is now listening to album") if track.now_playing else _("{user} was listening to album"),
-                user=_build_profile_link(username),
+                user=_build_profile_link(username, display_name),
             )
         ),
         _build_album_line(
@@ -181,14 +185,16 @@ def format_album_status(username: str, track: LastFMRecentTrack, album_info: Las
     return "\n".join(lines)
 
 
-def format_artist_status(username: str, track: LastFMRecentTrack, artist_info: LastFMArtistInfo | None) -> str:
+def format_artist_status(
+    username: str, display_name: str, track: LastFMRecentTrack, artist_info: LastFMArtistInfo | None
+) -> str:
     artist_name = artist_info.name if artist_info else track.artist
 
     lines = [
         str(
             Template(
                 _("{user} is now listening to artist") if track.now_playing else _("{user} was listening to artist"),
-                user=_build_profile_link(username),
+                user=_build_profile_link(username, display_name),
             )
         ),
         _build_artist_line(track, artist_name=artist_name, playcount=artist_info.user_playcount if artist_info else 0),
