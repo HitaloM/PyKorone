@@ -18,7 +18,7 @@ from .config import CONFIG
 from .db.repositories.chat import ChatRepository
 from .db.utils import close_db, init_db, migrate_db_if_needed
 from .logger import get_logger, setup_logging
-from .middlewares import localization_middleware
+from .middlewares import UpdateLogContextMiddleware, localization_middleware
 from .middlewares.admin_cache import AdminCacheMiddleware
 from .middlewares.chat_context import ChatContextMiddleware
 from .middlewares.disabling import DisablingMiddleware
@@ -41,6 +41,14 @@ async def ensure_bot_in_db() -> None:
 
 
 def configure_dispatcher() -> None:
+    outer_middlewares = tuple(dp.update.outer_middleware)
+    for middleware in outer_middlewares:
+        dp.update.outer_middleware.unregister(middleware)
+
+    dp.update.outer_middleware(UpdateLogContextMiddleware())
+    for middleware in outer_middlewares:
+        dp.update.outer_middleware(middleware)
+
     dp.update.middleware(localization_middleware)
     dp.message.middleware(DisablingMiddleware())
     dp.message.middleware(ArgumentsMiddleware())

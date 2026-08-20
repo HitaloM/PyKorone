@@ -10,7 +10,11 @@ if TYPE_CHECKING:
 
 
 def setup_logging(level: int = logging.INFO) -> None:
-    shared_processors = [structlog.stdlib.add_log_level, structlog.processors.TimeStamper(fmt="iso", utc=True)]
+    shared_processors = [
+        structlog.contextvars.merge_contextvars,
+        structlog.stdlib.add_log_level,
+        structlog.processors.TimeStamper(fmt="iso", utc=True),
+    ]
 
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(
@@ -29,6 +33,7 @@ def setup_logging(level: int = logging.INFO) -> None:
 
     processors: list[Processor] = [
         structlog.stdlib.filter_by_level,
+        structlog.contextvars.merge_contextvars,
         structlog.stdlib.add_log_level,
         structlog.stdlib.add_logger_name,
         structlog.stdlib.PositionalArgumentsFormatter(),
