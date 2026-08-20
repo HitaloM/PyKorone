@@ -2,6 +2,7 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import delete, select
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from korone.db.models.chat_admin import ChatAdminModel
 from korone.db.session import session_scope
@@ -43,22 +44,20 @@ class ChatAdminRepository:
     async def replace_chat_admins(chat: ChatModel, admins_map: dict[int, dict[str, Any]]) -> None:
         now = datetime.now(UTC)
         async with session_scope() as session:
-            stmt = select(ChatAdminModel).where(ChatAdminModel.chat_id == chat.id)
-            result = await session.execute(stmt)
-            existing_admins = {model.user_id: model for model in result.scalars()}
-
-            for user_id, admin_data in admins_map.items():
-                if admin := existing_admins.get(user_id):
-                    admin.data = admin_data
-                    admin.last_updated = now
-                    continue
-
-                session.add(ChatAdminModel(chat_id=chat.id, user_id=user_id, data=admin_data, last_updated=now))
-
-            stale_user_ids = set(existing_admins) - set(admins_map)
-            if stale_user_ids:
+            if admins_map:
+                stmt = pg_insert(ChatAdminModel).values([
+                    {"chat_id": chat.id, "user_id": user_id, "data": admin_data, "last_updated": now}
+                    for user_id, admin_data in admins_map.items()
+                ])
                 await session.execute(
-                    delete(ChatAdminModel).where(
-                        ChatAdminModel.chat_id == chat.id, ChatAdminModel.user_id.in_(stale_user_ids)
+                    stmt.on_conflict_do_update(
+                        index_elements=[ChatAdminModel.chat_id, ChatAdminModel.user_id],
+                        set_={"data": stmt.excluded.data, "last_updated": now},
                     )
                 )
+
+            await session.execute(
+                delete(ChatAdminModel).where(
+                    ChatAdminModel.chat_id == chat.id, ChatAdminModel.user_id.not_in(tuple(admins_map))
+                )
+            )

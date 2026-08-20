@@ -1,6 +1,7 @@
 from datetime import UTC, datetime
 
 from sqlalchemy import func, select
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from korone.db.base import get_one
 from korone.db.models.lastfm import LastFMUserModel
@@ -22,13 +23,14 @@ class LastFMRepository:
 
     @staticmethod
     async def set_username(chat_id: int, username: str) -> LastFMUserModel:
+        now = datetime.now(UTC)
         async with session_scope() as session:
-            if item := await get_one(session, LastFMUserModel, LastFMUserModel.chat_id == chat_id):
-                item.username = username
-                item.updated_at = datetime.now(UTC)
-                return item
-
-            item = LastFMUserModel(chat_id=chat_id, username=username)
-            session.add(item)
-            await session.flush()
-            return item
+            stmt = (
+                pg_insert(LastFMUserModel)
+                .values(chat_id=chat_id, username=username, updated_at=now)
+                .on_conflict_do_update(
+                    index_elements=[LastFMUserModel.chat_id], set_={"username": username, "updated_at": now}
+                )
+                .returning(LastFMUserModel)
+            )
+            return (await session.scalars(stmt)).one()

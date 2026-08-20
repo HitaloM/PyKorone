@@ -1,4 +1,5 @@
 from sqlalchemy import delete, func, select, update
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 
 from korone.db.base import get_one
 from korone.db.models.sticker_pack import StickerPackModel
@@ -58,15 +59,15 @@ class StickerPackRepository:
     ) -> StickerPackModel:
         normalized_title = title.strip()[:64]
         async with session_scope() as session:
-            item = await get_one(session, StickerPackModel, StickerPackModel.pack_id == pack_id)
-
-            if item:
-                item.owner_id = owner_id
-                item.title = normalized_title
-            else:
-                item = StickerPackModel(pack_id=pack_id, owner_id=owner_id, title=normalized_title)
-                session.add(item)
-                await session.flush()
+            stmt = (
+                pg_insert(StickerPackModel)
+                .values(pack_id=pack_id, owner_id=owner_id, title=normalized_title)
+                .on_conflict_do_update(
+                    index_elements=[StickerPackModel.pack_id], set_={"owner_id": owner_id, "title": normalized_title}
+                )
+                .returning(StickerPackModel)
+            )
+            item = (await session.scalars(stmt)).one()
 
             if set_default is True:
                 await session.execute(

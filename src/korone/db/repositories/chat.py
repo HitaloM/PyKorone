@@ -1,4 +1,3 @@
-import asyncio
 from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING, TypedDict
 
@@ -28,16 +27,15 @@ class UserInGroupRepository:
     async def ensure_user_in_group(user: ChatModel, group: ChatModel) -> UserInGroupModel:
         now = datetime.now(UTC)
         async with session_scope() as session:
-            if model := await get_one(
-                session, UserInGroupModel, UserInGroupModel.user_id == user.id, UserInGroupModel.group_id == group.id
-            ):
-                model.last_saw = now
-                return model
-
-            model = UserInGroupModel(user_id=user.id, group_id=group.id, last_saw=now)
-            session.add(model)
-            await session.flush()
-            return model
+            stmt = (
+                pg_insert(UserInGroupModel)
+                .values(user_id=user.id, group_id=group.id, first_saw=now, last_saw=now)
+                .on_conflict_do_update(
+                    index_elements=[UserInGroupModel.user_id, UserInGroupModel.group_id], set_={"last_saw": now}
+                )
+                .returning(UserInGroupModel)
+            )
+            return (await session.scalars(stmt)).one()
 
     @staticmethod
     async def remove_user_in_chat(user_id: int, group_id: int) -> UserInGroupModel | None:
@@ -84,23 +82,19 @@ class UserInGroupRepository:
 class ChatTopicRepository:
     @staticmethod
     async def ensure_topic(group: ChatModel, thread_id: int, topic_name: str | None) -> ChatTopicModel:
+        now = datetime.now(UTC)
         async with session_scope() as session:
-            if model := await get_one(
-                session, ChatTopicModel, ChatTopicModel.group_id == group.id, ChatTopicModel.thread_id == thread_id
-            ):
-                if topic_name and topic_name != model.name:
-                    model.name = topic_name
-                return model
-
-            model = ChatTopicModel(group_id=group.id, thread_id=thread_id, name=topic_name)
-            session.add(model)
-            await session.flush()
-            return model
+            stmt = pg_insert(ChatTopicModel).values(
+                group_id=group.id, thread_id=thread_id, name=topic_name, last_active=now
+            )
+            stmt = stmt.on_conflict_do_update(
+                index_elements=[ChatTopicModel.group_id, ChatTopicModel.thread_id],
+                set_={"name": func.coalesce(func.nullif(stmt.excluded.name, ""), ChatTopicModel.name)},
+            ).returning(ChatTopicModel)
+            return (await session.scalars(stmt)).one()
 
 
 class ChatRepository:
-    _upsert_lock: asyncio.Lock = asyncio.Lock()
-
     @staticmethod
     def _user_data(user: User) -> ChatData:
         return {
@@ -145,19 +139,14 @@ class ChatRepository:
 
     @classmethod
     async def _upsert(cls, chat_id: int, data: ChatData) -> ChatModel:
-        async with cls._upsert_lock, session_scope() as session:
+        async with session_scope() as session:
             stmt = (
                 pg_insert(ChatModel)
                 .values(chat_id=chat_id, **data)
                 .on_conflict_do_update(index_elements=[ChatModel.chat_id], set_=dict(data))
-                .returning(ChatModel.id)
+                .returning(ChatModel)
             )
-            model_id = (await session.execute(stmt)).scalar_one()
-            model = await session.get(ChatModel, model_id)
-            if model is None:
-                msg = f"Upsert for chat_id={chat_id} did not return a chat model"
-                raise RuntimeError(msg)
-            return model
+            return (await session.scalars(stmt)).one()
 
     @staticmethod
     async def do_chat_migrate(old_id: int, new_chat: Chat) -> ChatModel | None:

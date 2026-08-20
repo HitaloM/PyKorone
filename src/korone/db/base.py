@@ -21,5 +21,4 @@ async def get_one[ModelT: "Base"](
     stmt = select(model)
     if filters:
         stmt = stmt.where(*filters)
-    result = await session.execute(stmt.limit(1))
-    return result.scalars().first()
+    return await session.scalar(stmt.limit(1))

@@ -18,17 +18,8 @@ def get_sessionmaker() -> async_sessionmaker[AsyncSession]:
 
 @asynccontextmanager
 async def session_scope() -> AsyncGenerator[AsyncSession]:
-    async_session = get_sessionmaker()
-
-    async with async_session() as session:
-        try:
-            yield session
-            await session.commit()
-        except Exception:
-            await session.rollback()
-            raise
-        finally:
-            await session.close()
+    async with get_sessionmaker().begin() as session:
+        yield session
 
 
 async def get_postgres_stats() -> dict[str, int]:
