@@ -29,9 +29,13 @@ async def set_value(key: str, value: JsonValue, ttl: float | None) -> None:
     expiry_timestamp = time.time() + ttl if ttl else None
     wrapped = {"v": value, "s": _NOT_SET_MARKER if value is None else None, "exp": expiry_timestamp}
     serialized = orjson.dumps(wrapped)
-    await aredis.set(key, serialized)
-    if ttl:
-        await aredis.expire(key, int(ttl))
+    if ttl is None or ttl == 0:
+        await aredis.set(key, serialized)
+    elif ttl > 0:
+        ttl_milliseconds = max(math.ceil(ttl * 1000), 1)
+        await aredis.set(key, serialized, px=ttl_milliseconds)
+    else:
+        await aredis.delete(key)
 
 
 def _deserialize(data: bytes | str) -> tuple[JsonValue | None, float | None, bool]:

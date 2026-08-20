@@ -22,7 +22,7 @@ bot = Bot(
     default=DefaultBotProperties(parse_mode=ParseMode.HTML, link_preview=LinkPreviewOptions(is_disabled=True)),
     session=session,
 )
-aredis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_states, single_connection_client=True)
+aredis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_states)
 fsm_redis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_fsm, single_connection_client=True)
 fsm_key_builder = DefaultKeyBuilder(prefix=CONFIG.redis_fsm_key_prefix, with_bot_id=True)
 storage = RedisStorage(

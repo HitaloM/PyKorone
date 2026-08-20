@@ -14,9 +14,11 @@ class RedisClearHandler(KoroneMessageHandler):
         return (Command("flushredis"), IsOP(is_op=True))
 
     async def handle(self) -> None:
-        before = await aredis.dbsize()
-        await aredis.flushdb()
-        after = await aredis.dbsize()
+        async with aredis.pipeline() as pipeline:
+            pipeline.dbsize()
+            pipeline.flushdb()
+            pipeline.dbsize()
+            before, _, after = await pipeline.execute()
         removed = max(before - after, 0)
 
         message = Doc(Template("Redis cleared. {removed} keys removed.", removed=Code(removed)))

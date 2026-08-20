@@ -1,14 +1,11 @@
 import hashlib
 import time
 import traceback
-from typing import TYPE_CHECKING, Final
+from typing import Final
 
 from redis.exceptions import RedisError
 
 from korone import aredis
-
-if TYPE_CHECKING:
-    from redis.asyncio import Redis as AsyncRedis
 
 # Redis-based global exponential backoff for error notifications
 # Schedule: allow -> suppress 1m -> allow -> suppress 2m -> 4m -> 8m ... capped at 1h
@@ -19,6 +16,64 @@ _MAX_DELAY: Final[int] = 3600
 _QUIET_RESET: Final[int] = 1800  # reset backoff if no occurrences for 30 minutes
 
 _PREFIX: Final[str] = "korone:err:sig:"
+
+_SHOULD_NOTIFY_SCRIPT = aredis.register_script(
+    """
+local key = KEYS[1]
+local now = tonumber(ARGV[1])
+local initial_delay = tonumber(ARGV[2])
+local factor = tonumber(ARGV[3])
+local max_delay = tonumber(ARGV[4])
+local quiet_reset = tonumber(ARGV[5])
+
+local state = redis.call("HMGET", key, "step", "next_allowed_at", "last_seen_at")
+local step = tonumber(state[1] or "-1")
+local next_allowed_at = tonumber(state[2] or "0")
+local last_seen_at = tonumber(state[3] or "0")
+
+if last_seen_at > 0 and now - last_seen_at > quiet_reset then
+    step = -1
+    next_allowed_at = 0
+end
+
+if step < 0 then
+    step = 0
+    local delay = math.min(initial_delay * factor ^ step, max_delay)
+    local next_allowed = now + delay
+    redis.call(
+        "HSET",
+        key,
+        "step", tostring(step),
+        "last_seen_at", ARGV[1],
+        "last_allowed_at", ARGV[1],
+        "next_allowed_at", tostring(next_allowed)
+    )
+    redis.call("EXPIRE", key, quiet_reset + initial_delay)
+    return 1
+end
+
+if now < next_allowed_at then
+    local ttl = math.floor(math.max(quiet_reset, next_allowed_at - now))
+    redis.call("HSET", key, "last_seen_at", ARGV[1])
+    redis.call("EXPIRE", key, ttl)
+    return 0
+end
+
+step = math.min(step + 1, 32)
+local delay = math.min(initial_delay * factor ^ step, max_delay)
+local next_allowed = now + delay
+redis.call(
+    "HSET",
+    key,
+    "step", tostring(step),
+    "last_seen_at", ARGV[1],
+    "last_allowed_at", ARGV[1],
+    "next_allowed_at", tostring(next_allowed)
+)
+redis.call("EXPIRE", key, math.floor(math.max(quiet_reset, delay)))
+return 1
+"""
+)
 
 
 def compute_error_signature(exc: BaseException, frame_depth: int = 3) -> str:
@@ -56,63 +111,14 @@ async def should_notify(signature: str, now: float | None = None) -> bool:
         now = time.time()
 
     key = f"{_PREFIX}{signature}"
-    # Use aredis directly - it's already an AsyncRedis
-    client: AsyncRedis = aredis
 
     try:
-        # Load current state
-        raw_data = await client.hgetall(key)
-        raw = {}
-        if isinstance(raw_data, dict):
-            for k, v in raw_data.items():
-                rk = k.decode() if isinstance(k, bytes) else k
-                rv = v.decode() if isinstance(v, bytes) else v
-                raw[rk] = rv
-
-        # Parse existing fields
-        step = int(raw.get("step", "-1"))  # -1 indicates unknown/new (will be set to 0 on first allow)
-        next_allowed_at = float(raw.get("next_allowed_at", "0"))
-        last_seen_at = float(raw.get("last_seen_at", "0"))
-
-        # Quiet reset: if quiet for _QUIET_RESET, reset backoff state
-        if last_seen_at > 0 and now - last_seen_at > _QUIET_RESET:
-            step = -1
-            next_allowed_at = 0
-
-        # Always update last_seen_at
-        await client.hset(key, mapping={"last_seen_at": str(now)})
-
-        if step < 0:
-            # First occurrence after reset/new: allow immediately and set initial backoff
-            step = 0
-            delay = min(_INITIAL_DELAY * (_FACTOR**step), _MAX_DELAY)
-            next_allowed = now + delay
-            await client.hset(
-                key, mapping={"step": str(step), "last_allowed_at": str(now), "next_allowed_at": str(next_allowed)}
-            )
-            # Expire slightly past quiet reset so keys clean up
-            await client.expire(key, _QUIET_RESET + _INITIAL_DELAY)
-            return True
-
-        # Existing signature
-        if now < next_allowed_at:
-            # Suppress within backoff window
-            # Keep TTL fresh to survive through the window, but don't extend indefinitely
-            await client.expire(key, int(max(_QUIET_RESET, next_allowed_at - now)))
-            return False
-
-        # Allowed now: increment step and compute next delay
-        step = min(step + 1, 32)  # safety cap on exponent
-        delay = min(_INITIAL_DELAY * (_FACTOR**step), _MAX_DELAY)
-        next_allowed = now + delay
-
-        await client.hset(
-            key, mapping={"step": str(step), "last_allowed_at": str(now), "next_allowed_at": str(next_allowed)}
+        result = await _SHOULD_NOTIFY_SCRIPT(
+            keys=[key],
+            args=[now, _INITIAL_DELAY, _FACTOR, _MAX_DELAY, _QUIET_RESET],
         )
-        await client.expire(key, int(max(_QUIET_RESET, delay)))
-
     except RedisError:
         # Redis unavailable: be silent as requested
         return False
 
-    return True
+    return result == 1
