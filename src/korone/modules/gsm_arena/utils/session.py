@@ -2,6 +2,7 @@ import secrets
 from typing import TYPE_CHECKING
 
 import orjson
+from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, ValidationError
 
 from korone import aredis
 
@@ -12,6 +13,16 @@ if TYPE_CHECKING:
 
 SESSION_TTL_SECONDS = 60 * 60
 SESSION_KEY_PREFIX = "gsmarena:session:"
+
+
+class _SearchSessionEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    name: str = Field(alias="n", strict=True)
+    url: str = Field(alias="u", strict=True)
+
+
+_SESSION_ADAPTER = TypeAdapter(list[_SearchSessionEntry])
 
 
 def _session_key(token: str) -> str:
@@ -31,23 +42,8 @@ async def get_search_session(token: str) -> list[PhoneSearchResult] | None:
         return None
 
     try:
-        parsed_payload = orjson.loads(raw_payload)
-    except orjson.JSONDecodeError:
+        parsed_payload = _SESSION_ADAPTER.validate_json(raw_payload)
+    except ValidationError:
         return None
 
-    if not isinstance(parsed_payload, list):
-        return None
-
-    devices: list[PhoneSearchResult] = []
-    for item in parsed_payload:
-        if not isinstance(item, dict):
-            return None
-
-        name = item.get("n")
-        url = item.get("u")
-        if not isinstance(name, str) or not isinstance(url, str):
-            return None
-
-        devices.append(PhoneSearchResult(name=name, url=url))
-
-    return devices
+    return [PhoneSearchResult(name=item.name, url=item.url) for item in parsed_payload]
