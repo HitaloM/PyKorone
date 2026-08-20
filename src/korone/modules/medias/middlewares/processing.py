@@ -16,12 +16,7 @@ class MediaProcessingMiddleware(BaseMiddleware):
     def __init__(self, manager: MediaProcessingManager) -> None:
         self._manager = manager
 
-    async def __call__(
-        self,
-        handler: MediaHandler,
-        event: TelegramObject,
-        data: dict[str, Any],
-    ) -> object:
+    async def __call__(self, handler: MediaHandler, event: TelegramObject, data: dict[str, Any]) -> object:
         if not get_flag(data, MEDIA_PROCESSING_FLAG):
             return await handler(event, data)
 

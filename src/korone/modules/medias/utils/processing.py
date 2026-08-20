@@ -60,9 +60,7 @@ class MediaProcessingManager:
     async def submit(self, job: MediaJob) -> bool:
         if not self._accepting:
             await logger.awarning(
-                "[Medias] Processing rejected while shutting down",
-                handler=job.handler_name,
-                source_id=job.source_id,
+                "[Medias] Processing rejected while shutting down", handler=job.handler_name, source_id=job.source_id
             )
             return False
 
@@ -76,10 +74,7 @@ class MediaProcessingManager:
             )
             return False
 
-        task = asyncio.create_task(
-            self._run(job),
-            name=f"media:{job.handler_name}:{job.source_id}",
-        )
+        task = asyncio.create_task(self._run(job), name=f"media:{job.handler_name}:{job.source_id}")
         self._tasks.add(task)
         task.add_done_callback(self._tasks.discard)
         return True
@@ -170,10 +165,7 @@ class MediaProcessingManager:
                 )
 
     async def _run_with_lock(self, job: MediaJob, scope: sentry_sdk.Scope) -> None:
-        lock = aredis.lock(
-            _media_lock_name(job.source_url),
-            timeout=CONFIG.media_processing_lock_timeout,
-        )
+        lock = aredis.lock(_media_lock_name(job.source_url), timeout=CONFIG.media_processing_lock_timeout)
         lock_started_at = perf_counter()
         try:
             acquired = await lock.acquire()
@@ -214,8 +206,7 @@ class MediaProcessingManager:
 
         lock_lost = asyncio.Event()
         renewal_task = asyncio.create_task(
-            self._renew_lock(lock, lock_lost, job),
-            name=f"media-lock-renewal:{job.source_id}",
+            self._renew_lock(lock, lock_lost, job), name=f"media-lock-renewal:{job.source_id}"
         )
         try:
             async with self._concurrency:
@@ -271,9 +262,7 @@ class MediaProcessingManager:
             await lock.release()
         except LockNotOwnedError:
             await logger.aerror(
-                "[Medias] Processing lock expired before release",
-                handler=job.handler_name,
-                source_id=job.source_id,
+                "[Medias] Processing lock expired before release", handler=job.handler_name, source_id=job.source_id
             )
             return
         except RedisError as error:
@@ -285,8 +274,4 @@ class MediaProcessingManager:
             )
             return
 
-        await logger.adebug(
-            "[Medias] Processing lock released",
-            handler=job.handler_name,
-            source_id=job.source_id,
-        )
+        await logger.adebug("[Medias] Processing lock released", handler=job.handler_name, source_id=job.source_id)

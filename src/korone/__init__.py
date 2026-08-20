@@ -32,9 +32,7 @@ storage = RedisStorage(
     data_ttl=CONFIG.redis_fsm_data_ttl,
 )
 events_isolation = RedisEventIsolation(
-    redis=fsm_redis,
-    key_builder=fsm_key_builder,
-    lock_kwargs={"timeout": CONFIG.redis_fsm_lock_timeout},
+    redis=fsm_redis, key_builder=fsm_key_builder, lock_kwargs={"timeout": CONFIG.redis_fsm_lock_timeout}
 )
 dp = Dispatcher(storage=storage, events_isolation=events_isolation)
 
