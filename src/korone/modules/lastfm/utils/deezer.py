@@ -1,4 +1,3 @@
-import asyncio
 import re
 import unicodedata
 
@@ -6,7 +5,7 @@ import aiohttp
 import orjson
 from pydantic import BaseModel, TypeAdapter, ValidationError
 
-from korone.utils.aiohttp_session import HTTPClient
+from korone.utils.aiohttp_session import HTTPClient, RetryPolicy
 
 from ._schemas import (
     _DeezerAlbumPayload,
@@ -34,20 +33,23 @@ def _validate_payload[T: BaseModel](model_type: type[T], payload: object) -> T:
 
 
 class DeezerClient:
-    __slots__ = ("base_url", "timeout")
+    __slots__ = ("base_url", "retry_policy")
 
     BASE_URL = "https://api.deezer.com"
     TIMEOUT_SECONDS = 12
     SEARCH_LIMIT = 5
     SEARCH_STRICT_MODE = "on"
-    RETRY_ATTEMPTS = 2
-    RETRYABLE_STATUSES = frozenset({429, 500, 502, 503, 504})
-    RETRY_BACKOFF_SECONDS = (0.4, 1.0)
     COMPARISON_SANITIZER_RE = re.compile(r"[\W_]+")
 
     def __init__(self, base_url: str | None = None) -> None:
         self.base_url = (base_url or self.BASE_URL).rstrip("/")
-        self.timeout = aiohttp.ClientTimeout(total=self.TIMEOUT_SECONDS)
+        self.retry_policy = RetryPolicy(
+            attempts=3,
+            timeout=aiohttp.ClientTimeout(total=self.TIMEOUT_SECONDS),
+            retryable_statuses=frozenset({429, 500, 502, 503, 504}),
+            backoff_seconds=(0.4, 1.0),
+            buffer_response_statuses=frozenset({200}),
+        )
 
     @staticmethod
     def _title(node: _DeezerAlbumPayload | _DeezerTrackPayload) -> str | None:
@@ -128,57 +130,35 @@ class DeezerClient:
 
         return track.album is not None and cls._same_name(album_name, cls._title(track.album))
 
-    @classmethod
-    async def _retry_delay(cls, attempt: int) -> None:
-        index = min(attempt, len(cls.RETRY_BACKOFF_SECONDS) - 1)
-        await asyncio.sleep(cls.RETRY_BACKOFF_SECONDS[index])
-
     async def _request(self, path: str, *, params: dict[str, str | int]) -> dict[str, object]:
         url = f"{self.base_url}/{path.lstrip('/')}"
         session = await HTTPClient.get_session()
-        max_attempt_index = self.RETRY_ATTEMPTS
 
-        for attempt in range(max_attempt_index + 1):
-            try:
-                async with session.get(url, params=params, timeout=self.timeout) as response:
-                    if response.status != 200:
-                        if response.status in self.RETRYABLE_STATUSES and attempt < max_attempt_index:
-                            await self._retry_delay(attempt)
-                            continue
+        try:
+            async with session.get(
+                url, params=params, timeout=self.retry_policy.request_timeout, middlewares=(self.retry_policy,)
+            ) as response:
+                if response.status != 200:
+                    msg = f"Deezer request failed with status {response.status}."
+                    raise DeezerError(msg)
 
-                        msg = f"Deezer request failed with status {response.status}."
-                        raise DeezerError(msg)
+                try:
+                    raw_payload: object = await response.json(content_type=None, loads=orjson.loads)
+                except (aiohttp.ContentTypeError, ValueError) as exc:
+                    msg = "Deezer returned an invalid payload."
+                    raise DeezerError(msg) from exc
+        except TimeoutError as exc:
+            msg = "Deezer request timed out."
+            raise DeezerError(msg) from exc
+        except aiohttp.ClientError as exc:
+            msg = "Deezer request failed."
+            raise DeezerError(msg) from exc
 
-                    try:
-                        raw_payload: object = await response.json(content_type=None, loads=orjson.loads)
-                    except (aiohttp.ContentTypeError, ValueError) as exc:
-                        msg = "Deezer returned an invalid payload."
-                        raise DeezerError(msg) from exc
-            except TimeoutError as exc:
-                if attempt < max_attempt_index:
-                    await self._retry_delay(attempt)
-                    continue
-
-                msg = "Deezer request timed out."
-                raise DeezerError(msg) from exc
-            except aiohttp.ClientError as exc:
-                if attempt < max_attempt_index:
-                    await self._retry_delay(attempt)
-                    continue
-
-                msg = "Deezer request failed."
-                raise DeezerError(msg) from exc
-
-            try:
-                payload = _ROOT_PAYLOAD_ADAPTER.validate_python(raw_payload)
-            except ValidationError as exc:
-                msg = "Deezer returned an unexpected payload format."
-                raise DeezerError(msg) from exc
-
-            return payload
-
-        msg = "Deezer request failed."
-        raise DeezerError(msg)
+        try:
+            return _ROOT_PAYLOAD_ADAPTER.validate_python(raw_payload)
+        except ValidationError as exc:
+            msg = "Deezer returned an unexpected payload format."
+            raise DeezerError(msg) from exc
 
     async def _search_artists(self, query: str) -> list[_DeezerArtistPayload]:
         payload = await self._request("search/artist", params=self._search_params(query))

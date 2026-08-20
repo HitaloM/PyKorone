@@ -1,4 +1,3 @@
-import asyncio
 import urllib.parse
 from typing import TYPE_CHECKING, Final
 
@@ -7,7 +6,7 @@ from lxml import html
 
 from korone.config import CONFIG
 from korone.logger import get_logger
-from korone.utils.aiohttp_session import HTTPClient
+from korone.utils.aiohttp_session import HTTPClient, RetryPolicy
 from korone.utils.cached import Cached
 
 from .errors import GSMArenaRequestError
@@ -23,6 +22,15 @@ MOBILE_BASE_URL = "https://m.gsmarena.com"
 CACHE_TTL = 60 * 60 * 24
 MAX_RETRIES: Final[int] = 3
 RETRY_BASE_DELAY: Final[float] = 5.0
+RETRY_POLICY: Final[RetryPolicy] = RetryPolicy(
+    attempts=MAX_RETRIES,
+    timeout=aiohttp.ClientTimeout(total=60),
+    retryable_statuses=frozenset({429}),
+    backoff_seconds=(RETRY_BASE_DELAY, RETRY_BASE_DELAY * 2),
+    retry_timeouts=False,
+    retry_client_errors=False,
+    buffer_response_statuses=frozenset({200}),
+)
 
 HEADERS = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,"
@@ -53,41 +61,31 @@ def _build_request_url(url: str) -> str:
 @Cached(ttl=CACHE_TTL, key="gsmarena:html")
 async def fetch_html(url: str) -> str:
     request_url = _build_request_url(url)
-    timeout = aiohttp.ClientTimeout(total=60)
     session = await HTTPClient.get_session()
 
-    for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            async with session.get(request_url, headers=HEADERS, timeout=timeout) as response:
-                response.raise_for_status()
-                return await response.text()
-        except aiohttp.ClientResponseError as err:
-            if err.status == 429 and attempt < MAX_RETRIES:
-                delay = RETRY_BASE_DELAY * (2 ** (attempt - 1))
-                await logger.awarning(
-                    "[GSM Arena] Rate limited, retrying", target_url=url, attempt=attempt, retry_after=delay
-                )
-                await asyncio.sleep(delay)
-                continue
-
-            log = logger.awarning if err.status == 429 or err.status >= 500 else logger.aerror
-            await log(
-                "[GSM Arena] HTTP error occurred",
-                target_url=url,
-                status_code=err.status,
-                error_type=type(err).__name__,
-                error_message=err.message or None,
-            )
-            raise GSMArenaRequestError(status_code=err.status, target_url=url) from None
-        except TimeoutError as err:
-            await logger.aerror("[GSM Arena] Request timed out", target_url=url, error_type=type(err).__name__)
-            msg = "GSMArena request timed out"
-            raise GSMArenaRequestError(msg, target_url=url) from None
-        except aiohttp.ClientError as err:
-            await logger.aerror("[GSM Arena] Request error occurred", target_url=url, error_type=type(err).__name__)
-            raise GSMArenaRequestError(target_url=url) from None
-
-    raise GSMArenaRequestError(target_url=url)
+    try:
+        async with session.get(
+            request_url, headers=HEADERS, timeout=RETRY_POLICY.request_timeout, middlewares=(RETRY_POLICY,)
+        ) as response:
+            response.raise_for_status()
+            return await response.text()
+    except aiohttp.ClientResponseError as err:
+        log = logger.awarning if err.status == 429 or err.status >= 500 else logger.aerror
+        await log(
+            "[GSM Arena] HTTP error occurred",
+            target_url=url,
+            status_code=err.status,
+            error_type=type(err).__name__,
+            error_message=err.message or None,
+        )
+        raise GSMArenaRequestError(status_code=err.status, target_url=url) from None
+    except TimeoutError as err:
+        await logger.aerror("[GSM Arena] Request timed out", target_url=url, error_type=type(err).__name__)
+        msg = "GSMArena request timed out"
+        raise GSMArenaRequestError(msg, target_url=url) from None
+    except aiohttp.ClientError as err:
+        await logger.aerror("[GSM Arena] Request error occurred", target_url=url, error_type=type(err).__name__)
+        raise GSMArenaRequestError(target_url=url) from None
 
 
 def extract_specs_from_tables(specs_tables: list[HtmlElement]) -> dict[str, dict[str, str]]:

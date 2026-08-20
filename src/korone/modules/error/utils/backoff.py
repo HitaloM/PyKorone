@@ -113,10 +113,7 @@ async def should_notify(signature: str, now: float | None = None) -> bool:
     key = f"{_PREFIX}{signature}"
 
     try:
-        result = await _SHOULD_NOTIFY_SCRIPT(
-            keys=[key],
-            args=[now, _INITIAL_DELAY, _FACTOR, _MAX_DELAY, _QUIET_RESET],
-        )
+        result = await _SHOULD_NOTIFY_SCRIPT(keys=[key], args=[now, _INITIAL_DELAY, _FACTOR, _MAX_DELAY, _QUIET_RESET])
     except RedisError:
         # Redis unavailable: be silent as requested
         return False
