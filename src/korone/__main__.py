@@ -130,7 +130,9 @@ def create_webhook_app() -> web.Application:
             allowed_updates=allowed_updates,
             drop_pending_updates=DROP_PENDING_UPDATES,
             max_connections=CONFIG.webhook_max_connections,
-            secret_token=CONFIG.webhook_secret,
+            secret_token=(
+                CONFIG.webhook_secret.get_secret_value() if CONFIG.webhook_secret is not None else None
+            ),
         )
         await logger.ainfo(
             "Webhook set",
@@ -147,7 +149,10 @@ def create_webhook_app() -> web.Application:
     app.on_shutdown.append(on_shutdown)
 
     webhook_handler = SimpleRequestHandler(
-        dispatcher=dp, bot=bot, handle_in_background=True, secret_token=CONFIG.webhook_secret
+        dispatcher=dp,
+        bot=bot,
+        handle_in_background=True,
+        secret_token=CONFIG.webhook_secret.get_secret_value() if CONFIG.webhook_secret is not None else None,
     )
     webhook_handler.register(app, path=CONFIG.webhook_path)
 

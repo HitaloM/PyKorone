@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from pydantic import AnyHttpUrl, Field, ValidationInfo, computed_field, field_validator
+from pydantic import AnyHttpUrl, Field, SecretStr, ValidationInfo, computed_field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 type PortNumber = Annotated[int, Field(ge=1, le=65535)]
@@ -16,7 +16,7 @@ class Config(BaseSettings):
         env_file="data/config.env", env_file_encoding="utf-8", extra="ignore", frozen=True, validate_default=True
     )
 
-    token: str = "12345:ABCDEFG"
+    token: SecretStr = SecretStr("12345:ABCDEFG")
     debug_mode: bool = False
 
     owner_id: int | None = None
@@ -43,7 +43,7 @@ class Config(BaseSettings):
     botapi_local_storage_root: str = "/var/lib/telegram-bot-api"
 
     webhook_domain: str | None = None
-    webhook_secret: str | None = None
+    webhook_secret: SecretStr | None = None
     webhook_path: str = "/"
     webhook_max_connections: WebhookConnections = 40
     web_server_port: PortNumber = 8080
@@ -64,12 +64,12 @@ class Config(BaseSettings):
 
     cors_bypass_url: AnyHttpUrl | None = None
 
-    lastfm_key: str | None = None
+    lastfm_key: SecretStr | None = None
 
     @computed_field
     @property
     def bot_id(self) -> int:
-        return int(self.token.split(":")[0])
+        return int(self.token.get_secret_value().split(":")[0])
 
     @field_validator("operators")
     @classmethod

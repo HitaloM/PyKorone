@@ -18,7 +18,7 @@ session = AiohttpSession(api=bot_api)
 logger.info("Using BotAPI server", bot_api=str(bot_api))
 
 bot = Bot(
-    token=CONFIG.token,
+    token=CONFIG.token.get_secret_value(),
     default=DefaultBotProperties(parse_mode=ParseMode.HTML, link_preview=LinkPreviewOptions(is_disabled=True)),
     session=session,
 )

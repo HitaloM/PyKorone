@@ -85,7 +85,8 @@ class LastFMClient:
     __slots__ = ("api_key", "base_url", "timeout")
 
     def __init__(self, api_key: str | None = None, base_url: str = LASTFM_BASE_URL) -> None:
-        resolved_key = (api_key or CONFIG.lastfm_key or "").strip()
+        configured_key = CONFIG.lastfm_key.get_secret_value() if CONFIG.lastfm_key is not None else ""
+        resolved_key = (api_key or configured_key).strip()
         if not resolved_key:
             msg = "Last.fm API key is not configured."
             raise LastFMConfigurationError(msg)
