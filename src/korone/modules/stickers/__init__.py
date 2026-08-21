@@ -1,6 +1,6 @@
 from aiogram import Router
 
-from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage
+from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage, ModuleScripts
 from korone.utils.formatting import Doc
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
@@ -13,9 +13,19 @@ from .handlers.mypacks import StickerMyPacksHandler
 from .handlers.steal import StickerStealHandler
 from .handlers.stealpack import StickerStealPackHandler
 from .handlers.switch import StickerSwitchDefaultPackHandler
+from .middlewares import StickerPackProcessingMiddleware
 from .stats import stickers_stats
+from .utils.processing import StickerPackProcessingManager
 
 router = Router(name="stickers")
+processing_manager = StickerPackProcessingManager()
+
+
+def pre_setup() -> None:
+    router.message.middleware(StickerPackProcessingMiddleware(processing_manager))
+    router.startup.register(processing_manager.start)
+    router.shutdown.register(processing_manager.shutdown)
+
 
 manifest = ModuleManifest(
     package=ModulePackage(
@@ -39,6 +49,7 @@ manifest = ModuleManifest(
         StickerSwitchDefaultPackHandler,
         StickerMyPacksHandler,
     ),
+    scripts=ModuleScripts(pre_setup=pre_setup),
     stats=stickers_stats,
     export=ModuleExport(export_stickers, private_only=True),
 )

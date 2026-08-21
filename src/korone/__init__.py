@@ -4,13 +4,12 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import PRODUCTION, TelegramAPIServer
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.base import DefaultKeyBuilder
-from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.redis import RedisEventIsolation, RedisStorage
 from aiogram.types import LinkPreviewOptions
 from redis.asyncio import Redis
 
 from .config import CONFIG
 from .logger import get_logger
-from .utils.redis_event_isolation import RenewableRedisEventIsolation
 
 logger = get_logger(__name__)
 
@@ -32,7 +31,7 @@ storage = RedisStorage(
     state_ttl=CONFIG.redis_fsm_state_ttl,
     data_ttl=CONFIG.redis_fsm_data_ttl,
 )
-events_isolation = RenewableRedisEventIsolation(
+events_isolation = RedisEventIsolation(
     redis=fsm_redis, key_builder=fsm_key_builder, lock_kwargs={"timeout": CONFIG.redis_fsm_lock_timeout}
 )
 dp = Dispatcher(storage=storage, events_isolation=events_isolation)

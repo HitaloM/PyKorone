@@ -1,9 +1,10 @@
+import asyncio
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.exceptions import TelegramBadRequest
+from aiogram.exceptions import TelegramBadRequest, TelegramRetryAfter
 from aiogram.filters import Command
 
 from korone.args import OptionalArg, TextArg, define_arguments
@@ -29,18 +30,29 @@ from korone.utils.i18n import lazy_gettext as l_
 from korone.utils.i18n import ngettext as pl_
 
 if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable
+
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import Sticker
 
 
 @flags.help(description=l_("Copy an entire sticker set into one of your packs."))
 @flags.disableable(name="stealpack")
+@flags.defer_sticker_pack_processing
 class StickerStealPackHandler(KoroneMessageHandler):
     arguments = define_arguments(pack_name=OptionalArg(TextArg(l_("Target pack name"))))
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("kangpack", "stealpack"),)
+
+    @staticmethod
+    async def _retry_after_flood_control[R](operation: Callable[[], Awaitable[R]]) -> R:
+        while True:
+            try:
+                return await operation()
+            except TelegramRetryAfter as error:
+                await asyncio.sleep(error.retry_after)
 
     async def _copy_single_sticker(
         self, *, source_sticker: Sticker, user_id: int, pack_id: str, pack_title: str, pack_ready: bool
@@ -56,21 +68,27 @@ class StickerStealPackHandler(KoroneMessageHandler):
             )
 
             if pack_ready:
-                await self.bot.add_sticker_to_set(user_id=user_id, name=pack_id, sticker=input_sticker)
+                await self._retry_after_flood_control(
+                    lambda: self.bot.add_sticker_to_set(user_id=user_id, name=pack_id, sticker=input_sticker)
+                )
                 return pack_ready
 
             try:
-                await self.bot.add_sticker_to_set(user_id=user_id, name=pack_id, sticker=input_sticker)
+                await self._retry_after_flood_control(
+                    lambda: self.bot.add_sticker_to_set(user_id=user_id, name=pack_id, sticker=input_sticker)
+                )
             except TelegramBadRequest as exc:
                 if not is_stickerset_invalid(exc):
                     raise
-                await self.bot.create_new_sticker_set(
-                    user_id=user_id,
-                    name=pack_id,
-                    title=pack_title,
-                    stickers=[input_sticker],
-                    sticker_type="regular",
-                    sticker_format=sticker_format,
+                await self._retry_after_flood_control(
+                    lambda: self.bot.create_new_sticker_set(
+                        user_id=user_id,
+                        name=pack_id,
+                        title=pack_title,
+                        stickers=[input_sticker],
+                        sticker_type="regular",
+                        sticker_format=sticker_format,
+                    )
                 )
 
         return True

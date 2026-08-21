@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.18.0\n"
 
 #: src/korone/args/middleware.py:53
-#: src/korone/modules/help/handlers/pm_modules.py:84
+#: src/korone/modules/help/handlers/pm_modules.py:86
 #: src/korone/modules/help/utils/format_help.py:193
 msgid "Examples"
 msgstr "Exemplos"
@@ -242,8 +242,8 @@ msgstr "O comando {cmd} já está desativado."
 
 #: src/korone/modules/disabling/handlers/disable.py:49
 #: src/korone/modules/disabling/handlers/enable.py:50
-#: src/korone/modules/utils_/status_handler.py:42
-#: src/korone/modules/utils_/status_handler.py:66
+#: src/korone/modules/utils_/status_handler.py:53
+#: src/korone/modules/utils_/status_handler.py:77
 msgid "Chat"
 msgstr "Chat"
 
@@ -338,28 +338,28 @@ msgstr "Especificações de dispositivos do GSMArena"
 msgid "Search phones and browse key specifications without leaving Telegram."
 msgstr "Pesquise celulares e consulte especificações principais sem sair do Telegram."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:34
+#: src/korone/modules/gsm_arena/handlers/get.py:41
 #: src/korone/modules/gsm_arena/handlers/list.py:32
-#: src/korone/modules/lastfm/handlers/base.py:272
+#: src/korone/modules/lastfm/handlers/base.py:264
 #: src/korone/modules/lastfm/handlers/collage.py:198
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:39
+#: src/korone/modules/gsm_arena/handlers/get.py:46
 #: src/korone/modules/gsm_arena/handlers/list.py:37
 msgid "Search session expired. Please run /device again."
 msgstr "Sessão de pesquisa expirada. Por favor, execute /device novamente."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:43
+#: src/korone/modules/gsm_arena/handlers/get.py:50
 msgid "Invalid device selected."
 msgstr "Dispositivo selecionado inválido."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:46
+#: src/korone/modules/gsm_arena/handlers/get.py:53
 msgid "Fetching device details..."
 msgstr "Buscando detalhes do dispositivo..."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:56
-#: src/korone/modules/gsm_arena/handlers/get.py:60
+#: src/korone/modules/gsm_arena/handlers/get.py:63
+#: src/korone/modules/gsm_arena/handlers/get.py:67
 msgid "Error fetching device details"
 msgstr "Erro ao buscar detalhes do dispositivo"
 
@@ -563,25 +563,25 @@ msgstr "Veja módulos, uso de comandos e regras de disponibilidade em um só lug
 msgid "Open the interactive help menu privately in any chat."
 msgstr "Abra o menu interativo de ajuda de forma privada em qualquer chat."
 
-#: src/korone/modules/help/handlers/help_group.py:17
+#: src/korone/modules/help/handlers/help_group.py:19
 msgid "Show the full help menu privately in this chat."
 msgstr "Mostre o menu completo de ajuda de forma privada neste chat."
 
-#: src/korone/modules/help/handlers/pm_modules.py:68
-#: src/korone/modules/help/handlers/pm_modules.py:74
+#: src/korone/modules/help/handlers/pm_modules.py:70
+#: src/korone/modules/help/handlers/pm_modules.py:76
 #, python-brace-format
 msgid "Shared commands from {module}"
 msgstr "Comandos compartilhados de {module}"
 
-#: src/korone/modules/help/handlers/pm_modules.py:100
+#: src/korone/modules/help/handlers/pm_modules.py:102
 msgid "Show the full help menu."
 msgstr "Mostre o menu de ajuda completo."
 
-#: src/korone/modules/help/handlers/pm_modules.py:128
+#: src/korone/modules/help/handlers/pm_modules.py:134
 msgid "Module not found."
 msgstr "Módulo não encontrado."
 
-#: src/korone/modules/help/handlers/pm_modules.py:136
+#: src/korone/modules/help/handlers/pm_modules.py:142
 #: src/korone/modules/help/utils/menu.py:45
 #: src/korone/modules/language/handlers/apply.py:60
 #: src/korone/modules/language/handlers/info.py:46
@@ -829,19 +829,19 @@ msgstr "Nenhuma informação de artista encontrada para a faixa atual."
 msgid "Show artist details for the current Last.fm track."
 msgstr "Mostre detalhes do artista da faixa atual do Last.fm."
 
-#: src/korone/modules/lastfm/handlers/base.py:57
+#: src/korone/modules/lastfm/handlers/base.py:58
 msgid "Open private chat"
 msgstr "Abrir chat privado"
 
-#: src/korone/modules/lastfm/handlers/base.py:62
+#: src/korone/modules/lastfm/handlers/base.py:63
 msgid "Reply with your Last.fm username."
 msgstr "Responda com seu nome de usuário do Last.fm."
 
-#: src/korone/modules/lastfm/handlers/base.py:99
+#: src/korone/modules/lastfm/handlers/base.py:100
 msgid "You need to set your Last.fm username first."
 msgstr "Você precisa definir seu nome de usuário do Last.fm primeiro."
 
-#: src/korone/modules/lastfm/handlers/base.py:235
+#: src/korone/modules/lastfm/handlers/base.py:236
 #: src/korone/modules/lastfm/handlers/collage.py:231
 msgid "No updates from your profile."
 msgstr "Nenhuma atualização no seu perfil."
@@ -1078,23 +1078,23 @@ msgstr "1 ano"
 msgid "all-time"
 msgstr "todo o período"
 
-#: src/korone/modules/medias/__init__.py:20
+#: src/korone/modules/medias/__init__.py:30
 msgid "Medias"
 msgstr "Mídias"
 
-#: src/korone/modules/medias/__init__.py:22
+#: src/korone/modules/medias/__init__.py:32
 msgid "Automatic media downloads from supported links"
 msgstr "Download automático de mídia a partir de links compatíveis"
 
-#: src/korone/modules/medias/__init__.py:25
+#: src/korone/modules/medias/__init__.py:35
 msgid "Fetch media when supported links are posted in private or group chats."
 msgstr "Baixe mídia quando links compatíveis forem enviados em conversas privadas ou grupos."
 
-#: src/korone/modules/medias/__init__.py:26
+#: src/korone/modules/medias/__init__.py:36
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Pinterest, Reddit, and TikTok."
 msgstr "Plataformas compatíveis atualmente: Twitter, Bluesky, Instagram, Pinterest, Reddit e TikTok."
 
-#: src/korone/modules/medias/handlers/base.py:544
+#: src/korone/modules/medias/handlers/base.py:587
 #, python-brace-format
 msgid "Open in {website}"
 msgstr "Abrir em {website}"
@@ -1195,19 +1195,19 @@ msgstr "O padrão é muito longo. Use padrões menores."
 msgid "Unknown flag: {flag}"
 msgstr "Flag desconhecida: {flag}"
 
-#: src/korone/modules/stickers/__init__.py:22
+#: src/korone/modules/stickers/__init__.py:32
 msgid "Stickers"
 msgstr "Figurinhas"
 
-#: src/korone/modules/stickers/__init__.py:24
+#: src/korone/modules/stickers/__init__.py:34
 msgid "Personal sticker pack management"
 msgstr "Gerenciamento de pacotes pessoais de figurinhas"
 
-#: src/korone/modules/stickers/__init__.py:27
+#: src/korone/modules/stickers/__init__.py:37
 msgid "Copy stickers and supported media into your own packs."
 msgstr "Copie figurinhas e mídias compatíveis para seus próprios pacotes."
 
-#: src/korone/modules/stickers/__init__.py:28
+#: src/korone/modules/stickers/__init__.py:38
 msgid "Manage tracked packs, set a default pack, and remove stickers."
 msgstr "Gerencie pacotes rastreados, defina um pacote padrão e remova figurinhas."
 
@@ -1236,7 +1236,7 @@ msgstr "Remova uma figurinha de um dos seus pacotes rastreados."
 #: src/korone/modules/stickers/handlers/delsticker.py:27
 #: src/korone/modules/stickers/handlers/mypacks.py:25
 #: src/korone/modules/stickers/handlers/steal.py:48
-#: src/korone/modules/stickers/handlers/stealpack.py:80
+#: src/korone/modules/stickers/handlers/stealpack.py:98
 #: src/korone/modules/stickers/handlers/switch.py:31
 msgid "Could not identify your user."
 msgstr "Não foi possível identificar seu usuário."
@@ -1247,7 +1247,7 @@ msgstr "Responda primeiro a uma figurinha do seu próprio pacote."
 
 #: src/korone/modules/stickers/handlers/delsticker.py:35
 #: src/korone/modules/stickers/handlers/steal.py:56
-#: src/korone/modules/stickers/handlers/stealpack.py:99
+#: src/korone/modules/stickers/handlers/stealpack.py:117
 #, python-brace-format
 msgid "Then use {command}."
 msgstr "Depois use {command}."
@@ -1372,9 +1372,9 @@ msgstr "Novo pacote de figurinhas criado."
 
 #: src/korone/modules/stickers/handlers/steal.py:116
 #: src/korone/modules/stickers/handlers/steal.py:119
-#: src/korone/modules/stickers/handlers/stealpack.py:181
-#: src/korone/modules/stickers/handlers/stealpack.py:198
-#: src/korone/modules/stickers/handlers/stealpack.py:207
+#: src/korone/modules/stickers/handlers/stealpack.py:199
+#: src/korone/modules/stickers/handlers/stealpack.py:216
+#: src/korone/modules/stickers/handlers/stealpack.py:225
 #, python-brace-format
 msgid "Pack: {pack}"
 msgstr "Pacote: {pack}"
@@ -1383,64 +1383,65 @@ msgstr "Pacote: {pack}"
 msgid "Sticker saved successfully."
 msgstr "Figurinha salva com sucesso."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:36
+#: src/korone/modules/stickers/handlers/stealpack.py:39
 msgid "Copy an entire sticker set into one of your packs."
 msgstr "Copie um conjunto inteiro de figurinhas para um dos seus pacotes."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:39
+#: src/korone/modules/stickers/handlers/stealpack.py:43
 msgid "Target pack name"
 msgstr "Nome do pacote de destino"
 
-#: src/korone/modules/stickers/handlers/stealpack.py:88
+#: src/korone/modules/stickers/handlers/stealpack.py:106
 #, python-brace-format
 msgid "Usage: {command} {pack_name}"
 msgstr "Uso: {command} {pack_name}"
 
-#: src/korone/modules/stickers/handlers/stealpack.py:98
+#: src/korone/modules/stickers/handlers/stealpack.py:116
 msgid "Reply to a sticker from the source pack first."
 msgstr "Responda primeiro a uma figurinha do pacote de origem."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:107
+#: src/korone/modules/stickers/handlers/stealpack.py:125
 msgid "Reply to a sticker that belongs to a sticker set."
 msgstr "Responda a uma figurinha que pertença a um conjunto de figurinhas."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:110
+#: src/korone/modules/stickers/handlers/stealpack.py:128
 msgid "Stealing sticker pack..."
 msgstr "Roubando pacote de figurinhas..."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:117
+#: src/korone/modules/stickers/handlers/stealpack.py:135
 msgid "The source sticker pack does not exist anymore."
 msgstr "O pacote de figurinhas de origem não existe mais."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:157
+#: src/korone/modules/stickers/handlers/stealpack.py:175
 #, python-brace-format
 msgid "Stealing sticker pack... {current}/{total}"
 msgstr "Roubando pacote de figurinhas... {current}/{total}"
 
-#: src/korone/modules/stickers/handlers/stealpack.py:163
+#: src/korone/modules/stickers/handlers/stealpack.py:181
+#: src/korone/modules/stickers/middlewares/processing.py:54
 msgid "Could not add any sticker from that pack."
 msgstr "Não foi possível adicionar nenhuma figurinha desse pacote."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:175
+#: src/korone/modules/stickers/handlers/stealpack.py:193
 #, python-brace-format
 msgid "Target pack got full after {added} sticker."
 msgid_plural "Target pack got full after {added} stickers."
 msgstr[0] "O pacote de destino lotou após {added} figurinha."
 msgstr[1] "O pacote de destino lotou após {added} figurinhas."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:193
+#: src/korone/modules/stickers/handlers/stealpack.py:211
 #, python-brace-format
 msgid "Added {added}/{total} sticker."
 msgid_plural "Added {added}/{total} stickers."
 msgstr[0] "Adicionada {added}/{total} figurinha."
 msgstr[1] "Adicionadas {added}/{total} figurinhas."
 
-#: src/korone/modules/stickers/handlers/stealpack.py:197
+#: src/korone/modules/stickers/handlers/stealpack.py:215
 #, python-brace-format
 msgid "Skipped: {skipped}"
 msgstr "Ignoradas: {skipped}"
 
-#: src/korone/modules/stickers/handlers/stealpack.py:207
+#: src/korone/modules/stickers/handlers/stealpack.py:225
 msgid "Sticker pack copied successfully."
 msgstr "Pacote de figurinhas copiado com sucesso."
 
@@ -1471,6 +1472,14 @@ msgstr "{pack} já é seu pacote padrão."
 #, python-brace-format
 msgid "Default sticker pack changed to {pack}."
 msgstr "Pacote de figurinhas padrão alterado para {pack}."
+
+#: src/korone/modules/stickers/middlewares/processing.py:53
+msgid "A copy of this sticker pack is already in progress."
+msgstr "Uma cópia deste pacote de figurinhas já está em andamento."
+
+#: src/korone/modules/stickers/middlewares/processing.py:60
+msgid "Sticker pack processing is busy. Please try again later."
+msgstr "O processamento de pacotes de figurinhas está ocupado. Tente novamente mais tarde."
 
 #: src/korone/modules/stickers/utils/media.py:112
 msgid "Could not process this file as an image sticker."
@@ -1703,37 +1712,37 @@ msgstr "Este usuário é um admin neste chat."
 msgid "Shared Chats"
 msgstr "Chats em comum"
 
-#: src/korone/modules/utils_/status_handler.py:24
+#: src/korone/modules/utils_/status_handler.py:27
 msgid "New status"
 msgstr "Novo status"
 
-#: src/korone/modules/utils_/status_handler.py:41
+#: src/korone/modules/utils_/status_handler.py:52
 msgid "Current state"
 msgstr "Estado atual"
 
-#: src/korone/modules/utils_/status_handler.py:46
+#: src/korone/modules/utils_/status_handler.py:57
 #, python-brace-format
 msgid "Use '{cmd}' to change it."
 msgstr "Use '{cmd}' para alterá-lo."
 
-#: src/korone/modules/utils_/status_handler.py:56
+#: src/korone/modules/utils_/status_handler.py:67
 #, python-brace-format
 msgid "The current status is already {state}"
 msgstr "O status atual já é {state}"
 
-#: src/korone/modules/utils_/status_handler.py:64
+#: src/korone/modules/utils_/status_handler.py:75
 msgid "The state was successfully changed"
 msgstr "O estado foi alterado com sucesso"
 
-#: src/korone/modules/utils_/status_handler.py:65
+#: src/korone/modules/utils_/status_handler.py:76
 msgid "New state"
 msgstr "Novo estado"
 
-#: src/korone/modules/utils_/status_handler.py:81
+#: src/korone/modules/utils_/status_handler.py:92
 msgid "Enabled"
 msgstr "Ativado"
 
-#: src/korone/modules/utils_/status_handler.py:81
+#: src/korone/modules/utils_/status_handler.py:92
 msgid "Disabled"
 msgstr "Desativado"
 
