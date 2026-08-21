@@ -1,14 +1,9 @@
-from typing import TYPE_CHECKING
-
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.modules.medias.utils.types import MediaPost
 
 from . import client, parser
 from .constants import PATTERN
-
-if TYPE_CHECKING:
-    from korone.modules.medias.utils.types import MediaItem, MediaSource
 
 
 class BlueskyProvider(MediaProvider):
@@ -51,7 +46,9 @@ class BlueskyProvider(MediaProvider):
                 return None
 
         media_sources = parser.extract_media_sources(embed_view, embed_type, effective_did, pds_url)
-        media = await cls._download_media(media_sources)
+        media = await cls.download_media(
+            media_sources, filename_prefix="bsky_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label=cls.name
+        )
         if not media:
             return None
 
@@ -62,10 +59,4 @@ class BlueskyProvider(MediaProvider):
             url=post_url,
             website=cls.website,
             media=media,
-        )
-
-    @classmethod
-    async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
-        return await cls.download_media(
-            sources, filename_prefix="bsky_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="Bluesky"
         )

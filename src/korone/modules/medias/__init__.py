@@ -33,9 +33,6 @@ manifest = ModuleManifest(
         ),
     ),
     router=router,
-    handlers=(
-        MediaAutoDownloadStatus,
-        MediaHandler,
-    ),
+    handlers=(MediaAutoDownloadStatus, MediaHandler),
     scripts=ModuleScripts(pre_setup=pre_setup),
 )

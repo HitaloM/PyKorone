@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any
 from aiogram.filters import BaseFilter
 
 from korone.modules.medias.utils.settings import is_auto_download_enabled
+from korone.modules.medias.utils.types import MediaRequest
 from korone.modules.medias.utils.url import normalize_media_url
 
 if TYPE_CHECKING:
@@ -38,19 +39,19 @@ class MediaUrlFilter(BaseFilter):
         if self._is_url_command(text):
             return False
 
-        selected_provider: type[MediaProvider] | None = None
-        urls: list[str] = []
+        request: MediaRequest | None = None
         for provider in self.providers:
-            normalized_urls = (normalize_media_url(match.group(0)) for match in provider.pattern.finditer(text))
-            urls = list(dict.fromkeys(url for url in normalized_urls if url))
-            if urls:
-                selected_provider = provider
+            for match in provider.pattern.finditer(text):
+                if normalized_url := normalize_media_url(match.group(0)):
+                    request = MediaRequest(provider=provider, url=normalized_url)
+                    break
+            if request is not None:
                 break
 
-        if selected_provider is None:
+        if request is None:
             return False
 
         if self.check_enabled and not await is_auto_download_enabled(message.chat.id):
             return False
 
-        return {"media_provider": selected_provider, "media_urls": urls}
+        return {"media_request": request}

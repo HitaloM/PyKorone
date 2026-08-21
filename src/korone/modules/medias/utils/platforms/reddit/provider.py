@@ -2,6 +2,7 @@ import asyncio
 import re
 import subprocess
 import tempfile
+from dataclasses import replace
 from pathlib import Path
 from typing import TYPE_CHECKING
 from urllib.parse import quote, urljoin, urlparse, urlunparse
@@ -12,8 +13,9 @@ from lxml import html as lxml_html
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
+from korone.modules.medias.utils.cache import media_source_cache_key
 from korone.modules.medias.utils.parsing import coerce_int
-from korone.modules.medias.utils.provider_base import MediaProvider
+from korone.modules.medias.utils.provider_base import MediaDownloadRequest, MediaProvider
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost, MediaSource
 from korone.modules.utils_.file_id_cache import get_cached_file_payload
 from korone.utils.aiohttp_session import HTTPClient
@@ -70,7 +72,12 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         if not scraped or not scraped.media_sources:
             return None
 
-        media = await cls._download_media(scraped.media_sources)
+        media = await cls.download_media(
+            scraped.media_sources,
+            filename_prefix="reddit_media",
+            max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES,
+            log_label=cls.name,
+        )
         if not media:
             return None
 
@@ -689,13 +696,12 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             return None, None
 
     @classmethod
-    async def _download_source(
-        cls, source: MediaSource, index: int, prefix: str, max_size: int | None, label: str
-    ) -> MediaItem | None:
+    async def _download_source(cls, request: MediaDownloadRequest) -> MediaItem | None:
+        source = request.source
         if not source.audio_url:
-            return await super()._download_source(source, index, prefix, max_size, label)
+            return await super()._download_source(request)
 
-        cache_key = cls._media_source_cache_key(source.url)
+        cache_key = media_source_cache_key(source.url)
         cached_payload = await get_cached_file_payload(cache_key)
         if cached_payload:
             cached_file_id = cached_payload.get("file_id")
@@ -703,7 +709,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                 return MediaItem(
                     kind=source.kind,
                     file=cached_file_id,
-                    filename=f"{prefix}_{index}.mp4",
+                    filename=f"{request.filename_prefix}_{request.index}.mp4",
                     source_url=source.url,
                     duration=source.duration,
                     width=source.width,
@@ -711,31 +717,26 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                 )
 
         video_payload_result = await cls._fetch_payload_with_retry(
-            source.url, label=label, stage="source", max_size=max_size, source_kind=source.kind, source_index=index
+            source.url, request, stage="source", max_size=request.max_size
         )
         if not video_payload_result:
-            return await cls._download_fallback_source(source, index, prefix, max_size, label)
+            return await cls._download_fallback_source(request)
 
         video_payload, _ = video_payload_result
 
         audio_payload: bytes | None = None
         if source.audio_url:
             audio_payload_result = await cls._fetch_payload_with_retry(
-                source.audio_url,
-                label=label,
-                stage="source",
-                max_size=max_size,
-                source_kind=source.kind,
-                source_index=index,
+                source.audio_url, request, stage="source", max_size=request.max_size
             )
             if not audio_payload_result:
                 await logger.awarning(
                     "[Reddit] Failed to fetch HLS audio payload",
                     source_url=source.audio_url,
                     video_url=source.url,
-                    source_index=index,
+                    source_index=request.index,
                 )
-                return await cls._download_fallback_source(source, index, prefix, max_size, label)
+                return await cls._download_fallback_source(request)
 
             audio_payload, _ = audio_payload_result
 
@@ -745,21 +746,21 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                 "[Reddit] Failed to remux HLS media",
                 source_url=source.url,
                 audio_url=source.audio_url,
-                source_index=index,
+                source_index=request.index,
             )
-            return await cls._download_fallback_source(source, index, prefix, max_size, label)
+            return await cls._download_fallback_source(request)
 
-        if max_size and len(remuxed_payload) > max_size:
+        if request.max_size and len(remuxed_payload) > request.max_size:
             await logger.adebug(
                 "[Reddit] Remuxed HLS media too large", size=len(remuxed_payload), source_url=source.url
             )
-            return await cls._download_fallback_source(source, index, prefix, max_size, label)
+            return await cls._download_fallback_source(request)
 
         thumbnail: InputFile | None = None
         if source.thumbnail_url and source.kind == MediaKind.VIDEO:
-            thumbnail = await cls._download_thumbnail(source.thumbnail_url, label, index, prefix)
+            thumbnail = await cls._download_thumbnail(source.thumbnail_url, request)
 
-        filename = f"{prefix}_{index}.mp4"
+        filename = f"{request.filename_prefix}_{request.index}.mp4"
         return MediaItem(
             kind=source.kind,
             file=BufferedInputFile(remuxed_payload, filename),
@@ -772,9 +773,8 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         )
 
     @classmethod
-    async def _download_fallback_source(
-        cls, source: MediaSource, index: int, prefix: str, max_size: int | None, label: str
-    ) -> MediaItem | None:
+    async def _download_fallback_source(cls, request: MediaDownloadRequest) -> MediaItem | None:
+        source = request.source
         if not source.fallback_url:
             return None
 
@@ -786,7 +786,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             width=source.width,
             height=source.height,
         )
-        return await super()._download_source(fallback_source, index, prefix, max_size, label)
+        return await super()._download_source(replace(request, source=fallback_source))
 
     @staticmethod
     def _remux_hls_payloads_to_mp4(video_payload: bytes, audio_payload: bytes | None) -> bytes | None:
@@ -813,9 +813,3 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                 return None
 
             return output_path.read_bytes()
-
-    @classmethod
-    async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
-        return await cls.download_media(
-            sources, filename_prefix="reddit_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="Reddit"
-        )

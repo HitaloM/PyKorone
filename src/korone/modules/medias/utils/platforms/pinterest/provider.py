@@ -8,7 +8,8 @@ from aiogram.types import BufferedInputFile
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
-from korone.modules.medias.utils.provider_base import MediaProvider
+from korone.modules.medias.utils.cache import media_source_cache_key
+from korone.modules.medias.utils.provider_base import MediaDownloadRequest, MediaProvider
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
 from korone.modules.utils_.file_id_cache import get_cached_file_payload
 
@@ -17,8 +18,6 @@ from .constants import PATTERN, PINTEREST_HLS_TIMEOUT_SECONDS, PINTEREST_TIMEOUT
 
 if TYPE_CHECKING:
     from aiogram.types import InputFile
-
-    from korone.modules.medias.utils.types import MediaSource
 
 logger = get_logger(__name__)
 
@@ -77,13 +76,12 @@ class PinterestProvider(MediaProvider):
         )
 
     @classmethod
-    async def _download_source(
-        cls, source: MediaSource, index: int, prefix: str, max_size: int | None, label: str
-    ) -> MediaItem | None:
+    async def _download_source(cls, request: MediaDownloadRequest) -> MediaItem | None:
+        source = request.source
         if source.kind != MediaKind.VIDEO or not parser.is_hls_url(source.url):
-            return await super()._download_source(source, index, prefix, max_size, label)
+            return await super()._download_source(request)
 
-        cache_key = cls._media_source_cache_key(source.url)
+        cache_key = media_source_cache_key(source.url)
         cached_payload = await get_cached_file_payload(cache_key)
         if cached_payload:
             cached_file_id = cached_payload.get("file_id")
@@ -91,7 +89,7 @@ class PinterestProvider(MediaProvider):
                 return MediaItem(
                     kind=source.kind,
                     file=cached_file_id,
-                    filename=f"{prefix}_{index}.mp4",
+                    filename=f"{request.filename_prefix}_{request.index}.mp4",
                     source_url=source.url,
                     duration=source.duration,
                     width=source.width,
@@ -99,17 +97,19 @@ class PinterestProvider(MediaProvider):
                 )
 
         payload = await asyncio.to_thread(
-            cls._download_hls_payload, source.url, cls._DEFAULT_HEADERS["User-Agent"], max_size
+            cls._download_hls_payload, source.url, cls._DEFAULT_HEADERS["User-Agent"], request.max_size
         )
         if payload is None:
-            await logger.awarning("[Pinterest] Failed to remux HLS media", source_url=source.url, source_index=index)
+            await logger.awarning(
+                "[Pinterest] Failed to remux HLS media", source_url=source.url, source_index=request.index
+            )
             return None
 
         thumbnail: InputFile | None = None
         if source.thumbnail_url:
-            thumbnail = await cls._download_thumbnail(source.thumbnail_url, label, index, prefix)
+            thumbnail = await cls._download_thumbnail(source.thumbnail_url, request)
 
-        filename = f"{prefix}_{index}.mp4"
+        filename = f"{request.filename_prefix}_{request.index}.mp4"
         return MediaItem(
             kind=source.kind,
             file=BufferedInputFile(payload, filename),

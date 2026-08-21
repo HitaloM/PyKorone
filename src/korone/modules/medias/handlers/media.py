@@ -1,952 +1,161 @@
 import asyncio
-import html
-from dataclasses import replace
-from pathlib import Path
-from time import perf_counter
-from typing import TYPE_CHECKING, Any, ClassVar, NotRequired, TypedDict, overload
+from typing import TYPE_CHECKING, ClassVar
 
 import sentry_sdk
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError, TelegramRetryAfter
-from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
-from aiogram.utils.formatting import Bold, Code, ExpandableBlockQuote, Italic, Text, TextLink
-from aiogram.utils.keyboard import InlineKeyboardBuilder
-from aiogram.utils.media_group import MediaGroupBuilder
 
-from korone.constants import (
-    TELEGRAM_PHOTO_MAX_ASPECT_RATIO,
-    TELEGRAM_PHOTO_MAX_DIMENSIONS_SUM,
-    TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES,
-)
 from korone.logger import get_logger
 from korone.modules.medias.filters import MediaUrlFilter
-from korone.modules.medias.utils.photo_compression import (
-    compress_photo_payload_to_safe_jpeg,
-    photo_payload_needs_resize,
-)
-from korone.modules.medias.utils.platforms import (
-    BlueskyProvider,
-    InstagramProvider,
-    PinterestProvider,
-    RedditProvider,
-    TikTokProvider,
-    TwitterProvider,
-)
+from korone.modules.medias.utils.cache import delete_cached_post, get_cached_post, set_cached_post
+from korone.modules.medias.utils.delivery import MediaDelivery
+from korone.modules.medias.utils.platforms import PROVIDERS
 from korone.modules.medias.utils.processing import media_source_id
 from korone.modules.medias.utils.provider_base import MediaProvider
-from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
-from korone.modules.medias.utils.url import normalize_media_url
-from korone.modules.utils_.file_id_cache import (
-    delete_cached_file_payload,
-    get_cached_file_payload,
-    make_file_id_cache_key,
-    set_cached_file_payload,
-)
-from korone.modules.utils_.telegram_exceptions import REPLIED_NOT_FOUND
-from korone.utils.formatting import Template
+from korone.modules.medias.utils.types import MediaRequest
 from korone.utils.handlers import KoroneMessageHandler
-from korone.utils.i18n import gettext as _
 from korone.utils.telegram_permissions import handle_no_rights_error, is_no_rights_error
 
 if TYPE_CHECKING:
-    from collections.abc import Awaitable, Callable
-    from contextlib import AbstractAsyncContextManager
-
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import InlineKeyboardMarkup, Message
 
-
-class MediaCacheEntryPayload(TypedDict, total=False):
-    kind: str
-    file_id: str
-    source_url: str
-    duration: int
-    width: int
-    height: int
-
-
-class PostCachePayload(TypedDict):
-    author_name: str
-    author_handle: str
-    text: str
-    url: str
-    website: str
-    media: list[MediaCacheEntryPayload]
-    quote_text: NotRequired[str]
-    quote_author_name: NotRequired[str]
-    quote_author_handle: NotRequired[str]
-
+    from korone.modules.medias.utils.types import MediaPost
 
 logger = get_logger(__name__)
 
 
 @flags.defer_media_processing
 class MediaHandler(KoroneMessageHandler):
-    CAPTION_LIMIT: ClassVar[int] = 1024
-    MEDIA_GROUP_LIMIT: ClassVar[int] = 10
-    PHOTO_SAFE_LIMIT_BYTES: ClassVar[int] = TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES - 32 * 1024
-    PHOTO_MAX_DIMENSIONS_SUM: ClassVar[int] = TELEGRAM_PHOTO_MAX_DIMENSIONS_SUM
-    PHOTO_MAX_ASPECT_RATIO: ClassVar[int] = TELEGRAM_PHOTO_MAX_ASPECT_RATIO
-    PHOTO_COMPRESSION_TIMEOUT_SECONDS: ClassVar[float] = 12.0
-    MEDIA_SEND_REQUEST_TIMEOUT_SECONDS: ClassVar[int] = 180
-    MEDIA_SEND_RETRY_ATTEMPTS: ClassVar[int] = 3
-    VIDEO_SUPPORTS_STREAMING: ClassVar[bool] = True
-    POST_CACHE_NAMESPACE: ClassVar[str] = "media-post"
-    MEDIA_SOURCE_CACHE_NAMESPACE: ClassVar[str] = "media-source"
-    _MISSING_REPLY_ERROR_TOKENS: ClassVar[tuple[str, ...]] = (REPLIED_NOT_FOUND, "replied message not found")
-    _RETRYABLE_PHOTO_ERROR_TOKENS: ClassVar[tuple[str, ...]] = (
-        "too big for a photo",
-        "photo_invalid_dimensions",
-        "invalid dimensions",
-        "image_process_failed",
-    )
     _REQUEST_TIMEOUT_NETWORK_ERROR_TOKENS: ClassVar[tuple[str, ...]] = ("request timeout error",)
 
-    PROVIDERS: ClassVar[tuple[type[MediaProvider], ...]] = (
-        TwitterProvider,
-        BlueskyProvider,
-        InstagramProvider,
-        PinterestProvider,
-        RedditProvider,
-        TikTokProvider,
-    )
-
-    @property
-    def provider(self) -> type[MediaProvider]:
-        provider = self.data.get("media_provider")
-        if isinstance(provider, type) and issubclass(provider, MediaProvider) and provider in self.PROVIDERS:
-            return provider
-
-        msg = "MediaUrlFilter did not provide a supported media provider"
-        raise RuntimeError(msg)
-
     @classmethod
-    def _message_contains_any(cls, error: TelegramBadRequest, tokens: tuple[str, ...]) -> bool:
-        message = error.message.casefold()
-        return any(token in message for token in tokens)
-
-    @classmethod
-    def _is_missing_reply_error(cls, error: TelegramBadRequest) -> bool:
-        return cls._message_contains_any(error, cls._MISSING_REPLY_ERROR_TOKENS)
-
-    @classmethod
-    def _is_retryable_photo_send_error(cls, error: TelegramBadRequest) -> bool:
-        return cls._message_contains_any(error, cls._RETRYABLE_PHOTO_ERROR_TOKENS)
+    def filters(cls) -> tuple[CallbackType, ...]:
+        return (MediaUrlFilter(PROVIDERS),)
 
     @classmethod
     def _is_request_timeout_network_error(cls, error: TelegramNetworkError) -> bool:
         normalized_message = str(error).casefold()
         return any(token in normalized_message for token in cls._REQUEST_TIMEOUT_NETWORK_ERROR_TOKENS)
 
-    @classmethod
-    def filters(cls) -> tuple[CallbackType, ...]:
-        return (MediaUrlFilter(cls.PROVIDERS),)
-
-    @staticmethod
-    def _post_cache_candidates(*urls: str) -> set[str]:
-        return {candidate for url in urls if (candidate := url.strip())}
-
-    @classmethod
-    def _post_cache_key(cls, url: str) -> str:
-        return make_file_id_cache_key(cls.POST_CACHE_NAMESPACE, url)
-
-    @classmethod
-    def _media_source_cache_key(cls, source_url: str) -> str:
-        cache_identifier = normalize_media_url(source_url) or source_url.strip() or source_url
-        return make_file_id_cache_key(cls.MEDIA_SOURCE_CACHE_NAMESPACE, cache_identifier)
-
-    @staticmethod
-    def _extract_sent_file_id(sent_message: Message, kind: MediaKind) -> str | None:
-        match kind:
-            case MediaKind.PHOTO if sent_message.photo:
-                return sent_message.photo[-1].file_id
-            case MediaKind.VIDEO if sent_message.video:
-                return sent_message.video.file_id
-            case _:
-                return None
-
-    @staticmethod
-    def _coerce_cached_int(value: object) -> int | None:
-        return value if isinstance(value, int) and not isinstance(value, bool) else None
-
-    def _resolve_author_name(self, author_name: object) -> str:
-        return author_name if isinstance(author_name, str) and author_name else self.provider.name
-
-    def _resolve_author_handle(self, author_handle: object) -> str:
-        return author_handle if isinstance(author_handle, str) and author_handle else self.provider.name.casefold()
-
-    @staticmethod
-    def _serialize_media_cache_entry(media: MediaItem, file_id: str) -> MediaCacheEntryPayload:
-        payload: MediaCacheEntryPayload = {"kind": media.kind.value, "file_id": file_id, "source_url": media.source_url}
-
-        if media.duration is not None:
-            payload["duration"] = media.duration
-        if media.width is not None:
-            payload["width"] = media.width
-        if media.height is not None:
-            payload["height"] = media.height
-
-        return payload
-
-    @classmethod
-    def _deserialize_media_cache_entry(cls, payload: dict[str, Any], index: int) -> MediaItem | None:
-        match payload:
-            case {"kind": str() as kind_raw, "file_id": str() as file_id, **rest} if file_id:
-                try:
-                    kind = MediaKind(kind_raw)
-                except ValueError:
-                    return None
-            case _:
-                return None
-
-        source_url = rest.get("source_url")
-        if not isinstance(source_url, str) or not source_url:
-            source_url = f"cached://{index}"
-
-        return MediaItem(
-            kind=kind,
-            file=file_id,
-            filename=f"cached_media_{index}",
-            source_url=source_url,
-            duration=cls._coerce_cached_int(rest.get("duration")),
-            width=cls._coerce_cached_int(rest.get("width")),
-            height=cls._coerce_cached_int(rest.get("height")),
-        )
-
-    @classmethod
-    def _build_post_cache_payload(
-        cls, post: MediaPost, media_payload: list[MediaCacheEntryPayload]
-    ) -> PostCachePayload:
-        payload: PostCachePayload = {
-            "author_name": post.author_name,
-            "author_handle": post.author_handle,
-            "text": post.text,
-            "url": post.url,
-            "website": post.website,
-            "media": media_payload,
-        }
-
-        if post.quote_text:
-            payload["quote_text"] = post.quote_text
-        if post.quote_author_name:
-            payload["quote_author_name"] = post.quote_author_name
-        if post.quote_author_handle:
-            payload["quote_author_handle"] = post.quote_author_handle
-
-        return payload
-
-    def _deserialize_post_cache_payload(self, payload: dict[str, Any]) -> MediaPost | None:
-        match payload:
-            case {"media": list(raw_media), "url": str() as url, "website": str() as website, **rest} if (
-                url and website
-            ):
-                pass
-            case _:
-                return None
-
-        media_items: list[MediaItem] = []
-        for index, entry in enumerate(raw_media, start=1):
-            if not isinstance(entry, dict):
-                return None
-            media_item = self._deserialize_media_cache_entry(entry, index)
-            if media_item is None:
-                return None
-            media_items.append(media_item)
-
-        if not media_items:
+    def _resolve_request(self) -> MediaRequest | None:
+        request = self.data.get("media_request")
+        if not isinstance(request, MediaRequest):
             return None
 
-        author_name = rest.get("author_name")
-        author_handle = rest.get("author_handle")
-        text = rest.get("text")
-        quote_text = rest.get("quote_text")
-        quote_author_name = rest.get("quote_author_name")
-        quote_author_handle = rest.get("quote_author_handle")
-
-        return MediaPost(
-            author_name=self._resolve_author_name(author_name),
-            author_handle=self._resolve_author_handle(author_handle),
-            text=text if isinstance(text, str) else "",
-            url=url,
-            website=website,
-            media=media_items,
-            quote_text=quote_text if isinstance(quote_text, str) and quote_text else None,
-            quote_author_name=quote_author_name if isinstance(quote_author_name, str) and quote_author_name else None,
-            quote_author_handle=(
-                quote_author_handle if isinstance(quote_author_handle, str) and quote_author_handle else None
-            ),
-        )
-
-    async def _get_cached_post(self, source_url: str) -> tuple[str, MediaPost] | None:
-        for candidate_url in self._post_cache_candidates(source_url):
-            cache_key = self._post_cache_key(candidate_url)
-            cached_payload = await get_cached_file_payload(cache_key)
-            if not cached_payload:
-                continue
-
-            cached_post = self._deserialize_post_cache_payload(cached_payload)
-            if cached_post:
-                return candidate_url, cached_post
-
-            await delete_cached_file_payload(cache_key)
-
-        return None
-
-    async def _delete_post_cache(self, *urls: str) -> None:
-        for candidate_url in self._post_cache_candidates(*urls):
-            await delete_cached_file_payload(self._post_cache_key(candidate_url))
-
-    async def _set_post_cache(
-        self, source_url: str, post: MediaPost, media_payload: list[MediaCacheEntryPayload]
-    ) -> None:
-        if not media_payload:
-            return
-
-        payload = self._build_post_cache_payload(post, media_payload)
-        for candidate_url in self._post_cache_candidates(source_url, post.url):
-            await set_cached_file_payload(self._post_cache_key(candidate_url), payload)
-
-    def _chat_action_kwargs(self) -> dict[str, Any]:
-        return {"chat_id": self.event.chat.id, "bot": self.bot, "message_thread_id": self.event.message_thread_id}
-
-    def _upload_action(self, kind: MediaKind) -> AbstractAsyncContextManager[Any]:
-        kwargs = self._chat_action_kwargs()
-        match kind:
-            case MediaKind.PHOTO:
-                return ChatActionSender.upload_photo(**kwargs)
-            case MediaKind.VIDEO:
-                return ChatActionSender.upload_video(**kwargs)
-            case _:
-                msg = f"Unsupported media kind: {kind!r}"
-                raise ValueError(msg)
-
-    @classmethod
-    def _compressed_photo_filename(cls, original_name: str) -> str:
-        stem = Path(original_name).stem or "photo"
-        return f"{stem}_compressed.jpg"
-
-    @classmethod
-    def _needs_photo_compression(cls, media: MediaItem) -> bool:
-        if media.kind != MediaKind.PHOTO or not isinstance(media.file, BufferedInputFile):
-            return False
-
-        if len(media.file.data) > cls.PHOTO_SAFE_LIMIT_BYTES:
-            return True
-
-        return photo_payload_needs_resize(
-            media.file.data,
-            max_dimensions_sum=cls.PHOTO_MAX_DIMENSIONS_SUM,
-            max_aspect_ratio=cls.PHOTO_MAX_ASPECT_RATIO,
-        )
-
-    async def _compress_photo(self, media: MediaItem, *, force: bool = False) -> MediaItem:
-        if media.kind != MediaKind.PHOTO or not isinstance(media.file, BufferedInputFile):
-            return media
-        if not force and not self._needs_photo_compression(media):
-            return media
-
-        try:
-            async with asyncio.timeout(self.PHOTO_COMPRESSION_TIMEOUT_SECONDS):
-                compressed_payload = await asyncio.to_thread(
-                    compress_photo_payload_to_safe_jpeg,
-                    media.file.data,
-                    safe_limit_bytes=self.PHOTO_SAFE_LIMIT_BYTES,
-                    max_dimensions_sum=self.PHOTO_MAX_DIMENSIONS_SUM,
-                    max_aspect_ratio=self.PHOTO_MAX_ASPECT_RATIO,
-                )
-        except TimeoutError:
-            await logger.adebug(
-                "[Medias] Photo compression timed out",
-                source_url=media.source_url,
-                timeout_seconds=self.PHOTO_COMPRESSION_TIMEOUT_SECONDS,
-            )
-            return media
-        except Exception:  # ruff: ignore[blind-except]
-            return media
-
-        if not compressed_payload:
-            return media
-
-        filename = self._compressed_photo_filename(media.filename)
-        return replace(media, file=BufferedInputFile(compressed_payload, filename), filename=filename)
-
-    async def _prepare_photos_for_send(self, media_items: list[MediaItem], *, force: bool) -> list[MediaItem]:
-        indexes_to_process = [
-            index
-            for index, item in enumerate(media_items)
-            if item.kind == MediaKind.PHOTO and (force or self._needs_photo_compression(item))
-        ]
-        if not indexes_to_process:
-            return media_items
-
-        started_at = perf_counter()
-        prepared = media_items.copy()
-        tasks: dict[int, asyncio.Task[MediaItem]] = {}
-        async with asyncio.TaskGroup() as tg:
-            for index in indexes_to_process:
-                tasks[index] = tg.create_task(self._compress_photo(media_items[index], force=force))
-
-        for index, task in tasks.items():
-            prepared[index] = task.result()
-        await logger.adebug(
-            "[Medias] Photo processing finished",
-            photo_count=len(indexes_to_process),
-            force=force,
-            duration_seconds=round(perf_counter() - started_at, 3),
-        )
-        return prepared
-
-    async def _send_photo(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
-    ) -> Message:
-        if reply:
-            return await self.event.reply_photo(
-                media.file,
-                caption=caption,
-                reply_markup=keyboard,
-                request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
-            )
-
-        return await self.bot.send_photo(
-            chat_id=self.event.chat.id,
-            photo=media.file,
-            caption=caption,
-            reply_markup=keyboard,
-            message_thread_id=self.event.message_thread_id,
-            request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
-        )
-
-    async def _send_photo_with_resize_fallback(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
-    ) -> Message:
-        try:
-            return await self._send_photo(media, caption, keyboard, reply=reply)
-        except TelegramBadRequest as error:
-            if not self._is_retryable_photo_send_error(error):
-                raise
-            oversized_error = error
-
-        compressed = await self._compress_photo(media, force=True)
-        if compressed is media:
-            raise oversized_error
-
-        return await self._send_photo(compressed, caption, keyboard, reply=reply)
-
-    async def _send_video(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
-    ) -> Message:
-        if reply:
-            return await self.event.reply_video(
-                media.file,
-                caption=caption,
-                reply_markup=keyboard,
-                duration=media.duration,
-                width=media.width,
-                height=media.height,
-                thumbnail=media.thumbnail,
-                supports_streaming=self.VIDEO_SUPPORTS_STREAMING,
-                request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
-            )
-
-        return await self.bot.send_video(
-            chat_id=self.event.chat.id,
-            video=media.file,
-            caption=caption,
-            reply_markup=keyboard,
-            duration=media.duration,
-            width=media.width,
-            height=media.height,
-            thumbnail=media.thumbnail,
-            supports_streaming=self.VIDEO_SUPPORTS_STREAMING,
-            message_thread_id=self.event.message_thread_id,
-            request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
-        )
-
-    async def _send_media(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
-    ) -> Message:
-        async def send() -> Message:
-            match media.kind:
-                case MediaKind.PHOTO:
-                    return await self._send_photo_with_resize_fallback(media, caption, keyboard, reply=reply)
-                case MediaKind.VIDEO:
-                    return await self._send_video(media, caption, keyboard, reply=reply)
-                case _:
-                    msg = f"Unsupported media kind: {media.kind!r}"
-                    raise ValueError(msg)
-
-        return await self._retry_after_flood_control(send)
-
-    @overload
-    async def _retry_after_flood_control(self, operation: Callable[[], Awaitable[Message]]) -> Message: ...
-
-    @overload
-    async def _retry_after_flood_control(self, operation: Callable[[], Awaitable[list[Message]]]) -> list[Message]: ...
-
-    async def _retry_after_flood_control(
-        self, operation: Callable[[], Awaitable[Message | list[Message]]]
-    ) -> Message | list[Message]:
-        for attempt in range(1, self.MEDIA_SEND_RETRY_ATTEMPTS + 1):
-            try:
-                return await operation()
-            except TelegramRetryAfter as error:
-                if attempt == self.MEDIA_SEND_RETRY_ATTEMPTS:
-                    raise
-                await logger.awarning(
-                    "[Medias] Telegram flood control requested a retry",
-                    chat_id=self.event.chat.id,
-                    attempt=attempt,
-                    retry_after_seconds=error.retry_after,
-                )
-                await asyncio.sleep(error.retry_after)
-
-        msg = "Media send retry loop exhausted without returning or raising"
-        raise RuntimeError(msg)
-
-    @classmethod
-    async def _cache_media_source_file_id(cls, source_url: str, file_id: str) -> None:
-        await set_cached_file_payload(cls._media_source_cache_key(source_url), {"file_id": file_id})
-
-    async def _cache_sent_media(self, media: MediaItem, sent_message: Message) -> MediaCacheEntryPayload | None:
-        if not (file_id := self._extract_sent_file_id(sent_message, media.kind)):
+        provider = request.provider
+        if not isinstance(provider, type) or not issubclass(provider, MediaProvider) or provider not in PROVIDERS:
             return None
+        if not isinstance(request.url, str) or not request.url:
+            return None
+        return request
 
-        await self._cache_media_source_file_id(media.source_url, file_id)
-        return self._serialize_media_cache_entry(media, file_id)
-
-    async def _send_single_media(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
-    ) -> list[MediaCacheEntryPayload]:
-        media = await self._compress_photo(media, force=False)
-        async with self._upload_action(media.kind):
-            try:
-                sent_message = await self._send_media(media, caption, keyboard, reply=True)
-            except TelegramBadRequest as error:
-                if not self._is_missing_reply_error(error):
-                    raise
-                sent_message = await self._send_media(media, caption, keyboard, reply=False)
-
-        if not (serialized := await self._cache_sent_media(media, sent_message)):
-            return []
-
-        return [serialized]
-
-    @classmethod
-    def _add_group_item(cls, builder: MediaGroupBuilder, item: MediaItem, caption: str | None) -> None:
-        match item.kind:
-            case MediaKind.PHOTO:
-                builder.add_photo(item.file, caption=caption)
-            case MediaKind.VIDEO:
-                builder.add_video(
-                    item.file,
-                    caption=caption,
-                    duration=item.duration,
-                    width=item.width,
-                    height=item.height,
-                    thumbnail=item.thumbnail,
-                    supports_streaming=cls.VIDEO_SUPPORTS_STREAMING,
-                )
-            case _:
-                msg = f"Unsupported media kind: {item.kind!r}"
-                raise ValueError(msg)
-
-    async def _send_media_group_messages(self, media_group: list[Any]) -> list[Message]:
-        async def send(reply_to_message_id: int | None) -> list[Message]:
-            return await self._retry_after_flood_control(
-                lambda: self.bot.send_media_group(
-                    chat_id=self.event.chat.id,
-                    media=media_group,
-                    reply_to_message_id=reply_to_message_id,
-                    message_thread_id=self.event.message_thread_id,
-                    request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
-                )
-            )
-
-        try:
-            return await send(self.event.message_id)
-        except TelegramBadRequest as error:
-            if not self._is_missing_reply_error(error):
-                raise
-            return await send(None)
-
-    def _build_media_group(self, media_items: list[MediaItem], caption: str) -> list[Any]:
-        builder = MediaGroupBuilder()
-        last_index = len(media_items) - 1
-        for index, item in enumerate(media_items):
-            self._add_group_item(builder, item, caption if index == last_index else None)
-
-        return builder.build()
-
-    async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> list[MediaCacheEntryPayload]:
-        try:
-            media_group = self._build_media_group(media_items, caption)
-            sent_messages = await self._send_media_group_messages(media_group)
-        except TelegramBadRequest as error:
-            if not self._is_retryable_photo_send_error(error):
-                raise
-
-            forced_media_items = await self._prepare_photos_for_send(media_items, force=True)
-            if forced_media_items == media_items:
-                raise
-
-            media_group = self._build_media_group(forced_media_items, caption)
-            sent_messages = await self._send_media_group_messages(media_group)
-            media_items = forced_media_items
-
-        async with asyncio.TaskGroup() as tg:
-            cache_tasks = [
-                tg.create_task(self._cache_sent_media(item, sent))
-                for item, sent in zip(media_items, sent_messages, strict=False)
-            ]
-
-        return [serialized for task in cache_tasks if (serialized := task.result())]
-
-    def _caption_title(self, author_name: str, author_handle: str) -> Text:
-        normalized_handle = author_handle.lstrip("@")
-        prefix = self.provider.author_handle_prefix
-        handle = f"{prefix}{normalized_handle}" if normalized_handle else normalized_handle
-        return Text(Bold(author_name), " (", Code(handle), "):")
+    async def _fetch_post(self, request: MediaRequest) -> MediaPost | None:
+        async with ChatActionSender.typing(
+            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+        ):
+            return await request.provider.safe_fetch(request.url)
 
     @staticmethod
-    def _open_in_website_text(website: str) -> str:
-        return str(Template(_("Open in {website}"), website=website))
-
-    @classmethod
-    def _caption_link(cls, post: MediaPost, *, include_link: bool) -> Text | None:
-        return TextLink(cls._open_in_website_text(post.website), url=post.url) if include_link else None
-
-    @staticmethod
-    def _render_caption_blocks(blocks: list[Text]) -> str:
-        rendered_blocks: list[Text | str] = []
-        for block in blocks:
-            if rendered_blocks:
-                rendered_blocks.append("\n\n")
-            rendered_blocks.append(block)
-
-        return Text(*rendered_blocks, sep="").as_html()
-
-    @classmethod
-    def _render_caption(cls, title: Text, link: Text | None, text: str | None = None) -> str:
-        blocks: list[Text] = [title]
-        if text:
-            blocks.append(Italic(text))
-        if link:
-            blocks.append(link)
-
-        return cls._render_caption_blocks(blocks)
-
-    def _build_caption(self, post: MediaPost, *, include_link: bool) -> str:
-        if post.quote_text or post.quote_author_name or post.quote_author_handle:
-            return self._build_quote_caption(post, include_link=include_link)
-
-        return self._build_standard_caption(post, include_link=include_link)
-
-    def _build_standard_caption(self, post: MediaPost, *, include_link: bool) -> str:
-        title = self._caption_title(
-            self._resolve_author_name(post.author_name),
-            self._resolve_author_handle(post.author_handle),
-        )
-        link = self._caption_link(post, include_link=include_link)
-
-        if not post.text:
-            return self._render_caption(title, link)
-
-        candidate = self._render_caption(title, link, post.text)
-        if len(candidate) <= self.CAPTION_LIMIT:
-            return candidate
-
-        trimmed_text = self._truncate_segment(
-            post.text, lambda text: self._render_caption(title, link, text or None)
-        )
-        if not trimmed_text:
-            return self._render_caption(title, link)
-
-        return self._render_caption(title, link, trimmed_text)
-
-    @staticmethod
-    def _normalize_quote_text(text: str) -> str:
-        return html.unescape(text)
-
-    def _build_quote_block(self, post: MediaPost, quote_text: str) -> Text | None:
-        if not (quote_text or post.quote_author_name or post.quote_author_handle):
-            return None
-
-        quote_header_parts: list[str] = []
-        if post.quote_author_name:
-            quote_header_parts.append(self._normalize_quote_text(post.quote_author_name))
-
-        if post.quote_author_handle:
-            handle = post.quote_author_handle.lstrip("@")
-            if handle:
-                quote_header_parts.append(f"({self._normalize_quote_text(handle)})")
-
-        quote_lines: list[str] = []
-        if quote_header_parts:
-            quote_lines.append(" ".join(quote_header_parts))
-        if quote_text:
-            quote_lines.append(self._normalize_quote_text(quote_text))
-
-        if not quote_lines:
-            return None
-
-        return ExpandableBlockQuote("\n".join(quote_lines))
-
-    def _render_quote_caption(
-        self, post: MediaPost, *, include_link: bool, text: str, quote_text: str
-    ) -> str:
-        title = self._caption_title(
-            self._resolve_author_name(post.author_name),
-            self._resolve_author_handle(post.author_handle),
-        )
-
-        blocks: list[Text] = [title]
-        if text:
-            blocks.append(Italic(self._normalize_quote_text(text)))
-
-        if quote_block := self._build_quote_block(post, quote_text):
-            blocks.append(quote_block)
-
-        link = self._caption_link(post, include_link=include_link)
-        if link:
-            blocks.append(link)
-
-        return self._render_caption_blocks(blocks)
-
-    def _build_quote_caption(self, post: MediaPost, *, include_link: bool) -> str:
-        text = post.text.strip()
-        quote_text = (post.quote_text or "").strip()
-
-        def render(current_text: str, current_quote_text: str) -> str:
-            return self._render_quote_caption(
-                post, include_link=include_link, text=current_text, quote_text=current_quote_text
-            )
-
-        candidate = render(text, quote_text)
-        if len(candidate) <= self.CAPTION_LIMIT:
-            return candidate
-
-        if quote_text:
-            quote_text = self._truncate_segment(quote_text, lambda value: render(text, value))
-            candidate = render(text, quote_text)
-            if len(candidate) <= self.CAPTION_LIMIT:
-                return candidate
-
-        if text:
-            text = self._truncate_segment(text, lambda value: render(value, quote_text))
-            candidate = render(text, quote_text)
-            if len(candidate) <= self.CAPTION_LIMIT:
-                return candidate
-
-        candidate = render(text, "")
-        if len(candidate) <= self.CAPTION_LIMIT:
-            return candidate
-
-        if text:
-            text = self._truncate_segment(text, lambda value: render(value, ""))
-            candidate = render(text, "")
-            if len(candidate) <= self.CAPTION_LIMIT:
-                return candidate
-
-        return self._build_standard_caption(post, include_link=include_link)
-
-    @classmethod
-    def _truncate_segment(cls, raw_text: str, render: Callable[[str], str]) -> str:
-        if not raw_text:
-            return ""
-
-        ellipsis = " [...]"
-        low = 0
-        high = len(raw_text)
-        best = ""
-
-        while low <= high:
-            mid = (low + high) // 2
-            truncated = raw_text[:mid].rstrip()
-            text = f"{truncated}{ellipsis}" if truncated else ""
-            candidate = render(text)
-
-            if len(candidate) <= cls.CAPTION_LIMIT:
-                best = text
-                low = mid + 1
-            else:
-                high = mid - 1
-
-        return best
-
-    @classmethod
-    def _build_keyboard(cls, post: MediaPost) -> InlineKeyboardMarkup:
-        builder = InlineKeyboardBuilder()
-        builder.button(text=cls._open_in_website_text(post.website), url=post.url)
-        return builder.as_markup()
-
-    async def _fetch_post(self, url: str) -> MediaPost | None:
-        async with ChatActionSender.typing(**self._chat_action_kwargs()):
-            return await self.provider.safe_fetch(url)
-
-    async def _send_post(self, post: MediaPost) -> list[MediaCacheEntryPayload]:
-        media_items = post.media[: self.MEDIA_GROUP_LIMIT]
-        if not media_items:
-            return []
-
-        media_items = await self._prepare_photos_for_send(media_items, force=False)
-        if len(media_items) == 1:
-            caption = self._build_caption(post, include_link=False)
-            keyboard = self._build_keyboard(post)
-            cached_media_payload = await self._send_single_media(media_items[0], caption, keyboard)
-            if len(cached_media_payload) != 1:
-                return []
-            return cached_media_payload
-
-        group_caption = self._build_caption(post, include_link=True)
-        async with ChatActionSender.upload_document(**self._chat_action_kwargs()):
-            cached_media_payload = await self._send_media_group(media_items, group_caption)
-
-        if len(cached_media_payload) != len(media_items):
-            return []
-        return cached_media_payload
-
-    async def _try_send_cached_post(self, source_url: str) -> bool:
-        if not (cached_post_payload := await self._get_cached_post(source_url)):
+    async def _try_send_cached_post(request: MediaRequest, delivery: MediaDelivery) -> bool:
+        if not (cached_post_payload := await get_cached_post(request.provider, request.url)):
             return False
 
         cached_url, cached_post = cached_post_payload
         try:
-            cached_media_payload = await self._send_post(cached_post)
+            cached_media_payload = await delivery.send(cached_post)
         except TelegramBadRequest:
-            await self._delete_post_cache(source_url, cached_url, cached_post.url)
+            await delete_cached_post(request.url, cached_url, cached_post.url)
             return False
 
         if cached_media_payload:
-            await self._set_post_cache(source_url, cached_post, cached_media_payload)
+            await set_cached_post(request.url, cached_post, cached_media_payload)
         return True
 
+    def _set_handler_context(self, *, request: MediaRequest, source_id: str, stage: str, outcome: str) -> None:
+        sentry_sdk.set_tag("korone.media_stage", stage)
+        sentry_sdk.set_tag("korone.media_outcome", outcome)
+        sentry_sdk.set_context(
+            "media_handler",
+            {
+                "provider": request.provider.name,
+                "handler": self.__class__.__name__,
+                "source_id": source_id,
+                "stage": stage,
+                "outcome": outcome,
+            },
+        )
+
     async def handle(self) -> None:
-        if not self.bot:
+        if not self.bot or not (request := self._resolve_request()):
             return
 
-        source_url: str | None = None
-        source_identifier: str | None = None
-        started_at = perf_counter()
+        source_identifier = media_source_id(request.url)
         stage = "resolve"
         outcome = "ignored"
-        timings: dict[str, float] = {}
         try:
-            match self.data.get("media_urls"):
-                case [str() as source_url, *_]:
-                    pass
-                case _:
-                    return
-
-            source_identifier = media_source_id(source_url)
-            sentry_sdk.set_tag("korone.media_stage", stage)
             await logger.ainfo(
                 "[Medias] Handler started",
-                provider=self.provider.name,
+                provider=request.provider.name,
                 handler=self.__class__.__name__,
                 source_id=source_identifier,
                 fsm_isolation="disabled",
             )
+            delivery = MediaDelivery(self.bot, self.event, request.provider)
 
             stage = "cache_send"
-            sentry_sdk.set_tag("korone.media_stage", stage)
-            sent_at = perf_counter()
-            if await self._try_send_cached_post(source_url):
-                timings[stage] = perf_counter() - sent_at
+            if await self._try_send_cached_post(request, delivery):
                 outcome = "cached"
-                await logger.adebug(
-                    "[Medias] Cached post sent",
-                    provider=self.provider.name,
-                    source_id=source_identifier,
-                    duration_seconds=round(timings[stage], 3),
-                )
                 return
 
             stage = "fetch"
-            sentry_sdk.set_tag("korone.media_stage", stage)
-            fetch_at = perf_counter()
-            post = await self._fetch_post(source_url)
-            timings[stage] = perf_counter() - fetch_at
-            await logger.ainfo(
-                "[Medias] Fetch finished",
-                provider=self.provider.name,
-                source_id=source_identifier,
-                found=post is not None,
-                duration_seconds=round(timings[stage], 3),
-            )
+            post = await self._fetch_post(request)
             if not post:
                 outcome = "not_found"
                 await logger.adebug(
-                    "[Medias] Could not fetch post", provider=self.provider.name, source_id=source_identifier
+                    "[Medias] Could not fetch post", provider=request.provider.name, source_id=source_identifier
                 )
                 return
 
             stage = "send"
-            sentry_sdk.set_tag("korone.media_stage", stage)
-            send_at = perf_counter()
-            cached_media_payload = await self._send_post(post)
-            timings[stage] = perf_counter() - send_at
-            await logger.ainfo(
-                "[Medias] Send finished",
-                provider=self.provider.name,
-                source_id=source_identifier,
-                sent_count=len(cached_media_payload),
-                duration_seconds=round(timings[stage], 3),
-            )
+            cached_media_payload = await delivery.send(post)
             if not cached_media_payload:
                 outcome = "send_failed"
                 await logger.adebug(
                     "[Medias] Could not send media",
-                    provider=self.provider.name,
+                    provider=request.provider.name,
                     source_id=source_identifier,
                     media_count=len(post.media),
                 )
                 return
 
             stage = "cache_store"
-            sentry_sdk.set_tag("korone.media_stage", stage)
-            await self._set_post_cache(source_url, post, cached_media_payload)
+            await set_cached_post(request.url, post, cached_media_payload)
             outcome = "sent"
         except asyncio.CancelledError:
             outcome = "cancelled"
-            sentry_sdk.set_tag("korone.media_outcome", outcome)
             raise
         except Exception as error:  # ruff: ignore[blind-except]
             outcome = "failed"
-            sentry_sdk.set_tag("korone.media_outcome", outcome)
-            sentry_sdk.set_context(
-                "media_handler",
-                {
-                    "provider": self.provider.name,
-                    "handler": self.__class__.__name__,
-                    "source_id": source_identifier,
-                    "stage": stage,
-                    "outcome": outcome,
-                    "duration_seconds": round(perf_counter() - started_at, 3),
-                    "stage_durations_seconds": {name: round(value, 3) for name, value in timings.items()},
-                },
-            )
             if isinstance(error, TelegramNetworkError) and self._is_request_timeout_network_error(error):
                 outcome = "send_timeout"
-                sentry_sdk.set_tag("korone.media_outcome", outcome)
                 await logger.awarning(
                     "[Medias] Media send request timed out; delivery status is unknown",
-                    provider=self.provider.name,
+                    provider=request.provider.name,
                     source_id=source_identifier,
                     chat_id=self.event.chat.id,
                     message_id=self.event.message_id,
                     message_thread_id=self.event.message_thread_id,
                     handler=self.__class__.__name__,
-                    request_timeout_seconds=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
+                    request_timeout_seconds=MediaDelivery.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
                 )
                 return
 
             if isinstance(error, TelegramRetryAfter):
                 outcome = "rate_limited"
-                sentry_sdk.set_tag("korone.media_outcome", outcome)
                 await logger.awarning(
                     "[Medias] Media send remained rate limited after retries",
-                    provider=self.provider.name,
+                    provider=request.provider.name,
                     source_id=source_identifier,
                     chat_id=self.event.chat.id,
                     retry_after_seconds=error.retry_after,
@@ -955,12 +164,11 @@ class MediaHandler(KoroneMessageHandler):
 
             if is_no_rights_error(error) and await handle_no_rights_error(self.bot, self.event.chat, error):
                 outcome = "permission_denied"
-                sentry_sdk.set_tag("korone.media_outcome", outcome)
                 return
 
             await logger.aexception(
                 "[Medias] Handler failed",
-                provider=self.provider.name,
+                provider=request.provider.name,
                 source_id=source_identifier,
                 chat_id=self.event.chat.id,
                 message_id=self.event.message_id,
@@ -968,28 +176,12 @@ class MediaHandler(KoroneMessageHandler):
                 handler=self.__class__.__name__,
             )
         finally:
-            if source_identifier is not None:
-                duration = perf_counter() - started_at
-                sentry_sdk.set_tag("korone.media_stage", stage)
-                sentry_sdk.set_tag("korone.media_outcome", outcome)
-                sentry_sdk.set_context(
-                    "media_handler",
-                    {
-                        "provider": self.provider.name,
-                        "handler": self.__class__.__name__,
-                        "source_id": source_identifier,
-                        "stage": stage,
-                        "outcome": outcome,
-                        "duration_seconds": round(duration, 3),
-                        "stage_durations_seconds": {name: round(value, 3) for name, value in timings.items()},
-                    },
-                )
-                await logger.ainfo(
-                    "[Medias] Handler finished",
-                    provider=self.provider.name,
-                    handler=self.__class__.__name__,
-                    source_id=source_identifier,
-                    stage=stage,
-                    outcome=outcome,
-                    duration_seconds=round(duration, 3),
-                )
+            self._set_handler_context(request=request, source_id=source_identifier, stage=stage, outcome=outcome)
+            await logger.ainfo(
+                "[Medias] Handler finished",
+                provider=request.provider.name,
+                handler=self.__class__.__name__,
+                source_id=source_identifier,
+                stage=stage,
+                outcome=outcome,
+            )

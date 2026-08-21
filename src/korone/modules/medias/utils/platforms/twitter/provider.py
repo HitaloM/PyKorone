@@ -12,8 +12,6 @@ from .constants import FXTWITTER_STATUS_API, PATTERN
 if TYPE_CHECKING:
     from typing import Any
 
-    from korone.modules.medias.utils.types import MediaItem, MediaSource
-
 logger = get_logger(__name__)
 
 
@@ -47,7 +45,9 @@ class TwitterProvider(MediaProvider):
         post_url = parser.extract_post_url(tweet, status_id, author_handle, url)
 
         media_sources = parser.extract_media_sources(tweet)
-        media = await cls._download_media(media_sources)
+        media = await cls.download_media(
+            media_sources, filename_prefix="x_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="FXTwitter"
+        )
         if not media:
             return None
 
@@ -61,12 +61,6 @@ class TwitterProvider(MediaProvider):
             quote_text=quote_text,
             quote_author_name=quote_author_name,
             quote_author_handle=quote_author_handle,
-        )
-
-    @classmethod
-    async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
-        return await cls.download_media(
-            sources, filename_prefix="x_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="FXTwitter"
         )
 
     @classmethod

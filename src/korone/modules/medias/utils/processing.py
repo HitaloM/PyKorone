@@ -2,7 +2,6 @@ import asyncio
 import hashlib
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from time import perf_counter
 from typing import TYPE_CHECKING, Any
 
 import sentry_sdk
@@ -16,11 +15,13 @@ from korone.logger import get_logger
 if TYPE_CHECKING:
     from redis.asyncio.lock import Lock
 
+    from korone.modules.medias.utils.types import MediaRequest
+
 logger = get_logger(__name__)
 
 _MEDIA_LOCK_PREFIX = "korone:media-processing"
 
-type MediaHandler = Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]]
+type MediaHandlerCallback = Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]]
 
 
 def media_source_id(source_url: str) -> str:
@@ -34,13 +35,15 @@ def _media_lock_name(source_url: str) -> str:
 
 @dataclass(frozen=True, slots=True)
 class MediaJob:
-    handler: MediaHandler
+    handler: MediaHandlerCallback
     event: TelegramObject
     data: dict[str, Any]
     handler_name: str
-    source_url: str
-    source_id: str
-    queued_at: float
+    request: MediaRequest
+
+    @property
+    def source_id(self) -> str:
+        return media_source_id(self.request.url)
 
 
 class MediaProcessingManager:
@@ -107,20 +110,11 @@ class MediaProcessingManager:
         await logger.ainfo("[Medias] Processing manager stopped", pending_jobs=len(self._tasks))
 
     async def _run(self, job: MediaJob) -> None:
-        started_at = perf_counter()
         with sentry_sdk.isolation_scope() as scope:
             scope.set_tag("korone.handler", job.handler_name)
             scope.set_tag("korone.fsm_isolation", "disabled")
             scope.set_tag("korone.media_lock", "redis_url")
-            scope.set_context(
-                "media_processing",
-                {
-                    "handler": job.handler_name,
-                    "source_id": job.source_id,
-                    "fsm_isolation": "disabled",
-                    "lock": "redis_url",
-                },
-            )
+            scope.set_context("media_processing", self._processing_context(job))
 
             await logger.ainfo(
                 "[Medias] Processing started",
@@ -131,42 +125,27 @@ class MediaProcessingManager:
             try:
                 await self._run_with_lock(job, scope)
             except asyncio.CancelledError:
-                await logger.ainfo(
-                    "[Medias] Processing cancelled",
-                    handler=job.handler_name,
-                    source_id=job.source_id,
-                    duration_seconds=round(perf_counter() - started_at, 3),
-                )
+                await logger.ainfo("[Medias] Processing cancelled", handler=job.handler_name, source_id=job.source_id)
                 raise
             except Exception:  # ruff: ignore[blind-except]
                 await logger.aexception(
-                    "[Medias] Unhandled processing failure",
-                    handler=job.handler_name,
-                    source_id=job.source_id,
-                    duration_seconds=round(perf_counter() - started_at, 3),
+                    "[Medias] Unhandled processing failure", handler=job.handler_name, source_id=job.source_id
                 )
             finally:
-                duration = perf_counter() - started_at
-                scope.set_context(
-                    "media_processing",
-                    {
-                        "handler": job.handler_name,
-                        "source_id": job.source_id,
-                        "fsm_isolation": "disabled",
-                        "lock": "redis_url",
-                        "duration_seconds": round(duration, 3),
-                    },
-                )
-                await logger.ainfo(
-                    "[Medias] Processing finished",
-                    handler=job.handler_name,
-                    source_id=job.source_id,
-                    duration_seconds=round(duration, 3),
-                )
+                await logger.ainfo("[Medias] Processing finished", handler=job.handler_name, source_id=job.source_id)
+
+    @staticmethod
+    def _processing_context(job: MediaJob) -> dict[str, object]:
+        return {
+            "handler": job.handler_name,
+            "provider": job.request.provider.name,
+            "source_id": job.source_id,
+            "fsm_isolation": "disabled",
+            "lock": "redis_url",
+        }
 
     async def _run_with_lock(self, job: MediaJob, scope: sentry_sdk.Scope) -> None:
-        lock = aredis.lock(_media_lock_name(job.source_url), timeout=CONFIG.media_processing_lock_timeout)
-        lock_started_at = perf_counter()
+        lock = aredis.lock(_media_lock_name(job.request.url), timeout=CONFIG.media_processing_lock_timeout)
         try:
             acquired = await lock.acquire()
         except asyncio.CancelledError:
@@ -183,21 +162,9 @@ class MediaProcessingManager:
                 await job.handler(job.event, job.data)
             return
 
-        lock_wait = perf_counter() - lock_started_at
         scope.set_context(
             "media_lock",
-            {
-                "kind": "redis_url",
-                "source_id": job.source_id,
-                "wait_seconds": round(lock_wait, 3),
-                "ttl_seconds": CONFIG.media_processing_lock_timeout,
-            },
-        )
-        await logger.ainfo(
-            "[Medias] Processing lock acquired",
-            handler=job.handler_name,
-            source_id=job.source_id,
-            wait_seconds=round(lock_wait, 3),
+            {"kind": "redis_url", "source_id": job.source_id, "ttl_seconds": CONFIG.media_processing_lock_timeout},
         )
 
         if not acquired:
@@ -210,13 +177,6 @@ class MediaProcessingManager:
         )
         try:
             async with self._concurrency:
-                queue_wait = perf_counter() - job.queued_at
-                await logger.adebug(
-                    "[Medias] Processing slot acquired",
-                    handler=job.handler_name,
-                    source_id=job.source_id,
-                    queue_wait_seconds=round(queue_wait, 3),
-                )
                 await job.handler(job.event, job.data)
         finally:
             renewal_task.cancel()
@@ -230,12 +190,6 @@ class MediaProcessingManager:
             try:
                 await asyncio.sleep(renewal_interval)
                 await lock.reacquire()
-                await logger.adebug(
-                    "[Medias] Processing lock renewed",
-                    handler=job.handler_name,
-                    source_id=job.source_id,
-                    ttl_seconds=CONFIG.media_processing_lock_timeout,
-                )
             except asyncio.CancelledError:
                 raise
             except (LockError, RedisError) as error:
@@ -273,5 +227,3 @@ class MediaProcessingManager:
                 error_type=type(error).__name__,
             )
             return
-
-        await logger.adebug("[Medias] Processing lock released", handler=job.handler_name, source_id=job.source_id)

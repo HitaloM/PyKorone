@@ -5,6 +5,14 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from aiogram.types import InputFile
 
+    from .provider_base import MediaProvider
+
+
+@dataclass(frozen=True, slots=True)
+class MediaRequest:
+    provider: type[MediaProvider]
+    url: str
+
 
 class MediaKind(StrEnum):
     PHOTO = "photo"
