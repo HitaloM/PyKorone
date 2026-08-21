@@ -17,7 +17,14 @@ Commit only the changes the user authorized, preserving unrelated work and produ
    - keep implementation and its directly required tests, migrations, generated files, or localization updates together;
    - do not split solely by file or directory when the files implement the same outcome;
    - order dependent commits so every intermediate commit is internally consistent.
-4. Infer scopes from repository terminology and recent history. Prefer the narrowest stable subsystem name; omit the scope when no useful single scope exists.
+4. Choose scopes from PyKorone's logical ownership and recent commit history:
+   - use the user-facing module or shared subsystem that owns the behavior, not a filename or directory name chosen mechanically;
+   - prefer established scopes such as `medias`, `db`, `redis`, `i18n`, `http`, `config`, `logging`, `telegram`, `dispatcher`, `handlers`, or `middleware` when the change belongs to that shared boundary;
+   - use a top-level module name for module-owned behavior, and a media provider name for provider-specific behavior; reserve `medias` for behavior shared across providers;
+   - when one coherent change crosses layers, scope it to the owning feature or module rather than a lower-level helper it happens to touch;
+   - use `deps`, `ci`, `docs`, `agents`, or `skills` for repository maintenance only when that area is the actual subject of the commit;
+   - reuse the most recent established spelling for a scope and write new multiword scopes in lowercase kebab-case;
+   - omit the scope for genuinely repository-wide changes with no single logical owner. Do not invent vague scopes such as `core`, `misc`, `src`, or `changes`.
 5. Choose the type from the actual intent:
    - `feat` for a user-visible capability;
    - `fix` for a defect correction;
@@ -31,9 +38,9 @@ Commit only the changes the user authorized, preserving unrelated work and produ
    - `revert` for an explicitly requested revert.
 6. Stage only the first planned group. Use path-level or patch-level staging when a file contains changes for multiple groups. Never use broad staging such as `git add .` unless every detected change is authorized and belongs to that commit.
 7. Review the staged name list, statistics, full diff, and `git diff --cached --check`. If the index contains unrelated or ambiguous content that cannot be isolated safely, stop and ask the user how to proceed.
-8. Commit with the format `type(scope): concise imperative description`, or `type: concise imperative description` when omitting scope. Add a body only when it explains non-obvious motivation or constraints. Mark a breaking change with `!` and/or a `BREAKING CHANGE:` footer.
+8. Commit with the format `type(scope): concise imperative description`, or `type: concise imperative description` when omitting scope. When the subject alone does not preserve enough useful context, add an optional body after a blank line. Use concise paragraphs or short lists to explain relevant context, motivation, decisions, impacts, or constraints; omit the body for straightforward commits and do not merely repeat the subject. When invoking Git non-interactively, pass the subject and each body paragraph with separate `-m` arguments or use a prepared message file; never embed escaped `\n` sequences in a `-m` argument. Mark a breaking change with `!` and/or a `BREAKING CHANGE:` footer.
 9. Repeat staging, verification, and committing for each planned group. After every commit, confirm that the remaining working-tree changes match the uncommitted groups.
-10. Report the resulting commit hashes and subjects, plus any changes intentionally left uncommitted.
+10. Inspect each final commit message as Git stored it, then report the resulting commit hashes and subjects, plus any changes intentionally left uncommitted.
 
 ## Safety Rules
 
