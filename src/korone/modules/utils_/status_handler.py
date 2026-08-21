@@ -1,11 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, ClassVar, TypeVar, cast
 
+from aiogram.exceptions import TelegramBadRequest
+
 from korone.args import BooleanArg, OptionalArg, define_arguments
 from korone.utils.formatting import Element, Italic, KeyValue, Section, Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+from korone.utils.telegram_errors import is_topic_closed_error
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -34,6 +37,14 @@ class StatusHandlerABC[T](KoroneMessageHandler):
     def status_text(self, status_data: T) -> Element | str | LazyProxy:
         return self.status_texts[status_data]
 
+    async def reply_status(self, text: str) -> None:
+        try:
+            await self.event.reply(text)
+        except TelegramBadRequest as error:
+            if not is_topic_closed_error(error):
+                raise
+            await self.bot.send_message(chat_id=self.event.chat.id, text=text)
+
     async def display_current_status(self) -> None:
         status_data: T = await self.get_status()
 
@@ -45,13 +56,13 @@ class StatusHandlerABC[T](KoroneMessageHandler):
         if self.change_command:
             doc += Template(_("Use '{cmd}' to change it."), cmd=Italic(f"/{self.change_command} <{self.change_args}>"))
 
-        await self.event.reply(str(doc))
+        await self.reply_status(str(doc))
 
     async def change_status(self, *, new_status: T) -> None:
         current_status: T = await self.get_status()
 
         if current_status == new_status:
-            await self.event.reply(
+            await self.reply_status(
                 str(
                     Template(_("The current status is already {state}"), state=Italic(self.status_text(current_status)))
                 )
@@ -66,7 +77,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
             KeyValue(_("Chat"), self.chat.title),
             title=self.header_text,
         )
-        await self.event.reply(str(doc))
+        await self.reply_status(str(doc))
 
     async def handle(self) -> None:
         new_status: T | None = self.data.get("new_status", None)

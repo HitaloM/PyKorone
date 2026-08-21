@@ -6,11 +6,17 @@ from aiogram.exceptions import TelegramBadRequest
 
 from korone.logger import get_logger
 from korone.modules.gsm_arena.callbacks import GetDeviceCallback
-from korone.modules.gsm_arena.utils.device import edit_with_device, get_device_presentation, reply_with_device
+from korone.modules.gsm_arena.utils.device import (
+    answer_with_device,
+    edit_with_device,
+    get_device_presentation,
+    reply_with_device,
+)
 from korone.modules.gsm_arena.utils.errors import GSMArenaError
 from korone.modules.gsm_arena.utils.session import get_search_session
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
+from korone.utils.telegram_errors import is_message_not_modified_error, is_message_to_edit_not_found_error
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
@@ -67,5 +73,9 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
             try:
                 await edit_with_device(message, presentation)
             except TelegramBadRequest as err:
-                if "message is not modified" not in err.message:
-                    raise
+                if is_message_not_modified_error(err):
+                    return
+                if is_message_to_edit_not_found_error(err):
+                    await answer_with_device(message, presentation)
+                    return
+                raise

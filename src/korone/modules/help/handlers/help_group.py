@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 
 from korone.filters.chat_status import GroupChatFilter
@@ -8,6 +9,7 @@ from korone.modules.help.utils.menu import build_help_menu
 from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import lazy_gettext as l_
+from korone.utils.telegram_errors import is_bot_not_admin_error
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
@@ -29,10 +31,15 @@ class HelpGroupHandler(KoroneMessageHandler):
             await self.event.reply(text, reply_markup=reply_markup, disable_web_page_preview=True)
             return
 
-        await self.event.answer(
-            text,
-            receiver_user_id=self.event.from_user.id,
-            reply_parameters=self.event.as_reply_parameters(),
-            reply_markup=reply_markup,
-            disable_web_page_preview=True,
-        )
+        try:
+            await self.event.answer(
+                text,
+                receiver_user_id=self.event.from_user.id,
+                reply_parameters=self.event.as_reply_parameters(),
+                reply_markup=reply_markup,
+                disable_web_page_preview=True,
+            )
+        except TelegramBadRequest as error:
+            if not is_bot_not_admin_error(error):
+                raise
+            await self.event.reply(text, reply_markup=reply_markup, disable_web_page_preview=True)

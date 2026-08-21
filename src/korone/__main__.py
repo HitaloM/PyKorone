@@ -130,9 +130,7 @@ def create_webhook_app() -> web.Application:
             allowed_updates=allowed_updates,
             drop_pending_updates=DROP_PENDING_UPDATES,
             max_connections=CONFIG.webhook_max_connections,
-            secret_token=(
-                CONFIG.webhook_secret.get_secret_value() if CONFIG.webhook_secret is not None else None
-            ),
+            secret_token=(CONFIG.webhook_secret.get_secret_value() if CONFIG.webhook_secret is not None else None),
         )
         await logger.ainfo(
             "Webhook set",

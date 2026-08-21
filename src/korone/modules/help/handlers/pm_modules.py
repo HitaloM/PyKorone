@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, cast
 
 from aiogram.enums import ButtonStyle
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command, CommandStart
 from aiogram.types import (
     CallbackQuery,
@@ -30,6 +31,7 @@ from korone.utils.formatting import Doc, HList, Section, Template, Title
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+from korone.utils.telegram_errors import is_callback_query_expired_error
 
 if TYPE_CHECKING:
     from aiogram import Router
@@ -103,15 +105,19 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
 
     async def handle(self) -> None:
         callback_data: PMHelpModules | None = self.data.get("callback_data", None)
+        if isinstance(self.event, CallbackQuery):
+            try:
+                await self.event.answer()
+            except TelegramBadRequest as error:
+                if not is_callback_query_expired_error(error):
+                    raise
+
         if self.message.ephemeral_message_id is not None:
             text, reply_markup = build_help_menu(callback_data)
             await self.answer(text, reply_markup=reply_markup, disable_web_page_preview=True)
         else:
             rich_message, reply_markup = build_rich_help_menu(callback_data)
             await self.answer_rich(rich_message, reply_markup=reply_markup)
-
-        if isinstance(self.event, CallbackQuery):
-            await self.event.answer()
 
 
 class PMModuleHelp(KoroneCallbackQueryHandler):
