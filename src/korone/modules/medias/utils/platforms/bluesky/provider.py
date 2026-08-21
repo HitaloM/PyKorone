@@ -56,7 +56,7 @@ class BlueskyProvider(MediaProvider):
             return None
 
         return MediaPost(
-            author_name=author_name or author_handle or "Bluesky",
+            author_name=author_name or author_handle or "",
             author_handle=author_handle or handle,
             text=text,
             url=post_url,

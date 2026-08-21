@@ -5,13 +5,8 @@ from korone.utils.formatting import Doc
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
-from .handlers.bluesky import BlueskyMediaHandler
-from .handlers.instagram import InstagramMediaHandler
-from .handlers.pinterest import PinterestMediaHandler
-from .handlers.reddit import RedditMediaHandler
+from .handlers.media import MediaHandler
 from .handlers.status import MediaAutoDownloadStatus
-from .handlers.tiktok import TikTokMediaHandler
-from .handlers.twitter import TwitterMediaHandler
 from .middlewares import MediaProcessingMiddleware
 from .utils.processing import MediaProcessingManager
 
@@ -40,12 +35,7 @@ manifest = ModuleManifest(
     router=router,
     handlers=(
         MediaAutoDownloadStatus,
-        TwitterMediaHandler,
-        BlueskyMediaHandler,
-        InstagramMediaHandler,
-        PinterestMediaHandler,
-        RedditMediaHandler,
-        TikTokMediaHandler,
+        MediaHandler,
     ),
     scripts=ModuleScripts(pre_setup=pre_setup),
 )

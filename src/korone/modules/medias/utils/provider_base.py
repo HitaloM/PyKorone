@@ -35,6 +35,7 @@ class MediaProvider(ABC):
     name: ClassVar[str]
     website: ClassVar[str]
     pattern: ClassVar[re.Pattern[str]]
+    author_handle_prefix: ClassVar[str] = "@"
 
     _DEFAULT_HEADERS: ClassVar[dict[str, str]] = {
         "User-Agent": (

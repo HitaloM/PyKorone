@@ -6,14 +6,16 @@ from korone.modules.medias.utils.settings import is_auto_download_enabled
 from korone.modules.medias.utils.url import normalize_media_url
 
 if TYPE_CHECKING:
-    import re
+    from collections.abc import Sequence
 
     from aiogram.types import Message
 
+    from korone.modules.medias.utils.provider_base import MediaProvider
+
 
 class MediaUrlFilter(BaseFilter):
-    def __init__(self, pattern: re.Pattern[str], *, check_enabled: bool = True) -> None:
-        self.pattern = pattern
+    def __init__(self, providers: Sequence[type[MediaProvider]], *, check_enabled: bool = True) -> None:
+        self.providers = tuple(providers)
         self.check_enabled = check_enabled
 
     @staticmethod
@@ -36,13 +38,19 @@ class MediaUrlFilter(BaseFilter):
         if self._is_url_command(text):
             return False
 
-        normalized_urls = (normalize_media_url(match.group(0)) for match in self.pattern.finditer(text))
-        urls = list(dict.fromkeys(url for url in normalized_urls if url))
+        selected_provider: type[MediaProvider] | None = None
+        urls: list[str] = []
+        for provider in self.providers:
+            normalized_urls = (normalize_media_url(match.group(0)) for match in provider.pattern.finditer(text))
+            urls = list(dict.fromkeys(url for url in normalized_urls if url))
+            if urls:
+                selected_provider = provider
+                break
 
-        if not urls:
+        if selected_provider is None:
             return False
 
         if self.check_enabled and not await is_auto_download_enabled(message.chat.id):
             return False
 
-        return {"media_urls": urls}
+        return {"media_provider": selected_provider, "media_urls": urls}

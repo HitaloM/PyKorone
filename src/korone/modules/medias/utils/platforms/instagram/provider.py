@@ -29,8 +29,8 @@ class InstagramProvider(MediaProvider):
         if not media_items:
             return None
 
-        author_name = data.username or "Instagram"
-        author_handle = data.username or "instagram"
+        author_name = data.username or ""
+        author_handle = data.username or ""
         post_url = parser.build_post_url(normalized_url)
 
         return MediaPost(

@@ -68,8 +68,8 @@ class PinterestProvider(MediaProvider):
 
         author_handle = parser.extract_author(pin_data)
         return MediaPost(
-            author_name=author_handle or "Pinterest",
-            author_handle=author_handle or "pinterest",
+            author_name=author_handle or "",
+            author_handle=author_handle or "",
             text=parser.extract_text(pin_data),
             url=parser.build_post_url(post_id),
             website=cls.website,

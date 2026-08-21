@@ -1,4 +1,5 @@
 import asyncio
+import html
 from dataclasses import replace
 from pathlib import Path
 from time import perf_counter
@@ -9,7 +10,7 @@ from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError, TelegramRetryAfter
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
-from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink
+from aiogram.utils.formatting import Bold, Code, ExpandableBlockQuote, Italic, Text, TextLink
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.media_group import MediaGroupBuilder
 
@@ -24,7 +25,16 @@ from korone.modules.medias.utils.photo_compression import (
     compress_photo_payload_to_safe_jpeg,
     photo_payload_needs_resize,
 )
+from korone.modules.medias.utils.platforms import (
+    BlueskyProvider,
+    InstagramProvider,
+    PinterestProvider,
+    RedditProvider,
+    TikTokProvider,
+    TwitterProvider,
+)
 from korone.modules.medias.utils.processing import media_source_id
+from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
 from korone.modules.medias.utils.url import normalize_media_url
 from korone.modules.utils_.file_id_cache import (
@@ -45,8 +55,6 @@ if TYPE_CHECKING:
 
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import InlineKeyboardMarkup, Message
-
-    from korone.modules.medias.utils.provider_base import MediaProvider
 
 
 class MediaCacheEntryPayload(TypedDict, total=False):
@@ -74,7 +82,7 @@ logger = get_logger(__name__)
 
 
 @flags.defer_media_processing
-class BaseMediaHandler(KoroneMessageHandler):
+class MediaHandler(KoroneMessageHandler):
     CAPTION_LIMIT: ClassVar[int] = 1024
     MEDIA_GROUP_LIMIT: ClassVar[int] = 10
     PHOTO_SAFE_LIMIT_BYTES: ClassVar[int] = TELEGRAM_PHOTO_MAX_FILE_SIZE_BYTES - 32 * 1024
@@ -95,10 +103,23 @@ class BaseMediaHandler(KoroneMessageHandler):
     )
     _REQUEST_TIMEOUT_NETWORK_ERROR_TOKENS: ClassVar[tuple[str, ...]] = ("request timeout error",)
 
-    PROVIDER: ClassVar[type[MediaProvider]]
-    DEFAULT_AUTHOR_NAME: ClassVar[str]
-    DEFAULT_AUTHOR_HANDLE: ClassVar[str]
-    AUTHOR_HANDLE_PREFIX: ClassVar[str] = "@"
+    PROVIDERS: ClassVar[tuple[type[MediaProvider], ...]] = (
+        TwitterProvider,
+        BlueskyProvider,
+        InstagramProvider,
+        PinterestProvider,
+        RedditProvider,
+        TikTokProvider,
+    )
+
+    @property
+    def provider(self) -> type[MediaProvider]:
+        provider = self.data.get("media_provider")
+        if isinstance(provider, type) and issubclass(provider, MediaProvider) and provider in self.PROVIDERS:
+            return provider
+
+        msg = "MediaUrlFilter did not provide a supported media provider"
+        raise RuntimeError(msg)
 
     @classmethod
     def _message_contains_any(cls, error: TelegramBadRequest, tokens: tuple[str, ...]) -> bool:
@@ -120,7 +141,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
-        return (MediaUrlFilter(cls.PROVIDER.pattern),)
+        return (MediaUrlFilter(cls.PROVIDERS),)
 
     @staticmethod
     def _post_cache_candidates(*urls: str) -> set[str]:
@@ -148,6 +169,12 @@ class BaseMediaHandler(KoroneMessageHandler):
     @staticmethod
     def _coerce_cached_int(value: object) -> int | None:
         return value if isinstance(value, int) and not isinstance(value, bool) else None
+
+    def _resolve_author_name(self, author_name: object) -> str:
+        return author_name if isinstance(author_name, str) and author_name else self.provider.name
+
+    def _resolve_author_handle(self, author_handle: object) -> str:
+        return author_handle if isinstance(author_handle, str) and author_handle else self.provider.name.casefold()
 
     @staticmethod
     def _serialize_media_cache_entry(media: MediaItem, file_id: str) -> MediaCacheEntryPayload:
@@ -209,8 +236,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
         return payload
 
-    @classmethod
-    def _deserialize_post_cache_payload(cls, payload: dict[str, Any]) -> MediaPost | None:
+    def _deserialize_post_cache_payload(self, payload: dict[str, Any]) -> MediaPost | None:
         match payload:
             case {"media": list(raw_media), "url": str() as url, "website": str() as website, **rest} if (
                 url and website
@@ -223,7 +249,7 @@ class BaseMediaHandler(KoroneMessageHandler):
         for index, entry in enumerate(raw_media, start=1):
             if not isinstance(entry, dict):
                 return None
-            media_item = cls._deserialize_media_cache_entry(entry, index)
+            media_item = self._deserialize_media_cache_entry(entry, index)
             if media_item is None:
                 return None
             media_items.append(media_item)
@@ -239,8 +265,8 @@ class BaseMediaHandler(KoroneMessageHandler):
         quote_author_handle = rest.get("quote_author_handle")
 
         return MediaPost(
-            author_name=author_name if isinstance(author_name, str) and author_name else cls.DEFAULT_AUTHOR_NAME,
-            author_handle=author_handle if isinstance(author_handle, str) else cls.DEFAULT_AUTHOR_HANDLE,
+            author_name=self._resolve_author_name(author_name),
+            author_handle=self._resolve_author_handle(author_handle),
             text=text if isinstance(text, str) else "",
             url=url,
             website=website,
@@ -576,10 +602,10 @@ class BaseMediaHandler(KoroneMessageHandler):
 
         return [serialized for task in cache_tasks if (serialized := task.result())]
 
-    @classmethod
-    def _caption_title(cls, author_name: str, author_handle: str) -> Text:
+    def _caption_title(self, author_name: str, author_handle: str) -> Text:
         normalized_handle = author_handle.lstrip("@")
-        handle = f"{cls.AUTHOR_HANDLE_PREFIX}{normalized_handle}" if normalized_handle else normalized_handle
+        prefix = self.provider.author_handle_prefix
+        handle = f"{prefix}{normalized_handle}" if normalized_handle else normalized_handle
         return Text(Bold(author_name), " (", Code(handle), "):")
 
     @staticmethod
@@ -610,25 +636,119 @@ class BaseMediaHandler(KoroneMessageHandler):
 
         return cls._render_caption_blocks(blocks)
 
-    @classmethod
-    def _build_caption(cls, post: MediaPost, *, include_link: bool) -> str:
-        title = cls._caption_title(
-            post.author_name or cls.DEFAULT_AUTHOR_NAME, post.author_handle or cls.DEFAULT_AUTHOR_HANDLE
+    def _build_caption(self, post: MediaPost, *, include_link: bool) -> str:
+        if post.quote_text or post.quote_author_name or post.quote_author_handle:
+            return self._build_quote_caption(post, include_link=include_link)
+
+        return self._build_standard_caption(post, include_link=include_link)
+
+    def _build_standard_caption(self, post: MediaPost, *, include_link: bool) -> str:
+        title = self._caption_title(
+            self._resolve_author_name(post.author_name),
+            self._resolve_author_handle(post.author_handle),
         )
-        link = cls._caption_link(post, include_link=include_link)
+        link = self._caption_link(post, include_link=include_link)
 
         if not post.text:
-            return cls._render_caption(title, link)
+            return self._render_caption(title, link)
 
-        candidate = cls._render_caption(title, link, post.text)
-        if len(candidate) <= cls.CAPTION_LIMIT:
+        candidate = self._render_caption(title, link, post.text)
+        if len(candidate) <= self.CAPTION_LIMIT:
             return candidate
 
-        trimmed_text = cls._truncate_segment(post.text, lambda text: cls._render_caption(title, link, text or None))
+        trimmed_text = self._truncate_segment(
+            post.text, lambda text: self._render_caption(title, link, text or None)
+        )
         if not trimmed_text:
-            return cls._render_caption(title, link)
+            return self._render_caption(title, link)
 
-        return cls._render_caption(title, link, trimmed_text)
+        return self._render_caption(title, link, trimmed_text)
+
+    @staticmethod
+    def _normalize_quote_text(text: str) -> str:
+        return html.unescape(text)
+
+    def _build_quote_block(self, post: MediaPost, quote_text: str) -> Text | None:
+        if not (quote_text or post.quote_author_name or post.quote_author_handle):
+            return None
+
+        quote_header_parts: list[str] = []
+        if post.quote_author_name:
+            quote_header_parts.append(self._normalize_quote_text(post.quote_author_name))
+
+        if post.quote_author_handle:
+            handle = post.quote_author_handle.lstrip("@")
+            if handle:
+                quote_header_parts.append(f"({self._normalize_quote_text(handle)})")
+
+        quote_lines: list[str] = []
+        if quote_header_parts:
+            quote_lines.append(" ".join(quote_header_parts))
+        if quote_text:
+            quote_lines.append(self._normalize_quote_text(quote_text))
+
+        if not quote_lines:
+            return None
+
+        return ExpandableBlockQuote("\n".join(quote_lines))
+
+    def _render_quote_caption(
+        self, post: MediaPost, *, include_link: bool, text: str, quote_text: str
+    ) -> str:
+        title = self._caption_title(
+            self._resolve_author_name(post.author_name),
+            self._resolve_author_handle(post.author_handle),
+        )
+
+        blocks: list[Text] = [title]
+        if text:
+            blocks.append(Italic(self._normalize_quote_text(text)))
+
+        if quote_block := self._build_quote_block(post, quote_text):
+            blocks.append(quote_block)
+
+        link = self._caption_link(post, include_link=include_link)
+        if link:
+            blocks.append(link)
+
+        return self._render_caption_blocks(blocks)
+
+    def _build_quote_caption(self, post: MediaPost, *, include_link: bool) -> str:
+        text = post.text.strip()
+        quote_text = (post.quote_text or "").strip()
+
+        def render(current_text: str, current_quote_text: str) -> str:
+            return self._render_quote_caption(
+                post, include_link=include_link, text=current_text, quote_text=current_quote_text
+            )
+
+        candidate = render(text, quote_text)
+        if len(candidate) <= self.CAPTION_LIMIT:
+            return candidate
+
+        if quote_text:
+            quote_text = self._truncate_segment(quote_text, lambda value: render(text, value))
+            candidate = render(text, quote_text)
+            if len(candidate) <= self.CAPTION_LIMIT:
+                return candidate
+
+        if text:
+            text = self._truncate_segment(text, lambda value: render(value, quote_text))
+            candidate = render(text, quote_text)
+            if len(candidate) <= self.CAPTION_LIMIT:
+                return candidate
+
+        candidate = render(text, "")
+        if len(candidate) <= self.CAPTION_LIMIT:
+            return candidate
+
+        if text:
+            text = self._truncate_segment(text, lambda value: render(value, ""))
+            candidate = render(text, "")
+            if len(candidate) <= self.CAPTION_LIMIT:
+                return candidate
+
+        return self._build_standard_caption(post, include_link=include_link)
 
     @classmethod
     def _truncate_segment(cls, raw_text: str, render: Callable[[str], str]) -> str:
@@ -662,7 +782,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     async def _fetch_post(self, url: str) -> MediaPost | None:
         async with ChatActionSender.typing(**self._chat_action_kwargs()):
-            return await self.PROVIDER.safe_fetch(url)
+            return await self.provider.safe_fetch(url)
 
     async def _send_post(self, post: MediaPost) -> list[MediaCacheEntryPayload]:
         media_items = post.media[: self.MEDIA_GROUP_LIMIT]
@@ -722,7 +842,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             sentry_sdk.set_tag("korone.media_stage", stage)
             await logger.ainfo(
                 "[Medias] Handler started",
-                provider=self.PROVIDER.name,
+                provider=self.provider.name,
                 handler=self.__class__.__name__,
                 source_id=source_identifier,
                 fsm_isolation="disabled",
@@ -736,7 +856,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 outcome = "cached"
                 await logger.adebug(
                     "[Medias] Cached post sent",
-                    provider=self.PROVIDER.name,
+                    provider=self.provider.name,
                     source_id=source_identifier,
                     duration_seconds=round(timings[stage], 3),
                 )
@@ -749,7 +869,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             timings[stage] = perf_counter() - fetch_at
             await logger.ainfo(
                 "[Medias] Fetch finished",
-                provider=self.PROVIDER.name,
+                provider=self.provider.name,
                 source_id=source_identifier,
                 found=post is not None,
                 duration_seconds=round(timings[stage], 3),
@@ -757,7 +877,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             if not post:
                 outcome = "not_found"
                 await logger.adebug(
-                    "[Medias] Could not fetch post", provider=self.PROVIDER.name, source_id=source_identifier
+                    "[Medias] Could not fetch post", provider=self.provider.name, source_id=source_identifier
                 )
                 return
 
@@ -768,7 +888,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             timings[stage] = perf_counter() - send_at
             await logger.ainfo(
                 "[Medias] Send finished",
-                provider=self.PROVIDER.name,
+                provider=self.provider.name,
                 source_id=source_identifier,
                 sent_count=len(cached_media_payload),
                 duration_seconds=round(timings[stage], 3),
@@ -777,7 +897,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 outcome = "send_failed"
                 await logger.adebug(
                     "[Medias] Could not send media",
-                    provider=self.PROVIDER.name,
+                    provider=self.provider.name,
                     source_id=source_identifier,
                     media_count=len(post.media),
                 )
@@ -797,7 +917,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             sentry_sdk.set_context(
                 "media_handler",
                 {
-                    "provider": self.PROVIDER.name,
+                    "provider": self.provider.name,
                     "handler": self.__class__.__name__,
                     "source_id": source_identifier,
                     "stage": stage,
@@ -811,7 +931,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 sentry_sdk.set_tag("korone.media_outcome", outcome)
                 await logger.awarning(
                     "[Medias] Media send request timed out; delivery status is unknown",
-                    provider=self.PROVIDER.name,
+                    provider=self.provider.name,
                     source_id=source_identifier,
                     chat_id=self.event.chat.id,
                     message_id=self.event.message_id,
@@ -826,7 +946,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 sentry_sdk.set_tag("korone.media_outcome", outcome)
                 await logger.awarning(
                     "[Medias] Media send remained rate limited after retries",
-                    provider=self.PROVIDER.name,
+                    provider=self.provider.name,
                     source_id=source_identifier,
                     chat_id=self.event.chat.id,
                     retry_after_seconds=error.retry_after,
@@ -840,7 +960,7 @@ class BaseMediaHandler(KoroneMessageHandler):
 
             await logger.aexception(
                 "[Medias] Handler failed",
-                provider=self.PROVIDER.name,
+                provider=self.provider.name,
                 source_id=source_identifier,
                 chat_id=self.event.chat.id,
                 message_id=self.event.message_id,
@@ -855,7 +975,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 sentry_sdk.set_context(
                     "media_handler",
                     {
-                        "provider": self.PROVIDER.name,
+                        "provider": self.provider.name,
                         "handler": self.__class__.__name__,
                         "source_id": source_identifier,
                         "stage": stage,
@@ -866,7 +986,7 @@ class BaseMediaHandler(KoroneMessageHandler):
                 )
                 await logger.ainfo(
                     "[Medias] Handler finished",
-                    provider=self.PROVIDER.name,
+                    provider=self.provider.name,
                     handler=self.__class__.__name__,
                     source_id=source_identifier,
                     stage=stage,

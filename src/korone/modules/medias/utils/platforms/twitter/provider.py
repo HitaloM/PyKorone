@@ -52,7 +52,7 @@ class TwitterProvider(MediaProvider):
             return None
 
         return MediaPost(
-            author_name=author_name or author_handle or "X",
+            author_name=author_name or author_handle or "",
             author_handle=author_handle or "",
             text=text,
             url=post_url,

@@ -45,8 +45,8 @@ class TikTokProvider(MediaProvider):
         post_url = parser.build_post_url(item_struct, resolved_url or normalized_url)
 
         return MediaPost(
-            author_name=author_name or author_handle or "TikTok",
-            author_handle=author_handle or "tiktok",
+            author_name=author_name or author_handle or "",
+            author_handle=author_handle or "",
             text=text,
             url=post_url,
             website=cls.website,

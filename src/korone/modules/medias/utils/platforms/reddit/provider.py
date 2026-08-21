@@ -42,6 +42,7 @@ logger = get_logger(__name__)
 class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
     name = "Reddit"
     website = "Reddit"
+    author_handle_prefix = ""
     _DEFAULT_TIMEOUT = aiohttp.ClientTimeout(total=90, connect=20, sock_read=60)
 
     pattern = PATTERN
@@ -74,8 +75,8 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             return None
 
         return MediaPost(
-            author_name=scraped.author or "Reddit",
-            author_handle=scraped.subreddit or "reddit",
+            author_name=scraped.author or "",
+            author_handle=scraped.subreddit or "",
             text=scraped.title,
             url=scraped.post_url,
             website=cls.website,
