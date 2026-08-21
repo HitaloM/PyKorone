@@ -8,12 +8,11 @@ from .constants import PATTERN
 
 def extract_post_id(url: str) -> str | None:
     match = PATTERN.search(url)
-    return coerce_str(match.group("id")) if match else None
+    return match.group("id") if match else None
 
 
 def extract_media_sources(payload: dict[str, Any]) -> list[MediaSource]:
     sources: list[MediaSource] = []
-
     for item in dict_list(payload.get("media")):
         media_url = coerce_str(item.get("url"))
         media_type = coerce_str(item.get("type"))
@@ -30,12 +29,14 @@ def extract_media_sources(payload: dict[str, Any]) -> list[MediaSource]:
                 height=coerce_int(item.get("height")),
             )
         )
-
     return sources
 
 
-def extract_author(payload: dict[str, Any]) -> str:
-    return coerce_str(dict_or_empty(payload.get("author")).get("handle")) or ""
+def extract_author(payload: dict[str, Any]) -> tuple[str, str]:
+    author = dict_or_empty(payload.get("author"))
+    handle = coerce_str(author.get("handle")) or ""
+    name = coerce_str(author.get("name")) or handle
+    return name, handle
 
 
 def extract_text(payload: dict[str, Any]) -> str:

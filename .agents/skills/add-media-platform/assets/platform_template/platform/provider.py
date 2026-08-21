@@ -17,23 +17,17 @@ class ExampleProvider(MediaProvider):
     @classmethod
     async def fetch(cls, url: str) -> MediaPost | None:
         post_id = parser.extract_post_id(url)
-        if not post_id:
+        if not post_id or not (payload := await client.fetch_post(post_id, headers=cls._API_HEADERS)):
             return None
 
-        payload = await client.fetch_post(post_id, headers=cls._API_HEADERS)
-        if not payload:
-            return None
-
-        media = await cls.download_media(
-            parser.extract_media_sources(payload), filename_prefix="example_media", log_label=cls.name
-        )
+        media = await cls.download_media(parser.extract_media_sources(payload), filename_prefix="example_media")
         if not media:
             return None
 
-        author_handle = parser.extract_author(payload)
+        author_name, author_handle = parser.extract_author(payload)
         return MediaPost(
-            author_name=author_handle or cls.name,
-            author_handle=author_handle or "example",
+            author_name=author_name or cls.name,
+            author_handle=author_handle or cls.name.casefold(),
             text=parser.extract_text(payload),
             url=url,
             website=cls.website,

@@ -1,69 +1,58 @@
 # Medias Module
 
-Apply these contracts to changes under `src/korone/modules/medias/`. For a completely new supported platform, use `add-media-platform` as the primary workflow.
+Apply these contracts to changes under `src/korone/modules/medias/`. For a completely new supported platform, use
+`add-media-platform` as the primary workflow.
 
-## Layers
+## Runtime Flow
 
-- Keep `handlers/<platform>.py` thin.
-- Keep aiogram middleware adapters in `middlewares/`, separate from processing managers, locks, jobs, and other
-  reusable services under `utils/`.
-- Keep URL and endpoint constants in `utils/platforms/<platform>/constants.py`.
-- Keep deterministic extraction and normalization in `parser.py`.
-- Keep network calls and payload decoding in `client.py`.
-- Keep orchestration and `MediaPost` assembly in `provider.py`.
-- Add `types.py` only when platform-specific models improve the boundary.
-- Put cross-platform behavior only in shared handlers, filters, parsing, provider, settings, type, or URL modules.
-
-## Handler and Detection Contracts
-
-- Subclass `BaseMediaHandler` and normally set only `PROVIDER`, `DEFAULT_AUTHOR_NAME`, and `DEFAULT_AUTHOR_HANDLE`.
-- Do not duplicate shared send, caption, cache, group, or compression behavior without a platform-only requirement.
-- Flow URL extraction through `MediaUrlFilter`.
-- Keep `PROVIDER.pattern` as the source of truth for detection.
-- Normalize source URLs through `normalize_media_url(...)`.
+- Keep URL detection in `MediaUrlFilter` and the complete provider order in the single `utils.platforms.PROVIDERS`
+  registry.
+- Keep `MediaHandler` as the only platform-independent Telegram delivery handler.
+- Keep the aiogram processing adapter in `middlewares/` and queue, concurrency, Redis lock, renewal, and shutdown
+  behavior in `utils/processing.py`.
+- Register middleware and lifecycle observers only from the module `pre_setup()` hook.
 - Preserve chat-level auto-download settings and `/url` bypass behavior.
 
 ## Provider Contract
 
-Every provider must extend `MediaProvider` and define `name`, `website`, `pattern`, and `fetch(url: str) -> MediaPost | None`.
+Every provider extends `MediaProvider` and defines `name`, `website`, `pattern`, and
+`fetch(url: str) -> MediaPost | None`.
 
-- Return `None` for unsupported links, unavailable or removed content, known parse failures, and empty media.
-- Return `MediaPost` with a non-empty media list.
-- Prefer shared `download_media(...)` retry and cache behavior.
-- Preserve established platform-specific download paths only when required.
-- Do not swallow `asyncio.CancelledError`.
-- Let unexpected defects reach `MediaProvider.safe_fetch(...)` or the shared download boundary.
+- Add the provider to `utils.platforms.PROVIDERS`; do not create a platform-specific handler.
+- Return `None` for supported unavailable, removed, invalid, or empty content.
+- Return a `MediaPost` with at least one downloaded `MediaItem` on success.
+- Use shared `download_media(...)` behavior unless the platform requires HLS remuxing, separate audio, offload, or
+  another transport-specific path.
+- Propagate cancellation and let unexpected defects reach `safe_fetch(...)` or the shared download boundary.
 
-## Parser and Client Rules
+Simple adapters may live in one module. Split constants, deterministic parsing, network calls, and platform-specific
+types only when the platform's complexity makes those boundaries useful. Parser functions must remain side-effect
+free and network-free.
 
-- Keep parser functions side-effect free and network-free.
-- Use explicit coercion and shared helpers such as `coerce_str`, `coerce_int`, `dict_or_empty`, and `dict_list`.
-- Use `ensure_url_scheme(...)` for simple scheme normalization.
+## HTTP and Downloads
+
 - Use the shared session from `HTTPClient.get_session()`.
-- Apply provider defaults for headers and timeouts unless the platform requires overrides.
-- Return `None` for expected non-success responses or invalid payloads.
+- Use `RetryPolicy` as request middleware for metadata or buffered payloads when it preserves the provider's attempts,
+  status set, backoff, jitter, timeout, redirect, and body-read behavior.
+- Do not install a media retry policy on the shared session; request-level policies differ by upstream.
+- Keep bounded streaming retry in `MediaProvider` for binary media. It covers errors raised while reading the body,
+  enforces the Telegram size limit before retaining an oversized payload, and distinguishes truncated payloads.
+- Reuse provider defaults for headers and timeouts unless the upstream requires overrides.
 
-## Shared Types and Cache
+## Types, Cache, and Delivery
 
-- Use `MediaSource` for pre-download data, `MediaItem` for Telegram-ready media, `MediaPost` for final delivery, and `MediaKind` for branching.
-- Keep source cache keys stable.
-- Keep post cache payloads serializable and backward-tolerant.
-- Avoid new cache namespaces without a cross-platform requirement.
+- Use `MediaSource` before download, `MediaItem` for Telegram-ready media, `MediaPost` for delivery, and `MediaKind`
+  for branching.
+- Use `utils/cache.py` for the `media-post` and `media-source` namespaces. Keep serialized post payloads backward
+  tolerant and source cache keys normalized and stable.
+- Preserve captions, quotes, albums, file-ID reuse, invalid-cache recovery, photo compression, Telegram flood-control
+  retry, missing-reply fallback, permissions handling, and Telegram limits in the shared handler.
+- Log once at the layer that owns recovery, with provider, source URL, stage, source index, and source kind where useful.
+- Offload blocking CPU work and FFmpeg subprocesses from the event loop.
 
-## Logging and Limits
+## Validation
 
-- Log once at the layer with actionable context using structured fields such as `provider`, `source_url`, `stage`, `source_index`, and `source_kind`.
-- Do not add manual Sentry capture.
-- Respect Telegram size, group, and caption limits already enforced by `BaseMediaHandler`.
-- Reuse photo compression and fallback paths.
-- Offload CPU-heavy blocking work from the event loop.
-
-## Stable Contracts
-
-Do not change these without an explicit migration:
-
-- `BaseMediaHandler.filters()` combines the group filter and `MediaUrlFilter(PROVIDER.pattern)`.
-- `MediaProvider.safe_fetch(...)` standardizes provider failures.
-- `medias/__init__.py` registers handler classes through `ModuleManifest.handlers`.
-- `medias/__init__.py` registers media middleware and its lifecycle observers only from the `pre_setup()` hook
-  declared through `ModuleManifest.scripts`.
+- Verify provider registry order, URL detection, parser fixtures, post/source cache compatibility, captions, quotes,
+  single media, albums, retries, fallbacks, cancellation, queue capacity, lock loss, and shutdown behavior affected by
+  the change.
+- Import the module manifest directly and run focused Ruff, Pyright, and the media characterization tests.

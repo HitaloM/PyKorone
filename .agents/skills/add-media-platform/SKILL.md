@@ -1,62 +1,65 @@
 ---
 name: add-media-platform
-description: Add a new supported platform to src/korone/modules/medias. Use only when implementing a new platform provider, parser, client, handler, URL detection, exports, module wiring, and supported-platform localization. Do not use for fixes or refactors of existing platforms.
+description: Add a new supported platform to src/korone/modules/medias. Use only when implementing and registering a new media provider, its URL detection, extraction, transport, and supported-platform localization. Do not use for fixes or refactors of existing platforms.
 ---
 
 # Add a PyKorone Media Platform
 
-Implement one complete platform adapter while preserving the shared media contracts.
+Implement and register a complete media provider through the shared media pipeline. Preserve the project boundaries even
+when the upstream API looks simple; the template is intentionally structured so transport, parsing, and orchestration do
+not collapse into one module as the provider evolves.
 
 ## Workflow
 
-1. Read [py-korone-development](../py-korone-development/SKILL.md) and its
-   [Python](../py-korone-development/references/python.md),
-   [handlers and aiogram](../py-korone-development/references/handlers-aiogram.md),
-   [modules](../py-korone-development/references/modules.md), and
-   [medias](../py-korone-development/references/medias.md) references.
-2. Read two current platform implementations:
-   - one structurally simple;
-   - one with transport or media requirements similar to the new platform.
-3. Verify canonical, alternate, regional, mobile, and shortened URL forms and the expected response formats.
-4. Define the platform boundary before editing:
-   - supported post types;
-   - expected unavailable or private states;
-   - required endpoints, redirects, headers, and timeouts;
-   - image, video, carousel, and author metadata behavior.
-5. Implement the platform package:
-   - `constants.py`
-   - `parser.py`
-   - `client.py`
-   - `provider.py`
-   - `types.py` only when platform-specific models add value.
-6. Keep parsing deterministic and network-free.
-7. Use the shared HTTP session, media types, download helpers, cache behavior, and logged error boundaries.
-8. Return `None` for supported domain failures such as unavailable, private, removed, unsupported, or empty content.
-9. Preserve cancellation and let unexpected implementation defects reach the existing shared boundary.
-10. Add a minimal `BaseMediaHandler` subclass.
-11. Export the provider and register the handler in the medias manifest.
-12. Update the supported-platform text and run `localization-workflow`.
+1. Read [py-korone-development](../py-korone-development/SKILL.md), then read its Python, handlers, modules, and medias
+   references completely.
+2. Inspect at least two existing providers: one structurally simple and one with transport or media requirements closest
+   to the new platform. Follow current code, not assumptions encoded in this template.
+3. Verify the live upstream contract when network access is available: canonical, alternate, regional, mobile, embedded,
+   and shortened URLs; redirects; response shapes; private, removed, unavailable, and rate-limited states.
+4. Define the platform boundary before coding: supported post types, URL normalization, endpoints, required headers,
+   timeouts, retry semantics, media metadata, downloads, fallbacks, and expected failure states.
+5. Create a package under `utils/platforms/<platform>/` with these default boundaries:
+   - `constants.py`: URL patterns, endpoints, timeouts, and immutable protocol constants.
+   - `parser.py`: deterministic, network-free URL and payload parsing into shared media types.
+   - `client.py`: upstream HTTP requests, response validation, and transport-specific logging.
+   - `provider.py`: the `MediaProvider` orchestration contract and `MediaPost` assembly.
+   - `types.py`: only when typed upstream payloads or platform-specific value objects materially improve correctness.
+   - `__init__.py`: the provider's public export.
+6. Keep the complete package structure by default. Merge boundaries only when the user explicitly requests a smaller
+   implementation or an adjacent established provider demonstrates that the split would be artificial.
+7. Use shared parsing helpers, media types, HTTP session, cache namespaces, download behavior, and structured logging.
+   Do not create a second cache or session abstraction for one platform.
+8. Use request-level `RetryPolicy` for buffered metadata or HTML only when attempts, statuses, backoff, jitter, timeout,
+   redirects, and body-read behavior match the upstream contract. The shared `ClientSession` has no automatic global
+   retry, and request middlewares replace session middlewares.
+9. Preserve specialized download handling for streaming limits, truncated payload detection, HLS/FFmpeg, audio merging,
+   provider-specific redirects, or offloading. Do not force binary downloads through a metadata retry helper.
+10. Return `None` for expected unavailable, private, removed, unsupported, or empty content. Propagate cancellation and
+    avoid converting programmer errors into ordinary provider misses.
+11. Export the provider and add it once to the ordered `utils.platforms.PROVIDERS` registry. Registry order defines URL
+    precedence and drives filtering, the shared `MediaHandler`, and the manifest. Do not create a platform handler.
+12. Update supported-platform user text and use `localization-workflow` whenever visible strings or catalogs change.
 
-## Scaffold Asset
+## Template
 
-Use [assets/platform_template](assets/platform_template) only as a structural starting point:
+Copy [assets/platform_template/platform](assets/platform_template/platform) to `utils/platforms/<platform>`. Rename every
+example symbol and URL, then replace all placeholder payload assumptions with the verified upstream contract. The
+template demonstrates the project's normal package boundaries, complete media metadata extraction, request-scoped retry,
+shared downloads, expected-failure handling, and provider export.
 
-- copy `handler.py` to `handlers/<platform>.py`;
-- copy `platform/` to `utils/platforms/<platform>/`;
-- merge the new exports and handler registration into existing shared files manually.
-
-Rename every `Example` symbol, replace every example URL and payload assumption, remove unused files, and do not leave placeholder behavior in the implementation. Never overwrite shared `__init__.py` or manifest files with template content.
-
-Do not automate or copy platform semantics from the asset. The external service contract must come from verified current behavior.
+Do not overwrite `utils/platforms/__init__.py`; export and register the provider manually. Do not retain placeholder
+behavior, generic headers, or retry values without verifying the current external contract. Do not copy the template as
+a substitute for inspecting analogous providers.
 
 ## Validation
 
 - Canonical, alternate, mobile, regional, and shortened URLs.
 - Invalid and unsupported URLs.
-- Image, video, carousel, and unavailable posts that the platform supports.
-- Provider returns a non-empty `MediaPost` only on success.
-- Cache hit behavior and stable normalized URLs.
-- Cancellation and transient transport behavior.
-- Handler and manifest registration.
-- Catalog update and compilation.
-- Focused Ruff checks and Pyright.
+- Supported image, video, carousel, quote, and unavailable cases.
+- Non-empty `MediaPost` only on success, stable normalized cache keys, and file-ID cache hits.
+- Retry, timeout, cancellation, transient transport, and any special download behavior.
+- Registry order, shared handler detection, and manifest loading.
+- Catalog update and compilation when localization changes.
+- Small deterministic reproductions using local fixtures when useful; no check may depend on a live platform response.
+- Focused Ruff and Pyright with zero new diagnostics.
