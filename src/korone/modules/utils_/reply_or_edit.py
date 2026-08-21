@@ -5,15 +5,12 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import CallbackQuery, InaccessibleMessage, Message
 
 from korone.utils.exception import KoroneError
+from korone.utils.telegram_errors import is_message_not_modified_error, is_message_to_reply_not_found_error
 
 if TYPE_CHECKING:
     from aiogram.types import InputRichMessage
 
     from korone.utils.formatting import Element
-
-
-def _is_message_not_modified_error(exc: TelegramBadRequest) -> bool:
-    return "message is not modified" in exc.message.casefold()
 
 
 async def edit_message_text(message: Message, text: Element | str, **kwargs: object) -> Message | bool:
@@ -40,14 +37,14 @@ async def reply_or_edit(event: Message | CallbackQuery, text: Element | str, **k
         try:
             return await edit_message_text(event.message, text, **kwargs)
         except TelegramBadRequest as exc:
-            if not _is_message_not_modified_error(exc):
+            if not is_message_not_modified_error(exc):
                 raise
             return event.message
     if isinstance(event, Message):
         try:
             return await event.reply(str(text), **cast("dict[str, Any]", kwargs))
         except TelegramBadRequest as exc:
-            if "message to be replied not found" not in exc.message.lower():
+            if not is_message_to_reply_not_found_error(exc):
                 raise
             return await event.answer(str(text), **cast("dict[str, Any]", kwargs))
     msg = "answer: Wrong event type"
@@ -64,7 +61,7 @@ async def reply_or_edit_rich(
         try:
             return await edit_message_rich(event.message, rich_message, **kwargs)
         except TelegramBadRequest as exc:
-            if not _is_message_not_modified_error(exc):
+            if not is_message_not_modified_error(exc):
                 raise
             return event.message
     if isinstance(event, Message):
@@ -72,7 +69,7 @@ async def reply_or_edit_rich(
         try:
             return await event.reply_rich(rich_message, **rich_kwargs)
         except TelegramBadRequest as exc:
-            if "message to be replied not found" not in exc.message.lower():
+            if not is_message_to_reply_not_found_error(exc):
                 raise
             return await event.answer_rich(rich_message, **rich_kwargs)
     msg = "answer_rich: Wrong event type"

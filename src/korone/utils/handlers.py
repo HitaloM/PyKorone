@@ -8,6 +8,7 @@ from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, M
 from korone.middlewares.context_data import as_korone_context
 from korone.modules.utils_.reply_or_edit import edit_message_rich, edit_message_text, reply_or_edit, reply_or_edit_rich
 from korone.utils.exception import KoroneError
+from korone.utils.telegram_errors import is_message_not_modified_error
 
 if TYPE_CHECKING:
     from aiogram import Bot, Router
@@ -67,10 +68,6 @@ class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
 
 
 class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
-    @staticmethod
-    def _is_message_not_modified_error(exc: TelegramBadRequest) -> bool:
-        return "message is not modified" in exc.message.casefold()
-
     @classmethod
     @abstractmethod
     def filters(cls) -> tuple[CallbackType, ...]:
@@ -99,7 +96,7 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         try:
             await edit_message_text(message, text, **kwargs)
         except TelegramBadRequest as exc:
-            if not self._is_message_not_modified_error(exc):
+            if not is_message_not_modified_error(exc):
                 raise
 
     async def edit_rich(self, rich_message: InputRichMessage, **kwargs: object) -> None:
@@ -110,7 +107,7 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         try:
             await edit_message_rich(message, rich_message, **kwargs)
         except TelegramBadRequest as exc:
-            if not self._is_message_not_modified_error(exc):
+            if not is_message_not_modified_error(exc):
                 raise
 
 

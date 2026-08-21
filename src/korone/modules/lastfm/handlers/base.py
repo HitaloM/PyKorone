@@ -14,6 +14,7 @@ from korone.logger import get_logger
 from korone.modules.lastfm.utils import LastFMError, format_lastfm_error
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
+from korone.utils.telegram_errors import is_callback_query_expired_error, is_message_not_modified_error
 
 if TYPE_CHECKING:
     from aiogram import Bot
@@ -240,20 +241,11 @@ class BaseLastFMCallbackHandler[C: LastFMUserContext, P: LastFMResponsePayload](
             message, text=payload.text, image_url=payload.image_url, reply_markup=reply_markup
         )
 
-    @staticmethod
-    def _is_message_not_modified(exc: TelegramBadRequest) -> bool:
-        return "message is not modified" in exc.message.lower()
-
-    @staticmethod
-    def _is_callback_query_expired(exc: TelegramBadRequest) -> bool:
-        message = exc.message.lower()
-        return "query is too old" in message or "query id is invalid" in message
-
     async def _answer_callback_safely(self, text: str | None = None, *, show_alert: bool = False) -> None:
         try:
             await self.event.answer(text=text, show_alert=show_alert)
         except TelegramBadRequest as exc:
-            if not self._is_callback_query_expired(exc):
+            if not is_callback_query_expired_error(exc):
                 raise
             await logger.adebug(
                 "LastFM callback query expired while answering", callback_query_id=self.event.id, error=exc.message
@@ -283,7 +275,7 @@ class BaseLastFMCallbackHandler[C: LastFMUserContext, P: LastFMResponsePayload](
         except LastFMError as exc:
             await self._answer_callback_safely(format_lastfm_error(exc), show_alert=True)
         except TelegramBadRequest as exc:
-            if self._is_message_not_modified(exc):
+            if is_message_not_modified_error(exc):
                 await self.handle_not_modified()
                 return
             raise
