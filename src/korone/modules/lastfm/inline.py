@@ -45,6 +45,10 @@ _LASTFM_INLINE_CACHE: dict[LastFMInlineCacheKey, LastFMInlineCacheEntry] = {}
 _LASTFM_INLINE_INFLIGHT: dict[LastFMInlineCacheKey, asyncio.Task[InlineQueryContribution]] = {}
 
 
+def matches_lastfm_inline(query: InlineQuery) -> bool:
+    return not query.query.strip()
+
+
 async def _capture_lastfm_error[T](awaitable: Awaitable[T]) -> T | LastFMError:
     try:
         return await awaitable

@@ -22,6 +22,7 @@ type ModuleContent = ModuleText | Doc
 type ModuleExportProvider = Callable[[int], MaybeAwaitable[object]]
 type ModuleHandler = Any
 type ModuleHook = Callable[..., object]
+type ModuleInlineQueryMatcher = Callable[[InlineQuery], bool]
 type ModuleInlineQueryProvider = Callable[[InlineQuery], Awaitable[InlineQueryContribution]]
 type ModuleStatsProvider = Callable[[], MaybeAwaitable[Doc]]
 
@@ -64,6 +65,7 @@ class InlineQueryContribution:
 class ModuleInlineQuery:
     provider: ModuleInlineQueryProvider
     _: KW_ONLY
+    matcher: ModuleInlineQueryMatcher | None = None
     priority: int = 0
     timeout_seconds: float = 4.0
 
@@ -74,6 +76,9 @@ class ModuleInlineQuery:
 
     async def collect(self, query: InlineQuery) -> InlineQueryContribution:
         return await self.provider(query)
+
+    def matches(self, query: InlineQuery) -> bool:
+        return self.matcher is None or self.matcher(query)
 
 
 @dataclass(frozen=True, slots=True)
