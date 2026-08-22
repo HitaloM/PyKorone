@@ -11,6 +11,7 @@ from aiogram.types import (
 )
 
 from korone.db.repositories.lastfm import LastFMRepository
+from korone.logger import get_logger
 from korone.modules.metadata import InlineQueryContribution
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
@@ -43,6 +44,8 @@ class LastFMInlineCacheEntry:
 
 _LASTFM_INLINE_CACHE: dict[LastFMInlineCacheKey, LastFMInlineCacheEntry] = {}
 _LASTFM_INLINE_INFLIGHT: dict[LastFMInlineCacheKey, asyncio.Task[InlineQueryContribution]] = {}
+
+logger = get_logger(__name__)
 
 
 def matches_lastfm_inline(query: InlineQuery) -> bool:
@@ -160,25 +163,35 @@ async def _build_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
     artist_payload = artist_task.result()
     results = []
     failure = None
+    failed_components = []
 
     if isinstance(status_payload, LastFMError):
         failure = status_payload
+        failed_components.append("status")
     elif status_payload is not None:
         results.append(_track_result(status_payload, track))
 
     if isinstance(album_payload, LastFMError):
+        failed_components.append("album")
         if failure is None:
             failure = album_payload
     else:
         results.append(_album_result(album_payload, track))
 
     if isinstance(artist_payload, LastFMError):
+        failed_components.append("artist")
         if failure is None:
             failure = artist_payload
     else:
         results.append(_artist_result(artist_payload, track))
 
     if results:
+        if failed_components:
+            await logger.awarning(
+                "Last.fm inline payload partially degraded",
+                failed_components=tuple(failed_components),
+                result_count=len(results),
+            )
         return InlineQueryContribution(results=tuple(results))
 
     if failure is not None:
@@ -225,15 +238,21 @@ async def provide_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
     cache_key = (query.from_user.id, get_i18n().current_locale)
     if cached := _LASTFM_INLINE_CACHE.get(cache_key):
         if cached.expires_at > loop.time():
+            await logger.adebug("Last.fm inline cache hit", cache_entry_count=len(_LASTFM_INLINE_CACHE))
             return cached.contribution
         _LASTFM_INLINE_CACHE.pop(cache_key, None)
 
+    await logger.adebug("Last.fm inline cache miss", cache_entry_count=len(_LASTFM_INLINE_CACHE))
     task = _LASTFM_INLINE_INFLIGHT.get(cache_key)
     if task is None:
         task = asyncio.create_task(_build_lastfm_inline(query), name=f"lastfm-inline:{query.from_user.id}")
         _LASTFM_INLINE_INFLIGHT[cache_key] = task
         task.add_done_callback(lambda completed, key=cache_key: _finish_lastfm_inline_load(key, completed))
+        await logger.adebug("Last.fm inline load started", inflight_count=len(_LASTFM_INLINE_INFLIGHT))
+    else:
+        await logger.adebug("Last.fm inline in-flight load joined", inflight_count=len(_LASTFM_INLINE_INFLIGHT))
 
+    # A cancelled waiter must not cancel the shared load needed by other requests or the short-lived cache.
     return await asyncio.shield(task)
 
 

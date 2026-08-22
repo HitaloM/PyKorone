@@ -51,6 +51,7 @@ class InlineQueryRegistry:
             async with asyncio.timeout(INLINE_QUERY_TOTAL_TIMEOUT_SECONDS):
                 async with asyncio.TaskGroup() as task_group:
                     for registered in self.providers:
+                        # Match first so providers that cannot contribute never allocate a task or enter expensive I/O.
                         try:
                             matches = registered.provider.matches(query)
                         except Exception as exc:  # ruff: ignore[blind-except]
@@ -59,6 +60,9 @@ class InlineQueryRegistry:
                             )
                             continue
                         if not matches:
+                            await logger.adebug(
+                                "Inline query provider skipped", module=registered.module_slug, reason="not_matched"
+                            )
                             continue
 
                         task = task_group.create_task(
@@ -122,10 +126,16 @@ async def _collect_provider(registered: RegisteredInlineQueryProvider, query: In
             "Inline query provider timed out",
             module=registered.module_slug,
             timeout_seconds=registered.provider.timeout_seconds,
+            duration_seconds=monotonic() - started_at,
         )
         return InlineQueryContribution()
     except Exception as exc:  # ruff: ignore[blind-except]
-        await logger.aexception("Inline query provider failed", module=registered.module_slug, error=str(exc))
+        await logger.aexception(
+            "Inline query provider failed",
+            module=registered.module_slug,
+            duration_seconds=monotonic() - started_at,
+            error=str(exc),
+        )
         return InlineQueryContribution()
     await logger.adebug(
         "Inline query provider completed",
