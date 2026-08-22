@@ -5,6 +5,8 @@ from enum import StrEnum
 from inspect import isawaitable, iscoroutinefunction
 from typing import TYPE_CHECKING, Any, cast
 
+from aiogram.types import InlineQuery, InlineQueryResultsButton, InlineQueryResultUnion
+
 if TYPE_CHECKING:
     from types import ModuleType
 
@@ -19,6 +21,7 @@ type ModuleContent = ModuleText | Doc
 type ModuleExportProvider = Callable[[int], MaybeAwaitable[object]]
 type ModuleHandler = Any
 type ModuleHook = Callable[..., object]
+type ModuleInlineQueryProvider = Callable[[InlineQuery], MaybeAwaitable[InlineQueryContribution]]
 type ModuleStatsProvider = Callable[[], MaybeAwaitable[Doc]]
 
 
@@ -51,6 +54,23 @@ class ModuleExport:
 
 
 @dataclass(frozen=True, slots=True)
+class InlineQueryContribution:
+    results: tuple[InlineQueryResultUnion, ...] = ()
+    button: InlineQueryResultsButton | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class ModuleInlineQuery:
+    provider: ModuleInlineQueryProvider
+
+    async def collect(self, query: InlineQuery) -> InlineQueryContribution:
+        result = self.provider(query)
+        if isawaitable(result):
+            return await cast("Awaitable[InlineQueryContribution]", result)
+        return result
+
+
+@dataclass(frozen=True, slots=True)
 class ModuleScripts:
     pre_setup: ModuleHook | None = None
     post_setup: ModuleHook | None = None
@@ -73,6 +93,7 @@ class ModuleManifest:
     scripts: ModuleScripts = field(default_factory=ModuleScripts)
     stats: ModuleStatsProvider | None = None
     export: ModuleExport | None = None
+    inline_query: ModuleInlineQuery | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -108,6 +129,10 @@ class LoadedModule:
     @property
     def export_private_only(self) -> bool:
         return bool(self.manifest.export and self.manifest.export.private_only)
+
+    @property
+    def inline_query(self) -> ModuleInlineQuery | None:
+        return self.manifest.inline_query
 
     def include_router(self, target: Dispatcher | Router) -> bool:
         if self.router is None:

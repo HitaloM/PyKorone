@@ -801,31 +801,31 @@ msgstr "Abra o menu de seleção de idioma deste chat."
 msgid "Please select the language you want to use for the chat."
 msgstr "Selecione o idioma que você quer usar para o chat."
 
-#: src/korone/modules/lastfm/__init__.py:27
+#: src/korone/modules/lastfm/__init__.py:28
 msgid "Last.fm"
 msgstr "Last.fm"
 
-#: src/korone/modules/lastfm/__init__.py:29
+#: src/korone/modules/lastfm/__init__.py:30
 msgid "Last.fm now-playing and profile tools"
 msgstr "Ferramentas de reprodução atual e perfil do Last.fm"
 
-#: src/korone/modules/lastfm/__init__.py:31
+#: src/korone/modules/lastfm/__init__.py:32
 msgid "Show current scrobbles and fetch album, artist, compatibility, and collage views."
 msgstr "Mostre os scrobbles atuais e consulte visualizações de álbum, artista, compatibilidade e colagem."
 
-#: src/korone/modules/lastfm/handlers/album.py:80
+#: src/korone/modules/lastfm/handlers/album.py:85
 msgid "No album information found for the current track."
 msgstr "Nenhuma informação de álbum encontrada para a faixa atual."
 
-#: src/korone/modules/lastfm/handlers/album.py:91
+#: src/korone/modules/lastfm/handlers/album.py:96
 msgid "Show album details for the current Last.fm track."
 msgstr "Mostre detalhes do álbum da faixa atual do Last.fm."
 
-#: src/korone/modules/lastfm/handlers/artist.py:67
+#: src/korone/modules/lastfm/handlers/artist.py:72
 msgid "No artist information found for the current track."
 msgstr "Nenhuma informação de artista encontrada para a faixa atual."
 
-#: src/korone/modules/lastfm/handlers/artist.py:78
+#: src/korone/modules/lastfm/handlers/artist.py:83
 msgid "Show artist details for the current Last.fm track."
 msgstr "Mostre detalhes do artista da faixa atual do Last.fm."
 
@@ -945,12 +945,12 @@ msgstr "Bots não ouvem música."
 msgid "This user needs to set Last.fm first with /setlfm."
 msgstr "Este usuário precisa configurar o Last.fm primeiro com /setlfm."
 
-#: src/korone/modules/lastfm/handlers/lfm.py:95
+#: src/korone/modules/lastfm/handlers/lfm.py:104
 #: src/korone/modules/lastfm/utils/formatters.py:137
 msgid "No scrobbles found for this Last.fm user."
 msgstr "Nenhum scrobble encontrado para este usuário do Last.fm."
 
-#: src/korone/modules/lastfm/handlers/lfm.py:121
+#: src/korone/modules/lastfm/handlers/lfm.py:130
 msgid "Show the current Last.fm listening status."
 msgstr "Mostre o status atual de reprodução no Last.fm."
 
@@ -972,6 +972,35 @@ msgstr "Nome de usuário do Last.fm definido como {username}. Use {command} para
 #: src/korone/modules/lastfm/handlers/set.py:68
 msgid "Set your Last.fm username for status commands."
 msgstr "Defina seu nome de usuário do Last.fm para usar os comandos de status."
+
+#: src/korone/modules/lastfm/inline.py:69
+msgid "Current track"
+msgstr "Faixa atual"
+
+#: src/korone/modules/lastfm/inline.py:79
+#: src/korone/modules/lastfm/inline.py:85
+msgid "Current album"
+msgstr "Álbum atual"
+
+#: src/korone/modules/lastfm/inline.py:96
+msgid "Current artist"
+msgstr "Artista atual"
+
+#: src/korone/modules/lastfm/inline.py:104
+msgid "Set up Last.fm"
+msgstr "Configurar Last.fm"
+
+#: src/korone/modules/lastfm/inline.py:114
+#: src/korone/modules/lastfm/inline.py:139
+#: src/korone/modules/lastfm/inline.py:141
+#: src/korone/modules/lastfm/inline.py:143
+msgid "Last.fm unavailable"
+msgstr "Last.fm indisponível"
+
+#: src/korone/modules/lastfm/inline.py:117
+#: src/korone/modules/lastfm/inline.py:146
+msgid "No recent scrobbles"
+msgstr "Nenhum scrobble recente"
 
 #: src/korone/modules/lastfm/utils/collage.py:172
 #, python-brace-format
@@ -1078,26 +1107,21 @@ msgstr "1 ano"
 msgid "all-time"
 msgstr "todo o período"
 
-#: src/korone/modules/medias/__init__.py:30
+#: src/korone/modules/medias/__init__.py:25
 msgid "Medias"
 msgstr "Mídias"
 
-#: src/korone/modules/medias/__init__.py:32
+#: src/korone/modules/medias/__init__.py:27
 msgid "Automatic media downloads from supported links"
 msgstr "Download automático de mídia a partir de links compatíveis"
 
-#: src/korone/modules/medias/__init__.py:35
+#: src/korone/modules/medias/__init__.py:30
 msgid "Fetch media when supported links are posted in private or group chats."
 msgstr "Baixe mídia quando links compatíveis forem enviados em conversas privadas ou grupos."
 
-#: src/korone/modules/medias/__init__.py:36
+#: src/korone/modules/medias/__init__.py:31
 msgid "Currently supported platforms: Twitter, Bluesky, Instagram, Pinterest, Reddit, and TikTok."
 msgstr "Plataformas compatíveis atualmente: Twitter, Bluesky, Instagram, Pinterest, Reddit e TikTok."
-
-#: src/korone/modules/medias/handlers/base.py:587
-#, python-brace-format
-msgid "Open in {website}"
-msgstr "Abrir em {website}"
 
 #: src/korone/modules/medias/handlers/status.py:17
 msgid "Toggle automatic media downloads for this chat."
@@ -1106,6 +1130,11 @@ msgstr "Alterne o download automático de mídia neste chat."
 #: src/korone/modules/medias/handlers/status.py:20
 msgid "Media auto-download"
 msgstr "Download automático de mídia"
+
+#: src/korone/modules/medias/utils/captions.py:37
+#, python-brace-format
+msgid "Open in {website}"
+msgstr "Abrir em {website}"
 
 #: src/korone/modules/privacy/__init__.py:24
 msgid "Privacy"

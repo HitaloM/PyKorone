@@ -21,6 +21,7 @@ MODULES: tuple[str, ...] = (
     "privacy",
     "disabling",
     "language",
+    "inline",
     "medias",
     "stickers",
     "gsm_arena",

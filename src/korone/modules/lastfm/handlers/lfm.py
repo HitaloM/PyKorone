@@ -13,6 +13,8 @@ from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from aiogram import Router
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import InlineKeyboardMarkup
@@ -49,15 +51,16 @@ class LastFMStatusView:
         return 4 if mode is LastFMMode.EXPANDED else 1
 
     @classmethod
-    async def build_status_payload(cls, *, user: LastFMUserContext, mode: LastFMMode) -> LastFMStatusPayload | None:
-        client = LastFMClient()
-        deezer_client = DeezerClient()
-        tracks = await client.get_recent_tracks(username=user.username, limit=cls.track_limit(mode))
+    async def build_status_payload_from_tracks(
+        cls, *, user: LastFMUserContext, mode: LastFMMode, tracks: Sequence[LastFMRecentTrack]
+    ) -> LastFMStatusPayload | None:
         if not tracks:
             return None
 
+        client = LastFMClient()
+        deezer_client = DeezerClient()
         first_track = tracks[0]
-        visible_tracks = tracks if mode is LastFMMode.EXPANDED else tracks[:1]
+        visible_tracks = list(tracks if mode is LastFMMode.EXPANDED else tracks[:1])
 
         track_info = None
         try:
@@ -81,6 +84,12 @@ class LastFMStatusView:
         return LastFMStatusPayload(
             mode=mode, user=user, image_url=image_url, tracks=visible_tracks, track_info=track_info
         )
+
+    @classmethod
+    async def build_status_payload(cls, *, user: LastFMUserContext, mode: LastFMMode) -> LastFMStatusPayload | None:
+        client = LastFMClient()
+        tracks = await client.get_recent_tracks(username=user.username, limit=cls.track_limit(mode))
+        return await cls.build_status_payload_from_tracks(user=user, mode=mode, tracks=tracks)
 
     @classmethod
     async def build_payload_for_user(cls, *, user: LastFMUserContext) -> LastFMStatusPayload | None:

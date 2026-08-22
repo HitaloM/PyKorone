@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.utils.chat_action import ChatActionMiddleware
 
-from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage, ModuleScripts
+from korone.modules.metadata import ModuleExport, ModuleInlineQuery, ModuleManifest, ModulePackage, ModuleScripts
 from korone.utils.formatting import Doc
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
@@ -13,6 +13,7 @@ from .handlers.collage import LastFMCollageCallbackHandler, LastFMCollageHandler
 from .handlers.compat import LastFMCompatHandler
 from .handlers.lfm import LastFMStatusCallbackHandler, LastFMStatusHandler
 from .handlers.set import LastFMSetHandler, LastFMSetReplyHandler, LastFMSetStartHandler
+from .inline import provide_lastfm_inline
 from .stats import lastfm_stats
 
 router = Router(name="lastfm")
@@ -49,4 +50,5 @@ manifest = ModuleManifest(
     scripts=ModuleScripts(pre_setup=pre_setup),
     stats=lastfm_stats,
     export=ModuleExport(export_lastfm, private_only=True),
+    inline_query=ModuleInlineQuery(provide_lastfm_inline),
 )

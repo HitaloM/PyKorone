@@ -48,14 +48,11 @@ class LastFMAlbumPayload:
 
 class LastFMAlbumView:
     @classmethod
-    async def build_payload_for_user(cls, *, user: LastFMUserContext) -> LastFMAlbumPayload | None:
+    async def build_payload_from_track(
+        cls, *, user: LastFMUserContext, track: LastFMRecentTrack
+    ) -> LastFMAlbumPayload | None:
         client = LastFMClient()
         deezer_client = DeezerClient()
-        recent_tracks = await client.get_recent_tracks(username=user.username, limit=1)
-        if not recent_tracks:
-            return None
-
-        track = recent_tracks[0]
         if not track.album:
             return None
 
@@ -74,6 +71,14 @@ class LastFMAlbumView:
             deezer_image_url = None
 
         return LastFMAlbumPayload(user=user, track=track, album_info=album_info, deezer_image_url=deezer_image_url)
+
+    @classmethod
+    async def build_payload_for_user(cls, *, user: LastFMUserContext) -> LastFMAlbumPayload | None:
+        client = LastFMClient()
+        recent_tracks = await client.get_recent_tracks(username=user.username, limit=1)
+        if not recent_tracks:
+            return None
+        return await cls.build_payload_from_track(user=user, track=recent_tracks[0])
 
     @classmethod
     def empty_state_text(cls) -> str:

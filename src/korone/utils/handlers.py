@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.handlers import BaseHandler, BaseHandlerMixin
-from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, Message
+from aiogram.types import CallbackQuery, InaccessibleMessage, InlineQuery, InputMediaPhoto, Message
 
 from korone.middlewares.context_data import as_korone_context
 from korone.modules.utils_.reply_or_edit import edit_message_rich, edit_message_text, reply_or_edit, reply_or_edit_rich
@@ -109,6 +109,17 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         except TelegramBadRequest as exc:
             if not is_message_not_modified_error(exc):
                 raise
+
+
+class KoroneInlineQueryHandler(KoroneBaseHandler[InlineQuery], ABC):
+    @classmethod
+    @abstractmethod
+    def filters(cls) -> tuple[CallbackType, ...]:
+        pass
+
+    @classmethod
+    def register(cls, router: Router) -> None:
+        router.inline_query.register(cls, *cls.filters())
 
 
 class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuery], ABC):
