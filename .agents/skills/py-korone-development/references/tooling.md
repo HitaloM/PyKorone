@@ -8,6 +8,8 @@ Apply these rules to repository tooling, developer workflows, dependencies, migr
 - Keep dependency changes synchronized between `pyproject.toml` and `uv.lock`.
 - Do not introduce pip-only, Poetry, or Pipenv workflows without an explicit repository migration.
 - Keep Ruff policy aligned across `ruff.toml` and pre-commit hooks.
+- Configure Ruff's `logger-objects` only with fully qualified re-exported logger instances; it does not accept logger
+  factory functions such as `get_logger`.
 - Keep Pyright as the static type checker and prefer narrow, justified suppressions.
 - Read active tool and dependency versions from repository configuration instead of duplicating them here.
 

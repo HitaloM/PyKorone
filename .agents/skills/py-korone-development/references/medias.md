@@ -25,9 +25,9 @@ Every provider extends `MediaProvider` and defines `name`, `website`, `pattern`,
   another transport-specific path.
 - Propagate cancellation and let unexpected defects reach `safe_fetch(...)` or the shared download boundary.
 
-Simple adapters may live in one module. Split constants, deterministic parsing, network calls, and platform-specific
-types only when the platform's complexity makes those boundaries useful. Parser functions must remain side-effect
-free and network-free.
+For a new platform, follow the package boundaries and template defined by `add-media-platform`. During fixes and
+refactors, preserve the existing provider shape unless the requested change makes a split or merge materially clearer.
+Parser functions must remain side-effect free and network-free.
 
 ## HTTP and Downloads
 
@@ -48,11 +48,14 @@ free and network-free.
 - Preserve captions, quotes, albums, file-ID reuse, invalid-cache recovery, photo compression, Telegram flood-control
   retry, missing-reply fallback, permissions handling, and Telegram limits in the shared handler.
 - Log once at the layer that owns recovery, with provider, source URL, stage, source index, and source kind where useful.
-- Offload blocking CPU work and FFmpeg subprocesses from the event loop.
+- Run FFmpeg through asyncio's subprocess APIs. Offload measured CPU-bound Python work with an execution model that
+  matches its GIL behavior; do not send it to `asyncio.to_thread()` by default.
 
 ## Validation
 
 - Verify provider registry order, URL detection, parser fixtures, post/source cache compatibility, captions, quotes,
   single media, albums, retries, fallbacks, cancellation, queue capacity, lock loss, and shutdown behavior affected by
   the change.
-- Import the module manifest directly and run focused Ruff, Pyright, and the media characterization tests.
+- Import the module manifest directly, run focused Ruff and Pyright, and exercise affected behavior with existing
+  fixtures or a small deterministic reproduction. Do not invent or claim a test target that the repository does not
+  provide.

@@ -11,8 +11,9 @@ Complete the catalog update, manual review, and compilation in the same change a
 
 1. Run `make update_lang`.
 2. Review changed entries in `locales/pt_BR/LC_MESSAGES/korone.po` manually.
-3. Keep `locales/en_US/LC_MESSAGES/korone.po` synchronized through the catalog update.
-4. Translate every new or changed `msgid` in required locales.
+3. Keep the source-locale catalog at `locales/en_US/LC_MESSAGES/korone.po` synchronized through the catalog update;
+   leave its `msgstr` values empty so gettext falls back to the English `msgid`.
+4. Translate every new or changed `msgid` in non-source locales, currently `pt_BR`.
 5. Remove or resolve all affected `fuzzy` markers.
 6. Run `make compile_lang`.
 7. Inspect the final diff for unrelated catalog churn.

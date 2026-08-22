@@ -41,7 +41,9 @@ Create one complete loadable module that follows the current manifest, handler, 
 
 ## Template Asset
 
-Use [assets/module_template](assets/module_template) as an optional starting point for a simple command module. Copy only the files the module needs, rename every `Example` symbol and command, remove unused callbacks or utilities, and adapt the manifest from the nearest live module.
+Use [assets/module_template](assets/module_template) as an optional starting point for a simple command module. Rename
+every `Example` symbol and command, copy only the files the module needs, and adapt the manifest from the nearest live
+module. Add callbacks, utilities, repositories, middleware, or services only when the defined boundary requires them.
 
 ## Validation
 
