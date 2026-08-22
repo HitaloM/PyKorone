@@ -2,7 +2,8 @@ from typing import TYPE_CHECKING, override
 
 from korone.utils.handlers import KoroneInlineQueryHandler
 
-from .registry import collect_inline_query_results
+from .middlewares import INLINE_QUERY_REGISTRY_KEY
+from .registry import InlineQueryRegistry
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
@@ -18,7 +19,12 @@ class InlineQueryAggregatorHandler(KoroneInlineQueryHandler):
 
     @override
     async def handle(self) -> None:
-        results, button = await collect_inline_query_results(self.event)
+        registry = self.data.get(INLINE_QUERY_REGISTRY_KEY)
+        if not isinstance(registry, InlineQueryRegistry):
+            msg = "Inline query registry is unavailable"
+            raise TypeError(msg)
+
+        results, button = await registry.collect(self.event)
         await self.event.answer(
             results, cache_time=INLINE_QUERY_CACHE_SECONDS, is_personal=True, next_offset="", button=button
         )

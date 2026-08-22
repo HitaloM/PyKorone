@@ -3,6 +3,7 @@ from collections.abc import Awaitable, Callable, Mapping
 from dataclasses import KW_ONLY, dataclass, field
 from enum import StrEnum
 from inspect import isawaitable, iscoroutinefunction
+from math import isfinite
 from typing import TYPE_CHECKING, Any, cast
 
 from aiogram.types import InlineQuery, InlineQueryResultsButton, InlineQueryResultUnion
@@ -21,7 +22,7 @@ type ModuleContent = ModuleText | Doc
 type ModuleExportProvider = Callable[[int], MaybeAwaitable[object]]
 type ModuleHandler = Any
 type ModuleHook = Callable[..., object]
-type ModuleInlineQueryProvider = Callable[[InlineQuery], MaybeAwaitable[InlineQueryContribution]]
+type ModuleInlineQueryProvider = Callable[[InlineQuery], Awaitable[InlineQueryContribution]]
 type ModuleStatsProvider = Callable[[], MaybeAwaitable[Doc]]
 
 
@@ -56,18 +57,23 @@ class ModuleExport:
 @dataclass(frozen=True, slots=True)
 class InlineQueryContribution:
     results: tuple[InlineQueryResultUnion, ...] = ()
-    button: InlineQueryResultsButton | None = None
+    empty_state_button: InlineQueryResultsButton | None = None
 
 
 @dataclass(frozen=True, slots=True)
 class ModuleInlineQuery:
     provider: ModuleInlineQueryProvider
+    _: KW_ONLY
+    priority: int = 0
+    timeout_seconds: float = 4.0
+
+    def __post_init__(self) -> None:
+        if not isfinite(self.timeout_seconds) or self.timeout_seconds <= 0:
+            msg = "Inline query provider timeout must be a positive finite number"
+            raise ValueError(msg)
 
     async def collect(self, query: InlineQuery) -> InlineQueryContribution:
-        result = self.provider(query)
-        if isawaitable(result):
-            return await cast("Awaitable[InlineQueryContribution]", result)
-        return result
+        return await self.provider(query)
 
 
 @dataclass(frozen=True, slots=True)

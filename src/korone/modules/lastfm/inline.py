@@ -1,4 +1,5 @@
 import asyncio
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from aiogram.enums import ParseMode
@@ -11,6 +12,7 @@ from aiogram.types import (
 
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.metadata import InlineQueryContribution
+from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 from .callbacks import LastFMMode
@@ -26,6 +28,21 @@ if TYPE_CHECKING:
     from aiogram.types import InlineQuery
 
     from .utils import LastFMRecentTrack
+
+LASTFM_INLINE_CACHE_SECONDS = 8.0
+LASTFM_INLINE_CACHE_MAX_ENTRIES = 1_024
+
+type LastFMInlineCacheKey = tuple[int, str]
+
+
+@dataclass(frozen=True, slots=True)
+class LastFMInlineCacheEntry:
+    contribution: InlineQueryContribution
+    expires_at: float
+
+
+_LASTFM_INLINE_CACHE: dict[LastFMInlineCacheKey, LastFMInlineCacheEntry] = {}
+_LASTFM_INLINE_INFLIGHT: dict[LastFMInlineCacheKey, asyncio.Task[InlineQueryContribution]] = {}
 
 
 async def _capture_lastfm_error[T](awaitable: Awaitable[T]) -> T | LastFMError:
@@ -97,11 +114,13 @@ def _artist_result(payload: LastFMArtistPayload, track: LastFMRecentTrack) -> In
     )
 
 
-async def provide_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
+async def _build_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
     username = await LastFMRepository.get_username(query.from_user.id)
     if not username:
         return InlineQueryContribution(
-            button=InlineQueryResultsButton(text=_("Set up Last.fm"), start_parameter=LASTFM_SET_START_PAYLOAD)
+            empty_state_button=InlineQueryResultsButton(
+                text=_("Set up Last.fm"), start_parameter=LASTFM_SET_START_PAYLOAD
+            )
         )
 
     user = LastFMUserContext(
@@ -152,3 +171,63 @@ async def provide_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
             _artist_result(artist_payload, track),
         )
     )
+
+
+def _prune_lastfm_inline_cache(now: float) -> None:
+    expired_keys = [key for key, entry in _LASTFM_INLINE_CACHE.items() if entry.expires_at <= now]
+    for key in expired_keys:
+        _LASTFM_INLINE_CACHE.pop(key, None)
+
+    overflow = len(_LASTFM_INLINE_CACHE) - LASTFM_INLINE_CACHE_MAX_ENTRIES
+    if overflow <= 0:
+        return
+
+    oldest_keys = sorted(_LASTFM_INLINE_CACHE, key=lambda key: _LASTFM_INLINE_CACHE[key].expires_at)[:overflow]
+    for key in oldest_keys:
+        _LASTFM_INLINE_CACHE.pop(key, None)
+
+
+def _finish_lastfm_inline_load(key: LastFMInlineCacheKey, task: asyncio.Task[InlineQueryContribution]) -> None:
+    if _LASTFM_INLINE_INFLIGHT.get(key) is task:
+        _LASTFM_INLINE_INFLIGHT.pop(key, None)
+
+    if task.cancelled():
+        return
+
+    exception = task.exception()
+    if exception is not None:
+        return
+
+    loop = task.get_loop()
+    now = loop.time()
+    _LASTFM_INLINE_CACHE[key] = LastFMInlineCacheEntry(
+        contribution=task.result(), expires_at=now + LASTFM_INLINE_CACHE_SECONDS
+    )
+    _prune_lastfm_inline_cache(now)
+
+
+async def provide_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
+    loop = asyncio.get_running_loop()
+    cache_key = (query.from_user.id, get_i18n().current_locale)
+    if cached := _LASTFM_INLINE_CACHE.get(cache_key):
+        if cached.expires_at > loop.time():
+            return cached.contribution
+        _LASTFM_INLINE_CACHE.pop(cache_key, None)
+
+    task = _LASTFM_INLINE_INFLIGHT.get(cache_key)
+    if task is None:
+        task = asyncio.create_task(_build_lastfm_inline(query), name=f"lastfm-inline:{query.from_user.id}")
+        _LASTFM_INLINE_INFLIGHT[cache_key] = task
+        task.add_done_callback(lambda completed, key=cache_key: _finish_lastfm_inline_load(key, completed))
+
+    return await task
+
+
+async def shutdown_lastfm_inline() -> None:
+    tasks = tuple(_LASTFM_INLINE_INFLIGHT.values())
+    for task in tasks:
+        task.cancel()
+    if tasks:
+        await asyncio.gather(*tasks, return_exceptions=True)
+    _LASTFM_INLINE_INFLIGHT.clear()
+    _LASTFM_INLINE_CACHE.clear()

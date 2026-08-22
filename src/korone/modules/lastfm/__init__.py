@@ -13,7 +13,7 @@ from .handlers.collage import LastFMCollageCallbackHandler, LastFMCollageHandler
 from .handlers.compat import LastFMCompatHandler
 from .handlers.lfm import LastFMStatusCallbackHandler, LastFMStatusHandler
 from .handlers.set import LastFMSetHandler, LastFMSetReplyHandler, LastFMSetStartHandler
-from .inline import provide_lastfm_inline
+from .inline import provide_lastfm_inline, shutdown_lastfm_inline
 from .stats import lastfm_stats
 
 router = Router(name="lastfm")
@@ -21,6 +21,7 @@ router = Router(name="lastfm")
 
 def pre_setup() -> None:
     router.message.middleware(ChatActionMiddleware())
+    router.shutdown.register(shutdown_lastfm_inline)
 
 
 manifest = ModuleManifest(
@@ -50,5 +51,5 @@ manifest = ModuleManifest(
     scripts=ModuleScripts(pre_setup=pre_setup),
     stats=lastfm_stats,
     export=ModuleExport(export_lastfm, private_only=True),
-    inline_query=ModuleInlineQuery(provide_lastfm_inline),
+    inline_query=ModuleInlineQuery(provide_lastfm_inline, priority=100, timeout_seconds=5.0),
 )
