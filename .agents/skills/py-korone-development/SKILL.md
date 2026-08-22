@@ -28,6 +28,8 @@ Implement changes by treating the current repository as authoritative and loadin
 
 ## Validation Baseline
 
+- This project has no automated test suite. Do not create tests, test files, test fixtures, or introduce a test framework unless the user explicitly requests it.
+- Validate behavior with the smallest deterministic reproduction suited to the change.
 - Run `uv run ruff check <changed paths>` for Python changes.
 - Run `uv run pyright` when typing, public APIs, handlers, repositories, or shared runtime code change.
 - Run the specialized checks required by the selected references.

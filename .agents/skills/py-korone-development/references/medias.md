@@ -53,9 +53,9 @@ Parser functions must remain side-effect free and network-free.
 
 ## Validation
 
-- Verify provider registry order, URL detection, parser fixtures, post/source cache compatibility, captions, quotes,
+- Verify provider registry order, URL detection, representative parser inputs, post/source cache compatibility, captions, quotes,
   single media, albums, retries, fallbacks, cancellation, queue capacity, lock loss, and shutdown behavior affected by
   the change.
-- Import the module manifest directly, run focused Ruff and Pyright, and exercise affected behavior with existing
-  fixtures or a small deterministic reproduction. Do not invent or claim a test target that the repository does not
-  provide.
+- Import the module manifest directly, run focused Ruff and Pyright, and exercise affected behavior with captured local
+  inputs or a small deterministic reproduction. Do not create tests, test files, test fixtures, or introduce a test
+  framework unless the user explicitly requests it.

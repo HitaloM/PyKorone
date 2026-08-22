@@ -22,7 +22,7 @@ Keep repository guidance small and durable here. Use the domain skills under `.a
 - Ruff lint: `uv run ruff check`
 - Ruff format: `uv run ruff format`
 - Type check: `uv run pyright`
-- Tests: no test suite is currently configured; use the smallest deterministic reproduction plus Ruff and Pyright checks relevant to the change.
+- Automated tests: this project has no test suite. Do not create tests, test files, test fixtures, or introduce a test framework unless the user explicitly requests it. Validate with the smallest deterministic reproduction plus relevant Ruff and Pyright checks.
 - Update locale catalogs: `make update_lang`
 - Compile locale catalogs: `make compile_lang`
 - Create Alembic revision: `make db_revision m="message"`

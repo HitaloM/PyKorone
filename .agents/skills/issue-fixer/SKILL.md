@@ -24,7 +24,7 @@ Identify the earliest verified divergence from the required contract. When imple
 5. Find the first point where actual state diverges from the required contract.
 6. Decide whether the value is required, optional, stale, malformed, or legitimately unavailable.
 7. Fix the producer or contract at that point with the smallest coherent patch.
-8. Add regression evidence that fails for the original behavior and succeeds after the fix.
+8. Capture regression evidence with the smallest deterministic reproduction that fails for the original behavior and succeeds after the fix. Do not create an automated test unless the user explicitly requests it.
 9. Re-run the original reproduction and checks proportional to the changed boundary.
 
 ## Reject Symptom Masking
@@ -48,7 +48,7 @@ Use a fallback only when absence is valid by design. Represent it in the type an
 
 ## Regression and Completion
 
-- Prefer a focused test or deterministic reproduction. Do not introduce a test framework for one issue unless requested.
+- This project has no automated test suite. Use a focused deterministic reproduction; do not create tests, test files, test fixtures, or introduce a test framework unless the user explicitly requests it.
 - Catch only errors the layer can recover from or translate and preserve exception chaining.
 - Log operational failures once with structured context; never log secrets or full sensitive payloads.
 - Use `localization-workflow` if the fix changes visible text.

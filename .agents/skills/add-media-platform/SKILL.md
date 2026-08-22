@@ -61,5 +61,6 @@ a substitute for inspecting analogous providers.
 - Retry, timeout, cancellation, transient transport, and any special download behavior.
 - Registry order, shared handler detection, and manifest loading.
 - Catalog update and compilation when localization changes.
-- Small deterministic reproductions using local fixtures when useful; no check may depend on a live platform response.
+- Small deterministic reproductions using captured local inputs when useful; no check may depend on a live platform response.
+- Do not create tests, test files, test fixtures, or introduce a test framework unless the user explicitly requests it.
 - Focused Ruff and Pyright with zero new diagnostics.
