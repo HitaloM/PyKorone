@@ -8,6 +8,7 @@ authors = [{ name = "Hitalo M." }]
 requires-python = ">=3.14"
 dependencies = [
     "aiogram>=3.30.0,<4",
+    "aiofiles>=25.1.0",
     "redis>=7",
     "alembic>=1.18.4",
     "sqlalchemy[asyncio]>=2.0.0",

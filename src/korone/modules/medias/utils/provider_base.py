@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 import mimetypes
 import random
 from abc import ABC, abstractmethod
@@ -7,14 +8,18 @@ from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Literal
 from urllib.parse import urlparse
 
+import aiofiles
+import aiofiles.os
 import aiohttp
 from aiogram.types import BufferedInputFile
 
+from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
-from korone.modules.utils_.file_id_cache import get_cached_file_payload
+from korone.modules.utils_.file_id_cache import get_cached_file_payload, get_cached_file_payloads
 from korone.utils.aiohttp_session import HTTPClient
 
 from .cache import media_source_cache_key
+from .resources import MEDIA_DOWNLOAD_SLOTS
 from .types import MediaItem, MediaKind, MediaSource
 
 if TYPE_CHECKING:
@@ -83,7 +88,7 @@ class MediaProvider(ABC):
         sources: Sequence[MediaSource],
         *,
         filename_prefix: str,
-        max_size: int | None = None,
+        max_size: int | None = TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES,
         log_label: str | None = None,
     ) -> list[MediaItem]:
         if not sources:
@@ -101,12 +106,50 @@ class MediaProvider(ABC):
     @classmethod
     async def _process_downloads(cls, requests: Sequence[MediaDownloadRequest]) -> list[MediaItem]:
         results: list[MediaItem | None] = [None] * len(requests)
+        cache_keys = [media_source_cache_key(request.source.url) for request in requests]
+        cached_payloads = await get_cached_file_payloads(cache_keys)
+        pending_requests: list[MediaDownloadRequest] = []
+
+        for request, cached_payload in zip(requests, cached_payloads, strict=True):
+            cached_file_id = cached_payload.get("file_id") if cached_payload else None
+            if isinstance(cached_file_id, str) and cached_file_id:
+                results[request.index - 1] = cls._cached_media_item(request, cached_file_id)
+            else:
+                pending_requests.append(request)
 
         async with asyncio.TaskGroup() as tg:
-            for request in requests:
+            for request in pending_requests:
                 tg.create_task(cls._download_worker(request, results))
 
+        await logger.adebug(
+            "[Medias] Download batch finished",
+            provider=requests[0].label,
+            source_count=len(requests),
+            source_cache_hits=len(requests) - len(pending_requests),
+            downloaded_count=sum(isinstance(item.file, BufferedInputFile) for item in results if item is not None),
+        )
         return [item for item in results if item is not None]
+
+    @staticmethod
+    def _cached_media_item(request: MediaDownloadRequest, file_id: str) -> MediaItem:
+        source = request.source
+        return MediaItem(
+            kind=source.kind,
+            file=file_id,
+            filename=f"{request.filename_prefix}_{request.index}",
+            source_url=source.url,
+            duration=source.duration,
+            width=source.width,
+            height=source.height,
+        )
+
+    @classmethod
+    async def _get_cached_media_item(cls, request: MediaDownloadRequest) -> MediaItem | None:
+        cached_payload = await get_cached_file_payload(media_source_cache_key(request.source.url))
+        cached_file_id = cached_payload.get("file_id") if cached_payload else None
+        if not isinstance(cached_file_id, str) or not cached_file_id:
+            return None
+        return cls._cached_media_item(request, cached_file_id)
 
     @classmethod
     async def _download_worker(cls, request: MediaDownloadRequest, results_list: list[MediaItem | None]) -> None:
@@ -135,21 +178,6 @@ class MediaProvider(ABC):
     @classmethod
     async def _download_source(cls, request: MediaDownloadRequest) -> MediaItem | None:
         source = request.source
-        cache_key = media_source_cache_key(source.url)
-        cached_payload = await get_cached_file_payload(cache_key)
-        if cached_payload:
-            cached_file_id = cached_payload.get("file_id")
-            if isinstance(cached_file_id, str) and cached_file_id:
-                return MediaItem(
-                    kind=source.kind,
-                    file=cached_file_id,
-                    filename=f"{request.filename_prefix}_{request.index}",
-                    source_url=source.url,
-                    duration=source.duration,
-                    width=source.width,
-                    height=source.height,
-                )
-
         payload_result = await cls._fetch_payload_with_retry(
             source.url, request, stage="source", max_size=request.max_size
         )
@@ -209,7 +237,10 @@ class MediaProvider(ABC):
         }
         for attempt in range(1, max_attempts + 1):
             try:
-                async with session.get(url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response:
+                async with (
+                    MEDIA_DOWNLOAD_SLOTS,
+                    session.get(url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response,
+                ):
                     if response.status != 200:
                         if attempt >= max_attempts or not cls._should_retry_status(response.status):
                             await logger.adebug(
@@ -280,6 +311,102 @@ class MediaProvider(ABC):
             payload.extend(chunk)
 
         return bytes(payload)
+
+    @classmethod
+    async def _fetch_payload_to_path_with_retry(
+        cls, url: str, request: MediaDownloadRequest, destination: Path, *, max_size: int | None
+    ) -> int | None:
+        session = await HTTPClient.get_session()
+        log_context = {
+            "provider": request.label,
+            "source_url": url,
+            "source_index": request.index,
+            "source_kind": request.source.kind.value,
+            "stage": "source",
+        }
+        for attempt in range(1, cls._DOWNLOAD_RETRY_ATTEMPTS + 1):
+            await cls._remove_path(destination)
+            try:
+                async with (
+                    MEDIA_DOWNLOAD_SLOTS,
+                    session.get(url, headers=cls._DEFAULT_HEADERS, timeout=cls._DEFAULT_TIMEOUT) as response,
+                ):
+                    if response.status != 200:
+                        if attempt >= cls._DOWNLOAD_RETRY_ATTEMPTS or not cls._should_retry_status(response.status):
+                            await logger.adebug(
+                                "[Medias] Download rejected by upstream", **log_context, status=response.status
+                            )
+                            return None
+                    elif max_size and (content_len := response.content_length) and content_len > max_size:
+                        await logger.adebug("[Medias] Download exceeded size limit", **log_context, size=content_len)
+                        return None
+                    else:
+                        total_size = await cls._write_response_to_path(response, destination, max_size=max_size)
+                        if total_size is None:
+                            await cls._remove_path(destination)
+                            await logger.adebug(
+                                "[Medias] Download exceeded size limit while streaming",
+                                **log_context,
+                                max_size=max_size,
+                            )
+                            return None
+                        return total_size
+
+                await cls._sleep_before_retry(attempt)
+            except asyncio.CancelledError:
+                await cls._remove_path(destination)
+                raise
+            except TimeoutError:
+                await cls._remove_path(destination)
+                if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
+                    await cls._sleep_before_retry(attempt)
+                    continue
+                await logger.awarning("[Medias] Download timed out", **log_context, attempts=attempt)
+                return None
+            except aiohttp.ClientError as error:
+                await cls._remove_path(destination)
+                if attempt < cls._DOWNLOAD_RETRY_ATTEMPTS:
+                    await cls._sleep_before_retry(attempt)
+                    continue
+                if isinstance(error, aiohttp.ClientPayloadError):
+                    await logger.awarning("[Medias] Download payload truncated", **log_context, attempts=attempt)
+                else:
+                    await logger.awarning(
+                        "[Medias] Download network error",
+                        **log_context,
+                        attempts=attempt,
+                        error_type=type(error).__name__,
+                        error=str(error),
+                    )
+                return None
+            except OSError as error:
+                await cls._remove_path(destination)
+                await logger.awarning(
+                    "[Medias] Download file error", **log_context, error_type=type(error).__name__, error=str(error)
+                )
+                return None
+
+        return None
+
+    @classmethod
+    async def _write_response_to_path(
+        cls, response: aiohttp.ClientResponse, destination: Path, *, max_size: int | None
+    ) -> int | None:
+        total_size = 0
+        async with aiofiles.open(destination, "wb") as output_file:
+            async for chunk in response.content.iter_chunked(cls._DOWNLOAD_CHUNK_SIZE_BYTES):
+                if not chunk:
+                    continue
+                total_size += len(chunk)
+                if max_size is not None and total_size > max_size:
+                    return None
+                await output_file.write(chunk)
+        return total_size
+
+    @staticmethod
+    async def _remove_path(path: Path) -> None:
+        with contextlib.suppress(FileNotFoundError):
+            await aiofiles.os.remove(path)
 
     @classmethod
     async def _download_thumbnail(cls, url: str, request: MediaDownloadRequest) -> InputFile | None:

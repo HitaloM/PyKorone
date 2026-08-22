@@ -13,6 +13,7 @@ REDDIT_PATTERN_HOSTS = tuple(urlparse(instance).netloc for instance in REDLIB_IN
 REDDIT_PATTERN_HOSTS_REGEX = "|".join(re.escape(host) for host in REDDIT_PATTERN_HOSTS)
 ANUBIS_PASS_CHALLENGE_PATH = "/.within.website/x/cmd/anubis/api/pass-challenge"
 REDLIB_REQUEST_COOKIES = {"use_hls": "on", "hide_hls_notification": "on"}
+REDDIT_HLS_REMUX_TIMEOUT_SECONDS = 180
 
 PATTERN = re.compile(
     rf"https?://(?:"

@@ -50,7 +50,16 @@ async def discover_instafix_media(instafix_url: str) -> tuple[InstaMedia, ...]:
     results: list[InstaMedia | None] = [None] * _MAX_MEDIA_ITEMS
 
     async with asyncio.TaskGroup() as task_group:
-        for media_index in range(1, _MAX_MEDIA_ITEMS + 1):
+        for media_index in (1, 2):
+            task_group.create_task(_probe_media(instafix_url, post_id, media_index, results))
+
+    if results[0] is None:
+        return ()
+    if results[1] is None:
+        return (results[0],)
+
+    async with asyncio.TaskGroup() as task_group:
+        for media_index in range(3, _MAX_MEDIA_ITEMS + 1):
             task_group.create_task(_probe_media(instafix_url, post_id, media_index, results))
 
     media: list[InstaMedia] = []

@@ -1,4 +1,5 @@
 import asyncio
+from time import perf_counter
 from typing import TYPE_CHECKING, ClassVar
 
 import sentry_sdk
@@ -8,7 +9,7 @@ from aiogram.utils.chat_action import ChatActionSender
 
 from korone.logger import get_logger
 from korone.modules.medias.filters import MediaUrlFilter
-from korone.modules.medias.utils.cache import delete_cached_post, get_cached_post, set_cached_post
+from korone.modules.medias.utils.cache import delete_cached_post_and_sources, get_cached_post, set_cached_post
 from korone.modules.medias.utils.delivery import MediaDelivery
 from korone.modules.medias.utils.platforms import PROVIDERS
 from korone.modules.medias.utils.processing import media_source_id
@@ -63,16 +64,23 @@ class MediaHandler(KoroneMessageHandler):
 
         cached_url, cached_post = cached_post_payload
         try:
-            cached_media_payload = await delivery.send(cached_post)
+            await delivery.send(cached_post)
         except TelegramBadRequest:
-            await delete_cached_post(request.url, cached_url, cached_post.url)
+            await delete_cached_post_and_sources(cached_post, request.url, cached_url, cached_post.url)
             return False
 
-        if cached_media_payload:
-            await set_cached_post(request.url, cached_post, cached_media_payload)
         return True
 
-    def _set_handler_context(self, *, request: MediaRequest, source_id: str, stage: str, outcome: str) -> None:
+    def _set_handler_context(
+        self,
+        *,
+        request: MediaRequest,
+        source_id: str,
+        stage: str,
+        outcome: str,
+        duration_seconds: float,
+        stage_durations_seconds: dict[str, float],
+    ) -> None:
         sentry_sdk.set_tag("korone.media_stage", stage)
         sentry_sdk.set_tag("korone.media_outcome", outcome)
         sentry_sdk.set_context(
@@ -83,6 +91,10 @@ class MediaHandler(KoroneMessageHandler):
                 "source_id": source_id,
                 "stage": stage,
                 "outcome": outcome,
+                "duration_seconds": round(duration_seconds, 3),
+                "stage_durations_seconds": {
+                    name: round(duration, 3) for name, duration in stage_durations_seconds.items()
+                },
             },
         )
 
@@ -91,8 +103,11 @@ class MediaHandler(KoroneMessageHandler):
             return
 
         source_identifier = media_source_id(request.url)
+        started_at = perf_counter()
         stage = "resolve"
+        stage_started_at = started_at
         outcome = "ignored"
+        stage_durations: dict[str, float] = {}
         try:
             await logger.ainfo(
                 "[Medias] Handler started",
@@ -104,12 +119,17 @@ class MediaHandler(KoroneMessageHandler):
             delivery = MediaDelivery(self.bot, self.event, request.provider)
 
             stage = "cache_send"
+            stage_started_at = perf_counter()
             if await self._try_send_cached_post(request, delivery):
+                stage_durations[stage] = perf_counter() - stage_started_at
                 outcome = "cached"
                 return
+            stage_durations[stage] = perf_counter() - stage_started_at
 
             stage = "fetch"
+            stage_started_at = perf_counter()
             post = await self._fetch_post(request)
+            stage_durations[stage] = perf_counter() - stage_started_at
             if not post:
                 outcome = "not_found"
                 await logger.adebug(
@@ -118,7 +138,9 @@ class MediaHandler(KoroneMessageHandler):
                 return
 
             stage = "send"
+            stage_started_at = perf_counter()
             cached_media_payload = await delivery.send(post)
+            stage_durations[stage] = perf_counter() - stage_started_at
             if not cached_media_payload:
                 outcome = "send_failed"
                 await logger.adebug(
@@ -130,7 +152,9 @@ class MediaHandler(KoroneMessageHandler):
                 return
 
             stage = "cache_store"
+            stage_started_at = perf_counter()
             await set_cached_post(request.url, post, cached_media_payload)
+            stage_durations[stage] = perf_counter() - stage_started_at
             outcome = "sent"
         except asyncio.CancelledError:
             outcome = "cancelled"
@@ -176,7 +200,16 @@ class MediaHandler(KoroneMessageHandler):
                 handler=self.__class__.__name__,
             )
         finally:
-            self._set_handler_context(request=request, source_id=source_identifier, stage=stage, outcome=outcome)
+            stage_durations.setdefault(stage, perf_counter() - stage_started_at)
+            duration_seconds = perf_counter() - started_at
+            self._set_handler_context(
+                request=request,
+                source_id=source_identifier,
+                stage=stage,
+                outcome=outcome,
+                duration_seconds=duration_seconds,
+                stage_durations_seconds=stage_durations,
+            )
             await logger.ainfo(
                 "[Medias] Handler finished",
                 provider=request.provider.name,
@@ -184,4 +217,6 @@ class MediaHandler(KoroneMessageHandler):
                 source_id=source_identifier,
                 stage=stage,
                 outcome=outcome,
+                duration_seconds=round(duration_seconds, 3),
+                stage_durations_seconds={name: round(duration, 3) for name, duration in stage_durations.items()},
             )

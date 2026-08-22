@@ -1,6 +1,4 @@
-import asyncio
 import re
-import subprocess
 import tempfile
 from dataclasses import replace
 from pathlib import Path
@@ -13,11 +11,10 @@ from lxml import html as lxml_html
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
-from korone.modules.medias.utils.cache import media_source_cache_key
 from korone.modules.medias.utils.parsing import coerce_int
 from korone.modules.medias.utils.provider_base import MediaDownloadRequest, MediaProvider
+from korone.modules.medias.utils.transcoding import run_ffmpeg_to_payload
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost, MediaSource
-from korone.modules.utils_.file_id_cache import get_cached_file_payload
 from korone.utils.aiohttp_session import HTTPClient
 
 from . import client, parser
@@ -29,6 +26,7 @@ from .constants import (
     PATTERN,
     PLAYLIST_REGEX,
     POST_TYPE_REGEX,
+    REDDIT_HLS_REMUX_TIMEOUT_SECONDS,
     REDLIB_INSTANCES,
     REDLIB_REQUEST_COOKIES,
     VIDEO_REGEX,
@@ -701,46 +699,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         if not source.audio_url:
             return await super()._download_source(request)
 
-        cache_key = media_source_cache_key(source.url)
-        cached_payload = await get_cached_file_payload(cache_key)
-        if cached_payload:
-            cached_file_id = cached_payload.get("file_id")
-            if isinstance(cached_file_id, str) and cached_file_id:
-                return MediaItem(
-                    kind=source.kind,
-                    file=cached_file_id,
-                    filename=f"{request.filename_prefix}_{request.index}.mp4",
-                    source_url=source.url,
-                    duration=source.duration,
-                    width=source.width,
-                    height=source.height,
-                )
-
-        video_payload_result = await cls._fetch_payload_with_retry(
-            source.url, request, stage="source", max_size=request.max_size
-        )
-        if not video_payload_result:
-            return await cls._download_fallback_source(request)
-
-        video_payload, _ = video_payload_result
-
-        audio_payload: bytes | None = None
-        if source.audio_url:
-            audio_payload_result = await cls._fetch_payload_with_retry(
-                source.audio_url, request, stage="source", max_size=request.max_size
-            )
-            if not audio_payload_result:
-                await logger.awarning(
-                    "[Reddit] Failed to fetch HLS audio payload",
-                    source_url=source.audio_url,
-                    video_url=source.url,
-                    source_index=request.index,
-                )
-                return await cls._download_fallback_source(request)
-
-            audio_payload, _ = audio_payload_result
-
-        remuxed_payload = await asyncio.to_thread(cls._remux_hls_payloads_to_mp4, video_payload, audio_payload)
+        remuxed_payload = await cls._download_and_remux_hls(request)
         if not remuxed_payload:
             await logger.awarning(
                 "[Reddit] Failed to remux HLS media",
@@ -786,30 +745,47 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             width=source.width,
             height=source.height,
         )
-        return await super()._download_source(replace(request, source=fallback_source))
+        fallback_request = replace(request, source=fallback_source)
+        if cached_item := await cls._get_cached_media_item(fallback_request):
+            return cached_item
+        return await super()._download_source(fallback_request)
 
-    @staticmethod
-    def _remux_hls_payloads_to_mp4(video_payload: bytes, audio_payload: bytes | None) -> bytes | None:
+    @classmethod
+    async def _download_and_remux_hls(cls, request: MediaDownloadRequest) -> bytes | None:
+        source = request.source
         with tempfile.TemporaryDirectory(prefix="korone-reddit-hls-") as temp_dir:
             temp_dir_path = Path(temp_dir)
             video_input_path = temp_dir_path / "video.ts"
-            video_input_path.write_bytes(video_payload)
+            video_size = await cls._fetch_payload_to_path_with_retry(
+                source.url, request, video_input_path, max_size=request.max_size
+            )
+            if video_size is None:
+                return None
 
             command = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video_input_path)]
-            if audio_payload is not None:
+            if source.audio_url:
+                remaining_size = None if request.max_size is None else request.max_size - video_size
+                if remaining_size is not None and remaining_size <= 0:
+                    return None
                 audio_input_path = temp_dir_path / "audio.aac"
-                audio_input_path.write_bytes(audio_payload)
+                audio_size = await cls._fetch_payload_to_path_with_retry(
+                    source.audio_url, request, audio_input_path, max_size=remaining_size
+                )
+                if audio_size is None:
+                    await logger.awarning(
+                        "[Reddit] Failed to fetch HLS audio payload",
+                        source_url=source.audio_url,
+                        video_url=source.url,
+                        source_index=request.index,
+                    )
+                    return None
                 command.extend(["-i", str(audio_input_path)])
 
             output_path = temp_dir_path / "output.mp4"
-            command.extend(["-c", "copy", str(output_path)])
-
-            try:
-                result = subprocess.run(command, capture_output=True, text=True, check=False)
-            except OSError:
-                return None
-
-            if result.returncode != 0 or not output_path.exists():
-                return None
-
-            return output_path.read_bytes()
+            command.extend(["-c", "copy", "-movflags", "+faststart"])
+            if request.max_size is not None:
+                command.extend(["-fs", str(request.max_size)])
+            command.append(str(output_path))
+            return await run_ffmpeg_to_payload(
+                command, output_path, timeout_seconds=REDDIT_HLS_REMUX_TIMEOUT_SECONDS, max_size=request.max_size
+            )

@@ -1,3 +1,4 @@
+from time import perf_counter
 from typing import TYPE_CHECKING, Any
 
 from aiogram import BaseMiddleware
@@ -33,6 +34,13 @@ class MediaProcessingMiddleware(BaseMiddleware):
         detached_data.pop("raw_state", None)
         detached_data.pop("fsm_storage", None)
 
-        job = MediaJob(handler=handler, event=event, data=detached_data, handler_name=handler_name, request=request)
+        job = MediaJob(
+            handler=handler,
+            event=event,
+            data=detached_data,
+            handler_name=handler_name,
+            request=request,
+            queued_at=perf_counter(),
+        )
         await self._manager.submit(job)
         return None

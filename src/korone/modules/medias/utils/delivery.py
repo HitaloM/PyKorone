@@ -16,9 +16,10 @@ from korone.constants import (
 from korone.logger import get_logger
 from korone.modules.utils_.telegram_exceptions import REPLIED_NOT_FOUND
 
-from .cache import MediaCacheEntryPayload, cache_media_file_id, serialize_media_entry
+from .cache import MediaCacheEntryPayload, cache_media_file_ids, serialize_media_entry
 from .captions import build_caption, build_keyboard
 from .photo_compression import compress_photo_payload_to_safe_jpeg, photo_payload_needs_resize
+from .resources import MEDIA_TRANSFORM_SLOTS
 from .types import MediaItem, MediaKind, MediaPost
 
 if TYPE_CHECKING:
@@ -102,15 +103,17 @@ class MediaDelivery:
         return f"{stem}_compressed.jpg"
 
     @classmethod
-    def _needs_photo_compression(cls, media: MediaItem) -> bool:
-        if media.kind != MediaKind.PHOTO or not isinstance(media.file, BufferedInputFile):
-            return False
+    def _prepare_photo_payload(cls, payload: bytes, *, force: bool) -> bytes | None:
+        if not force and len(payload) <= cls.PHOTO_SAFE_LIMIT_BYTES:
+            needs_resize = photo_payload_needs_resize(
+                payload, max_dimensions_sum=cls.PHOTO_MAX_DIMENSIONS_SUM, max_aspect_ratio=cls.PHOTO_MAX_ASPECT_RATIO
+            )
+            if not needs_resize:
+                return None
 
-        if len(media.file.data) > cls.PHOTO_SAFE_LIMIT_BYTES:
-            return True
-
-        return photo_payload_needs_resize(
-            media.file.data,
+        return compress_photo_payload_to_safe_jpeg(
+            payload,
+            safe_limit_bytes=cls.PHOTO_SAFE_LIMIT_BYTES,
             max_dimensions_sum=cls.PHOTO_MAX_DIMENSIONS_SUM,
             max_aspect_ratio=cls.PHOTO_MAX_ASPECT_RATIO,
         )
@@ -118,27 +121,22 @@ class MediaDelivery:
     async def _compress_photo(self, media: MediaItem, *, force: bool = False) -> MediaItem:
         if media.kind != MediaKind.PHOTO or not isinstance(media.file, BufferedInputFile):
             return media
-        if not force and not self._needs_photo_compression(media):
-            return media
 
-        try:
-            async with asyncio.timeout(self.PHOTO_COMPRESSION_TIMEOUT_SECONDS):
-                compressed_payload = await asyncio.to_thread(
-                    compress_photo_payload_to_safe_jpeg,
-                    media.file.data,
-                    safe_limit_bytes=self.PHOTO_SAFE_LIMIT_BYTES,
-                    max_dimensions_sum=self.PHOTO_MAX_DIMENSIONS_SUM,
-                    max_aspect_ratio=self.PHOTO_MAX_ASPECT_RATIO,
+        async with MEDIA_TRANSFORM_SLOTS:
+            try:
+                async with asyncio.timeout(self.PHOTO_COMPRESSION_TIMEOUT_SECONDS):
+                    compressed_payload = await asyncio.to_thread(
+                        self._prepare_photo_payload, media.file.data, force=force
+                    )
+            except TimeoutError:
+                await logger.adebug(
+                    "[Medias] Photo compression timed out",
+                    source_url=media.source_url,
+                    timeout_seconds=self.PHOTO_COMPRESSION_TIMEOUT_SECONDS,
                 )
-        except TimeoutError:
-            await logger.adebug(
-                "[Medias] Photo compression timed out",
-                source_url=media.source_url,
-                timeout_seconds=self.PHOTO_COMPRESSION_TIMEOUT_SECONDS,
-            )
-            return media
-        except Exception:  # ruff: ignore[blind-except]
-            return media
+                return media
+            except Exception:  # ruff: ignore[blind-except]
+                return media
 
         if not compressed_payload:
             return media
@@ -150,7 +148,7 @@ class MediaDelivery:
         indexes_to_process = [
             index
             for index, item in enumerate(media_items)
-            if item.kind == MediaKind.PHOTO and (force or self._needs_photo_compression(item))
+            if item.kind == MediaKind.PHOTO and isinstance(item.file, BufferedInputFile)
         ]
         if not indexes_to_process:
             return media_items
@@ -264,12 +262,18 @@ class MediaDelivery:
         msg = "Media send retry loop exhausted without returning or raising"
         raise RuntimeError(msg)
 
-    async def _cache_sent_media(self, media: MediaItem, sent_message: Message) -> MediaCacheEntryPayload | None:
-        if not (file_id := self._extract_sent_file_id(sent_message, media.kind)):
-            return None
+    async def _cache_sent_media(self, sent_media: list[tuple[MediaItem, Message]]) -> list[MediaCacheEntryPayload]:
+        serialized_media: list[MediaCacheEntryPayload] = []
+        cache_entries: list[tuple[str, str]] = []
+        for media, sent_message in sent_media:
+            if not (file_id := self._extract_sent_file_id(sent_message, media.kind)):
+                continue
+            serialized_media.append(serialize_media_entry(media, file_id))
+            if not isinstance(media.file, str):
+                cache_entries.append((media.source_url, file_id))
 
-        await cache_media_file_id(media.source_url, file_id)
-        return serialize_media_entry(media, file_id)
+        await cache_media_file_ids(cache_entries)
+        return serialized_media
 
     async def _send_single_media(
         self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
@@ -283,10 +287,7 @@ class MediaDelivery:
                     raise
                 sent_message = await self._send_media(media, caption, keyboard, reply=False)
 
-        if not (serialized := await self._cache_sent_media(media, sent_message)):
-            return []
-
-        return [serialized]
+        return await self._cache_sent_media([(media, sent_message)])
 
     @classmethod
     def _add_group_item(cls, builder: MediaGroupBuilder, item: MediaItem, caption: str | None) -> None:
@@ -351,13 +352,7 @@ class MediaDelivery:
             sent_messages = await self._send_media_group_messages(media_group)
             media_items = forced_media_items
 
-        async with asyncio.TaskGroup() as tg:
-            cache_tasks = [
-                tg.create_task(self._cache_sent_media(item, sent))
-                for item, sent in zip(media_items, sent_messages, strict=False)
-            ]
-
-        return [serialized for task in cache_tasks if (serialized := task.result())]
+        return await self._cache_sent_media(list(zip(media_items, sent_messages, strict=False)))
 
     async def send(self, post: MediaPost) -> list[MediaCacheEntryPayload]:
         media_items = post.media[: self.MEDIA_GROUP_LIMIT]

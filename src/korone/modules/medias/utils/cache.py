@@ -2,15 +2,18 @@ from typing import TYPE_CHECKING, Any, NotRequired, TypedDict
 
 from korone.modules.utils_.file_id_cache import (
     delete_cached_file_payload,
+    delete_cached_file_payloads,
     get_cached_file_payload,
     make_file_id_cache_key,
-    set_cached_file_payload,
+    set_cached_file_payloads,
 )
 
 from .types import MediaItem, MediaKind, MediaPost
 from .url import normalize_media_url
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from .provider_base import MediaProvider
 
 POST_CACHE_NAMESPACE = "media-post"
@@ -143,25 +146,33 @@ async def get_cached_post(provider: type[MediaProvider], source_url: str) -> tup
     return None
 
 
-async def delete_cached_post(*urls: str) -> None:
-    for candidate_url in _post_cache_candidates(*urls):
-        await delete_cached_file_payload(post_cache_key(candidate_url))
+async def delete_cached_post_and_sources(post: MediaPost, *urls: str) -> None:
+    cache_keys = [post_cache_key(candidate_url) for candidate_url in _post_cache_candidates(*urls)]
+    cache_keys.extend(
+        media_source_cache_key(media.source_url)
+        for media in post.media
+        if media.source_url and not media.source_url.startswith("cached://")
+    )
+    await delete_cached_file_payloads(cache_keys)
 
 
 async def set_cached_post(source_url: str, post: MediaPost, media: list[MediaCacheEntryPayload]) -> None:
     if not media:
         return
     payload = serialize_post(post, media)
-    for candidate_url in _post_cache_candidates(source_url, post.url):
-        await set_cached_file_payload(post_cache_key(candidate_url), payload)
+    payloads = {
+        post_cache_key(candidate_url): payload for candidate_url in _post_cache_candidates(source_url, post.url)
+    }
+    await set_cached_file_payloads(payloads)
 
 
-async def cache_media_file_id(source_url: str, file_id: str) -> None:
-    await set_cached_file_payload(media_source_cache_key(source_url), {"file_id": file_id})
+async def cache_media_file_ids(entries: Sequence[tuple[str, str]]) -> None:
+    payloads = {media_source_cache_key(source_url): {"file_id": file_id} for source_url, file_id in entries}
+    await set_cached_file_payloads(payloads)
 
 
-def _post_cache_candidates(*urls: str) -> set[str]:
-    return {candidate for url in urls if (candidate := url.strip())}
+def _post_cache_candidates(*urls: str) -> tuple[str, ...]:
+    return tuple(dict.fromkeys(candidate for url in urls if (candidate := url.strip())))
 
 
 def _cached_int(value: object) -> int | None:

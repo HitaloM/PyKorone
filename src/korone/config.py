@@ -35,6 +35,8 @@ class Config(BaseSettings):
     redis_fsm_lock_timeout: PositiveSeconds = 90
 
     media_max_concurrent_jobs: MediaConcurrency = 4
+    media_max_concurrent_downloads: MediaConcurrency = 4
+    media_max_concurrent_transforms: MediaConcurrency = 2
     media_max_pending_jobs: MediaPendingJobs = 64
     media_processing_lock_timeout: PositiveSeconds = 60
     media_shutdown_timeout: PositiveSeconds = 30

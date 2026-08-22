@@ -1,5 +1,3 @@
-import asyncio
-import subprocess
 import tempfile
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
@@ -8,10 +6,10 @@ from aiogram.types import BufferedInputFile
 
 from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
-from korone.modules.medias.utils.cache import media_source_cache_key
 from korone.modules.medias.utils.provider_base import MediaDownloadRequest, MediaProvider
+from korone.modules.medias.utils.resources import MEDIA_DOWNLOAD_SLOTS
+from korone.modules.medias.utils.transcoding import run_ffmpeg_to_payload
 from korone.modules.medias.utils.types import MediaItem, MediaKind, MediaPost
-from korone.modules.utils_.file_id_cache import get_cached_file_payload
 
 from . import client, parser
 from .constants import PATTERN, PINTEREST_HLS_TIMEOUT_SECONDS, PINTEREST_TIMEOUT
@@ -81,24 +79,7 @@ class PinterestProvider(MediaProvider):
         if source.kind != MediaKind.VIDEO or not parser.is_hls_url(source.url):
             return await super()._download_source(request)
 
-        cache_key = media_source_cache_key(source.url)
-        cached_payload = await get_cached_file_payload(cache_key)
-        if cached_payload:
-            cached_file_id = cached_payload.get("file_id")
-            if isinstance(cached_file_id, str) and cached_file_id:
-                return MediaItem(
-                    kind=source.kind,
-                    file=cached_file_id,
-                    filename=f"{request.filename_prefix}_{request.index}.mp4",
-                    source_url=source.url,
-                    duration=source.duration,
-                    width=source.width,
-                    height=source.height,
-                )
-
-        payload = await asyncio.to_thread(
-            cls._download_hls_payload, source.url, cls._DEFAULT_HEADERS["User-Agent"], request.max_size
-        )
+        payload = await cls._download_hls_payload(source.url, cls._DEFAULT_HEADERS["User-Agent"], request.max_size)
         if payload is None:
             await logger.awarning(
                 "[Pinterest] Failed to remux HLS media", source_url=source.url, source_index=request.index
@@ -122,7 +103,7 @@ class PinterestProvider(MediaProvider):
         )
 
     @staticmethod
-    def _download_hls_payload(url: str, user_agent: str, max_size: int | None) -> bytes | None:
+    async def _download_hls_payload(url: str, user_agent: str, max_size: int | None) -> bytes | None:
         with tempfile.TemporaryDirectory(prefix="korone-pinterest-hls-") as temp_dir:
             output_path = Path(temp_dir) / "output.mp4"
             command = [
@@ -138,20 +119,12 @@ class PinterestProvider(MediaProvider):
                 "copy",
                 "-movflags",
                 "+faststart",
-                str(output_path),
             ]
+            if max_size is not None:
+                command.extend(["-fs", str(max_size)])
+            command.append(str(output_path))
 
-            try:
-                result = subprocess.run(
-                    command, capture_output=True, text=True, check=False, timeout=PINTEREST_HLS_TIMEOUT_SECONDS
+            async with MEDIA_DOWNLOAD_SLOTS:
+                return await run_ffmpeg_to_payload(
+                    command, output_path, timeout_seconds=PINTEREST_HLS_TIMEOUT_SECONDS, max_size=max_size
                 )
-            except OSError, subprocess.TimeoutExpired:
-                return None
-
-            if result.returncode != 0 or not output_path.exists():
-                return None
-
-            if max_size is not None and output_path.stat().st_size > max_size:
-                return None
-
-            return output_path.read_bytes()

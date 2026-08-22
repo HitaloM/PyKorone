@@ -436,6 +436,7 @@ name = "korone"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
+    { name = "aiofiles" },
     { name = "aiogram" },
     { name = "aiohttp", extra = ["speedups"] },
     { name = "alembic" },
@@ -464,6 +465,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "aiofiles", specifier = ">=25.1.0" },
     { name = "aiogram", specifier = ">=3.30.0,<4" },
     { name = "aiohttp", extras = ["speedups"], specifier = ">=3.13.3" },
     { name = "alembic", specifier = ">=1.18.4" },
