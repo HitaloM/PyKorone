@@ -94,30 +94,28 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         if post_ref or not parser.is_share_url(url):
             return post_ref
 
-        for candidate_url in cls._share_resolution_candidates(url):
-            resolved_url = await client.resolve_reddit_url(
-                candidate_url, headers=cls._DEFAULT_HEADERS, request_timeout=cls._DEFAULT_TIMEOUT
-            )
-            if not resolved_url:
-                continue
-
+        resolved_url = await client.resolve_reddit_url(
+            url, headers=cls._DEFAULT_HEADERS, request_timeout=cls._DEFAULT_TIMEOUT
+        )
+        if resolved_url:
             if post_ref := cls._extract_post_ref(resolved_url):
                 return post_ref
-
             await logger.adebug(
-                "[Reddit] Share URL did not resolve to a supported post",
-                source_url=url,
-                resolution_url=candidate_url,
-                resolved_url=resolved_url,
+                "[Reddit] Share URL did not resolve to a supported post", source_url=url, resolved_url=resolved_url
             )
+
+        for redlib_url in cls._redlib_share_urls(url):
+            payload = await cls._fetch_redlib_html(redlib_url)
+            if payload and (post_ref := cls._extract_post_ref_from_payload(payload)):
+                return post_ref
 
         await logger.adebug("[Reddit] Could not resolve share URL", source_url=url)
         return None
 
     @classmethod
-    def _share_resolution_candidates(cls, url: str) -> list[str]:
+    def _redlib_share_urls(cls, url: str) -> list[str]:
         parsed_share_url = urlparse(cls._ensure_url_scheme(url))
-        candidates = [url]
+        candidates: list[str] = []
         for instance in cls._instance_candidates():
             parsed_instance = urlparse(instance)
             candidates.append(
@@ -131,6 +129,29 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
                 )
             )
         return list(dict.fromkeys(candidates))
+
+    @classmethod
+    def _extract_post_ref_from_payload(cls, payload: dict[str, str]) -> _PostRef | None:
+        base_url = payload.get("base_url", "")
+        candidates = [base_url]
+        try:
+            tree = lxml_html.fromstring(payload.get("html", ""))
+        except ValueError, TypeError:
+            tree = None
+
+        if tree is not None:
+            for xpath in (
+                "//p[@id='reddit_url']/text()",
+                "//meta[@property='og:url']/@content",
+                "//meta[@property='twitter:url']/@content",
+                "//link[@rel='canonical']/@href",
+            ):
+                candidates.extend(value for value in tree.xpath(xpath) if isinstance(value, str))
+
+        for candidate in candidates:
+            if post_ref := cls._extract_post_ref(urljoin(base_url, candidate)):
+                return post_ref
+        return None
 
     @classmethod
     def _extract_post_ref(cls, url: str) -> _PostRef | None:
