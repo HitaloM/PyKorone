@@ -158,23 +158,33 @@ async def _build_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
     status_payload = status_task.result()
     album_payload = album_task.result()
     artist_payload = artist_task.result()
+    results = []
+    failure = None
+
     if isinstance(status_payload, LastFMError):
-        return _informational_contribution(title=_("Last.fm unavailable"), text=format_lastfm_error(status_payload))
+        failure = status_payload
+    elif status_payload is not None:
+        results.append(_track_result(status_payload, track))
+
     if isinstance(album_payload, LastFMError):
-        return _informational_contribution(title=_("Last.fm unavailable"), text=format_lastfm_error(album_payload))
+        if failure is None:
+            failure = album_payload
+    else:
+        results.append(_album_result(album_payload, track))
+
     if isinstance(artist_payload, LastFMError):
-        return _informational_contribution(title=_("Last.fm unavailable"), text=format_lastfm_error(artist_payload))
+        if failure is None:
+            failure = artist_payload
+    else:
+        results.append(_artist_result(artist_payload, track))
 
-    if status_payload is None:
-        return _informational_contribution(title=_("No recent scrobbles"), text=LastFMStatusView.empty_state_text())
+    if results:
+        return InlineQueryContribution(results=tuple(results))
 
-    return InlineQueryContribution(
-        results=(
-            _track_result(status_payload, track),
-            _album_result(album_payload, track),
-            _artist_result(artist_payload, track),
-        )
-    )
+    if failure is not None:
+        return _informational_contribution(title=_("Last.fm unavailable"), text=format_lastfm_error(failure))
+
+    return _informational_contribution(title=_("No recent scrobbles"), text=LastFMStatusView.empty_state_text())
 
 
 def _prune_lastfm_inline_cache(now: float) -> None:
@@ -224,7 +234,7 @@ async def provide_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
         _LASTFM_INLINE_INFLIGHT[cache_key] = task
         task.add_done_callback(lambda completed, key=cache_key: _finish_lastfm_inline_load(key, completed))
 
-    return await task
+    return await asyncio.shield(task)
 
 
 async def shutdown_lastfm_inline() -> None:
