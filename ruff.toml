@@ -1,15 +1,12 @@
-fix = true
 line-length = 120
 preview = true
 show-fixes = true
-unsafe-fixes = true
 
 [format]
 docstring-code-format = true
 skip-magic-trailing-comma = true
 
 [lint]
-future-annotations = true
 select = [
     "ANN",
     "ASYNC",
@@ -74,11 +71,10 @@ per-file-ignores = { "alembic/env.py" = [
 ], "src/korone/utils/cached.py" = [
     "any-type",
 ] }
-logger-objects = ["logging.get_logger"]
 
 [lint.isort]
 split-on-trailing-comma = false
-known-first-party = ["src"]
+known-first-party = ["korone"]
 
 [lint.flake8-tidy-imports]
 ban-relative-imports = "parents"
