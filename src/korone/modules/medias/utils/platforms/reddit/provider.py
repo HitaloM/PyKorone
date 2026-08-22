@@ -94,19 +94,43 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
         if post_ref or not parser.is_share_url(url):
             return post_ref
 
-        resolved_url = await client.resolve_reddit_url(
-            url, headers=cls._DEFAULT_HEADERS, request_timeout=cls._DEFAULT_TIMEOUT
-        )
-        if not resolved_url:
-            await logger.adebug("[Reddit] Could not resolve share URL", source_url=url)
-            return None
-
-        post_ref = cls._extract_post_ref(resolved_url)
-        if not post_ref:
-            await logger.adebug(
-                "[Reddit] Share URL did not resolve to a supported post", source_url=url, resolved_url=resolved_url
+        for candidate_url in cls._share_resolution_candidates(url):
+            resolved_url = await client.resolve_reddit_url(
+                candidate_url, headers=cls._DEFAULT_HEADERS, request_timeout=cls._DEFAULT_TIMEOUT
             )
-        return post_ref
+            if not resolved_url:
+                continue
+
+            if post_ref := cls._extract_post_ref(resolved_url):
+                return post_ref
+
+            await logger.adebug(
+                "[Reddit] Share URL did not resolve to a supported post",
+                source_url=url,
+                resolution_url=candidate_url,
+                resolved_url=resolved_url,
+            )
+
+        await logger.adebug("[Reddit] Could not resolve share URL", source_url=url)
+        return None
+
+    @classmethod
+    def _share_resolution_candidates(cls, url: str) -> list[str]:
+        parsed_share_url = urlparse(cls._ensure_url_scheme(url))
+        candidates = [url]
+        for instance in cls._instance_candidates():
+            parsed_instance = urlparse(instance)
+            candidates.append(
+                urlunparse(
+                    parsed_instance._replace(
+                        path=parsed_share_url.path,
+                        params=parsed_share_url.params,
+                        query=parsed_share_url.query,
+                        fragment="",
+                    )
+                )
+            )
+        return list(dict.fromkeys(candidates))
 
     @classmethod
     def _extract_post_ref(cls, url: str) -> _PostRef | None:
