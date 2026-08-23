@@ -3,12 +3,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from aiogram.enums import ParseMode
-from aiogram.types import (
-    InlineQueryResultArticle,
-    InlineQueryResultsButton,
-    InputTextMessageContent,
-    LinkPreviewOptions,
-)
+from aiogram.types import InlineQueryResultArticle, InputTextMessageContent, LinkPreviewOptions
 
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.logger import get_logger
@@ -19,7 +14,7 @@ from korone.utils.i18n import gettext as _
 from .callbacks import LastFMMode
 from .handlers.album import LastFMAlbumPayload, LastFMAlbumView
 from .handlers.artist import LastFMArtistPayload, LastFMArtistView
-from .handlers.base import LASTFM_SET_START_PAYLOAD, LastFMHandlerSupport, LastFMUserContext
+from .handlers.base import LastFMHandlerSupport, LastFMUserContext
 from .handlers.lfm import LastFMStatusPayload, LastFMStatusView
 from .utils import LastFMClient, LastFMError, format_lastfm_error
 
@@ -124,11 +119,7 @@ def _artist_result(payload: LastFMArtistPayload, track: LastFMRecentTrack) -> In
 async def _build_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
     username = await LastFMRepository.get_username(query.from_user.id)
     if not username:
-        return InlineQueryContribution(
-            empty_state_button=InlineQueryResultsButton(
-                text=_("Set up Last.fm"), start_parameter=LASTFM_SET_START_PAYLOAD
-            )
-        )
+        return _informational_contribution(title=_("Set up Last.fm"), text=LastFMHandlerSupport.missing_username_text())
 
     user = LastFMUserContext(
         username=username, display_name=query.from_user.first_name, telegram_user_id=query.from_user.id

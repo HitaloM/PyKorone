@@ -15,7 +15,6 @@ from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.fsm.context import FSMContext
 
 
 @flags.help(description=l_("Show the welcome message."))
@@ -26,9 +25,6 @@ class StartGroupHandler(KoroneMessageHandler):
         return CommandStart(), GroupChatFilter()
 
     async def handle(self) -> None:
-        state: FSMContext = self.state
-
-        await state.clear()
         help_url = await create_start_link(self.bot, HELP_START_PAYLOAD)
 
         buttons = InlineKeyboardBuilder()

@@ -31,7 +31,6 @@ class CancelCallbackHandler(KoroneCallbackQueryHandler):
             await self.event.answer(_("You are not allowed to cancel this action!"))
             return
 
-        await self.state.clear()
         await self.edit_text(_("❌ Cancelled."))
 
 
@@ -49,7 +48,6 @@ class TypedCancelCallbackHandler(KoroneCallbackQueryHandler):
             await self.event.answer(_("You are not allowed to cancel this action!"))
             return
 
-        await self.state.clear()
         await self.edit_text(_("❌ Cancelled."))
 
 
@@ -67,7 +65,6 @@ class CallbackActionCancelHandler(KoroneCallbackQueryHandler):
             await self.event.answer(_("You are not allowed to cancel this action!"))
             return
 
-        await self.state.clear()
         await self.edit_text(
             Template(_("The action was cancelled by {user}."), user=UserLink(user.id, user.first_name)).to_html()
         )

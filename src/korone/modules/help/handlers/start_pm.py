@@ -18,7 +18,6 @@ from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram import Router
-    from aiogram.fsm.context import FSMContext
 
 
 @flags.help(exclude=True)
@@ -29,10 +28,6 @@ class StartPMHandler(KoroneMessageCallbackQueryHandler):
         router.callback_query.register(cls, PrivateChatFilter(), GoToStartCallback.filter())
 
     async def handle(self) -> None:
-        state: FSMContext = self.state
-
-        await state.clear()
-
         i18n = get_i18n()
         current_locale_flag = i18n.current_locale_display.split(" ", 1)[0]
         add_to_chat_url = await create_startgroup_link(self.bot, "add")

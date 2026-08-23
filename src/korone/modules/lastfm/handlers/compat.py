@@ -117,7 +117,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
 
         source_username = await LastFMRepository.get_username(source_user.id)
         if not source_username:
-            await type(self).reply_missing_username(self.event, bot=self.bot, state=self.state)
+            await type(self).reply_missing_username(self.event)
             return
 
         target_username = await LastFMRepository.get_username(target_user.id)

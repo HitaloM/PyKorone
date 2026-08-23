@@ -1,7 +1,6 @@
 import sys
 from typing import TYPE_CHECKING, Any
 
-from aiogram.fsm.context import FSMContext
 from aiogram.handlers import ErrorHandler
 from aiogram.types import Chat, ErrorEvent, Message
 
@@ -53,9 +52,6 @@ class KoroneErrorHandler(ErrorHandler):
             await logger.awarning("No sys exception", from_aiogram=exception, from_sys=sys_exception)
         elif type(exception) is not type(sys_exception) or str(exception) != str(sys_exception):
             await logger.awarning("Mismatched exception seeking", from_aiogram=exception, from_sys=sys_exception)
-
-        if isinstance(state := context.get("state"), FSMContext):
-            await state.clear()
 
         if update and update.inline_query:
             return

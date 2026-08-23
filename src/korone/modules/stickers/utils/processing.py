@@ -4,23 +4,17 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from enum import StrEnum
 from time import perf_counter
-from typing import TYPE_CHECKING, Any, Final
+from typing import Any, Final
 
 import sentry_sdk
 from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Message, TelegramObject
-from redis.exceptions import LockNotOwnedError, RedisError
 
-from korone import aredis
 from korone.logger import get_logger
-
-if TYPE_CHECKING:
-    from redis.asyncio.lock import Lock
 
 logger = get_logger(__name__)
 
-_LOCK_PREFIX: Final = "korone:sticker-pack-processing"
-_LOCK_TIMEOUT_SECONDS: Final = 90.0
+_JOB_KEY_PREFIX: Final = "korone:sticker-pack-processing"
 _MAX_CONCURRENT_JOBS: Final = 2
 _MAX_PENDING_JOBS: Final = 32
 _MAX_JOB_SECONDS: Final = 30 * 60
@@ -31,16 +25,13 @@ type StickerPackHandler = Callable[[TelegramObject, dict[str, Any]], Awaitable[A
 
 class StickerPackSubmission(StrEnum):
     ACCEPTED = "accepted"
+    DUPLICATE = "duplicate"
     BUSY = "busy"
-
-
-class StickerPackLockLostError(RuntimeError):
-    pass
 
 
 def sticker_pack_job_key(user_id: int, pack_title: str) -> str:
     digest = hashlib.sha256(f"{user_id}:{pack_title.lower()}".encode()).hexdigest()
-    return f"{_LOCK_PREFIX}:{digest}"
+    return f"{_JOB_KEY_PREFIX}:{digest}"
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,7 +42,6 @@ class StickerPackJob:
     job_key: str
     job_id: str
     queued_at: float
-    duplicate_text: str
     failure_text: str
 
 
@@ -59,6 +49,7 @@ class StickerPackProcessingManager:
     def __init__(self) -> None:
         self._accepting = False
         self._tasks: set[asyncio.Task[None]] = set()
+        self._active_job_keys: set[str] = set()
         self._concurrency = asyncio.Semaphore(_MAX_CONCURRENT_JOBS)
 
     async def start(self) -> None:
@@ -70,6 +61,10 @@ class StickerPackProcessingManager:
         )
 
     async def submit(self, job: StickerPackJob) -> StickerPackSubmission:
+        if job.job_key in self._active_job_keys:
+            await logger.ainfo("[Stickers] Duplicate pack processing rejected", job_id=job.job_id)
+            return StickerPackSubmission.DUPLICATE
+
         if not self._accepting or len(self._tasks) >= _MAX_PENDING_JOBS:
             await logger.awarning(
                 "[Stickers] Pack processing rejected",
@@ -79,10 +74,17 @@ class StickerPackProcessingManager:
             )
             return StickerPackSubmission.BUSY
 
-        task = asyncio.create_task(self._run(job), name=f"sticker-pack:{job.job_id}")
+        self._active_job_keys.add(job.job_key)
+        task = asyncio.create_task(self._run_tracked(job), name=f"sticker-pack:{job.job_id}")
         self._tasks.add(task)
         task.add_done_callback(self._tasks.discard)
         return StickerPackSubmission.ACCEPTED
+
+    async def _run_tracked(self, job: StickerPackJob) -> None:
+        try:
+            await self._run(job)
+        finally:
+            self._active_job_keys.discard(job.job_key)
 
     async def shutdown(self) -> None:
         self._accepting = False
@@ -115,12 +117,7 @@ class StickerPackProcessingManager:
         started_at = perf_counter()
         with sentry_sdk.isolation_scope() as scope:
             scope.set_tag("korone.handler", "StickerStealPackHandler")
-            scope.set_tag("korone.fsm_isolation", "disabled")
-            scope.set_tag("korone.sticker_pack_lock", "redis_user_pack")
-            scope.set_context(
-                "sticker_pack_processing",
-                {"job_id": job.job_id, "fsm_isolation": "disabled", "lock": "redis_user_pack"},
-            )
+            scope.set_context("sticker_pack_processing", {"job_id": job.job_id})
             try:
                 async with self._concurrency:
                     await logger.ainfo(
@@ -128,7 +125,8 @@ class StickerPackProcessingManager:
                         job_id=job.job_id,
                         queue_wait_seconds=round(perf_counter() - job.queued_at, 3),
                     )
-                    await self._run_with_lock(job)
+                    async with asyncio.timeout(_MAX_JOB_SECONDS):
+                        await job.handler(job.event, job.data)
             except asyncio.CancelledError:
                 await logger.ainfo("[Stickers] Pack processing cancelled", job_id=job.job_id)
                 raise
@@ -145,72 +143,6 @@ class StickerPackProcessingManager:
                     job_id=job.job_id,
                     duration_seconds=round(perf_counter() - started_at, 3),
                 )
-
-    async def _run_with_lock(self, job: StickerPackJob) -> None:
-        lock = aredis.lock(job.job_key, timeout=_LOCK_TIMEOUT_SECONDS, blocking=False)
-        try:
-            acquired = await lock.acquire()
-        except RedisError as error:
-            await logger.aerror(
-                "[Stickers] Pack processing lock unavailable", job_id=job.job_id, error_type=type(error).__name__
-            )
-            await self._reply_safely(job.event, job.failure_text, job.job_id)
-            return
-
-        if not acquired:
-            await logger.ainfo("[Stickers] Duplicate pack processing rejected", job_id=job.job_id)
-            await self._reply_safely(job.event, job.duplicate_text, job.job_id)
-            return
-
-        completed = asyncio.Event()
-        try:
-            async with asyncio.TaskGroup() as task_group:
-                task_group.create_task(self._execute(job, completed), name=f"sticker-pack-work:{job.job_id}")
-                task_group.create_task(
-                    self._renew_lock(lock, completed, job.job_id), name=f"sticker-pack-lock:{job.job_id}"
-                )
-        finally:
-            await self._release_lock(lock, job.job_id)
-
-    @staticmethod
-    async def _execute(job: StickerPackJob, completed: asyncio.Event) -> None:
-        try:
-            async with asyncio.timeout(_MAX_JOB_SECONDS):
-                await job.handler(job.event, job.data)
-        finally:
-            completed.set()
-
-    @staticmethod
-    async def _renew_lock(lock: Lock, completed: asyncio.Event, job_id: str) -> None:
-        renewal_interval = _LOCK_TIMEOUT_SECONDS / 3
-        while not completed.is_set():
-            try:
-                async with asyncio.timeout(renewal_interval):
-                    await completed.wait()
-                    return
-            except TimeoutError:
-                pass
-
-            try:
-                await lock.reacquire()
-            except RedisError as error:
-                msg = "Sticker pack lock ownership was lost during processing"
-                raise StickerPackLockLostError(msg) from error
-
-            await logger.adebug(
-                "[Stickers] Pack processing lock renewed", job_id=job_id, ttl_seconds=_LOCK_TIMEOUT_SECONDS
-            )
-
-    @staticmethod
-    async def _release_lock(lock: Lock, job_id: str) -> None:
-        try:
-            await lock.release()
-        except LockNotOwnedError:
-            await logger.aerror("[Stickers] Pack processing lock expired before release", job_id=job_id)
-        except RedisError as error:
-            await logger.awarning(
-                "[Stickers] Pack processing lock release failed", job_id=job_id, error_type=type(error).__name__
-            )
 
     @staticmethod
     async def _reply_safely(event: Message, text: str, job_id: str) -> None:

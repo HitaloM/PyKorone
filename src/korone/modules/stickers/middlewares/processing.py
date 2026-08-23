@@ -38,9 +38,6 @@ class StickerPackProcessingMiddleware(BaseMiddleware):
         normalized_pack_title = normalize_pack_title(pack_name)
         job_key = sticker_pack_job_key(event.from_user.id, normalized_pack_title)
         detached_data = data.copy()
-        detached_data.pop("state", None)
-        detached_data.pop("raw_state", None)
-        detached_data.pop("fsm_storage", None)
 
         submission = await self._manager.submit(
             StickerPackJob(
@@ -50,11 +47,13 @@ class StickerPackProcessingMiddleware(BaseMiddleware):
                 job_key=job_key,
                 job_id=job_key.rsplit(":", maxsplit=1)[-1][:16],
                 queued_at=perf_counter(),
-                duplicate_text=str(_("A copy of this sticker pack is already in progress.")),
                 failure_text=str(_("Could not add any sticker from that pack.")),
             )
         )
         if submission is StickerPackSubmission.ACCEPTED:
+            return None
+        if submission is StickerPackSubmission.DUPLICATE:
+            await event.reply(_("A copy of this sticker pack is already in progress."))
             return None
 
         await event.reply(_("Sticker pack processing is busy. Please try again later."))

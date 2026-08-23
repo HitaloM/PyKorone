@@ -18,7 +18,6 @@ if TYPE_CHECKING:
     from aiogram import Bot, Router
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.filters.callback_data import CallbackData
-    from aiogram.fsm.context import FSMContext
     from aiogram.types import InputFile, InputRichMessage
 
     from korone.args import ArgumentsMap
@@ -47,10 +46,6 @@ class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
     @property
     def chat(self) -> ChatContext:
         return self.context["chat"]
-
-    @property
-    def state(self) -> FSMContext:
-        return self.data["state"]
 
     @property
     def current_locale(self) -> str:

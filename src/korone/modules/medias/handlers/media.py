@@ -1,9 +1,9 @@
 import asyncio
+import hashlib
 from time import perf_counter
 from typing import TYPE_CHECKING, ClassVar
 
 import sentry_sdk
-from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest, TelegramNetworkError, TelegramRetryAfter
 from aiogram.utils.chat_action import ChatActionSender
 
@@ -12,7 +12,6 @@ from korone.modules.medias.filters import MediaUrlFilter
 from korone.modules.medias.utils.cache import delete_cached_post_and_sources, get_cached_post, set_cached_post
 from korone.modules.medias.utils.delivery import MediaDelivery
 from korone.modules.medias.utils.platforms import PROVIDERS
-from korone.modules.medias.utils.processing import media_source_id
 from korone.modules.medias.utils.provider_base import MediaProvider
 from korone.modules.medias.utils.types import MediaRequest
 from korone.utils.handlers import KoroneMessageHandler
@@ -26,7 +25,10 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
-@flags.defer_media_processing
+def _media_source_id(source_url: str) -> str:
+    return hashlib.sha256(source_url.encode()).hexdigest()[:16]
+
+
 class MediaHandler(KoroneMessageHandler):
     _REQUEST_TIMEOUT_NETWORK_ERROR_TOKENS: ClassVar[tuple[str, ...]] = ("request timeout error",)
 
@@ -102,7 +104,7 @@ class MediaHandler(KoroneMessageHandler):
         if not self.bot or not (request := self._resolve_request()):
             return
 
-        source_identifier = media_source_id(request.url)
+        source_identifier = _media_source_id(request.url)
         started_at = perf_counter()
         stage = "resolve"
         stage_started_at = started_at
@@ -114,7 +116,6 @@ class MediaHandler(KoroneMessageHandler):
                 provider=request.provider.name,
                 handler=self.__class__.__name__,
                 source_id=source_identifier,
-                fsm_isolation="disabled",
             )
             delivery = MediaDelivery(self.bot, self.event, request.provider)
 

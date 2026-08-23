@@ -12,7 +12,7 @@ from .handlers.artist import LastFMArtistCallbackHandler, LastFMArtistHandler
 from .handlers.collage import LastFMCollageCallbackHandler, LastFMCollageHandler
 from .handlers.compat import LastFMCompatHandler
 from .handlers.lfm import LastFMStatusCallbackHandler, LastFMStatusHandler
-from .handlers.set import LastFMSetHandler, LastFMSetReplyHandler, LastFMSetStartHandler
+from .handlers.set import LastFMSetHandler
 from .inline import matches_lastfm_inline, provide_lastfm_inline, shutdown_lastfm_inline
 from .stats import lastfm_stats
 
@@ -36,8 +36,6 @@ manifest = ModuleManifest(
     router=router,
     handlers=(
         LastFMSetHandler,
-        LastFMSetStartHandler,
-        LastFMSetReplyHandler,
         LastFMStatusHandler,
         LastFMStatusCallbackHandler,
         LastFMAlbumHandler,

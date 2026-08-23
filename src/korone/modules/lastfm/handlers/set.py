@@ -2,14 +2,11 @@ import re
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.dispatcher.event.bases import SkipHandler
-from aiogram.filters import Command, CommandStart, StateFilter
-from magic_filter import F
+from aiogram.filters import Command
 
 from korone.args import OptionalArg, WordArg, define_arguments
 from korone.db.repositories.lastfm import LastFMRepository
-from korone.filters.chat_status import PrivateChatFilter
-from korone.modules.lastfm.handlers.base import LASTFM_SET_START_PAYLOAD, LastFMHandlerSupport, LastFMSetState
+from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.utils.formatting import Code, Template
 from korone.utils.handlers import KoroneMessageHandler
@@ -77,40 +74,7 @@ class LastFMSetHandler(KoroneMessageHandler):
     async def handle(self) -> None:
         username = str(self.data.get("username") or "").strip()
         if username:
-            await self.state.clear()
             await _set_lastfm_username(self.event, username)
             return
 
-        await self.state.clear()
-        await LastFMHandlerSupport.reply_missing_username(self.event, bot=self.bot, state=self.state)
-
-
-@flags.help(exclude=True)
-@flags.disableable(name="setlfm")
-class LastFMSetStartHandler(KoroneMessageHandler):
-    @classmethod
-    def filters(cls) -> tuple[CallbackType, ...]:
-        return (CommandStart(deep_link=True, magic=F.args == LASTFM_SET_START_PAYLOAD), PrivateChatFilter())
-
-    async def handle(self) -> None:
-        await self.state.clear()
-        await LastFMHandlerSupport.prompt_for_username(self.event, self.state)
-
-
-@flags.help(exclude=True)
-class LastFMSetReplyHandler(KoroneMessageHandler):
-    @classmethod
-    def filters(cls) -> tuple[CallbackType, ...]:
-        return (StateFilter(LastFMSetState.waiting_username), PrivateChatFilter())
-
-    async def handle(self) -> None:
-        if self.event.text and self.event.text.startswith("/"):
-            raise SkipHandler
-
-        await self.state.clear()
-
-        if not self.event.text:
-            await self.event.reply(_("Invalid Last.fm username format."))
-            return
-
-        await _set_lastfm_username(self.event, self.event.text)
+        await LastFMHandlerSupport.reply_missing_username(self.event)

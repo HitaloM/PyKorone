@@ -153,7 +153,7 @@ class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
 
         user = await self.resolve_user_context_from_message(self.event)
         if not user:
-            await type(self).reply_missing_username(self.event, bot=self.bot, state=self.state)
+            await type(self).reply_missing_username(self.event)
             return
 
         options = self.parse_options(str(self.data.get("options") or "").strip())
