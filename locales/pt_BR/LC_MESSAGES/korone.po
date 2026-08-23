@@ -801,15 +801,15 @@ msgstr "Abra o menu de seleção de idioma deste chat."
 msgid "Please select the language you want to use for the chat."
 msgstr "Selecione o idioma que você quer usar para o chat."
 
-#: src/korone/modules/lastfm/__init__.py:28
+#: src/korone/modules/lastfm/__init__.py:29
 msgid "Last.fm"
 msgstr "Last.fm"
 
-#: src/korone/modules/lastfm/__init__.py:30
+#: src/korone/modules/lastfm/__init__.py:31
 msgid "Last.fm now-playing and profile tools"
 msgstr "Ferramentas de reprodução atual e perfil do Last.fm"
 
-#: src/korone/modules/lastfm/__init__.py:32
+#: src/korone/modules/lastfm/__init__.py:33
 msgid "Show current scrobbles and fetch album, artist, compatibility, and collage views."
 msgstr "Mostre os scrobbles atuais e consulte visualizações de álbum, artista, compatibilidade e colagem."
 
@@ -973,32 +973,30 @@ msgstr "Nome de usuário do Last.fm definido como {username}. Use {command} para
 msgid "Set your Last.fm username for status commands."
 msgstr "Defina seu nome de usuário do Last.fm para usar os comandos de status."
 
-#: src/korone/modules/lastfm/inline.py:69
+#: src/korone/modules/lastfm/inline.py:93
 msgid "Current track"
 msgstr "Faixa atual"
 
-#: src/korone/modules/lastfm/inline.py:79
-#: src/korone/modules/lastfm/inline.py:85
+#: src/korone/modules/lastfm/inline.py:103
+#: src/korone/modules/lastfm/inline.py:109
 msgid "Current album"
 msgstr "Álbum atual"
 
-#: src/korone/modules/lastfm/inline.py:96
+#: src/korone/modules/lastfm/inline.py:120
 msgid "Current artist"
 msgstr "Artista atual"
 
-#: src/korone/modules/lastfm/inline.py:104
+#: src/korone/modules/lastfm/inline.py:129
 msgid "Set up Last.fm"
 msgstr "Configurar Last.fm"
 
-#: src/korone/modules/lastfm/inline.py:114
-#: src/korone/modules/lastfm/inline.py:139
-#: src/korone/modules/lastfm/inline.py:141
-#: src/korone/modules/lastfm/inline.py:143
+#: src/korone/modules/lastfm/inline.py:140
+#: src/korone/modules/lastfm/inline.py:198
 msgid "Last.fm unavailable"
 msgstr "Last.fm indisponível"
 
-#: src/korone/modules/lastfm/inline.py:117
-#: src/korone/modules/lastfm/inline.py:146
+#: src/korone/modules/lastfm/inline.py:143
+#: src/korone/modules/lastfm/inline.py:200
 msgid "No recent scrobbles"
 msgstr "Nenhum scrobble recente"
 
