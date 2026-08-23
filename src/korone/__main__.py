@@ -13,7 +13,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from korone.args.middleware import ArgumentsMiddleware
 from korone.modules.error.utils.ignored import IGNORED_EXCEPTIONS
 
-from . import aredis, bot, dp
+from . import aredis, bot, dp, events_isolation, fsm_redis
 from .config import CONFIG
 from .db.repositories.chat import ChatRepository
 from .db.utils import close_db, init_db, migrate_db_if_needed
@@ -81,6 +81,16 @@ async def prepare_runtime() -> list[str]:
             ignore_errors=IGNORED_EXCEPTIONS,
         )
 
+    await logger.ainfo(
+        "Redis FSM diagnostics configured",
+        fsm_database=CONFIG.redis_db_fsm,
+        shared_state_database=CONFIG.redis_db_states,
+        databases_are_distinct=CONFIG.redis_db_fsm != CONFIG.redis_db_states,
+        key_prefix=CONFIG.redis_fsm_key_prefix,
+        lock_timeout_seconds=CONFIG.redis_fsm_lock_timeout,
+        single_connection_client=fsm_redis.single_connection_client,
+    )
+    await events_isolation.start()
     await init_db()
     await migrate_db_if_needed()
     await ensure_bot_in_db()
@@ -104,6 +114,7 @@ async def shutdown(*, close_bot_session: bool = True) -> None:
     await HTTPClient.close()
     if close_bot_session:
         await bot.session.close()
+    await events_isolation.close()
     await dp.storage.close()
     await aredis.aclose(close_connection_pool=True)
 

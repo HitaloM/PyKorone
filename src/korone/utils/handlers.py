@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 
+import sentry_sdk
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.handlers import BaseHandler, BaseHandlerMixin
 from aiogram.types import CallbackQuery, InaccessibleMessage, InlineQuery, InputMediaPhoto, Message
+from structlog.contextvars import bind_contextvars
 
 from korone.middlewares.context_data import as_korone_context
 from korone.modules.utils_.reply_or_edit import edit_message_rich, edit_message_text, reply_or_edit, reply_or_edit_rich
@@ -11,6 +13,8 @@ from korone.utils.exception import KoroneError
 from korone.utils.telegram_errors import is_message_not_modified_error
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from aiogram import Bot, Router
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.filters.callback_data import CallbackData
@@ -26,6 +30,12 @@ T = TypeVar("T")
 
 
 class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
+    def __await__(self) -> Generator[Any, None, Any]:
+        handler_name = self.__class__.__name__
+        bind_contextvars(handler=handler_name)
+        sentry_sdk.set_tag("korone.handler", handler_name)
+        return self.handle().__await__()
+
     @property
     def bot(self) -> Bot:
         return self.data["bot"]

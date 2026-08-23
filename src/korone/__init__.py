@@ -1,15 +1,18 @@
+from socket import gethostname
+
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import PRODUCTION, TelegramAPIServer
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.base import DefaultKeyBuilder
-from aiogram.fsm.storage.redis import RedisEventIsolation, RedisStorage
+from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.types import LinkPreviewOptions
 from redis.asyncio import Redis
 
 from .config import CONFIG
 from .logger import get_logger
+from .utils.redis_event_isolation import ObservableRedisEventIsolation, RedisRuntimeSampler
 
 logger = get_logger(__name__)
 
@@ -23,7 +26,13 @@ bot = Bot(
     session=session,
 )
 aredis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_states)
-fsm_redis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_fsm, single_connection_client=True)
+fsm_redis = Redis(
+    host=CONFIG.redis_host,
+    port=CONFIG.redis_port,
+    db=CONFIG.redis_db_fsm,
+    single_connection_client=True,
+    client_name=f"korone-fsm:{gethostname()}",
+)
 fsm_key_builder = DefaultKeyBuilder(prefix=CONFIG.redis_fsm_key_prefix, with_bot_id=True)
 storage = RedisStorage(
     redis=fsm_redis,
@@ -31,8 +40,12 @@ storage = RedisStorage(
     state_ttl=CONFIG.redis_fsm_state_ttl,
     data_ttl=CONFIG.redis_fsm_data_ttl,
 )
-events_isolation = RedisEventIsolation(
-    redis=fsm_redis, key_builder=fsm_key_builder, lock_kwargs={"timeout": CONFIG.redis_fsm_lock_timeout}
+fsm_runtime_sampler = RedisRuntimeSampler(fsm_redis, database=CONFIG.redis_db_fsm)
+events_isolation = ObservableRedisEventIsolation(
+    redis=fsm_redis,
+    runtime_sampler=fsm_runtime_sampler,
+    key_builder=fsm_key_builder,
+    lock_kwargs={"timeout": CONFIG.redis_fsm_lock_timeout},
 )
 dp = Dispatcher(storage=storage, events_isolation=events_isolation)
 
