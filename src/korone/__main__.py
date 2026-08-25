@@ -7,6 +7,7 @@ import uvloop
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
@@ -77,8 +78,14 @@ async def prepare_runtime() -> list[str]:
 
         sentry_sdk.init(
             str(CONFIG.sentry_url),
-            integrations=[RedisIntegration(), AioHttpIntegration(), SqlalchemyIntegration()],
+            integrations=[
+                LoggingIntegration(level=logging.INFO, event_level=logging.ERROR),
+                RedisIntegration(),
+                AioHttpIntegration(),
+                SqlalchemyIntegration(),
+            ],
             ignore_errors=IGNORED_EXCEPTIONS,
+            in_app_include=["korone"],
         )
 
     await init_db()

@@ -108,7 +108,9 @@ class RedlibAnubisBypassMixin:
                     return None
                 await asyncio.sleep(0.4)
             except aiohttp.ClientError as exc:
-                await logger.aerror("[Reddit] Failed during Anubis challenge solve", error=str(exc), url=info.pass_url)
+                await logger.awarning(
+                    "[Reddit] Failed during Anubis challenge solve", error=str(exc), url=info.pass_url
+                )
                 return None
 
         return None

@@ -10,20 +10,29 @@ if TYPE_CHECKING:
 
 
 def setup_logging(level: int = logging.INFO) -> None:
+    timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)
     shared_processors = [
         structlog.contextvars.merge_contextvars,
         structlog.stdlib.add_log_level,
-        structlog.processors.TimeStamper(fmt="iso", utc=True),
+        structlog.stdlib.add_logger_name,
+        timestamper,
     ]
 
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(
         structlog.stdlib.ProcessorFormatter(
             processors=[
+                structlog.processors.CallsiteParameterAdder(
+                    parameters=[
+                        structlog.processors.CallsiteParameter.FILENAME,
+                        structlog.processors.CallsiteParameter.FUNC_NAME,
+                        structlog.processors.CallsiteParameter.LINENO,
+                    ]
+                ),
                 structlog.stdlib.ProcessorFormatter.remove_processors_meta,
                 structlog.dev.ConsoleRenderer(colors=True, exception_formatter=plain_traceback),
             ],
-            foreign_pre_chain=shared_processors,
+            foreign_pre_chain=[*shared_processors, structlog.stdlib.ExtraAdder()],
         )
     )
 
@@ -33,22 +42,10 @@ def setup_logging(level: int = logging.INFO) -> None:
 
     processors: list[Processor] = [
         structlog.stdlib.filter_by_level,
-        structlog.contextvars.merge_contextvars,
-        structlog.stdlib.add_log_level,
-        structlog.stdlib.add_logger_name,
+        *shared_processors,
         structlog.stdlib.PositionalArgumentsFormatter(),
-        structlog.processors.TimeStamper(fmt="iso", utc=True),
-        structlog.processors.StackInfoRenderer(),
-        structlog.processors.format_exc_info,
         structlog.processors.UnicodeDecoder(),
-        structlog.processors.CallsiteParameterAdder(
-            parameters=[
-                structlog.processors.CallsiteParameter.FILENAME,
-                structlog.processors.CallsiteParameter.FUNC_NAME,
-                structlog.processors.CallsiteParameter.LINENO,
-            ]
-        ),
-        structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+        structlog.stdlib.render_to_log_kwargs,
     ]
 
     structlog.configure(

@@ -38,7 +38,7 @@ async def get_instafix_data(instafix_url: str) -> InstaData | None:
 
             return InstaData(media=media, username=scraped.username, description=scraped.description)
     except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
-        await logger.aerror("[Instagram] Fetch failed", error=str(exc), url=instafix_url)
+        await logger.awarning("[Instagram] Fetch failed", error=str(exc), url=instafix_url)
         return None
 
 

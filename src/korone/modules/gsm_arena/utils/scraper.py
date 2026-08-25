@@ -70,22 +70,21 @@ async def fetch_html(url: str) -> str:
             response.raise_for_status()
             return await response.text()
     except aiohttp.ClientResponseError as err:
-        log = logger.awarning if err.status == 429 or err.status >= 500 else logger.aerror
-        await log(
+        await logger.awarning(
             "[GSM Arena] HTTP error occurred",
             target_url=url,
             status_code=err.status,
             error_type=type(err).__name__,
             error_message=err.message or None,
         )
-        raise GSMArenaRequestError(status_code=err.status, target_url=url) from None
+        raise GSMArenaRequestError(status_code=err.status, target_url=url) from err
     except TimeoutError as err:
-        await logger.aerror("[GSM Arena] Request timed out", target_url=url, error_type=type(err).__name__)
+        await logger.awarning("[GSM Arena] Request timed out", target_url=url, error_type=type(err).__name__)
         msg = "GSMArena request timed out"
-        raise GSMArenaRequestError(msg, target_url=url) from None
+        raise GSMArenaRequestError(msg, target_url=url) from err
     except aiohttp.ClientError as err:
-        await logger.aerror("[GSM Arena] Request error occurred", target_url=url, error_type=type(err).__name__)
-        raise GSMArenaRequestError(target_url=url) from None
+        await logger.awarning("[GSM Arena] Request error occurred", target_url=url, error_type=type(err).__name__)
+        raise GSMArenaRequestError(target_url=url) from err
 
 
 def extract_specs_from_tables(specs_tables: list[HtmlElement]) -> dict[str, dict[str, str]]:
@@ -143,7 +142,7 @@ async def check_phone_details(url: str) -> Phone | None:
 
     meta_scripts = tree.xpath("//script[@language='javascript']")
     if not meta_scripts:
-        await logger.aerror("[GSM Arena] No metadata scripts found on the page")
+        await logger.awarning("[GSM Arena] No metadata scripts found on the page")
         return None
 
     meta_content = meta_scripts[0].text_content().splitlines()

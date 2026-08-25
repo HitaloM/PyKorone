@@ -46,7 +46,7 @@ async def common_try[T](
         if USER_ALREADY_PARTICIPANT in err.message:
             await logger.adebug("common_try: User already participant, ignoring")
         else:
-            await logger.aerror("common_try: Unknown TelegramBadRequest exception, re-raising", error=str(err))
+            await logger.awarning("common_try: Unknown TelegramBadRequest exception, re-raising", error=str(err))
             raise
     except IGNORED_EXCEPTIONS as err:
         if isinstance(err, TelegramForbiddenError) and is_no_rights_error(err):
@@ -55,5 +55,5 @@ async def common_try[T](
         await logger.adebug("common_try: Caught ignored exception", error=str(err))
         return None
     except TelegramAPIError as err:
-        await logger.aerror("common_try: Other unhandled Telegram API error", error=str(err))
+        await logger.awarning("common_try: Other unhandled Telegram API error", error=str(err))
         raise

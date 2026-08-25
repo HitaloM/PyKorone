@@ -25,7 +25,7 @@ async def resolve_handle(handle: str) -> str | None:
             data = await response.json(loads=orjson.loads)
             return coerce_str(dict_or_empty(data).get("did"))
     except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
-        await logger.aerror("[Bluesky] Resolve handle error", error=str(exc))
+        await logger.awarning("[Bluesky] Resolve handle error", error=str(exc))
         return None
 
 
@@ -51,7 +51,7 @@ async def resolve_pds_url(did: str) -> str | None:
                     return coerce_str(service.get("serviceEndpoint"))
             return None
     except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
-        await logger.aerror("[Bluesky] PDS resolution error", error=str(exc))
+        await logger.awarning("[Bluesky] PDS resolution error", error=str(exc))
         return None
 
 
@@ -68,5 +68,5 @@ async def get_post_thread(uri: str) -> dict[str, Any] | None:
             thread = dict_or_empty(data)
             return thread or None
     except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
-        await logger.aerror("[Bluesky] Post thread error", error=str(exc))
+        await logger.awarning("[Bluesky] Post thread error", error=str(exc))
         return None

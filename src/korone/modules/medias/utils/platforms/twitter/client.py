@@ -60,7 +60,7 @@ async def _request_json(
 
             return data
     except (TimeoutError, aiohttp.ClientError) as exc:
-        await logger.aerror(f"[{log_label}] Request error", error=str(exc), url=url)
+        await logger.awarning(f"[{log_label}] Request error", error=str(exc), url=url)
         return None
     except orjson.JSONDecodeError as exc:
         await logger.adebug(f"[{log_label}] JSON decode failed", error=str(exc), url=url)

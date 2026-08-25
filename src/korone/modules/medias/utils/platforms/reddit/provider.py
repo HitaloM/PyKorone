@@ -249,7 +249,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             await logger.awarning("[Reddit] Timeout while fetching Redlib page", url=redlib_url)
             return None
         except aiohttp.ClientError as exc:
-            await logger.aerror("[Reddit] Failed to fetch Redlib page", error=str(exc), url=redlib_url)
+            await logger.awarning("[Reddit] Failed to fetch Redlib page", error=str(exc), url=redlib_url)
             return None
         return payload
 
@@ -700,7 +700,7 @@ class RedditProvider(RedlibAnubisBypassMixin, MediaProvider):
             await logger.awarning("[Reddit] Playlist request timed out", url=url)
             return None
         except aiohttp.ClientError as exc:
-            await logger.aerror("[Reddit] Playlist request failed", error=str(exc), url=url)
+            await logger.awarning("[Reddit] Playlist request failed", error=str(exc), url=url)
             return None
 
         if text is None:
