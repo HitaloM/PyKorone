@@ -75,7 +75,7 @@ async def _probe_media(instafix_url: str, post_id: str, media_index: int, result
     try:
         session = await HTTPClient.get_session()
         async with session.head(
-            media_url, timeout=_MEDIA_PROBE_TIMEOUT, headers=MediaProvider._DEFAULT_HEADERS, allow_redirects=False
+            media_url, timeout=_MEDIA_PROBE_TIMEOUT, headers=MediaProvider._DEFAULT_HEADERS, allow_redirects=True
         ) as response:
             media = _media_from_probe(media_url, response)
             if media is not None:
@@ -85,8 +85,6 @@ async def _probe_media(instafix_url: str, post_id: str, media_index: int, result
 
 
 def _media_from_probe(media_url: str, response: aiohttp.ClientResponse) -> InstaMedia | None:
-    if 300 <= response.status < 400 and response.headers.get("Location"):
-        return InstaMedia(url=media_url, kind=MediaKind.PHOTO)
     if response.status not in {200, 206}:
         return None
 
