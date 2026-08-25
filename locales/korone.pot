@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korone 0.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/HitaloM/PyKorone/issues\n"
-"POT-Creation-Date: 2026-08-23 10:02-0300\n"
+"POT-Creation-Date: 2026-08-25 20:47-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1116,7 +1116,7 @@ msgstr ""
 msgid "Media auto-download"
 msgstr ""
 
-#: src/korone/modules/medias/utils/captions.py:37
+#: src/korone/modules/medias/utils/captions.py:39
 #, python-brace-format
 msgid "Open in {website}"
 msgstr ""

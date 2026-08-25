@@ -10,6 +10,7 @@ class InstagramProvider(MediaProvider):
     website = "Instagram"
     pattern = PATTERN
     post_pattern = POST_PATTERN
+    show_author_name = False
 
     @classmethod
     async def fetch(cls, url: str) -> MediaPost | None:

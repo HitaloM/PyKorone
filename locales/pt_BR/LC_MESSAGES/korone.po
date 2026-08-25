@@ -1120,7 +1120,7 @@ msgstr "Alterne o download automático de mídia neste chat."
 msgid "Media auto-download"
 msgstr "Download automático de mídia"
 
-#: src/korone/modules/medias/utils/captions.py:37
+#: src/korone/modules/medias/utils/captions.py:39
 #, python-brace-format
 msgid "Open in {website}"
 msgstr "Abrir em {website}"

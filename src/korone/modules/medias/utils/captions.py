@@ -30,6 +30,8 @@ def _caption_title(author_name: str, author_handle: str, provider: type[MediaPro
     normalized_handle = author_handle.lstrip("@")
     prefix = provider.author_handle_prefix
     handle = f"{prefix}{normalized_handle}" if normalized_handle else normalized_handle
+    if not provider.show_author_name:
+        return Text(Code(handle), ":")
     return Text(Bold(author_name), " (", Code(handle), "):")
 
 
