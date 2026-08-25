@@ -1,4 +1,5 @@
 import html
+import re
 from urllib.parse import urlsplit, urlunsplit
 
 from lxml import html as lxml_html
@@ -8,6 +9,11 @@ from korone.modules.medias.utils.types import MediaKind
 
 from .constants import INSTAFIX_HOST, INSTAGRAM_HOST, POST_PATTERN
 from .types import InstaData, InstaMedia
+
+_ENGAGEMENT_METRICS_PREFIX = re.compile(
+    r"^\s*\u2764\ufe0f?\s*\d[\d.,]*[KMB]?\s+\U0001f4ac\s*\d[\d.,]*[KMB]?\s*(?:\r?\n+|$)",
+    re.IGNORECASE,
+)
 
 
 def build_instafix_url(url: str) -> str:
@@ -43,7 +49,7 @@ def scrape_instafix_data(html_content: str) -> InstaData | None:
         elif prop == "twitter:title":
             username = content.lstrip("@")
         elif prop == "og:description":
-            description = coerce_str(html.unescape(content)) or ""
+            description = _ENGAGEMENT_METRICS_PREFIX.sub("", html.unescape(content), count=1)
         elif prop == "og:image":
             image_url = build_instafix_media_url(content)
             if not media_url:
