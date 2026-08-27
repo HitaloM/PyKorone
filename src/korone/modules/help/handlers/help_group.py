@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from aiogram.types import EphemeralMessageParameters
 
 from korone.filters.chat_status import GroupChatFilter
-from korone.modules.help.utils.menu import build_help_menu
+from korone.modules.help.utils.menu import build_rich_help_menu
 from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import lazy_gettext as l_
@@ -27,20 +27,19 @@ class HelpGroupHandler(KoroneMessageHandler):
         if not self.event.from_user:
             raise KoroneError.user_context_unavailable()
 
-        text, reply_markup = build_help_menu()
+        rich_message, reply_markup = build_rich_help_menu()
         if self.event.ephemeral_message_id is not None:
-            await self.event.reply(text, reply_markup=reply_markup, disable_web_page_preview=True)
+            await self.event.reply_rich(rich_message, reply_markup=reply_markup)
             return
 
         try:
-            await self.event.answer(
-                text,
+            await self.event.answer_rich(
+                rich_message,
                 ephemeral_message_parameters=EphemeralMessageParameters(receiver_user_id=self.event.from_user.id),
                 reply_parameters=self.event.as_reply_parameters(),
                 reply_markup=reply_markup,
-                disable_web_page_preview=True,
             )
         except TelegramBadRequest as error:
             if not is_bot_not_admin_error(error):
                 raise
-            await self.event.reply(text, reply_markup=reply_markup, disable_web_page_preview=True)
+            await self.event.reply_rich(rich_message, reply_markup=reply_markup)
