@@ -29,7 +29,11 @@ class HelpGroupHandler(KoroneMessageHandler):
 
         rich_message, reply_markup = build_rich_help_menu()
         if self.event.ephemeral_message_id is not None:
-            await self.event.reply_rich(rich_message, reply_markup=reply_markup)
+            await self.event.answer_rich(
+                rich_message,
+                ephemeral_message_parameters=EphemeralMessageParameters(receiver_user_id=self.event.from_user.id),
+                reply_markup=reply_markup,
+            )
             return
 
         try:
