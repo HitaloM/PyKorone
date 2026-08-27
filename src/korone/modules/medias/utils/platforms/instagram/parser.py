@@ -11,8 +11,7 @@ from .constants import INSTAFIX_HOST, INSTAGRAM_HOST, POST_PATTERN
 from .types import InstaData, InstaMedia
 
 _ENGAGEMENT_METRICS_PREFIX = re.compile(
-    r"^\s*\u2764\ufe0f?\s*\d[\d.,]*[KMB]?\s+\U0001f4ac\s*\d[\d.,]*[KMB]?\s*(?:\r?\n+|$)",
-    re.IGNORECASE,
+    r"^\s*\u2764\ufe0f?\s*\d[\d.,]*[KMB]?\s+\U0001f4ac\s*\d[\d.,]*[KMB]?\s*(?:\r?\n+|$)", re.IGNORECASE
 )
 
 

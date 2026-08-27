@@ -1,140 +1,125 @@
-import html
 import re
-from abc import ABC, abstractmethod
-from typing import ClassVar, Self
+from typing import TYPE_CHECKING, Self
 
-type Renderable = Element | object
+from aiogram.utils.formatting import Bold as AiogramBold
+from aiogram.utils.formatting import Code as AiogramCode
+from aiogram.utils.formatting import Italic as AiogramItalic
+from aiogram.utils.formatting import Text, TextLink, Underline
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Iterator
+
+    from aiogram.types import MessageEntity
+
+type Renderable = Text | object
 
 _PLACEHOLDER_PATTERN = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
-
-
-def _escape_html(value: object) -> str:
-    return str(value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-
-
-def _render_html(item: Renderable) -> str:
-    if isinstance(item, Element):
-        return item.to_html()
-    return _escape_html(item)
 
 
 def _keep_initial_item(item: Renderable | None) -> bool:
     return item is not None and not (isinstance(item, str) and not item)
 
 
-class Element(ABC):
-    @abstractmethod
+class Element(Text):
     def to_html(self) -> str:
-        raise NotImplementedError
+        return self.as_html()
 
     def __str__(self) -> str:
-        return self.to_html()
+        return self.as_html()
 
     def __add__(self, other: Renderable) -> Doc:
         return Doc(self, other)
 
 
-class Doc(Element, list[Renderable]):
+class Doc(Element):
     def __init__(self, *items: Renderable | None) -> None:
-        list.__init__(self, [item for item in items if _keep_initial_item(item)])
+        self.items = tuple(item for item in items if _keep_initial_item(item))
+        super().__init__(*self._join(self.items))
+
+    @staticmethod
+    def _join(items: Iterable[Renderable]) -> list[Renderable]:
+        nodes: list[Renderable] = []
+        for item in items:
+            if nodes:
+                nodes.append("\n")
+            nodes.append(item)
+        return nodes
 
     def __iadd__(self, other: Renderable | None) -> Self:
         if other is not None:
-            self.append(other)
+            self.items += (other,)
+            self._body += (("\n", other) if self._body else (other,))
         return self
 
-    def to_html(self) -> str:
-        return "\n".join(_render_html(item) for item in self)
+    def __iter__(self) -> Iterator[Renderable]:
+        yield from self.items
+
+    def render(
+        self,
+        *,
+        _offset: int = 0,
+        _sort: bool = True,
+        _collect_entities: bool = True,
+    ) -> tuple[str, list[MessageEntity]]:
+        return Text(*self._body).render(
+            _offset=_offset,
+            _sort=_sort,
+            _collect_entities=_collect_entities,
+        )
 
     def __repr__(self) -> str:
-        return f"<{type(self).__name__} items={len(self)}>"
+        return f"<{type(self).__name__} items={len(self.items)}>"
 
 
 class StyleElement(Element):
-    prefix: ClassVar[str]
-    postfix: ClassVar[str]
-
-    __slots__ = ("item",)
-
     def __init__(self, item: Renderable | None) -> None:
         self.item = item
-
-    def to_html(self) -> str:
-        if self.item is None:
-            return ""
-        rendered = _render_html(self.item)
-        if not rendered:
-            return ""
-        return f"{self.prefix}{rendered}{self.postfix}"
+        super().__init__(*((item,) if item is not None else ()))
 
 
-class Bold(StyleElement):
-    prefix = "<b>"
-    postfix = "</b>"
+class Bold(AiogramBold, StyleElement):
+    pass
 
 
-class Italic(StyleElement):
-    prefix = "<i>"
-    postfix = "</i>"
+class Italic(AiogramItalic, StyleElement):
+    pass
 
 
-class Code(StyleElement):
-    prefix = "<code>"
-    postfix = "</code>"
+class Code(AiogramCode, StyleElement):
+    pass
 
 
-class Url(StyleElement):
-    prefix = "<a>"
-    postfix = "</a>"
-
-    __slots__ = ("link",)
-
+class Url(TextLink, Element):
     def __init__(self, item: Renderable, link: str) -> None:
-        super().__init__(item)
         self.link = link
-
-    def to_html(self) -> str:
-        rendered = _render_html(self.item)
-        if not rendered:
-            return ""
-        link = html.escape(self.link, quote=True)
-        return f'<a href="{link}">{rendered}</a>'
+        super().__init__(item, url=link)
 
 
 class UserLink(Url):
-    __slots__ = ("user_id",)
-
     def __init__(self, user_id: int, name: str) -> None:
         self.user_id = user_id
         super().__init__(name, f"tg://user?id={user_id}")
 
 
 class Template(Element):
-    __slots__ = ("item", "placeholders")
-
     def __init__(self, item: object, **placeholders: Renderable) -> None:
         self.item = item
         self.placeholders = placeholders
-
-    def to_html(self) -> str:
-        source = str(self.item)
-        parts: list[str] = []
+        source = str(item)
+        nodes: list[Renderable] = []
         position = 0
 
         for match in _PLACEHOLDER_PATTERN.finditer(source):
-            parts.append(_escape_html(source[position : match.start()]))
+            nodes.append(source[position : match.start()])
             key = match.group(1)
-            value = self.placeholders.get(key)
-            parts.append(_render_html(value) if key in self.placeholders else match.group(0))
+            nodes.append(placeholders[key] if key in placeholders else match.group(0))
             position = match.end()
 
-        parts.append(_escape_html(source[position:]))
-        return "".join(parts)
+        nodes.append(source[position:])
+        super().__init__(*nodes)
 
 
 class Title(Element):
-    __slots__ = ("bold", "item", "postfix", "prefix")
-
     def __init__(
         self, item: Renderable, prefix: Renderable = "[", postfix: Renderable = "]", *, bold: bool = True
     ) -> None:
@@ -142,15 +127,11 @@ class Title(Element):
         self.prefix = prefix
         self.postfix = postfix
         self.bold = bold
-
-    def to_html(self) -> str:
-        rendered = f"{_render_html(self.prefix)}{_render_html(self.item)}{_render_html(self.postfix)}"
-        return f"<b>{rendered}</b>" if self.bold else rendered
+        title = Text(prefix, item, postfix)
+        super().__init__(Bold(title) if bold else title)
 
 
 class KeyValue(Element):
-    __slots__ = ("suffix", "title", "title_bold", "value")
-
     def __init__(
         self, title: Renderable, value: Renderable, suffix: Renderable = ": ", *, title_bold: bool = True
     ) -> None:
@@ -158,41 +139,43 @@ class KeyValue(Element):
         self.value = value
         self.suffix = suffix
         self.title_bold = title_bold
-
-    def to_html(self) -> str:
-        title = _render_html(self.title)
-        if self.title_bold and title:
-            title = f"<b>{title}</b>"
-        return f"{title}{_render_html(self.suffix)}{_render_html(self.value)}"
+        super().__init__(Bold(title) if title_bold else title, suffix, value)
 
 
 class HList(Doc):
     def __init__(self, *items: Renderable | None, prefix: Renderable = "", divider: Renderable = " ") -> None:
-        super().__init__(*items)
+        self.items = tuple(item for item in items if _keep_initial_item(item))
         self.prefix = prefix
         self.divider = divider
-
-    def to_html(self) -> str:
-        prefix = _render_html(self.prefix) if self.prefix else ""
-        divider = _render_html(self.divider)
-        return divider.join(f"{prefix}{_render_html(item)}" for item in self)
+        nodes: list[Renderable] = []
+        for item in self.items:
+            if nodes:
+                nodes.append(divider)
+            if prefix:
+                nodes.append(prefix)
+            nodes.append(item)
+        Element.__init__(self, *nodes)
 
 
 class VList(Doc):
     def __init__(self, *items: Renderable | None, indent: int = 0, prefix: Renderable = "- ") -> None:
-        super().__init__(*items)
+        self.items = tuple(item for item in items if _keep_initial_item(item))
         self.prefix = prefix
         self.indent = indent
+        Element.__init__(self, *self._nodes())
 
-    def to_html(self, additional_indent: int = 0) -> str:
+    def _nodes(self, additional_indent: int = 0) -> list[Renderable]:
         indent = self.indent + additional_indent
         space = " " * indent if indent else " "
-        if not isinstance(self.prefix, Element) and all(not isinstance(item, Element) for item in self):
-            line_prefix = f"{space}{self.prefix}"
-            return _escape_html("\n".join(f"{line_prefix}{item}" for item in self))
+        nodes: list[Renderable] = []
+        for item in self.items:
+            if nodes:
+                nodes.append("\n")
+            nodes.extend((space, self.prefix, item))
+        return nodes
 
-        prefix = _render_html(self.prefix)
-        return "\n".join(f"{space}{prefix}{_render_html(item)}" for item in self)
+    def with_additional_indent(self, additional_indent: int) -> Text:
+        return Text(*self._nodes(additional_indent))
 
 
 class Section(Doc):
@@ -206,32 +189,45 @@ class Section(Doc):
         indent_text: str = "  ",
         title_postfix: Renderable = ":",
     ) -> None:
-        super().__init__(*items)
+        self.items = tuple(item for item in items if _keep_initial_item(item))
         self.title = title
         self.title_underline = title_underline
         self.title_bold = title_bold
         self.indent = indent
         self.indent_text = indent_text
         self.title_postfix = title_postfix
+        Element.__init__(self, *self._nodes())
 
-    def to_html(self, additional_indent: int = 0) -> str:
-        parts: list[str] = []
+    def _nodes(self, additional_indent: int = 0) -> list[Renderable]:
+        nodes: list[Renderable] = []
         if self.title:
-            title = _render_html(self.title)
+            title: Renderable = self.title
             if self.title_underline:
-                title = f"<u>{title}</u>"
+                title = _Underline(title)
             if self.title_bold:
-                title = f"<b>{title}</b>"
-            parts.extend((title, _render_html(self.title_postfix)))
+                title = Bold(title)
+            nodes.extend((title, self.title_postfix))
 
         item_indent = self.indent + additional_indent
-        for item in self:
-            parts.append("\n")
+        for item in self.items:
+            nodes.append("\n")
             if isinstance(item, Section):
-                parts.extend((self.indent_text * item_indent, item.to_html(additional_indent=item_indent)))
+                nodes.extend((self.indent_text * item_indent, item.with_additional_indent(item_indent)))
             elif isinstance(item, VList):
-                parts.append(item.to_html(additional_indent=item_indent * 2))
+                nodes.append(item.with_additional_indent(item_indent * 2))
             else:
-                parts.extend((self.indent_text * item_indent, _render_html(item)))
+                nodes.extend((self.indent_text * item_indent, item))
+        return nodes
 
-        return "".join(parts)
+    def with_additional_indent(self, additional_indent: int) -> Text:
+        return Text(*self._nodes(additional_indent))
+
+    def __iadd__(self, other: Renderable | None) -> Self:
+        if other is not None:
+            self.items += (other,)
+            self._body = tuple(self._nodes())
+        return self
+
+
+class _Underline(Underline, StyleElement):
+    pass
