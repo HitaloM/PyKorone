@@ -1,19 +1,19 @@
 from typing import TYPE_CHECKING, Any
 
 from aiogram.enums import ChatType
-from aiogram.utils.i18n.middleware import I18nMiddleware
+from aiogram.utils.i18n.middleware import SimpleI18nMiddleware
 
 from korone.config import CONFIG
 from korone.logger import get_logger
 from korone.middlewares.context_data import as_korone_context, get_chat_db
 
 if TYPE_CHECKING:
-    from aiogram.types import TelegramObject, User
+    from aiogram.types import TelegramObject
 
 logger = get_logger(__name__)
 
 
-class LocalizationMiddleware(I18nMiddleware):
+class LocalizationMiddleware(SimpleI18nMiddleware):
     async def get_locale(self, event: TelegramObject, data: dict[str, Any]) -> str:
         chat_in_db = get_chat_db(as_korone_context(data))
         if chat_in_db is None:
@@ -30,9 +30,6 @@ class LocalizationMiddleware(I18nMiddleware):
             )
 
         if chat_in_db.type == ChatType.PRIVATE:
-            user: User | None = getattr(event, "from_user", None)
-            user_lang = user.language_code if user else None
-            if user_lang and user_lang in self.i18n.available_locales:
-                return user_lang
+            return await super().get_locale(event, data)
 
         return CONFIG.default_locale
