@@ -24,8 +24,7 @@ async def edit_message_text(message: Message, text: Element | str, **kwargs: obj
 
 async def edit_message_rich(message: Message, rich_message: InputRichMessage, **kwargs: object) -> Message | bool:
     if message.ephemeral_message_id is not None:
-        msg = "Telegram does not support rich content in ephemeral message edits"
-        raise ValueError(msg)
+        return await message.edit_ephemeral_text(rich_message=rich_message, **cast("dict[str, Any]", kwargs))
     return await message.edit_text(rich_message=rich_message, **cast("dict[str, Any]", kwargs))
 
 

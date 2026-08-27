@@ -11,11 +11,7 @@ These rules describe the runtime contract enforced by `korone.modules.load_modul
 Use this shape:
 
 ```python
-manifest = ModuleManifest(
-    package=ModulePackage(...),
-    router=router,
-    handlers=(HandlerA, HandlerB),
-)
+manifest = ModuleManifest(package=ModulePackage(...), router=router, handlers=(HandlerA, HandlerB))
 ```
 
 ## Discovery and Load Order

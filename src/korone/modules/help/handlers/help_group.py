@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
+from aiogram.types import EphemeralMessageParameters
 
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.help.utils.menu import build_help_menu
@@ -34,7 +35,7 @@ class HelpGroupHandler(KoroneMessageHandler):
         try:
             await self.event.answer(
                 text,
-                receiver_user_id=self.event.from_user.id,
+                ephemeral_message_parameters=EphemeralMessageParameters(receiver_user_id=self.event.from_user.id),
                 reply_parameters=self.event.as_reply_parameters(),
                 reply_markup=reply_markup,
                 disable_web_page_preview=True,
