@@ -19,7 +19,7 @@ Commit only the changes the user authorized, preserving unrelated work and produ
    - order dependent commits so every intermediate commit is internally consistent.
 4. Choose scopes from PyKorone's logical ownership and recent commit history:
    - use the user-facing module or shared subsystem that owns the behavior, not a filename or directory name chosen mechanically;
-   - prefer established scopes such as `medias`, `db`, `redis`, `i18n`, `http`, `config`, `logging`, `telegram`, `dispatcher`, `handlers`, or `middleware` when the change belongs to that shared boundary;
+   - prefer established scopes such as `medias`, `db`, `redis`, `i18n`, `http`, `config`, `logging`, `dispatcher`, `handlers`, or `middleware` when the change belongs to that shared boundary;
    - use a top-level module name for module-owned behavior, and a media provider name for provider-specific behavior; reserve `medias` for behavior shared across providers;
    - when one coherent change crosses layers, scope it to the owning feature or module rather than a lower-level helper it happens to touch;
    - use `deps`, `ci`, `docs`, `agents`, or `skills` for repository maintenance only when that area is the actual subject of the commit;

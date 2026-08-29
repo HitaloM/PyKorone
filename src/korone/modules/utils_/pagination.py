@@ -1,11 +1,13 @@
 import math
-from itertools import batched
+from itertools import batched, starmap
 from typing import TYPE_CHECKING, Any
 
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import DisabledButton, InlineKeyboardButton, InlineKeyboardMarkup
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+type _PaginationButton = tuple[str, str | None]
 
 
 class Pagination:
@@ -32,25 +34,29 @@ class Pagination:
 
         current_page_items = self.objects[offset : offset + items_per_page]
 
-        buttons = [(self.item_title(item, page), self.item_data(item, page)) for item in current_page_items]
-        kb_lines = [list(batch) for batch in batched(buttons, columns)]
+        buttons: list[_PaginationButton] = [
+            (self.item_title(item, page), self.item_data(item, page)) for item in current_page_items
+        ]
+        kb_lines: list[list[_PaginationButton]] = [list(batch) for batch in batched(buttons, columns)]
 
         if last_page > 1:
             pages_range = range(1, last_page + 1)
             nav_buttons = self._generate_navigation_buttons(page, last_page, pages_range)
             kb_lines.append(nav_buttons)
 
-        return InlineKeyboardMarkup(
-            inline_keyboard=[
-                [InlineKeyboardButton(text=str(text), callback_data=data) for text, data in line] for line in kb_lines
-            ]
-        )
+        return InlineKeyboardMarkup(inline_keyboard=[list(starmap(self._create_button, line)) for line in kb_lines])
+
+    @staticmethod
+    def _create_button(text: str, data: str | None) -> InlineKeyboardButton:
+        if data is None:
+            return InlineKeyboardButton(text=text, disabled=DisabledButton())
+        return InlineKeyboardButton(text=text, callback_data=data)
 
     @staticmethod
     def _format_page_number(n: int, current_page: int) -> str:
         return f"· {n} ·" if n == current_page else str(n)
 
-    def _generate_navigation_buttons(self, page: int, last_page: int, pages_range: range) -> list[tuple[str, str]]:
+    def _generate_navigation_buttons(self, page: int, last_page: int, pages_range: range) -> list[_PaginationButton]:
         if last_page <= 5:
             return [(self._format_page_number(n, page), self.page_data(n)) for n in pages_range]
         if page <= 3:
@@ -61,8 +67,8 @@ class Pagination:
 
     def _generate_first_section_navigation(
         self, page: int, last_page: int, pages_range: range
-    ) -> list[tuple[str, str]]:
-        nav = [(self._format_page_number(n, page), self.page_data(n)) for n in pages_range[:3]]
+    ) -> list[_PaginationButton]:
+        nav: list[_PaginationButton] = [(self._format_page_number(n, page), self.page_data(n)) for n in pages_range[:3]]
 
         if last_page >= 4:
             nav.append(("4 ›" if last_page > 5 else "4", self.page_data(4)))
@@ -72,8 +78,10 @@ class Pagination:
 
         return nav
 
-    def _generate_last_section_navigation(self, page: int, last_page: int, pages_range: range) -> list[tuple[str, str]]:
-        nav = [("« 1" if last_page > 5 else "1", self.page_data(1))]
+    def _generate_last_section_navigation(
+        self, page: int, last_page: int, pages_range: range
+    ) -> list[_PaginationButton]:
+        nav: list[_PaginationButton] = [("« 1" if last_page > 5 else "1", self.page_data(1))]
         if last_page > 5:
             nav.append((f"‹ {last_page - 3}", self.page_data(last_page - 3)))
 
@@ -81,11 +89,11 @@ class Pagination:
 
         return nav
 
-    def _generate_middle_section_navigation(self, page: int, last_page: int) -> list[tuple[str, str]]:
+    def _generate_middle_section_navigation(self, page: int, last_page: int) -> list[_PaginationButton]:
         return [
             ("« 1", self.page_data(1)),
             (f"‹ {page - 1}", self.page_data(page - 1)),
-            (f"· {page} ·", "noop"),
+            (f"· {page} ·", None),
             (f"{page + 1} ›", self.page_data(page + 1)),
             (f"{last_page} »", self.page_data(last_page)),
         ]
