@@ -13,8 +13,10 @@ Implement changes by treating the current repository as authoritative and loadin
 2. Read the nearest existing implementation before designing the change.
 3. Read each relevant reference completely before editing:
    - Any Python change: [references/python.md](references/python.md)
-   - Handlers, aiogram, callbacks, filters, flags, project arguments, structured formatting, FSM, or middleware:
+   - Handlers, aiogram, callbacks, filters, flags, project arguments, FSM, or middleware:
      [references/handlers-aiogram.md](references/handlers-aiogram.md)
+   - Text UI expressions, compiler behavior, module descriptions, or message/caption payload rendering:
+     [references/text-ui.md](references/text-ui.md)
    - Module manifests, package metadata, loader registration, hooks, stats, or exports:
      [references/modules.md](references/modules.md)
    - Any existing code under `src/korone/modules/medias/`:

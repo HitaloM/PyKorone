@@ -27,9 +27,9 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 ## Project Handler Context
 
 - Use `self.event`, `self.bot`, `self.state`, `self.chat`, `self.context`, and `self.current_locale`.
-- Use `self.event.reply(...)` in message handlers.
+- Use `self.answer(...)` for text or UI responses on handler bases that define it. Use direct `self.event.reply_*`
+  methods for Telegram operations that have no project wrapper.
 - Use callback helpers such as `self.edit_text(...)` in callback handlers.
-- Use `self.answer(...)` only where the selected handler base defines it.
 - Guard optional Telegram values such as `from_user`, callback messages, and inaccessible messages.
 - Use `check_for_message()` and project exceptions where the nearby implementation does.
 
@@ -48,8 +48,13 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 ## Responses and Localization
 
 - Wrap runtime text with `gettext as _` and deferred metadata with `lazy_gettext as l_`.
-- Import elements such as `Doc`, `Title`, `Section`, `Template`, `Bold`, `Code`, `Url`, and `UserLink` from `korone.utils.formatting` for structured output.
-- Pass dynamic values through `Template` or semantic elements instead of hand-built HTML.
+- Import text primitives and declarative factories from `korone.ui` for structured output.
+- Pass `UI`, `UIExpression`, or aiogram `Text` values directly to `self.answer(...)`, `self.edit_text(...)`, and other
+  project boundaries; do not call `str()`, render HTML, or set a parse mode.
+- Use `template(...)` for translated strings containing formatted dynamic values, and use `link(...)` or `mention(...)`
+  for semantic links.
+- Import helpers from `korone.ui.rendering` only when implementing a low-level aiogram transport boundary that cannot
+  use a project handler helper.
 - Use plain translated strings for simple messages.
 - Run `localization-workflow` whenever visible text changes.
 

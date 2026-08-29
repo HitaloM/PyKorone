@@ -41,6 +41,8 @@ Keep repository guidance small and durable here. Use the domain skills under `.a
 ## Code Review Rules
 
 - Flag changes that bypass repository classes, project handler bases, module loader contracts, or the localization workflow.
+- Flag structured output that stringifies UI expressions, restores HTML/parse-mode rendering, imports internal UI nodes,
+  or depends on private aiogram formatting state; use `korone.ui` and project rendering boundaries instead.
 - Require focused regression evidence for behavior changes and validation proportional to the affected boundary.
 - Focus review comments on correctness, security, data flow, and project contracts; leave mechanically enforced formatting, lint, and typing findings to Ruff and Pyright.
 
@@ -48,6 +50,10 @@ Keep repository guidance small and durable here. Use the domain skills under `.a
 
 - New and edited Python functions must have complete type annotations using modern syntax.
 - Prefer project handler bases from `korone.utils.handlers` over raw function-based aiogram handlers.
+- Build structured user-facing content and module descriptions with `korone.ui`; pass UI or aiogram `Text` objects to
+  project handler boundaries instead of converting them to strings, HTML, or parse-mode markup.
+- Import `korone.ui.rendering` only at low-level Telegram payload boundaries. When changing the UI compiler or
+  components, validate nested aiogram formatting, lazy expressions, and multiline indentation with entities intact.
 - Keep database access behind repository classes and async SQLAlchemy sessions.
 - Use structured logging through `korone.logger.get_logger`.
 - Keep module package metadata and loader contracts stable.

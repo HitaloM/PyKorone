@@ -12,7 +12,8 @@ Create one complete loadable module that follows the current manifest, handler, 
 1. Read [py-korone-development](../py-korone-development/SKILL.md) and its
    [Python](../py-korone-development/references/python.md),
    [handlers and aiogram](../py-korone-development/references/handlers-aiogram.md), and
-   [modules](../py-korone-development/references/modules.md) references, plus any other relevant reference.
+   [modules](../py-korone-development/references/modules.md), and
+   [text UI](../py-korone-development/references/text-ui.md) references, plus any other relevant reference.
 2. Identify the closest current module by behavior:
    - simple command;
    - callbacks or pagination;

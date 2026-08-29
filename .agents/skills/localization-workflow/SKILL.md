@@ -31,6 +31,8 @@ Complete the catalog update, manual review, and compilation in the same change a
 ## Manual Review Rules
 
 - Preserve placeholders and syntax exactly: `{name}`, `%(name)s`, markup, and HTML entities.
+- For strings rendered with `korone.ui.template`, keep placeholders as simple names. Do not introduce conversions,
+  format specifications, attribute access, or indexing in translations.
 - Preserve meaning, tone, and command intent.
 - Review `msgid_plural` and every `msgstr[n]`.
 - Manually review machine-generated translations before accepting them.
