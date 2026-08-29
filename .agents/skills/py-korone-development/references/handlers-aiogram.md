@@ -48,6 +48,14 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 - Return a tuple from `filters()`.
 - Add `@flags.help(...)` to public commands and exclude internal, state-only, or callback-only routes.
 - Add `@flags.disableable(...)` only when the command participates in chat-level disabling.
+- Read handler flags in middleware with `aiogram.dispatcher.flags.get_flag(data, "name")`; do not reach through
+  `data["handler"].flags` directly.
+- Declare flags with aiogram's `@flags.<name>(...)` decorator or the registration `flags={...}` argument before the
+  handler is registered. For programmatically derived flags, apply the decorator to the handler class before calling
+  `register(...)`; do not mutate `HandlerObject.flags` after registration.
+- Keep custom flag names public-style without a leading underscore because aiogram's `FlagGenerator` rejects private
+  names. When subclasses can inherit a dynamic flag, explicitly apply a falsy value to ineligible subclasses so an
+  inherited value cannot accidentally enable middleware behavior.
 
 ## Responses and Localization
 
