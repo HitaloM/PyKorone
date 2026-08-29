@@ -45,7 +45,7 @@ class EnableAllHandler(KoroneMessageHandler):
         )
 
 
-class DisableAllCbHandler(KoroneCallbackQueryHandler):
+class EnableAllCallbackHandler(KoroneCallbackQueryHandler):
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
         return EnableAllCallback.filter(), UserRestricting(admin=True)
@@ -55,7 +55,7 @@ class DisableAllCbHandler(KoroneCallbackQueryHandler):
         user_id = self.event.from_user.id
 
         if user_id != data.user_id:
-            await self.event.answer(_("Only the initiator can confirm disabling all commands"))
+            await self.event.answer(_("Only the initiator can confirm enabling all commands"))
             return
 
         model = await DisablingRepository.enable_all(self.chat.chat_id)

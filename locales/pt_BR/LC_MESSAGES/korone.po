@@ -160,7 +160,7 @@ msgstr "Permite que administradores desativem comandos específicos por chat."
 msgid "Useful for keeping only the features your group actually needs."
 msgstr "Útil para manter apenas os recursos que o seu grupo realmente precisa."
 
-#: src/korone/modules/disabling/args.py:28
+#: src/korone/modules/disabling/args.py:29
 #, python-brace-format
 msgid "Command {cmd} not found."
 msgstr "Comando {cmd} não encontrado."
@@ -181,7 +181,6 @@ msgid "Command"
 msgstr "Comando"
 
 #: src/korone/modules/disabling/handlers/disable.py:47
-#: src/korone/modules/disabling/handlers/enable.py:47
 #, python-brace-format
 msgid "Command {cmd} is already disabled."
 msgstr "O comando {cmd} já está desativado."
@@ -221,6 +220,11 @@ msgstr "Comandos desativados"
 msgid "Re-enable a command in this chat."
 msgstr "Reative um comando neste chat."
 
+#: src/korone/modules/disabling/handlers/enable.py:47
+#, python-brace-format
+msgid "Command {cmd} is already enabled."
+msgstr "O comando {cmd} já está ativado."
+
 #: src/korone/modules/disabling/handlers/enable.py:54
 msgid "Command enabled"
 msgstr "Comando ativado"
@@ -244,8 +248,8 @@ msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr "Você deseja ativar todos os comandos em {chat_name}?"
 
 #: src/korone/modules/disabling/handlers/enable_all.py:58
-msgid "Only the initiator can confirm disabling all commands"
-msgstr "Somente quem iniciou pode confirmar a desativação de todos os comandos"
+msgid "Only the initiator can confirm enabling all commands"
+msgstr "Somente quem iniciou pode confirmar a ativação de todos os comandos"
 
 #: src/korone/modules/disabling/handlers/enable_all.py:66
 #, python-brace-format

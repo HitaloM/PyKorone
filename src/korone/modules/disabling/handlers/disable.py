@@ -47,7 +47,7 @@ class DisableHandler(KoroneMessageHandler[DisableArguments]):
             await self.answer(template(_("Command {cmd} is already disabled."), cmd=Code("/" + cmd_name)))
             return
 
-        await self.disable_cmd(self.chat.chat_id, handler.cmds[0])
+        await self.disable_cmd(self.chat.chat_id, command.disableable_name)
         await self.answer(
             section(
                 _("Command disabled"),

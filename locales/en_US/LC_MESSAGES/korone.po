@@ -160,7 +160,7 @@ msgstr ""
 msgid "Useful for keeping only the features your group actually needs."
 msgstr ""
 
-#: src/korone/modules/disabling/args.py:28
+#: src/korone/modules/disabling/args.py:29
 #, python-brace-format
 msgid "Command {cmd} not found."
 msgstr ""
@@ -181,7 +181,6 @@ msgid "Command"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:47
-#: src/korone/modules/disabling/handlers/enable.py:47
 #, python-brace-format
 msgid "Command {cmd} is already disabled."
 msgstr ""
@@ -221,6 +220,11 @@ msgstr ""
 msgid "Re-enable a command in this chat."
 msgstr ""
 
+#: src/korone/modules/disabling/handlers/enable.py:47
+#, python-brace-format
+msgid "Command {cmd} is already enabled."
+msgstr ""
+
 #: src/korone/modules/disabling/handlers/enable.py:54
 msgid "Command enabled"
 msgstr ""
@@ -244,7 +248,7 @@ msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:58
-msgid "Only the initiator can confirm disabling all commands"
+msgid "Only the initiator can confirm enabling all commands"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable_all.py:66

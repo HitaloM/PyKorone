@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 @dataclass(frozen=True, slots=True)
 class CommandReference:
     name: str
+    disableable_name: str
     handler: HandlerHelp
 
 
@@ -24,6 +25,6 @@ class CommandArg(TransformArg[str, CommandReference]):
     async def transform(self, value: str) -> CommandReference:
         command = value.casefold().removeprefix("/")
         handler = get_cmd_help_by_name(command)
-        if handler is None:
+        if handler is None or handler.disableable is None:
             raise ArgumentValueError(template(_("Command {cmd} not found."), cmd=Code(f"/{command}")))
-        return CommandReference(name=command, handler=handler)
+        return CommandReference(name=command, disableable_name=handler.disableable, handler=handler)

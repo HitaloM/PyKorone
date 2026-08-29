@@ -10,7 +10,7 @@ from .handlers.disable import DisableHandler
 from .handlers.disable_able import ListDisableable
 from .handlers.disabled import ListDisabled
 from .handlers.enable import EnableHandler
-from .handlers.enable_all import DisableAllCbHandler, EnableAllHandler
+from .handlers.enable_all import EnableAllCallbackHandler, EnableAllHandler
 
 router = Router(name="Disable")
 
@@ -27,6 +27,6 @@ manifest = ModuleManifest(
         ),
     ),
     router=router,
-    handlers=(ListDisableable, ListDisabled, DisableHandler, EnableHandler, EnableAllHandler, DisableAllCbHandler),
+    handlers=(ListDisableable, ListDisabled, DisableHandler, EnableHandler, EnableAllHandler, EnableAllCallbackHandler),
     export=ModuleExport(export_disabled),
 )

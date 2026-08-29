@@ -44,10 +44,10 @@ class EnableHandler(KoroneMessageHandler[EnableArguments]):
         cmd_name = command.name
 
         if handler not in await get_disabled_handlers(self.chat.chat_id):
-            await self.answer(template(_("Command {cmd} is already disabled."), cmd=Code("/" + cmd_name)))
+            await self.answer(template(_("Command {cmd} is already enabled."), cmd=Code("/" + cmd_name)))
             return
 
-        await self.enable_cmd(self.chat.chat_id, handler.cmds[0])
+        await self.enable_cmd(self.chat.chat_id, command.disableable_name)
 
         await self.answer(
             section(
