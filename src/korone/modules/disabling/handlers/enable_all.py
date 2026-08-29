@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
 from aiogram.enums import ButtonStyle
@@ -51,7 +51,7 @@ class EnableAllCallbackHandler(KoroneCallbackQueryHandler):
         return EnableAllCallback.filter(), UserRestricting(admin=True)
 
     async def handle(self) -> None:
-        data: EnableAllCallback = self.data["callback_data"]
+        data = cast("EnableAllCallback", self.callback_data)
         user_id = self.event.from_user.id
 
         if user_id != data.user_id:

@@ -25,7 +25,9 @@ class PrivacyMenu(KoroneMessageCallbackQueryHandler):
         router.callback_query.register(cls, PrivacyMenuCallback.filter())
 
     async def handle(self) -> None:
-        callback_data: PrivacyMenuCallback | None = self.data.get("callback_data", None)
+        callback_data = self.callback_data
+        if not isinstance(callback_data, PrivacyMenuCallback):
+            callback_data = None
 
         text = _("The privacy policy of the bot is available on our wiki page.")
         buttons = InlineKeyboardBuilder()
