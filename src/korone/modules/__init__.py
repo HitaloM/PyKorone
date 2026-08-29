@@ -66,10 +66,18 @@ async def _attach_routers(
 
 
 async def _register_handlers(module_names: Sequence[str], modules: Mapping[str, LoadedModule]) -> None:
+    configure_argument_help = None
+    if "help" in modules:
+        from korone.modules.help.callbacks import configure_argument_help  # ruff: ignore[import-outside-top-level]
+
     for module_name in module_names:
         module = modules[module_name]
         if module.router is None or not module.handlers:
             continue
+
+        if configure_argument_help is not None:
+            for handler in module.handlers:
+                configure_argument_help(handler, module_name, module_public=module.package.public)
 
         registered = module.register_handlers()
         await logger.adebug("Registering module handlers", module=module_name, handlers=registered)

@@ -1,11 +1,14 @@
 from itertools import starmap
 from typing import TYPE_CHECKING, Any
 
-from aiogram import BaseMiddleware
+from aiogram import BaseMiddleware, Bot
+from aiogram.dispatcher.flags import get_flag
 from aiogram.filters import CommandObject
-from aiogram.types import Message
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from aiogram.utils.deep_linking import create_start_link
 
 from korone.args.base import (
+    ARGUMENT_HELP_PAYLOAD_KEY,
     PARSED_ARGUMENTS_KEY,
     ArgumentEntity,
     ArgumentExample,
@@ -140,6 +143,18 @@ def _format_error(
     )
 
 
+async def _argument_help_markup(data: dict[str, Any]) -> InlineKeyboardMarkup | None:
+    payload = get_flag(data, ARGUMENT_HELP_PAYLOAD_KEY)
+    bot = data.get("bot")
+    if not isinstance(payload, str) or not isinstance(bot, Bot):
+        return None
+
+    help_url = await create_start_link(bot, payload)
+    return InlineKeyboardMarkup(
+        inline_keyboard=[[InlineKeyboardButton(text=_("ℹ️ Open module help privately"), url=help_url)]]
+    )
+
+
 class ArgumentsMiddleware(BaseMiddleware):
     async def __call__(
         self,
@@ -147,7 +162,7 @@ class ArgumentsMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: dict[str, Any],
     ) -> object:
-        arguments = data["handler"].flags.get("args")
+        arguments = get_flag(data, "args")
         if arguments is None:
             return await handler(event, data)
         if not isinstance(arguments, ArgumentSchema):
@@ -165,7 +180,8 @@ class ArgumentsMiddleware(BaseMiddleware):
             parsed = await arguments.parse(source)
         except (MissingArgumentError, InvalidArgumentError, InvalidArgumentValueError, UnexpectedArgumentError) as exc:
             content = _format_error(exc, arguments, command_object)
-            await event.reply(**text_kwargs(content, disable_web_page_preview=True))
+            reply_markup = await _argument_help_markup(data)
+            await event.reply(**text_kwargs(content, disable_web_page_preview=True), reply_markup=reply_markup)
             return None
 
         data[PARSED_ARGUMENTS_KEY] = parsed

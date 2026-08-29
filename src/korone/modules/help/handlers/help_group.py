@@ -6,7 +6,9 @@ from aiogram.filters import Command
 from aiogram.types import EphemeralMessageParameters
 
 from korone.filters.chat_status import GroupChatFilter
+from korone.modules.help.args import HELP_ARGUMENTS, HelpArguments
 from korone.modules.help.utils.menu import build_rich_help_menu
+from korone.modules.help.utils.presentation import build_module_search
 from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import lazy_gettext as l_
@@ -17,8 +19,13 @@ if TYPE_CHECKING:
 
 
 @flags.disableable(name="help")
-@flags.help(description=l_("Show the full help menu privately in this chat."))
-class HelpGroupHandler(KoroneMessageHandler):
+@flags.help(
+    description=l_("Show the full help menu privately or search for a module in this chat."),
+    examples=((l_("Open module help"), "disabling"),),
+)
+class HelpGroupHandler(KoroneMessageHandler[HelpArguments]):
+    arguments = HELP_ARGUMENTS
+
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
         return Command("help"), GroupChatFilter()
@@ -27,7 +34,10 @@ class HelpGroupHandler(KoroneMessageHandler):
         if not self.event.from_user:
             raise KoroneError.user_context_unavailable()
 
-        rich_message, reply_markup = build_rich_help_menu()
+        if self.args.query is None:
+            rich_message, reply_markup = build_rich_help_menu()
+        else:
+            rich_message, reply_markup = build_module_search(self.args.query)
         if self.event.ephemeral_message_id is not None:
             try:
                 await self.event.answer_rich(

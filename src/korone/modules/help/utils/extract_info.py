@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from itertools import chain
 from typing import TYPE_CHECKING, Any, cast, overload
 
+from aiogram.dispatcher.flags import extract_flags
 from aiogram.filters import Command
-from aiogram.filters.logic import _InvertFilter
 
 from korone.args import ArgumentSchema
 from korone.filters.admin_rights import UserRestricting
@@ -189,12 +189,6 @@ def _extract_visibility_flags(filters: Sequence[Any]) -> tuple[bool, bool, bool,
             only_pm = True
         if isinstance(callback, GroupChatFilter):
             only_chats = True
-        if isinstance(callback, _InvertFilter):
-            target_callback = getattr(getattr(callback, "target", None), "callback", None)
-            if isinstance(target_callback, PrivateChatFilter):
-                only_chats = True
-            if isinstance(target_callback, GroupChatFilter):
-                only_pm = True
 
     return only_admin, only_op, only_pm, only_chats
 
@@ -244,19 +238,20 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         if not handler.filters:
             continue
 
-        help_flags = _get_help_flags(handler.flags)
+        handler_flags = extract_flags(handler)
+        help_flags = _get_help_flags(handler_flags)
         if bool(help_flags.get("exclude")):
             continue
 
-        cmd_list = _extract_cmds(handler.filters, handler.flags, help_flags)
+        cmd_list = _extract_cmds(handler.filters, handler_flags, help_flags)
         if not cmd_list:
             continue
 
         only_admin, only_op, only_pm, only_chats = _extract_visibility_flags(handler.filters)
-        args = _extract_args(handler.flags, help_flags)
+        args = _extract_args(handler_flags, help_flags)
         examples = _extract_examples(help_flags)
 
-        disableable = handler.flags.get("disableable")
+        disableable = handler_flags.get("disableable")
         disableable_name = disableable.name if disableable is not None else None
         description = _clone_without_cache(cast("LazyProxy | str | None", help_flags.get("description")))
         alias_to_modules = _normalize_str_sequence(help_flags.get("alias_to_modules")) or ()

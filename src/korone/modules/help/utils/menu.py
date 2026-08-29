@@ -59,6 +59,7 @@ def build_help_menu(callback_data: PMHelpModules | None = None) -> tuple[Message
     doc = column(
         Bold(_("Help")),
         _("Pick a module below to explore its commands, usage notes, and examples."),
+        template(_("Search directly with {command}."), command=Code("/help <module>")),
         section(
             _("/help legend"),
             bullets(
@@ -129,6 +130,11 @@ def build_rich_help_menu(callback_data: PMHelpModules | None = None) -> tuple[In
             InputRichBlockSectionHeading(text=str(_("Help")), size=1),
             InputRichBlockParagraph(
                 text=str(_("Pick a module below to explore its commands, usage notes, and examples."))
+            ),
+            InputRichBlockParagraph(
+                text=format_rich_template(
+                    _("Search directly with {command}."), command=RichTextCode(text="/help <module>")
+                )
             ),
             InputRichBlockSectionHeading(text=str(_("/help legend")), size=2),
             legend,

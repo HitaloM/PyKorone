@@ -16,6 +16,7 @@ type ArgumentExamples = Mapping[ArgumentExample, ArgumentDescription | None]
 type ArgumentEntities = Sequence[ArgumentEntity]
 
 PARSED_ARGUMENTS_KEY = "_korone_parsed_arguments"
+ARGUMENT_HELP_PAYLOAD_KEY = "argument_help_payload"
 
 
 class _DataclassParams(Protocol):

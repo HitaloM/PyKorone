@@ -1,4 +1,5 @@
 from korone.args.base import (
+    ARGUMENT_HELP_PAYLOAD_KEY,
     Argument,
     ArgumentDescription,
     ArgumentEntities,
@@ -20,6 +21,7 @@ from korone.args.base import (
 from korone.args.types import BooleanArg, OrArg, TextArg, TransformArg, WordArg
 
 __all__ = (
+    "ARGUMENT_HELP_PAYLOAD_KEY",
     "Argument",
     "ArgumentDescription",
     "ArgumentEntities",

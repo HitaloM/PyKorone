@@ -6,8 +6,9 @@ from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
 from .handlers.help_group import HelpGroupHandler
+from .handlers.help_pm import HelpPMHandler
 from .handlers.op import OpCMDSList
-from .handlers.pm_modules import PMModuleHelp, PMModulesList
+from .handlers.pm_modules import PMModuleHelp, PMModulesList, PMModuleStartHelp
 from .handlers.start_group import StartGroupHandler
 from .handlers.start_pm import StartPMHandler
 from .stats import help_stats
@@ -37,7 +38,16 @@ manifest = ModuleManifest(
         ),
     ),
     router=router,
-    handlers=(PMModulesList, StartPMHandler, HelpGroupHandler, StartGroupHandler, PMModuleHelp, OpCMDSList),
+    handlers=(
+        HelpPMHandler,
+        PMModulesList,
+        PMModuleStartHelp,
+        StartPMHandler,
+        HelpGroupHandler,
+        StartGroupHandler,
+        PMModuleHelp,
+        OpCMDSList,
+    ),
     scripts=ModuleScripts(post_setup=post_setup),
     stats=help_stats,
 )

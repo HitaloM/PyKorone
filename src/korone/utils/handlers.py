@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 import sentry_sdk
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.handlers import BaseHandler, BaseHandlerMixin
+from aiogram.handlers import BaseHandler, MessageHandlerCommandMixin
 from aiogram.types import CallbackQuery, InaccessibleMessage, InlineQuery, InputMediaPhoto, Message
 from structlog.contextvars import bind_contextvars
 
@@ -17,7 +17,7 @@ from korone.utils.telegram_errors import is_message_not_modified_error
 if TYPE_CHECKING:
     from collections.abc import Generator
 
-    from aiogram import Bot, Router
+    from aiogram import Router
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.filters.callback_data import CallbackData
     from aiogram.types import InputFile, InputRichMessage
@@ -30,16 +30,12 @@ if TYPE_CHECKING:
 T = TypeVar("T")
 
 
-class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
+class KoroneBaseHandler(BaseHandler[T], ABC):
     def __await__(self) -> Generator[Any, None, Any]:
         handler_name = self.__class__.__name__
         bind_contextvars(handler=handler_name)
         sentry_sdk.set_tag("korone.handler", handler_name)
         return self.handle().__await__()
-
-    @property
-    def bot(self) -> Bot:
-        return self.data["bot"]
 
     @property
     def context(self) -> KoroneContextData:
@@ -59,7 +55,7 @@ class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
         pass
 
 
-class KoroneMessageHandler[ArgumentsT = None](KoroneBaseHandler[Message]):
+class KoroneMessageHandler[ArgumentsT = None](MessageHandlerCommandMixin, KoroneBaseHandler[Message]):
     arguments: ArgumentSchema[ArgumentsT] | None = None
 
     @classmethod
