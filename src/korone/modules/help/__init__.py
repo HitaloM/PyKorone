@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.modules.metadata import ModuleManifest, ModulePackage, ModuleRegistry, ModuleScripts
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -30,7 +30,7 @@ manifest = ModuleManifest(
         icon="ℹ️",
         summary=l_("Command guide and module reference"),
         description=LazyProxy(
-            lambda: Doc(
+            lambda: column(
                 l_("Browse modules, command usage, and availability rules in one place."),
                 l_("Open the interactive help menu privately in any chat."),
             )

@@ -9,7 +9,7 @@ from magic_filter import F
 from korone.filters.chat_status import PrivateChatFilter
 from korone.modules.language.callbacks import LangMenu, LangMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
-from korone.utils.formatting import Code, KeyValue, Section
+from korone.ui import Code, UIExpression, field, section
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
@@ -21,17 +21,18 @@ if TYPE_CHECKING:
     from korone.utils.i18n import I18nNew
 
 
-def build_language_info_text(i18n: I18nNew) -> str:
-    section = Section(KeyValue(_("Current Language"), i18n.current_locale_display), title=_("Language Settings"))
-
+def build_language_info_text(i18n: I18nNew) -> UIExpression:
+    details: list[UIExpression | str] = [field(_("Current Language"), i18n.current_locale_display)]
     if i18n.is_current_locale_default():
-        section += _("This is the bot's native language, so it is 100% translated.")
+        details.append(_("This is the bot's native language, so it is 100% translated."))
     elif stats := i18n.get_current_locale_stats():
-        section += KeyValue(_("Translated strings"), Code(stats.translated))
-        section += KeyValue(_("Untranslated strings"), Code(stats.untranslated))
-        section += KeyValue(_("Strings requiring review"), Code(stats.fuzzy))
+        details.extend((
+            field(_("Translated strings"), Code(stats.translated)),
+            field(_("Untranslated strings"), Code(stats.untranslated)),
+            field(_("Strings requiring review"), Code(stats.fuzzy)),
+        ))
 
-    return str(section)
+    return section(_("Language Settings"), *details)
 
 
 def build_keyboard(*, is_private: bool, back_to_start: bool = False) -> InlineKeyboardBuilder:
@@ -63,7 +64,7 @@ class LanguageInfoHandler(KoroneMessageHandler):
         text = build_language_info_text(i18n)
         keyboard = build_keyboard(is_private=is_private, back_to_start=False)
 
-        await self.event.reply(text, reply_markup=keyboard.as_markup())
+        await self.answer(text, reply_markup=keyboard.as_markup())
 
 
 @flags.help(exclude=True)

@@ -5,7 +5,7 @@ from aiogram.filters import Command
 
 from korone.modules.disabling.utils.get_disabled import get_disabled_handlers
 from korone.modules.help.utils.format_help import format_handlers
-from korone.utils.formatting import Section
+from korone.ui import section
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -28,17 +28,15 @@ class ListDisabled(KoroneMessageHandler):
             await self.event.reply(_("No disabled commands found."))
             return
 
-        await self.event.reply(
-            str(
-                Section(
-                    format_handlers(
-                        disabled,
-                        show_only_in_groups=False,
-                        show_disable_able=False,
-                        show_description=False,
-                        show_args=False,
-                    ),
-                    title=_("Disabled commands"),
-                )
+        await self.answer(
+            section(
+                _("Disabled commands"),
+                format_handlers(
+                    disabled,
+                    show_only_in_groups=False,
+                    show_disable_able=False,
+                    show_description=False,
+                    show_args=False,
+                ),
             )
         )

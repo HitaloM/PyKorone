@@ -1,3 +1,4 @@
+from itertools import starmap
 from typing import TYPE_CHECKING
 
 from aiogram import flags
@@ -5,7 +6,7 @@ from aiogram.filters import Command
 
 from korone.args import WordArg, define_arguments
 from korone.modules.web.utils.whois import normalize_domain, parse_whois_output, query_whois
-from korone.utils.formatting import Code, Doc, KeyValue, Template, Title
+from korone.ui import Code, UIExpression, field, section, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -28,29 +29,20 @@ class WhoisHandler(KoroneMessageHandler):
         domain = normalize_domain(raw_domain)
 
         if not domain:
-            await self.event.reply(
-                Template(
-                    _("You should provide a domain name. Example: {example}."), example=Code("/whois example.com")
-                ).to_html()
+            await self.answer(
+                template(_("You should provide a domain name. Example: {example}."), example=Code("/whois example.com"))
             )
             return
 
         whois_data = await query_whois(domain)
         if not whois_data:
-            await self.event.reply(
-                Template(_("No WHOIS information found for {domain}."), domain=Code(domain)).to_html()
-            )
+            await self.answer(template(_("No WHOIS information found for {domain}."), domain=Code(domain)))
             return
 
         parsed_info = parse_whois_output(whois_data)
         if not parsed_info:
-            await self.event.reply(
-                Template(_("No WHOIS information found for {domain}."), domain=Code(domain)).to_html()
-            )
+            await self.answer(template(_("No WHOIS information found for {domain}."), domain=Code(domain)))
             return
 
-        doc = Doc(Title(_("WHOIS Information")))
-        for key, value in parsed_info.items():
-            doc += KeyValue(key, value)
-
-        await self.event.reply(str(doc))
+        fields: list[UIExpression] = list(starmap(field, parsed_info.items()))
+        await self.answer(section(_("WHOIS Information"), *fields))

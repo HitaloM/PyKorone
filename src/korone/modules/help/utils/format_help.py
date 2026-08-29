@@ -10,7 +10,9 @@ from aiogram.types import (
     RichTextItalic,
 )
 
-from korone.utils.formatting import Code, Doc, Element, HList, Italic, Section, Template, VList
+from korone.ui import Code, Italic, Renderable, Text, UIExpression, bullets, row, section, template
+from korone.ui.rendering import plain_text
+from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -21,15 +23,14 @@ if TYPE_CHECKING:
 
     from korone.args import Argument
     from korone.modules.help.utils.extract_info import HandlerHelp
-    from korone.utils.i18n import LazyProxy
 
 
-def format_cmd(cmd: str, *, raw: bool = False) -> Element:
+def format_cmd(cmd: str, *, raw: bool = False) -> Text:
     return Code(cmd if raw else f"/{cmd}")
 
 
-def format_cmd_args(arguments: Mapping[str, Argument[object]], *, as_code: bool = False) -> HList:
-    formatted: list[Element | str] = []
+def format_cmd_args(arguments: Mapping[str, Argument[object]], *, as_code: bool = False) -> UIExpression:
+    formatted: list[Renderable] = []
     for arg in arguments.values():
         if arg.help_description is None:
             continue
@@ -37,7 +38,7 @@ def format_cmd_args(arguments: Mapping[str, Argument[object]], *, as_code: bool 
         rendered = f"<{arg.help_description}>"
         formatted.append(Code(rendered) if as_code else rendered)
 
-    return HList(*formatted)
+    return row(*formatted)
 
 
 def _format_example_text(handler: HandlerHelp, example: str) -> str:
@@ -53,16 +54,16 @@ def _format_example_text(handler: HandlerHelp, example: str) -> str:
     return f"{command_prefix} {normalized_example}".strip()
 
 
-def _format_example(handler: HandlerHelp, example: str) -> Element:
+def _format_example(handler: HandlerHelp, example: str) -> Text:
     return Code(_format_example_text(handler, example))
 
 
-def _format_example_entry(handler: HandlerHelp, label: object, example: str) -> Element:
+def _format_example_entry(handler: HandlerHelp, label: object, example: str) -> Renderable:
     formatted_example = _format_example(handler, example)
     if label is None:
         return formatted_example
 
-    return Section(formatted_example, title=label, title_bold=False, title_underline=False, title_postfix="", indent=1)
+    return section(str(label), formatted_example)
 
 
 def format_handler(
@@ -72,46 +73,35 @@ def format_handler(
     show_disable_able: bool = True,
     show_description: bool = True,
     show_args: bool = True,
-) -> Element:
-    title = HList(
-        HList(*(format_cmd(cmd, raw=handler.raw_cmds) for cmd in handler.cmds)),
+) -> UIExpression:
+    title = row(
+        row(*(format_cmd(cmd, raw=handler.raw_cmds) for cmd in handler.cmds)),
         format_cmd_args(handler.args) if handler.args and show_args else None,
         Italic(_("— Only in groups")) if show_only_in_groups and handler.only_chats else None,
-        Italic(Template("({label})", label=_("Toggleable"))) if show_disable_able and handler.disableable else None,
+        Italic(template("({label})", label=_("Toggleable"))) if show_disable_able and handler.disableable else None,
     )
     if handler.description and show_description:
-        return Section(
-            Italic(handler.description),
-            title=title,
-            title_bold=False,
-            title_underline=False,
-            title_postfix="",
-            indent=2,
-        )
+        return section(title, Italic(handler.description))
 
     return title
 
 
-def format_handlers(all_cmds: Sequence[HandlerHelp], **kwargs: bool) -> VList:
-    return VList(*(format_handler(handler, **kwargs) for handler in all_cmds))
+def format_handlers(all_cmds: Sequence[HandlerHelp], **kwargs: bool) -> UIExpression:
+    return bullets(*(format_handler(handler, **kwargs) for handler in all_cmds))
 
 
-def format_example_items(all_cmds: Sequence[HandlerHelp]) -> list[Element]:
+def format_example_items(all_cmds: Sequence[HandlerHelp]) -> list[Renderable]:
     return [
         _format_example_entry(handler, label, example) for handler in all_cmds for label, example in handler.examples
     ]
 
 
 def format_rich_text(value: object) -> RichTextUnion:
-    if not isinstance(value, Doc):
+    if isinstance(value, LazyProxy):
+        return format_rich_text(value.value)
+    if not isinstance(value, (UIExpression, Text)):
         return str(value)
-
-    parts: list[RichTextUnion] = []
-    for item in value:
-        if parts:
-            parts.append("\n")
-        parts.append(str(item))
-    return parts
+    return plain_text(value)
 
 
 def format_rich_template(template: object, **placeholders: RichTextUnion) -> RichTextUnion:
@@ -184,13 +174,13 @@ def format_rich_examples(all_cmds: Sequence[HandlerHelp]) -> list[InputRichBlock
     return examples
 
 
-def format_examples(all_cmds: Sequence[HandlerHelp]) -> Section | None:
+def format_examples(all_cmds: Sequence[HandlerHelp]) -> UIExpression | None:
     examples = format_example_items(all_cmds)
 
     if not examples:
         return None
 
-    return Section(*examples, title=_("Examples"))
+    return section(_("Examples"), *examples)
 
 
 def group_handlers(handlers: Sequence[HandlerHelp]) -> list[tuple[LazyProxy, list[HandlerHelp]]]:

@@ -4,7 +4,7 @@ from aiogram.filters import Command
 
 from korone.constants import TELEGRAM_MESSAGE_LENGTH_LIMIT
 from korone.filters.user_status import IsOP
-from korone.utils.formatting import Code
+from korone.ui import Code
 from korone.utils.handlers import KoroneMessageHandler
 
 
@@ -20,7 +20,7 @@ class EventHandler(KoroneMessageHandler):
 
         # Split message if it exceeds Telegram's limit
         if len(text) <= TELEGRAM_MESSAGE_LENGTH_LIMIT:
-            await self.event.reply(str(Code(text)))
+            await self.answer(Code(text))
         else:
             # Split into chunks that fit within the limit accounting for Code formatting
             # Code adds some overhead, so we use a slightly smaller chunk size
@@ -28,4 +28,4 @@ class EventHandler(KoroneMessageHandler):
             chunks = [text[i : i + max_chunk_size] for i in range(0, len(text), max_chunk_size)]
 
             for chunk in chunks:
-                await self.event.reply(str(Code(chunk)))
+                await self.answer(Code(chunk))

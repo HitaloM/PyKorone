@@ -12,7 +12,7 @@ from aiogram.types import (
     RichBlockTableCell,
 )
 
-from korone.utils.formatting import Bold, Doc, KeyValue, Section
+from korone.ui import Bold, UIExpression, column, field, section
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -29,13 +29,13 @@ def _normalize_spec_value(value: str) -> str:
     return "; ".join(parts)
 
 
-def _build_section_items(attributes: SpecRows) -> list[KeyValue]:
-    values: list[KeyValue] = []
+def _build_section_items(attributes: SpecRows) -> list[UIExpression]:
+    values: list[UIExpression] = []
 
     for key, raw_value in attributes:
         normalized = _normalize_spec_value(raw_value)
         if normalized:
-            values.append(KeyValue(key, normalized))
+            values.append(field(key, normalized))
 
     return values
 
@@ -102,24 +102,15 @@ def _phone_spec_sections(phone: Phone) -> SpecSections:
     )
 
 
-def format_phone(phone: Phone) -> str:
-    doc = Doc(Bold(phone.name))
-
+def format_phone(phone: Phone) -> UIExpression:
+    sections: list[UIExpression] = []
     for title, rows in _phone_spec_sections(phone):
         items = _build_section_items(rows)
         if not items:
             continue
+        sections.append(section(title, *items))
 
-        doc += ""
-        doc += Section(title=title)
-        doc += ""
-
-        for index, item in enumerate(items):
-            doc += item
-            if index < len(items) - 1:
-                doc += ""
-
-    return str(doc)
+    return column(Bold(phone.name), *sections, gap=1)
 
 
 def _build_rich_table(rows: SpecRows) -> InputRichBlockTable | None:

@@ -16,7 +16,7 @@ from korone.modules.help.callbacks import PMHelpModule, PMHelpModules
 from korone.modules.help.utils.extract_info import HELP_MODULES
 from korone.modules.help.utils.format_help import format_rich_template
 from korone.modules.utils_.callbacks import GoToStartCallback
-from korone.utils.formatting import Code, Doc, HList, Italic, Section, Template, Title, VList
+from korone.ui import Bold, Code, Italic, MessageContent, bullets, column, row, section, template
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -55,33 +55,33 @@ def _build_help_menu_buttons(callback_data: PMHelpModules | None) -> InlineKeybo
     return buttons.as_markup()
 
 
-def build_help_menu(callback_data: PMHelpModules | None = None) -> tuple[str, InlineKeyboardMarkup]:
-    doc = Doc(
-        Title(_("Help")),
+def build_help_menu(callback_data: PMHelpModules | None = None) -> tuple[MessageContent, InlineKeyboardMarkup]:
+    doc = column(
+        Bold(_("Help")),
         _("Pick a module below to explore its commands, usage notes, and examples."),
-        Section(
-            VList(
-                Template(
+        section(
+            _("/help legend"),
+            bullets(
+                template(
                     _("Arguments: {required} is required, {optional} is optional."),
                     required=Code("<arg>"),
                     optional=Code("<?arg>"),
                 ),
-                HList(Italic(_("— Only in groups")), _("indicates commands available only in groups.")),
-                HList(Italic(_("PM-only")), _("lists commands available only in private chat.")),
-                HList(Italic(_("Only admins")), _("lists commands that require admin rights.")),
-                HList(
-                    Italic(Template("({label})", label=_("Toggleable"))),
-                    Template(
+                row(Italic(_("— Only in groups")), _("indicates commands available only in groups.")),
+                row(Italic(_("PM-only")), _("lists commands available only in private chat.")),
+                row(Italic(_("Only admins")), _("lists commands that require admin rights.")),
+                row(
+                    Italic(template("({label})", label=_("Toggleable"))),
+                    template(
                         _("means admins can disable or re-enable the command with {disable} and {enable}."),
                         disable=Code("/disable"),
                         enable=Code("/enable"),
                     ),
                 ),
             ),
-            title=_("/help legend"),
         ),
     )
-    return str(doc), _build_help_menu_buttons(callback_data)
+    return doc, _build_help_menu_buttons(callback_data)
 
 
 def _rich_list_item(text: RichTextUnion) -> InputRichBlockListItem:

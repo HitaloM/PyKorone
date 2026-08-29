@@ -9,8 +9,8 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from korone.args import TextArg, define_arguments
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
 from korone.modules.web.utils.ip import fetch_ip_info, get_ips_from_string
+from korone.ui import Code, Italic, UIExpression, field, section, template
 from korone.utils.aiohttp_session import HTTPClient
-from korone.utils.formatting import Code, Doc, Italic, KeyValue, Template, Title
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -32,19 +32,18 @@ IP_FIELDS = {
 }
 
 
-def format_ip_info(ip: str, info: dict[str, Any]) -> Doc:
-    doc = Doc(Title(_("IP Information")))
-
+def format_ip_info(ip: str, info: dict[str, Any]) -> UIExpression:
+    fields: list[UIExpression] = []
     for key, title in IP_FIELDS.items():
         value = info.get(key)
         if value is None:
             continue
-        doc += KeyValue(str(title), str(value))
+        fields.append(field(str(title), str(value)))
 
     if "ip" not in info:
-        doc += KeyValue(_("IP"), ip)
+        fields.append(field(_("IP"), ip))
 
-    return doc
+    return section(_("IP Information"), *fields)
 
 
 @flags.help(description=l_("Look up information for an IP address or domain."))
@@ -76,32 +75,32 @@ class IPInfoHandler(KoroneMessageHandler):
     async def _reply_with_ip_info(self, ip: str) -> None:
         info = await self.fetch_ip_info(ip)
         if not info:
-            await self.event.reply(Template(_("No information found for {ip_or_domain}."), ip_or_domain=ip).to_html())
+            await self.answer(template(_("No information found for {ip_or_domain}."), ip_or_domain=ip))
             return
 
         if info.get("bogon"):
-            await self.event.reply(
-                Template(
+            await self.answer(
+                template(
                     _(
                         "The provided IP address {ip} is a {bogon} IP address, "
                         "meaning it is either not in use or reserved for special use."
                     ),
                     ip=Code(ip),
                     bogon=Italic("bogon"),
-                ).to_html()
+                )
             )
             return
 
-        await self.event.reply(str(format_ip_info(ip, info)))
+        await self.answer(format_ip_info(ip, info))
 
     async def handle(self) -> None:
         target = (self.data.get("target") or "").strip()
 
         if not target:
-            await self.event.reply(
-                Template(
+            await self.answer(
+                template(
                     _("You should provide an IP address or domain. Example: {example}."), example=Code("/ip google.com")
-                ).to_html()
+                )
             )
             return
 
@@ -136,23 +135,23 @@ class IPInfoCallbackHandler(KoroneCallbackQueryHandler):
         info = await fetch_ip_info(ip)
 
         if not info:
-            await self.edit_text(Template(_("No information found for {ip_or_domain}."), ip_or_domain=ip).to_html())
+            await self.edit_text(template(_("No information found for {ip_or_domain}."), ip_or_domain=ip))
             await self.event.answer()
             return
 
         if info.get("bogon"):
             await self.edit_text(
-                Template(
+                template(
                     _(
                         "The provided IP address {ip} is a {bogon} IP address, "
                         "meaning it is either not in use or reserved for special use."
                     ),
                     ip=Code(ip),
                     bogon=Italic("bogon"),
-                ).to_html()
+                )
             )
             await self.event.answer()
             return
 
-        await self.edit_text(str(format_ip_info(ip, info)))
+        await self.edit_text(format_ip_info(ip, info))
         await self.event.answer()

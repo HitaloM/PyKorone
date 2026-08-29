@@ -3,7 +3,7 @@ from aiogram import Router
 from korone.filters.user_status import IsOP as IsOP
 from korone.middlewares import try_localization_middleware
 from korone.modules.metadata import ModuleManifest, ModulePackage, ModuleScripts
-from korone.utils.formatting import Doc
+from korone.ui import column
 
 from .handlers.crash_handler import CrashHandler
 from .handlers.error import KoroneErrorHandler
@@ -21,7 +21,7 @@ manifest = ModuleManifest(
         name="Error",
         icon="🚫",
         summary="Error handling and diagnostics",
-        description=Doc(
+        description=column(
             "Internal handlers for runtime exceptions and recovery.",
             "Includes an operator-only crash command for testing.",
         ),

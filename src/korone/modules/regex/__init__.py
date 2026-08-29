@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.modules.metadata import ModuleManifest, ModulePackage
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -15,7 +15,7 @@ manifest = ModuleManifest(
         icon="🧪",
         summary=l_("Regex substitutions for replied messages"),
         description=LazyProxy(
-            lambda: Doc(
+            lambda: column(
                 l_(
                     "Use sed-style syntax to edit replied text. Example: s/old/new/g; "
                     "escape slashes as \\/ and chain with ';'."

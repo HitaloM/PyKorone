@@ -2,12 +2,12 @@ import asyncio
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from aiogram.enums import ParseMode
 from aiogram.types import InlineQueryResultArticle, InputTextMessageContent, LinkPreviewOptions
 
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.logger import get_logger
 from korone.modules.metadata import InlineQueryContribution
+from korone.ui.rendering import message_text_kwargs
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
@@ -22,6 +22,8 @@ if TYPE_CHECKING:
     from collections.abc import Awaitable
 
     from aiogram.types import InlineQuery
+
+    from korone.ui import MessageContent
 
     from .utils import LastFMRecentTrack
 
@@ -54,17 +56,17 @@ async def _capture_lastfm_error[T](awaitable: Awaitable[T]) -> T | LastFMError:
         return exc
 
 
-def _message_content(text: str, image_url: str | None = None) -> InputTextMessageContent:
+def _message_content(text: MessageContent, image_url: str | None = None) -> InputTextMessageContent:
     preview_options = None
     if image_url:
         preview_options = LinkPreviewOptions(
             is_disabled=False, url=image_url, prefer_large_media=True, show_above_text=False
         )
-    return InputTextMessageContent(message_text=text, parse_mode=ParseMode.HTML, link_preview_options=preview_options)
+    return InputTextMessageContent(**message_text_kwargs(text, link_preview_options=preview_options))
 
 
 def _article(
-    *, result_id: str, title: str, description: str, text: str, image_url: str | None = None
+    *, result_id: str, title: str, description: str, text: MessageContent, image_url: str | None = None
 ) -> InlineQueryResultArticle:
     return InlineQueryResultArticle(
         id=result_id,

@@ -6,7 +6,8 @@ from aiogram.filters import CommandObject
 
 from korone.args.base import Argument, ArgumentEntities, ArgumentEntity, ArgumentTypeError, ArgumentValueError
 from korone.args.types import resolve_argument
-from korone.utils.formatting import Bold, Code, Doc, Italic, KeyValue, Section
+from korone.ui import Bold, Code, Italic, UIExpression, column, field, section
+from korone.ui.rendering import text_kwargs
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -42,36 +43,34 @@ def _shift_entities(entities: ArgumentEntities, offset: int) -> tuple[ArgumentEn
     )
 
 
-def _examples(argument: Argument[object]) -> Section | None:
+def _examples(argument: Argument[object]) -> UIExpression | None:
     if not argument.examples:
         return None
-    return Section(
+    return section(
+        _("Examples"),
         *(
-            KeyValue(Code(example), description) if description is not None else Code(example)
+            field(Code(example), description) if description is not None else Code(example)
             for example, description in argument.examples.items()
         ),
-        title=_("Examples"),
     )
 
 
-def _required_error(argument: Argument[object]) -> Doc:
+def _required_error(argument: Argument[object]) -> UIExpression:
     description = f"({argument.description})" if argument.description else ""
-    doc = Doc(
+    return column(
         Bold(_("The required argument {description} wasn't provided!").format(description=description)),
-        Section(Italic(argument.needed_type()[0]), title=_("Needed type")),
+        section(_("Needed type"), Italic(argument.needed_type()[0])),
+        _examples(argument),
     )
-    doc += _examples(argument)
-    return doc
 
 
-def _type_error(argument: Argument[object]) -> Doc:
+def _type_error(argument: Argument[object]) -> UIExpression:
     description = f"({argument.description})" if argument.description else ""
-    doc = Doc(
+    return column(
         Bold(_("The argument {description} has an invalid type").format(description=description)),
-        Section(Italic(argument.needed_type()[0]), title=_("Needed type")),
+        section(_("Needed type"), Italic(argument.needed_type()[0])),
+        _examples(argument),
     )
-    doc += _examples(argument)
-    return doc
 
 
 class ArgumentsMiddleware(BaseMiddleware):
@@ -104,16 +103,16 @@ class ArgumentsMiddleware(BaseMiddleware):
             entities = _shift_entities(entities, stripped)
 
             if not remaining and not argument.can_be_empty:
-                await message.reply(str(_required_error(argument)), disable_web_page_preview=True)
+                await message.reply(**text_kwargs(_required_error(argument), disable_web_page_preview=True))
                 return None
 
             try:
                 parsed = await resolve_argument(argument.parse(remaining, entities))
             except ArgumentTypeError:
-                await message.reply(str(_type_error(argument)), disable_web_page_preview=True)
+                await message.reply(**text_kwargs(_type_error(argument), disable_web_page_preview=True))
                 return None
             except ArgumentValueError as exc:
-                await message.reply(str(Doc(*exc.messages)), disable_web_page_preview=True)
+                await message.reply(**text_kwargs(column(*exc.messages), disable_web_page_preview=True))
                 return None
 
             data[name] = parsed.value

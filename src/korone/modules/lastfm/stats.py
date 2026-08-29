@@ -1,7 +1,7 @@
 from korone.db.repositories.lastfm import LastFMRepository
-from korone.utils.formatting import Code, KeyValue, Section
+from korone.ui import Code, UIExpression, field, section
 
 
-async def lastfm_stats() -> Section:
+async def lastfm_stats() -> UIExpression:
     linked_users_total = await LastFMRepository.total_count()
-    return Section(KeyValue("Linked users", Code(linked_users_total)), title="Last.fm")
+    return section("Last.fm", field("Linked users", Code(linked_users_total)))

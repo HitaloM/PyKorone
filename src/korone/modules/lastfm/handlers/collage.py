@@ -16,7 +16,8 @@ from korone.modules.lastfm.handlers.base import LastFMHandlerSupport, LastFMUser
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, create_album_collage, format_lastfm_error
 from korone.modules.lastfm.utils.collage import MAX_SIZE, MIN_SIZE, LastFMCollageError
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
-from korone.utils.formatting import Template, Url
+from korone.ui import MessageContent, link, template
+from korone.ui.rendering import caption_kwargs
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -72,15 +73,13 @@ class LastFMCollageSupport(LastFMHandlerSupport):
         return options
 
     @staticmethod
-    def build_caption(*, user: LastFMUserContext, options: LastFMCollageOptions) -> str:
+    def build_caption(*, user: LastFMUserContext, options: LastFMCollageOptions) -> MessageContent:
         profile_url = f"https://www.last.fm/user/{quote_plus(user.username)}"
-        return str(
-            Template(
-                _("{username}'s {period} album collage ({size}x{size})"),
-                username=Url(user.display_name, profile_url),
-                period=period_label(options.period),
-                size=options.size,
-            )
+        return template(
+            _("{username}'s {period} album collage ({size}x{size})"),
+            username=link(user.display_name, profile_url),
+            period=period_label(options.period),
+            size=options.size,
         )
 
     @staticmethod
@@ -165,7 +164,9 @@ class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
             )
             caption = self.build_caption(user=user, options=options)
             await self.event.reply_photo(
-                photo=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"), caption=caption, reply_markup=keyboard
+                photo=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"),
+                **caption_kwargs(caption),
+                reply_markup=keyboard,
             )
         except LastFMError as exc:
             await self.event.reply(format_lastfm_error(exc))
@@ -217,7 +218,7 @@ class LastFMCollageCallbackHandler(LastFMCollageSupport, KoroneCallbackQueryHand
             caption = self.build_caption(user=user, options=options)
             await message.edit_media(
                 media=InputMediaPhoto(
-                    media=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"), caption=caption
+                    media=BufferedInputFile(image_bytes, filename="lfm-collage.jpg"), **caption_kwargs(caption)
                 ),
                 reply_markup=keyboard,
             )

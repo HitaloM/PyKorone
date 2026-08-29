@@ -11,7 +11,7 @@ from korone.filters.chat_status import PrivateChatFilter
 from korone.modules.help.callbacks import PMHelpModules
 from korone.modules.privacy import PrivacyMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback, LanguageButtonCallback
-from korone.utils.formatting import Doc, Template, Url
+from korone.ui import column, link, template
 from korone.utils.handlers import KoroneMessageCallbackQueryHandler
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
@@ -40,17 +40,17 @@ class StartPMHandler(KoroneMessageCallbackQueryHandler):
         builder.adjust(1, 2, 1)
         buttons = builder.as_markup()
 
-        text = Doc(
+        text = column(
             _(
                 "Hi, I'm Korone, your all-in-one assistant for this chat. "
                 "Use the buttons below to open help, privacy, and language settings."
             ),
             " ",
-            Template(_("For updates, follow my {channel}."), channel=Url(_("official channel"), CONFIG.news_channel)),
-            Template(
+            template(_("For updates, follow my {channel}."), channel=link(_("official channel"), CONFIG.news_channel)),
+            template(
                 _("You can also review the {source_code} if you want to see how Korone is built."),
-                source_code=Url(_("source code"), CONFIG.source_code),
+                source_code=link(_("source code"), CONFIG.source_code),
             ),
         )
 
-        await self.answer(str(text), reply_markup=buttons)
+        await self.answer(text, reply_markup=buttons)

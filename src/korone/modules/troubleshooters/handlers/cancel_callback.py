@@ -5,7 +5,7 @@ from aiogram.types import Message
 from korone.modules.troubleshooters.callbacks import CallbackActionCancel, CancelCallback
 from korone.modules.utils_.admin import is_user_admin
 from korone.modules.utils_.callbacks import CancelActionCallback
-from korone.utils.formatting import Template, UserLink
+from korone.ui import mention, template
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 
@@ -65,6 +65,4 @@ class CallbackActionCancelHandler(KoroneCallbackQueryHandler):
             await self.event.answer(_("You are not allowed to cancel this action!"))
             return
 
-        await self.edit_text(
-            Template(_("The action was cancelled by {user}."), user=UserLink(user.id, user.first_name)).to_html()
-        )
+        await self.edit_text(template(_("The action was cancelled by {user}."), user=mention(user)))

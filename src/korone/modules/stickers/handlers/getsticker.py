@@ -9,7 +9,8 @@ from aiogram.types import FSInputFile
 
 from korone.modules.stickers.utils import download_file, suffix_from_sticker
 from korone.modules.utils_.message import is_real_reply
-from korone.utils.formatting import Code, Doc, KeyValue, Template, Url
+from korone.ui import Code, UIExpression, column, field, link, template
+from korone.ui.rendering import caption_kwargs
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -28,9 +29,7 @@ class StickerGetStickerHandler(KoroneMessageHandler):
 
     async def handle(self) -> None:
         if not self.event.reply_to_message or not is_real_reply(self.event):
-            await self.event.reply(
-                str(Template(_("Reply to a sticker first, then use {command}."), command=Code("/getsticker")))
-            )
+            await self.answer(template(_("Reply to a sticker first, then use {command}."), command=Code("/getsticker")))
             return
 
         sticker = self.event.reply_to_message.sticker
@@ -51,22 +50,20 @@ class StickerGetStickerHandler(KoroneMessageHandler):
             try:
                 await download_file(self.bot, sticker.file_id, file_path)
 
-                caption = str(self.build_sticker_info_doc(sticker))
                 await self.event.reply_document(
                     document=FSInputFile(file_path, filename=filename),
-                    caption=caption,
+                    **caption_kwargs(self.build_sticker_info_doc(sticker)),
                     disable_content_type_detection=True,
                 )
             except OSError, RuntimeError, TelegramBadRequest:
                 await self.event.reply(_("Could not fetch this sticker file."))
 
     @staticmethod
-    def build_sticker_info_doc(sticker: Sticker) -> Doc:
+    def build_sticker_info_doc(sticker: Sticker) -> UIExpression:
         _("video") if sticker.is_video else _("animated") if sticker.is_animated else _("static")
-        info = Doc(KeyValue(_("Emoji"), sticker.emoji or _("none")), KeyValue(_("ID"), Code(sticker.file_id)))
-
+        pack = None
         if sticker.set_name:
             pack_url = f"https://t.me/addstickers/{sticker.set_name}"
-            info += KeyValue(_("Pack"), Url(sticker.set_name, pack_url))
+            pack = field(_("Pack"), link(sticker.set_name, pack_url))
 
-        return info
+        return column(field(_("Emoji"), sticker.emoji or _("none")), field(_("ID"), Code(sticker.file_id)), pack)

@@ -8,7 +8,7 @@ from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.modules.disabling.utils.get_disabled import get_cmd_help_by_name, get_disabled_handlers
 from korone.modules.help.utils.format_help import format_cmd
-from korone.utils.formatting import Code, Italic, KeyValue, Section, Template
+from korone.ui import Code, Italic, field, section, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -35,22 +35,20 @@ class EnableHandler(KoroneMessageHandler):
         handler = get_cmd_help_by_name(cmd_name)
 
         if not handler:
-            await self.event.reply(str(Template(_("Command {cmd} not found."), cmd=Code("/" + cmd_name))))
+            await self.answer(template(_("Command {cmd} not found."), cmd=Code("/" + cmd_name)))
             return
 
         if handler not in await get_disabled_handlers(self.chat.chat_id):
-            await self.event.reply(str(Template(_("Command {cmd} is already disabled."), cmd=Code("/" + cmd_name))))
+            await self.answer(template(_("Command {cmd} is already disabled."), cmd=Code("/" + cmd_name)))
             return
 
         await self.enable_cmd(self.chat.chat_id, handler.cmds[0])
 
-        await self.event.reply(
-            str(
-                Section(
-                    KeyValue(_("Chat"), self.chat.title),
-                    KeyValue(_("Command"), format_cmd(handler.cmds[0])),
-                    Italic(handler.description) if handler.description else None,
-                    title=_("Command enabled"),
-                )
+        await self.answer(
+            section(
+                _("Command enabled"),
+                field(_("Chat"), self.chat.title),
+                field(_("Command"), format_cmd(handler.cmds[0])),
+                Italic(handler.description) if handler.description else None,
             )
         )

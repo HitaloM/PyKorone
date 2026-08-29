@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -20,7 +20,7 @@ manifest = ModuleManifest(
         icon="🚫",
         summary=l_("Command toggles for group chats"),
         description=LazyProxy(
-            lambda: Doc(
+            lambda: column(
                 l_("Let admins disable specific commands per chat."),
                 l_("Useful for keeping only the features your group actually needs."),
             )

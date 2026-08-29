@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.modules.metadata import ModuleManifest, ModulePackage
-from korone.utils.formatting import Doc
+from korone.ui import column
 
 from .handlers.event import EventHandler
 from .handlers.redis_clear import RedisClearHandler
@@ -14,7 +14,7 @@ manifest = ModuleManifest(
         name="Operator",
         icon="👑",
         summary="Operator-only administration commands",
-        description=Doc("Maintenance tools for diagnostics, cache control, and event inspection."),
+        description=column("Maintenance tools for diagnostics, cache control, and event inspection."),
         public=False,
     ),
     router=router,

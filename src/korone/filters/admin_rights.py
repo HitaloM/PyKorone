@@ -1,4 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from dataclasses import field as dataclass_field
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from aiogram.dispatcher.event.bases import SkipHandler
@@ -13,7 +14,8 @@ from korone.db.repositories.chat import ChatRepository
 from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.modules.utils_.admin import check_user_admin_permissions
 from korone.modules.utils_.common_try import common_try
-from korone.utils.formatting import Doc, Section, VList
+from korone.ui import UIExpression, bullets, column
+from korone.ui.rendering import plain_text, text_kwargs
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -51,7 +53,7 @@ class UserRestricting(Filter):
     }
     PAYLOAD_ARGUMENT_NAME: ClassVar[str] = "user_member"
 
-    required_permissions: list[str] = field(default_factory=list, init=False, repr=False)
+    required_permissions: list[str] = dataclass_field(default_factory=list, init=False, repr=False)
 
     def __post_init__(self) -> None:
         self.required_permissions = [
@@ -229,39 +231,39 @@ class UserRestricting(Filter):
                 if is_bot
                 else _("You don't have the following permissions to do this:")
             )
-            doc = Doc(Section(text, VList(*missing_perms)))
+            doc = column(text, bullets(*missing_perms))
         else:
             text = (
                 _("I must be an administrator to use this command.")
                 if is_bot
                 else _("You must be an administrator to use this command.")
             )
-            doc = Doc(text)
+            doc = column(text)
 
         if isinstance(event, CallbackQuery):
-            await event.answer(str(doc), show_alert=True)
+            await event.answer(plain_text(doc), show_alert=True)
             return
 
         async def answer() -> Message:
-            return await event.answer(str(doc))
+            return await event.answer(**text_kwargs(doc))
 
         if hasattr(event, "reply"):
-            await common_try(event.reply(str(doc)), reply_not_found=answer)
+            await common_try(event.reply(**text_kwargs(doc)), reply_not_found=answer)
         elif hasattr(event, "answer"):
             await answer()
 
     async def no_anon_title_msg(self, event: TelegramObject) -> None:
-        await self.send_doc(event, Doc(_("Anonymous admin must have a custom admin title to use this command.")))
+        await self.send_doc(event, column(_("Anonymous admin must have a custom admin title to use this command.")))
 
     async def no_anon_title_match_msg(self, event: TelegramObject) -> None:
         await self.send_doc(
-            event, Doc(_("Could not resolve this anonymous admin title. Refresh admin cache or use a unique title."))
+            event, column(_("Could not resolve this anonymous admin title. Refresh admin cache or use a unique title."))
         )
 
     async def no_anon_ambiguous_msg(self, event: TelegramObject) -> None:
         await self.send_doc(
             event,
-            Doc(
+            column(
                 _(
                     "Multiple anonymous admins share this title, and not all of them can use this command. "
                     "Use a unique title."
@@ -270,22 +272,22 @@ class UserRestricting(Filter):
         )
 
     async def no_owner_msg(self, event: TelegramObject) -> None:
-        await self.send_doc(event, Doc(_("You must be the chat creator to use this command.")))
+        await self.send_doc(event, column(_("You must be the chat creator to use this command.")))
 
     @staticmethod
-    async def send_doc(event: TelegramObject, doc: Doc) -> None:
+    async def send_doc(event: TelegramObject, doc: UIExpression) -> None:
         if isinstance(event, CallbackQuery):
-            await event.answer(str(doc), show_alert=True)
+            await event.answer(plain_text(doc), show_alert=True)
             return
 
         if not isinstance(event, Message):
             return
 
         async def answer() -> Message:
-            return await event.answer(str(doc))
+            return await event.answer(**text_kwargs(doc))
 
         if hasattr(event, "reply"):
-            await common_try(event.reply(str(doc)), reply_not_found=answer)
+            await common_try(event.reply(**text_kwargs(doc)), reply_not_found=answer)
         elif hasattr(event, "answer"):
             await answer()
 

@@ -8,7 +8,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from korone.config import CONFIG
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.help.callbacks import HELP_START_PAYLOAD
-from korone.utils.formatting import Doc, Template, Url
+from korone.ui import column, link, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -31,18 +31,18 @@ class StartGroupHandler(KoroneMessageHandler):
         buttons.button(text=f"ℹ️ {_('Help')}", url=help_url)
         buttons.adjust(1)
 
-        text = Doc(
+        text = column(
             _("Hi, I'm Korone, your all-in-one bot for this chat. Use the button below to open help."),
             " ",
-            Template(
+            template(
                 _("For updates and announcements, follow my {channel}."),
-                channel=Url(_("official channel"), CONFIG.news_channel),
+                channel=link(_("official channel"), CONFIG.news_channel),
             ),
             " ",
-            Template(
+            template(
                 _("You can also review the {source_code} if you want to see how Korone is built."),
-                source_code=Url(_("source code"), CONFIG.source_code),
+                source_code=link(_("source code"), CONFIG.source_code),
             ),
         )
 
-        await self.event.reply(str(text), reply_markup=buttons.as_markup())
+        await self.answer(text, reply_markup=buttons.as_markup())

@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from babel.support import LazyProxy
 
     from korone.modules.metadata import LoadedModule
-    from korone.utils.formatting import Doc
+    from korone.ui import Text, UIExpression
 
 type HelpFlags = Mapping[str, object]
 type HelpExample = tuple[object | None, str]
@@ -48,8 +48,8 @@ class ModuleHelp:
     name: LazyProxy | str
     icon: str
     exclude_public: bool
-    info: str | LazyProxy | Doc
-    description: str | LazyProxy | Doc
+    info: str | LazyProxy | Text | UIExpression
+    description: str | LazyProxy | Text | UIExpression
 
 
 HELP_MODULES: OrderedDict[str, ModuleHelp] = OrderedDict()
@@ -114,10 +114,14 @@ def _clone_without_cache(description: LazyProxy | str | None) -> LazyProxy | str
 
 
 @overload
-def _clone_without_cache(description: LazyProxy | str | Doc | None) -> LazyProxy | str | Doc | None: ...
+def _clone_without_cache(
+    description: LazyProxy | str | Text | UIExpression | None,
+) -> LazyProxy | str | Text | UIExpression | None: ...
 
 
-def _clone_without_cache(description: LazyProxy | str | Doc | None) -> LazyProxy | str | Doc | None:
+def _clone_without_cache(
+    description: LazyProxy | str | Text | UIExpression | None,
+) -> LazyProxy | str | Text | UIExpression | None:
     if not isinstance(description, KoroneLazyProxy):
         return description
     return KoroneLazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)

@@ -1,10 +1,11 @@
 import html
 from typing import TYPE_CHECKING, Final
 
-from aiogram.utils.formatting import Bold, Code, ExpandableBlockQuote, Italic, Text, TextLink
+from aiogram.utils.formatting import ExpandableBlockQuote, TextLink
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from korone.utils.formatting import Template
+from korone.ui import Bold, Code, Italic, Text, template
+from korone.ui.rendering import plain_text
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -36,24 +37,24 @@ def _caption_title(author_name: str, author_handle: str, provider: type[MediaPro
 
 
 def _open_in_website_text(website: str) -> str:
-    return str(Template(_("Open in {website}"), website=website))
+    return plain_text(template(_("Open in {website}"), website=website))
 
 
 def _caption_link(post: MediaPost, *, include_link: bool) -> Text | None:
     return TextLink(_open_in_website_text(post.website), url=post.url) if include_link else None
 
 
-def _render_caption_blocks(blocks: list[Text]) -> str:
+def _render_caption_blocks(blocks: list[Text]) -> Text:
     rendered_blocks: list[Text | str] = []
     for block in blocks:
         if rendered_blocks:
             rendered_blocks.append("\n\n")
         rendered_blocks.append(block)
 
-    return Text(*rendered_blocks, sep="").as_html()
+    return Text(*rendered_blocks, sep="")
 
 
-def _render_caption(title: Text, link: Text | None, text: str | None = None) -> str:
+def _render_caption(title: Text, link: Text | None, text: str | None = None) -> Text:
     blocks: list[Text] = [title]
     if text:
         blocks.append(Italic(text))
@@ -63,7 +64,7 @@ def _render_caption(title: Text, link: Text | None, text: str | None = None) -> 
     return _render_caption_blocks(blocks)
 
 
-def _truncate_segment(raw_text: str, render: Callable[[str], str]) -> str:
+def _truncate_segment(raw_text: str, render: Callable[[str], Text]) -> str:
     if not raw_text:
         return ""
 
@@ -78,7 +79,7 @@ def _truncate_segment(raw_text: str, render: Callable[[str], str]) -> str:
         text = f"{truncated}{ellipsis}" if truncated else ""
         candidate = render(text)
 
-        if len(candidate) <= CAPTION_LIMIT:
+        if len(plain_text(candidate)) <= CAPTION_LIMIT:
             best = text
             low = mid + 1
         else:
@@ -87,7 +88,7 @@ def _truncate_segment(raw_text: str, render: Callable[[str], str]) -> str:
     return best
 
 
-def _build_standard_caption(post: MediaPost, provider: type[MediaProvider], *, include_link: bool) -> str:
+def _build_standard_caption(post: MediaPost, provider: type[MediaProvider], *, include_link: bool) -> Text:
     title = _caption_title(
         _resolve_author_name(post.author_name, provider), _resolve_author_handle(post.author_handle, provider), provider
     )
@@ -97,7 +98,7 @@ def _build_standard_caption(post: MediaPost, provider: type[MediaProvider], *, i
         return _render_caption(title, link)
 
     candidate = _render_caption(title, link, post.text)
-    if len(candidate) <= CAPTION_LIMIT:
+    if len(plain_text(candidate)) <= CAPTION_LIMIT:
         return candidate
 
     trimmed_text = _truncate_segment(post.text, lambda text: _render_caption(title, link, text or None))
@@ -138,7 +139,7 @@ def _build_quote_block(post: MediaPost, quote_text: str) -> Text | None:
 
 def _render_quote_caption(
     post: MediaPost, provider: type[MediaProvider], *, include_link: bool, text: str, quote_text: str
-) -> str:
+) -> Text:
     title = _caption_title(
         _resolve_author_name(post.author_name, provider), _resolve_author_handle(post.author_handle, provider), provider
     )
@@ -157,45 +158,45 @@ def _render_quote_caption(
     return _render_caption_blocks(blocks)
 
 
-def _build_quote_caption(post: MediaPost, provider: type[MediaProvider], *, include_link: bool) -> str:
+def _build_quote_caption(post: MediaPost, provider: type[MediaProvider], *, include_link: bool) -> Text:
     text = post.text.strip()
     quote_text = (post.quote_text or "").strip()
 
-    def render(current_text: str, current_quote_text: str) -> str:
+    def render(current_text: str, current_quote_text: str) -> Text:
         return _render_quote_caption(
             post, provider, include_link=include_link, text=current_text, quote_text=current_quote_text
         )
 
     candidate = render(text, quote_text)
-    if len(candidate) <= CAPTION_LIMIT:
+    if len(plain_text(candidate)) <= CAPTION_LIMIT:
         return candidate
 
     if quote_text:
         quote_text = _truncate_segment(quote_text, lambda value: render(text, value))
         candidate = render(text, quote_text)
-        if len(candidate) <= CAPTION_LIMIT:
+        if len(plain_text(candidate)) <= CAPTION_LIMIT:
             return candidate
 
     if text:
         text = _truncate_segment(text, lambda value: render(value, quote_text))
         candidate = render(text, quote_text)
-        if len(candidate) <= CAPTION_LIMIT:
+        if len(plain_text(candidate)) <= CAPTION_LIMIT:
             return candidate
 
     candidate = render(text, "")
-    if len(candidate) <= CAPTION_LIMIT:
+    if len(plain_text(candidate)) <= CAPTION_LIMIT:
         return candidate
 
     if text:
         text = _truncate_segment(text, lambda value: render(value, ""))
         candidate = render(text, "")
-        if len(candidate) <= CAPTION_LIMIT:
+        if len(plain_text(candidate)) <= CAPTION_LIMIT:
             return candidate
 
     return _build_standard_caption(post, provider, include_link=include_link)
 
 
-def build_caption(post: MediaPost, provider: type[MediaProvider], *, include_link: bool) -> str:
+def build_caption(post: MediaPost, provider: type[MediaProvider], *, include_link: bool) -> Text:
     if post.quote_text or post.quote_author_name or post.quote_author_handle:
         return _build_quote_caption(post, provider, include_link=include_link)
 

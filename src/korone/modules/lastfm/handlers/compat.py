@@ -12,8 +12,8 @@ from korone.modules.lastfm.handlers.base import LastFMHandlerSupport, LastFMUser
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
 from korone.modules.utils_.get_user import get_arg_or_reply_user
+from korone.ui import Code, MessageContent, link, template
 from korone.utils.exception import KoroneError
-from korone.utils.formatting import Code, Template, Url
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -48,21 +48,19 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
         common_artists_total: int,
         score: int,
         period: LastFMPeriod,
-    ) -> str:
-        return str(
-            Template(
-                _("{user_a} and {user_b} listen to {artists}\n\nCompatibility score is {score}%, based on {period}"),
-                user_a=Url(user_a.display_name, cls.build_profile_url(user_a.username)),
-                user_b=Url(user_b.display_name, cls.build_profile_url(user_b.username)),
-                artists=cls.build_artists_preview(mutual_artists, common_artists_total=common_artists_total),
-                score=max(0, min(score, 100)),
-                period=period_label(period),
-            )
+    ) -> MessageContent:
+        return template(
+            _("{user_a} and {user_b} listen to {artists}\n\nCompatibility score is {score}%, based on {period}"),
+            user_a=link(user_a.display_name, cls.build_profile_url(user_a.username)),
+            user_b=link(user_b.display_name, cls.build_profile_url(user_b.username)),
+            artists=cls.build_artists_preview(mutual_artists, common_artists_total=common_artists_total),
+            score=max(0, min(score, 100)),
+            period=period_label(period),
         )
 
     @classmethod
-    def no_common_message(cls, period: LastFMPeriod) -> str:
-        return str(Template(_("No common artists in {period}."), period=period_label(period)))
+    def no_common_message(cls, period: LastFMPeriod) -> MessageContent:
+        return template(_("No common artists in {period}."), period=period_label(period))
 
 
 @flags.help(
@@ -95,12 +93,8 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
             target_candidate = None
 
         if not isinstance(target_candidate, User):
-            await self.event.reply(
-                str(
-                    Template(
-                        _("Usage: {example}. Reply to someone's message in a group."), example=Code("/lfmcompat 1y")
-                    )
-                )
+            await self.answer(
+                template(_("Usage: {example}. Reply to someone's message in a group."), example=Code("/lfmcompat 1y"))
             )
             return
 
@@ -143,7 +137,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
 
         denominator = min(len(artists_a), len(artists_b), COMPAT_DENOMINATOR_LIMIT)
         if denominator <= 2:
-            await self.event.reply(self.no_common_message(period))
+            await self.answer(self.no_common_message(period))
             return
 
         artists_b_names = {artist.name for artist in artists_b}
@@ -160,10 +154,10 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
 
         score = min(numerator * 100 // denominator, 100) if denominator > 2 else 0
         if not mutual_artists or score == 0:
-            await self.event.reply(self.no_common_message(period))
+            await self.answer(self.no_common_message(period))
             return
 
-        await self.event.reply(
+        await self.answer(
             self.format_result(
                 user_a=source_context,
                 user_b=target_context,

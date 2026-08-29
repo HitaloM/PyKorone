@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from aiogram.types import InlineKeyboardMarkup
 
     from korone.modules.lastfm.utils import LastFMArtistInfo, LastFMRecentTrack
+    from korone.ui import MessageContent
 
 
 @dataclass(slots=True, frozen=True)
@@ -28,7 +29,7 @@ class LastFMArtistPayload:
     image_url: str | None
 
     @property
-    def text(self) -> str:
+    def text(self) -> MessageContent:
         return format_artist_status(
             username=self.user.username,
             display_name=self.user.display_name,

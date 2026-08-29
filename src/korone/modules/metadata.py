@@ -1,6 +1,7 @@
 import asyncio
 from collections.abc import Awaitable, Callable, Mapping
-from dataclasses import KW_ONLY, dataclass, field
+from dataclasses import KW_ONLY, dataclass
+from dataclasses import field as dataclass_field
 from enum import StrEnum
 from inspect import isawaitable, iscoroutinefunction
 from math import isfinite
@@ -14,17 +15,17 @@ if TYPE_CHECKING:
     from aiogram import Dispatcher, Router
     from babel.support import LazyProxy
 
-    from korone.utils.formatting import Doc
+    from korone.ui import Text, UIExpression
 
 type MaybeAwaitable[T] = T | Awaitable[T]
 type ModuleText = str | LazyProxy
-type ModuleContent = ModuleText | Doc
+type ModuleContent = ModuleText | Text | UIExpression
 type ModuleExportProvider = Callable[[int], MaybeAwaitable[object]]
 type ModuleHandler = Any
 type ModuleHook = Callable[..., object]
 type ModuleInlineQueryMatcher = Callable[[InlineQuery], bool]
 type ModuleInlineQueryProvider = Callable[[InlineQuery], Awaitable[InlineQueryContribution]]
-type ModuleStatsProvider = Callable[[], MaybeAwaitable[Doc]]
+type ModuleStatsProvider = Callable[[], MaybeAwaitable[UIExpression]]
 
 
 class ModuleScript(StrEnum):
@@ -101,7 +102,7 @@ class ModuleManifest:
     _: KW_ONLY
     router: Router | None = None
     handlers: tuple[ModuleHandler, ...] = ()
-    scripts: ModuleScripts = field(default_factory=ModuleScripts)
+    scripts: ModuleScripts = dataclass_field(default_factory=ModuleScripts)
     stats: ModuleStatsProvider | None = None
     export: ModuleExport | None = None
     inline_query: ModuleInlineQuery | None = None
@@ -177,13 +178,13 @@ class LoadedModule:
         if isawaitable(result):
             await cast("Awaitable[object]", result)
 
-    async def collect_stats(self) -> Doc | None:
+    async def collect_stats(self) -> UIExpression | None:
         if self.manifest.stats is None:
             return None
 
         result = self.manifest.stats()
         if isawaitable(result):
-            return await cast("Awaitable[Doc]", result)
+            return await cast("Awaitable[UIExpression]", result)
         return result
 
     async def export_data(self, chat_id: int) -> object:

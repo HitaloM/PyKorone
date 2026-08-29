@@ -11,7 +11,6 @@ from aiogram.types import FSInputFile, InputSticker
 from PIL import Image
 
 from korone.modules.utils_.telegram_file import download_telegram_file
-from korone.utils.formatting import Template
 from korone.utils.i18n import gettext as _
 
 from .constants import MAX_STICKER_SIDE, MAX_VIDEO_SECONDS, MAX_VIDEO_SIZE_BYTES, VIDEO_EXTENSIONS
@@ -140,11 +139,8 @@ async def convert_video_for_sticker(source_path: Path, output_path: Path) -> Non
     video_meta = await probe_video(source_path)
     if video_meta.duration > MAX_VIDEO_SECONDS:
         raise StickerPrepareError(
-            str(
-                Template(
-                    _("Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."),
-                    duration=video_meta.duration,
-                )
+            _("Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds.").format(
+                duration=video_meta.duration
             )
         )
 
@@ -179,11 +175,8 @@ async def convert_video_for_sticker(source_path: Path, output_path: Path) -> Non
     size_bytes = await asyncio.to_thread(path_size, output_path)
     if size_bytes > MAX_VIDEO_SIZE_BYTES:
         raise StickerPrepareError(
-            str(
-                Template(
-                    _("Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB."),
-                    size_kb=size_bytes / 1000,
-                )
+            _("Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB.").format(
+                size_kb=size_bytes / 1000
             )
         )
 

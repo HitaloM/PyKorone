@@ -10,8 +10,8 @@ from korone.db.models.chat import ChatModel
 from korone.db.repositories.chat import ChatRepository, UserInGroupRepository
 from korone.modules.utils_.admin import is_chat_creator, is_user_admin
 from korone.modules.utils_.get_user import get_arg_or_reply_user
+from korone.ui import Renderable, field, mention, section
 from korone.utils.exception import KoroneError
-from korone.utils.formatting import Doc, KeyValue, Section, Title, UserLink
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -54,30 +54,28 @@ class UserInfoHandler(KoroneMessageHandler):
         chat_id = self.chat.chat_id
         user_id = target_user.id
 
-        doc = Doc(Title(_("User Information")))
-
-        doc += KeyValue(_("ID"), target_user.chat_id)
-        doc += KeyValue(_("First Name"), target_user.first_name_or_title)
+        details: list[Renderable] = [
+            field(_("ID"), target_user.chat_id),
+            field(_("First Name"), target_user.first_name_or_title),
+        ]
 
         if target_user.last_name:
-            doc += KeyValue(_("Last Name"), target_user.last_name)
+            details.append(field(_("Last Name"), target_user.last_name))
 
         if target_user.username:
-            doc += KeyValue(_("Username"), f"@{target_user.username}")
+            details.append(field(_("Username"), f"@{target_user.username}"))
 
         display_name = target_user.first_name_or_title or "User"
-        doc += KeyValue(_("User Link"), UserLink(user_id=target_user.chat_id, name=display_name))
-
-        doc += Section()
+        details.append(field(_("User Link"), mention(target_user.chat_id, display_name)))
 
         if self.chat.type != ChatType.PRIVATE:
             if await is_chat_creator(chat_id, user_id):
-                doc += _("This user is the owner of this chat.") + "\n"
+                details.append(_("This user is the owner of this chat."))
             elif await is_user_admin(chat_id, user_id):
-                doc += _("This user is an admin in this chat.") + "\n"
+                details.append(_("This user is an admin in this chat."))
 
         if not (self.event.from_user and target_user.chat_id == self.event.from_user.id):
             shared_chats_count = await UserInGroupRepository.count_user_groups(target_user.id)
-            doc += KeyValue(_("Shared Chats"), shared_chats_count)
+            details.append(field(_("Shared Chats"), shared_chats_count))
 
-        await self.event.reply(str(doc))
+        await self.answer(section(_("User Information"), *details))

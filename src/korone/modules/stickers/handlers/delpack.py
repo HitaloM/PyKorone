@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from aiogram import flags
 from aiogram.filters import Command
 
-from korone.utils.formatting import Code, Doc, Template
+from korone.ui import Code, column, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -20,13 +20,13 @@ class StickerDeletePackHandler(KoroneMessageHandler):
         return (Command("delpack"),)
 
     async def handle(self) -> None:
-        doc = Doc(
+        doc = column(
             _("Telegram bots cannot delete entire sticker packs directly."),
-            Template(
+            template(
                 _("Delete packs manually via {bot}, then run {command} to refresh your list."),
                 bot=Code("@stickers"),
                 command=Code("/mypacks"),
             ),
-            Template(_("Tip: use {command} to switch your default pack."), command=Code("/switch")),
+            template(_("Tip: use {command} to switch your default pack."), command=Code("/switch")),
         )
-        await self.event.reply(str(doc))
+        await self.answer(doc)

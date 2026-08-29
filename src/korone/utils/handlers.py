@@ -9,6 +9,7 @@ from structlog.contextvars import bind_contextvars
 
 from korone.middlewares.context_data import as_korone_context
 from korone.modules.utils_.reply_or_edit import edit_message_rich, edit_message_text, reply_or_edit, reply_or_edit_rich
+from korone.ui.rendering import caption_kwargs
 from korone.utils.exception import KoroneError
 from korone.utils.telegram_errors import is_message_not_modified_error
 
@@ -23,7 +24,7 @@ if TYPE_CHECKING:
     from korone.args import ArgumentsMap
     from korone.middlewares.chat_context import ChatContext
     from korone.middlewares.context_data import KoroneContextData
-    from korone.utils.formatting import Element
+    from korone.ui import MessageContent
 
 T = TypeVar("T")
 
@@ -71,6 +72,9 @@ class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
 
         router.message.register(cls, *cls.filters(), flags=flags)
 
+    async def answer(self, text: MessageContent, **kwargs: object) -> Message | bool:
+        return await reply_or_edit(self.event, text, **kwargs)
+
 
 class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
     @classmethod
@@ -93,7 +97,7 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
             raise KoroneError.inaccessible_message()
 
-    async def edit_text(self, text: Element | str, **kwargs: object) -> None:
+    async def edit_text(self, text: MessageContent, **kwargs: object) -> None:
         await self.check_for_message()
         message = self.event.message
         if not isinstance(message, Message):
@@ -144,12 +148,15 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
     def callback_data(self) -> CallbackData | str | None:
         return self.data.get("callback_data")
 
-    async def answer_media(self, f: InputFile, caption: str | None = None, **kwargs: object) -> Message | bool:
+    async def answer_media(
+        self, f: InputFile, caption: MessageContent | None = None, **kwargs: object
+    ) -> Message | bool:
+        caption_payload = caption_kwargs(caption) if caption is not None else {}
         if isinstance(self.event, CallbackQuery):
             message = self.event.message
             if not message or isinstance(message, InaccessibleMessage):
                 raise KoroneError.inaccessible_message()
-            media = InputMediaPhoto(media=f, caption=caption)
+            media = InputMediaPhoto(media=f, **caption_payload)
             if message.ephemeral_message_id is not None:
                 return await message.edit_ephemeral_media(media=media, **cast("dict[str, Any]", kwargs))
             return await self.bot.edit_message_media(
@@ -157,12 +164,12 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
             )
         if isinstance(self.event, Message):
             return await self.bot.send_photo(
-                chat_id=self.event.chat.id, photo=f, caption=caption, **cast("dict[str, Any]", kwargs)
+                chat_id=self.event.chat.id, photo=f, **caption_payload, **cast("dict[str, Any]", kwargs)
             )
         msg = "answer_media: Wrong event type"
         raise ValueError(msg)
 
-    async def answer(self, text: Element | str, **kwargs: object) -> Message | bool:
+    async def answer(self, text: MessageContent, **kwargs: object) -> Message | bool:
         return await reply_or_edit(self.event, text, **kwargs)
 
     async def answer_rich(self, rich_message: InputRichMessage, **kwargs: object) -> Message | bool:

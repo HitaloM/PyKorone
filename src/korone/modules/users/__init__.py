@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.modules.metadata import ModuleManifest, ModulePackage
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -17,7 +17,7 @@ manifest = ModuleManifest(
         icon="🫂",
         summary=l_("User and member lookup tools"),
         description=LazyProxy(
-            lambda: Doc(
+            lambda: column(
                 l_("Inspect IDs, chat admins, and detailed user information."),
                 l_("Works with replies, direct users, and explicit mentions."),
             )

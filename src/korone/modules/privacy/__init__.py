@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.modules.metadata import ModuleManifest, ModulePackage, ModuleRegistry, ModuleScripts
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy as LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -25,7 +25,7 @@ manifest = ModuleManifest(
         icon="🕵️‍♂️️",
         summary=l_("Privacy and data controls"),
         description=LazyProxy(
-            lambda: Doc(
+            lambda: column(
                 l_("View the bot privacy policy and review how data is handled."),
                 l_("Export your available data as a JSON file."),
             )

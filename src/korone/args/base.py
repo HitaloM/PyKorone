@@ -9,10 +9,10 @@ from korone.utils.i18n import LazyProxy
 if TYPE_CHECKING:
     from aiogram.types import User
 
-    from korone.utils.formatting import Element
+    from korone.ui import MessageContent, Renderable
 
 type ArgumentDescription = str | LazyProxy
-type ArgumentExample = str | Element
+type ArgumentExample = Renderable
 type ArgumentExamples = Mapping[ArgumentExample, ArgumentDescription | None]
 type ArgumentParseResult[T] = ParsedArgument[T] | Awaitable[ParsedArgument[T]]
 type ArgumentsMap = Mapping[str, Argument[object]]
@@ -47,9 +47,11 @@ class ArgumentTypeError(Exception):
 
 
 class ArgumentValueError(Exception):
-    def __init__(self, *messages: str | Element) -> None:
+    def __init__(self, *messages: MessageContent) -> None:
+        from korone.ui.rendering import plain_text  # ruff: ignore[import-outside-top-level]
+
         self.messages = messages
-        super().__init__(*(str(message) for message in messages))
+        super().__init__(*(plain_text(message) for message in messages))
 
 
 def _uncached_description(description: ArgumentDescription | None) -> ArgumentDescription | None:

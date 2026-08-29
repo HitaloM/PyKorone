@@ -5,7 +5,7 @@ from aiogram.filters import Command
 
 from korone.args import TextArg, define_arguments
 from korone.modules.web.utils.misc import normalize_url
-from korone.utils.formatting import Code, Doc, KeyValue, Template, Title
+from korone.ui import Code, field, section, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -27,24 +27,23 @@ class URLNormalizeHandler(KoroneMessageHandler):
         raw_url = (self.data.get("url") or "").strip()
 
         if not raw_url:
-            await self.event.reply(
-                Template(
+            await self.answer(
+                template(
                     _("You should provide a URL. Example: {example}."),
                     example=Code("/url example.com/path?utm_source=test#section"),
-                ).to_html()
+                )
             )
             return
 
         normalized = normalize_url(raw_url)
         if not normalized:
-            await self.event.reply(Template(_("I couldn't normalize this URL: {url}"), url=Code(raw_url)).to_html())
+            await self.answer(template(_("I couldn't normalize this URL: {url}"), url=Code(raw_url)))
             return
 
         if normalized == raw_url:
-            await self.event.reply(Template(_("This URL is already normalized: {url}"), url=Code(raw_url)).to_html())
+            await self.answer(template(_("This URL is already normalized: {url}"), url=Code(raw_url)))
             return
 
-        doc = Doc(Title(_("URL Normalization")))
-        doc += KeyValue(_("Input"), Code(raw_url))
-        doc += KeyValue(_("Normalized"), Code(normalized))
-        await self.event.reply(str(doc))
+        await self.answer(
+            section(_("URL Normalization"), field(_("Input"), Code(raw_url)), field(_("Normalized"), Code(normalized)))
+        )

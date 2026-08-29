@@ -12,7 +12,8 @@ from korone.args.base import (
 from korone.args.types import OrArg
 from korone.db.models.chat import ChatModel
 from korone.db.repositories.chat import ChatRepository
-from korone.utils.formatting import UserLink
+from korone.ui import mention
+from korone.ui.rendering import plain_text
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -129,7 +130,7 @@ class KoroneUserArg(OrArg[ChatModel]):
         return {
             "1111224224": l_("User ID"),
             "@ofoxr_bot": l_("Username"),
-            str(UserLink(user_id=1111224224, name="OrangeFox BOT")): l_(
+            plain_text(mention(1111224224, "OrangeFox BOT")): l_(
                 "A link to user, usually creates by mentioning a user without username."
             ),
         }

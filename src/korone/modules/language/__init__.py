@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.modules.metadata import ModuleManifest, ModulePackage
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -19,7 +19,7 @@ manifest = ModuleManifest(
         name=l_("Language"),
         icon="🌎",
         summary=l_("Language preferences and localization"),
-        description=LazyProxy(lambda: Doc(l_("Check and change the bot language for private chats or groups."))),
+        description=LazyProxy(lambda: column(l_("Check and change the bot language for private chats or groups."))),
     ),
     router=router,
     handlers=(

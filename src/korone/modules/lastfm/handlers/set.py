@@ -8,7 +8,8 @@ from korone.args import OptionalArg, WordArg, define_arguments
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
-from korone.utils.formatting import Code, Template
+from korone.ui import Code, template
+from korone.ui.rendering import text_kwargs
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -51,8 +52,8 @@ async def _set_lastfm_username(message: Message, raw_username: str) -> bool:
 
     await LastFMRepository.set_username(chat_id=message.from_user.id, username=username)
     await message.reply(
-        str(
-            Template(
+        **text_kwargs(
+            template(
                 _("Last.fm username set to {username}. Use {command} to check your status."),
                 username=Code(username),
                 command=Code("/lfm"),

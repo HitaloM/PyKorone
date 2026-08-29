@@ -3,7 +3,7 @@ from aiogram import Router
 from korone.filters.admin_rights import UserRestricting as UserRestricting
 from korone.filters.user_status import IsOP as IsOP
 from korone.modules.metadata import ModuleManifest, ModulePackage
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy as LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -18,7 +18,7 @@ manifest = ModuleManifest(
         icon="🧰",
         summary=l_("Recovery and troubleshooting tools"),
         description=LazyProxy(
-            lambda: Doc(
+            lambda: column(
                 l_("Fix cached admin permissions when commands stop behaving as expected."),
                 l_("Includes admin cache refresh tools."),
             )

@@ -11,8 +11,8 @@ from korone.modules.gsm_arena.utils.errors import GSMArenaError
 from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
 from korone.modules.gsm_arena.utils.scraper import search_phone
 from korone.modules.gsm_arena.utils.session import create_search_session
+from korone.ui import Bold, Code, column, template
 from korone.utils.exception import KoroneError
-from korone.utils.formatting import Bold, Code, Doc, Template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -63,21 +63,21 @@ class DeviceSearchHandler(KoroneMessageHandler):
 
         session_token = await create_search_session(devices)
         keyboard = create_pagination_layout(devices, session_token, 1, self.event.from_user.id)
-        text = Doc(
-            Template(_("Search results for: {query}"), query=Bold(query)),
-            Template(_("Found {count} devices. Select one from the list below."), count=Code(str(len(devices)))),
+        text = column(
+            template(_("Search results for: {query}"), query=Bold(query)),
+            template(_("Found {count} devices. Select one from the list below."), count=Code(str(len(devices)))),
         )
-        await self.event.reply(str(text), reply_markup=keyboard)
+        await self.answer(text, reply_markup=keyboard)
 
     async def handle(self) -> None:
         query = (self.data.get("device") or "").strip()
 
         if not query:
-            await self.event.reply(
-                Template(
+            await self.answer(
+                template(
                     _("You should provide a device name to search. Example: {example}."),
                     example=Code("/device Galaxy S24"),
-                ).to_html()
+                )
             )
             return
 

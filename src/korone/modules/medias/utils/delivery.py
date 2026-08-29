@@ -15,6 +15,7 @@ from korone.constants import (
 )
 from korone.logger import get_logger
 from korone.modules.utils_.telegram_exceptions import REPLIED_NOT_FOUND
+from korone.ui.rendering import caption_kwargs
 
 from .cache import MediaCacheEntryPayload, cache_media_file_ids, serialize_media_entry
 from .captions import build_caption, build_keyboard
@@ -28,6 +29,8 @@ if TYPE_CHECKING:
 
     from aiogram import Bot
     from aiogram.types import InlineKeyboardMarkup, Message
+
+    from korone.ui import MessageContent
 
     from .provider_base import MediaProvider
 
@@ -164,12 +167,12 @@ class MediaDelivery:
         return prepared
 
     async def _send_photo(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
+        self, media: MediaItem, caption: MessageContent, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         if reply:
             return await self._message.reply_photo(
                 media.file,
-                caption=caption,
+                **caption_kwargs(caption),
                 reply_markup=keyboard,
                 request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
             )
@@ -177,14 +180,14 @@ class MediaDelivery:
         return await self._bot.send_photo(
             chat_id=self._message.chat.id,
             photo=media.file,
-            caption=caption,
+            **caption_kwargs(caption),
             reply_markup=keyboard,
             message_thread_id=self._message.message_thread_id,
             request_timeout=self.MEDIA_SEND_REQUEST_TIMEOUT_SECONDS,
         )
 
     async def _send_photo_with_resize_fallback(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
+        self, media: MediaItem, caption: MessageContent, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         try:
             return await self._send_photo(media, caption, keyboard, reply=reply)
@@ -200,12 +203,12 @@ class MediaDelivery:
         return await self._send_photo(compressed, caption, keyboard, reply=reply)
 
     async def _send_video(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
+        self, media: MediaItem, caption: MessageContent, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         if reply:
             return await self._message.reply_video(
                 media.file,
-                caption=caption,
+                **caption_kwargs(caption),
                 reply_markup=keyboard,
                 duration=media.duration,
                 width=media.width,
@@ -218,7 +221,7 @@ class MediaDelivery:
         return await self._bot.send_video(
             chat_id=self._message.chat.id,
             video=media.file,
-            caption=caption,
+            **caption_kwargs(caption),
             reply_markup=keyboard,
             duration=media.duration,
             width=media.width,
@@ -230,7 +233,7 @@ class MediaDelivery:
         )
 
     async def _send_media(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None, *, reply: bool
+        self, media: MediaItem, caption: MessageContent, keyboard: InlineKeyboardMarkup | None, *, reply: bool
     ) -> Message:
         async def send() -> Message:
             match media.kind:
@@ -276,7 +279,7 @@ class MediaDelivery:
         return serialized_media
 
     async def _send_single_media(
-        self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
+        self, media: MediaItem, caption: MessageContent, keyboard: InlineKeyboardMarkup | None
     ) -> list[MediaCacheEntryPayload]:
         media = await self._compress_photo(media, force=False)
         async with self._upload_action(media.kind):
@@ -290,14 +293,15 @@ class MediaDelivery:
         return await self._cache_sent_media([(media, sent_message)])
 
     @classmethod
-    def _add_group_item(cls, builder: MediaGroupBuilder, item: MediaItem, caption: str | None) -> None:
+    def _add_group_item(cls, builder: MediaGroupBuilder, item: MediaItem, caption: MessageContent | None) -> None:
+        payload = caption_kwargs(caption) if caption is not None else {}
         match item.kind:
             case MediaKind.PHOTO:
-                builder.add_photo(item.file, caption=caption)
+                builder.add_photo(item.file, **payload)
             case MediaKind.VIDEO:
                 builder.add_video(
                     item.file,
-                    caption=caption,
+                    **payload,
                     duration=item.duration,
                     width=item.width,
                     height=item.height,
@@ -328,7 +332,7 @@ class MediaDelivery:
             return await send(None)
 
     @classmethod
-    def _build_media_group(cls, media_items: list[MediaItem], caption: str) -> list[Any]:
+    def _build_media_group(cls, media_items: list[MediaItem], caption: MessageContent) -> list[Any]:
         builder = MediaGroupBuilder()
         last_index = len(media_items) - 1
         for index, item in enumerate(media_items):
@@ -336,7 +340,9 @@ class MediaDelivery:
 
         return builder.build()
 
-    async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> list[MediaCacheEntryPayload]:
+    async def _send_media_group(
+        self, media_items: list[MediaItem], caption: MessageContent
+    ) -> list[MediaCacheEntryPayload]:
         try:
             media_group = self._build_media_group(media_items, caption)
             sent_messages = await self._send_media_group_messages(media_group)

@@ -6,7 +6,7 @@ from aiogram.filters import Command
 
 from korone.db.repositories.sticker_pack import StickerPackRepository
 from korone.modules.utils_.message import is_real_reply
-from korone.utils.formatting import Code, Doc, Template
+from korone.ui import Code, column, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -28,12 +28,10 @@ class StickerDeleteStickerHandler(KoroneMessageHandler):
             return
 
         if not self.event.reply_to_message or not is_real_reply(self.event):
-            await self.event.reply(
-                str(
-                    Doc(
-                        _("Reply to a sticker from your own pack first."),
-                        Template(_("Then use {command}."), command=Code("/delsticker")),
-                    )
+            await self.answer(
+                column(
+                    _("Reply to a sticker from your own pack first."),
+                    template(_("Then use {command}."), command=Code("/delsticker")),
                 )
             )
             return
@@ -54,6 +52,4 @@ class StickerDeleteStickerHandler(KoroneMessageHandler):
             await self.event.reply(_("Could not delete this sticker from the pack."))
             return
 
-        await self.event.reply(
-            str(Template(_("Sticker deleted successfully from {pack}."), pack=Code(tracked_pack.title)))
-        )
+        await self.answer(template(_("Sticker deleted successfully from {pack}."), pack=Code(tracked_pack.title)))

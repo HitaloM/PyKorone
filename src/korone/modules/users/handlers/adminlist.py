@@ -8,15 +8,13 @@ from korone.db.repositories.chat import ChatRepository
 from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.utils_.admin import get_admins_rights
-from korone.utils.formatting import Doc, Section, Template, Title, UserLink, VList
+from korone.ui import UIExpression, bullets, column, mention, section, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-
-    from korone.utils.formatting import Element
 
 
 @flags.help(description=l_("List visible administrators in the current chat."))
@@ -35,9 +33,7 @@ class AdminListHandler(KoroneMessageHandler):
         await get_admins_rights(chat_model.chat_id)
         admins = await ChatAdminRepository.get_chat_admins(chat_model)
 
-        doc = Doc(Title(Template(_("Admins in {chat_name}"), chat_name=self.event.chat.title)))
-
-        admin_items: list[Element] = []
+        admin_items: list[UIExpression] = []
         for admin in admins:
             user_model = await ChatRepository.get_by_id(admin.user_id)
             if not user_model:
@@ -51,11 +47,9 @@ class AdminListHandler(KoroneMessageHandler):
                 continue
 
             display_name = user_model.first_name_or_title or "User"
-            admin_items.append(Template(_("{user}"), user=UserLink(user_model.chat_id, display_name)))
+            admin_items.append(template(_("{user}"), user=mention(user_model.chat_id, display_name)))
 
-        if not admin_items:
-            doc += _("No visible admins found.")
-        else:
-            doc += Section(VList(*admin_items), title=_("Admins"))
+        content = section(_("Admins"), bullets(*admin_items)) if admin_items else _("No visible admins found.")
+        doc = column(template(_("Admins in {chat_name}"), chat_name=self.event.chat.title or self.chat.title), content)
 
-        await self.event.reply(str(doc), disable_notification=True)
+        await self.answer(doc, disable_notification=True)

@@ -1,17 +1,22 @@
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from aiogram.exceptions import TelegramBadRequest, TelegramNotFound
 from aiogram.types import InputRichMessage, LinkPreviewOptions, Message
 
+from korone.ui.rendering import text_kwargs
 from korone.utils.telegram_errors import is_message_not_modified_error, is_message_to_edit_not_found_error
 
 from .formatters import format_phone, format_phone_rich
 from .scraper import check_phone_details
 
+if TYPE_CHECKING:
+    from korone.ui import MessageContent
+
 
 @dataclass(frozen=True, slots=True)
 class DevicePresentation:
-    text: str
+    text: MessageContent
     rich_message: InputRichMessage
     preview_options: LinkPreviewOptions
 
@@ -32,14 +37,14 @@ async def reply_with_device(message: Message, presentation: DevicePresentation) 
     try:
         return await message.reply_rich(presentation.rich_message)
     except TelegramBadRequest, TelegramNotFound:
-        return await message.reply(text=presentation.text, link_preview_options=presentation.preview_options)
+        return await message.reply(**text_kwargs(presentation.text, link_preview_options=presentation.preview_options))
 
 
 async def answer_with_device(message: Message, presentation: DevicePresentation) -> Message:
     try:
         return await message.answer_rich(presentation.rich_message)
     except TelegramBadRequest, TelegramNotFound:
-        return await message.answer(text=presentation.text, link_preview_options=presentation.preview_options)
+        return await message.answer(**text_kwargs(presentation.text, link_preview_options=presentation.preview_options))
 
 
 async def edit_with_device(message: Message, presentation: DevicePresentation) -> Message | bool:
@@ -51,4 +56,4 @@ async def edit_with_device(message: Message, presentation: DevicePresentation) -
     except TelegramNotFound:
         pass
 
-    return await message.edit_text(text=presentation.text, link_preview_options=presentation.preview_options)
+    return await message.edit_text(**text_kwargs(presentation.text, link_preview_options=presentation.preview_options))

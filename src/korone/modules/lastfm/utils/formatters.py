@@ -3,7 +3,7 @@ from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING
 from urllib.parse import quote_plus
 
-from korone.utils.formatting import Bold, HList, Italic, Template, Url
+from korone.ui import Bold, Italic, MessageContent, Renderable, Text, UIExpression, column, link, row, template
 from korone.utils.i18n import format_relative_timedelta
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import ngettext as pl_
@@ -19,8 +19,8 @@ if TYPE_CHECKING:
 TAG_SANITIZER_RE = re.compile(r"[^a-z0-9]+")
 
 
-def _build_profile_link(username: str, display_name: str) -> Url:
-    return Url(display_name, f"https://www.last.fm/user/{quote_plus(username)}")
+def _build_profile_link(username: str, display_name: str) -> Text:
+    return link(display_name, f"https://www.last.fm/user/{quote_plus(username)}")
 
 
 def _format_elapsed_time(played_at: int | None) -> str | None:
@@ -62,7 +62,7 @@ def _build_tags_text(tags: tuple[str, ...]) -> str | None:
     if not parsed_tags:
         return None
 
-    return str(HList(*parsed_tags, divider=" "))
+    return " ".join(parsed_tags)
 
 
 def _build_spotify_search_url(*parts: str) -> str:
@@ -70,19 +70,19 @@ def _build_spotify_search_url(*parts: str) -> str:
     return f"https://open.spotify.com/search/{query}"
 
 
-def _build_inline_text(*parts: str | Bold | Italic | Template | Url | None) -> str:
-    return str(HList(*(part for part in parts if part), divider=""))
+def _build_inline_text(*parts: Renderable | None) -> UIExpression:
+    return row(*(part for part in parts if part), separator="")
 
 
-def _build_playcount_text(playcount: int) -> str | None:
+def _build_playcount_text(playcount: int) -> UIExpression | None:
     if playcount <= 0:
         return None
 
-    return str(Template(pl_(", {plays} play", ", {plays} plays", playcount), plays=playcount))
+    return template(pl_(", {plays} play", ", {plays} plays", playcount), plays=playcount)
 
 
-def _build_track_line(track: LastFMRecentTrack, *, user_playcount: int = 0) -> str:
-    album_text = Template(_(", [{album}]"), album=track.album) if track.album else None
+def _build_track_line(track: LastFMRecentTrack, *, user_playcount: int = 0) -> UIExpression:
+    album_text = template(_(", [{album}]"), album=track.album) if track.album else None
     elapsed_text = None if track.now_playing else _format_elapsed_time(track.played_at)
     loved_text = _(", loved") if track.loved else None
 
@@ -90,7 +90,7 @@ def _build_track_line(track: LastFMRecentTrack, *, user_playcount: int = 0) -> s
         "🎧 ",
         Italic(track.artist),
         " — ",
-        Url(Bold(track.name), _build_spotify_search_url(track.artist, track.name)),
+        link(Bold(track.name), _build_spotify_search_url(track.artist, track.name)),
         album_text,
         elapsed_text,
         loved_text,
@@ -98,31 +98,31 @@ def _build_track_line(track: LastFMRecentTrack, *, user_playcount: int = 0) -> s
     )
 
 
-def _build_album_line(track: LastFMRecentTrack, *, album_name: str, album_artist: str, playcount: int) -> str:
+def _build_album_line(track: LastFMRecentTrack, *, album_name: str, album_artist: str, playcount: int) -> UIExpression:
     elapsed_text = None if track.now_playing else _format_elapsed_time(track.played_at)
 
     return _build_inline_text(
         "💽 ",
         Italic(album_artist),
         " — ",
-        Url(Bold(album_name), _build_spotify_search_url(album_artist, album_name)),
+        link(Bold(album_name), _build_spotify_search_url(album_artist, album_name)),
         elapsed_text,
         _build_playcount_text(playcount),
     )
 
 
-def _build_artist_line(track: LastFMRecentTrack, *, artist_name: str, playcount: int) -> str:
+def _build_artist_line(track: LastFMRecentTrack, *, artist_name: str, playcount: int) -> UIExpression:
     elapsed_text = None if track.now_playing else _format_elapsed_time(track.played_at)
 
     return _build_inline_text(
         "🎙️ ",
-        Url(Bold(artist_name), _build_spotify_search_url(artist_name)),
+        link(Bold(artist_name), _build_spotify_search_url(artist_name)),
         elapsed_text,
         _build_playcount_text(playcount),
     )
 
 
-def _append_tags_block(lines: list[str], tags: tuple[str, ...]) -> None:
+def _append_tags_block(lines: list[Renderable], tags: tuple[str, ...]) -> None:
     tags_text = _build_tags_text(tags)
     if not tags_text:
         return
@@ -132,17 +132,15 @@ def _append_tags_block(lines: list[str], tags: tuple[str, ...]) -> None:
 
 def format_status(
     username: str, display_name: str, tracks: Sequence[LastFMRecentTrack], track_info: LastFMTrackInfo | None
-) -> str:
+) -> MessageContent:
     if not tracks:
         return _("No scrobbles found for this Last.fm user.")
 
     first_track = tracks[0]
-    lines = [
-        str(
-            Template(
-                _("{user} is now listening to") if first_track.now_playing else _("{user} was listening to"),
-                user=_build_profile_link(username, display_name),
-            )
+    lines: list[Renderable] = [
+        template(
+            _("{user} is now listening to") if first_track.now_playing else _("{user} was listening to"),
+            user=_build_profile_link(username, display_name),
         )
     ]
 
@@ -153,21 +151,19 @@ def format_status(
         if index == 0 and track_info:
             _append_tags_block(lines, track_info.tags)
 
-    return "\n".join(lines)
+    return column(*lines)
 
 
 def format_album_status(
     username: str, display_name: str, track: LastFMRecentTrack, album_info: LastFMAlbumInfo | None
-) -> str:
+) -> MessageContent:
     album_name = album_info.name if album_info else (track.album or _("Unknown album"))
     album_artist = album_info.artist if album_info else track.artist
 
-    lines = [
-        str(
-            Template(
-                _("{user} is now listening to album") if track.now_playing else _("{user} was listening to album"),
-                user=_build_profile_link(username, display_name),
-            )
+    lines: list[Renderable] = [
+        template(
+            _("{user} is now listening to album") if track.now_playing else _("{user} was listening to album"),
+            user=_build_profile_link(username, display_name),
         ),
         _build_album_line(
             track,
@@ -182,20 +178,18 @@ def format_album_status(
         if tags_text:
             lines.extend(("", tags_text))
 
-    return "\n".join(lines)
+    return column(*lines)
 
 
 def format_artist_status(
     username: str, display_name: str, track: LastFMRecentTrack, artist_info: LastFMArtistInfo | None
-) -> str:
+) -> MessageContent:
     artist_name = artist_info.name if artist_info else track.artist
 
-    lines = [
-        str(
-            Template(
-                _("{user} is now listening to artist") if track.now_playing else _("{user} was listening to artist"),
-                user=_build_profile_link(username, display_name),
-            )
+    lines: list[Renderable] = [
+        template(
+            _("{user} is now listening to artist") if track.now_playing else _("{user} was listening to artist"),
+            user=_build_profile_link(username, display_name),
         ),
         _build_artist_line(track, artist_name=artist_name, playcount=artist_info.user_playcount if artist_info else 0),
     ]
@@ -205,7 +199,7 @@ def format_artist_status(
         if tags_text:
             lines.extend(("", tags_text))
 
-    return "\n".join(lines)
+    return column(*lines)
 
 
 def format_lastfm_error(error: LastFMError) -> str:

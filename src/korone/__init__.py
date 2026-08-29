@@ -2,7 +2,6 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import PRODUCTION, TelegramAPIServer
-from aiogram.enums import ParseMode
 from aiogram.types import LinkPreviewOptions
 from redis.asyncio import Redis
 
@@ -17,7 +16,7 @@ logger.info("Using BotAPI server", bot_api=str(bot_api))
 
 bot = Bot(
     token=CONFIG.token.get_secret_value(),
-    default=DefaultBotProperties(parse_mode=ParseMode.HTML, link_preview=LinkPreviewOptions(is_disabled=True)),
+    default=DefaultBotProperties(link_preview=LinkPreviewOptions(is_disabled=True)),
     session=session,
 )
 aredis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_states)

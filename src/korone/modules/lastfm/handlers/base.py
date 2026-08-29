@@ -8,12 +8,15 @@ from aiogram.types import InputMediaPhoto
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.logger import get_logger
 from korone.modules.lastfm.utils import LastFMError, format_lastfm_error
+from korone.ui.rendering import caption_kwargs, text_kwargs
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.telegram_errors import is_callback_query_expired_error, is_message_not_modified_error
 
 if TYPE_CHECKING:
     from aiogram.types import InlineKeyboardMarkup, Message
+
+    from korone.ui import MessageContent
 
 LASTFM_FALLBACK_IMAGE_URL = "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png"
 
@@ -22,7 +25,7 @@ logger = get_logger(__name__)
 
 class LastFMResponsePayload(Protocol):
     @property
-    def text(self) -> str: ...
+    def text(self) -> MessageContent: ...
 
     @property
     def image_url(self) -> str | None: ...
@@ -96,11 +99,16 @@ class LastFMHandlerSupport:
 
     @classmethod
     async def send_response(
-        cls, message: Message, *, text: str, image_url: str | None, reply_markup: InlineKeyboardMarkup | None = None
+        cls,
+        message: Message,
+        *,
+        text: MessageContent,
+        image_url: str | None,
+        reply_markup: InlineKeyboardMarkup | None = None,
     ) -> Message:
         for candidate_url in cls._resolve_image_url_candidates(image_url):
             try:
-                return await message.reply_photo(photo=candidate_url, caption=text, reply_markup=reply_markup)
+                return await message.reply_photo(photo=candidate_url, **caption_kwargs(text, reply_markup=reply_markup))
             except TelegramBadRequest as exc:
                 if not cls._is_bad_media_url_error(exc):
                     raise
@@ -112,20 +120,25 @@ class LastFMHandlerSupport:
                     error=exc.message,
                 )
 
-        return await message.reply(text, reply_markup=reply_markup)
+        return await message.reply(**text_kwargs(text, reply_markup=reply_markup))
 
     @classmethod
     async def edit_response(
-        cls, message: Message, *, text: str, image_url: str | None, reply_markup: InlineKeyboardMarkup | None = None
+        cls,
+        message: Message,
+        *,
+        text: MessageContent,
+        image_url: str | None,
+        reply_markup: InlineKeyboardMarkup | None = None,
     ) -> None:
         if not message.photo:
-            await message.edit_text(text, reply_markup=reply_markup)
+            await message.edit_text(**text_kwargs(text, reply_markup=reply_markup))
             return
 
         for candidate_url in cls._resolve_image_url_candidates(image_url):
             try:
                 await message.edit_media(
-                    media=InputMediaPhoto(media=candidate_url, caption=text), reply_markup=reply_markup
+                    media=InputMediaPhoto(media=candidate_url, **caption_kwargs(text)), reply_markup=reply_markup
                 )
             except TelegramBadRequest as exc:
                 if not cls._is_bad_media_url_error(exc):
@@ -140,7 +153,7 @@ class LastFMHandlerSupport:
             else:
                 return
 
-        await message.edit_caption(caption=text, reply_markup=reply_markup)
+        await message.edit_caption(**caption_kwargs(text, reply_markup=reply_markup))
 
 
 class BaseLastFMMessageHandler[P: LastFMResponsePayload](KoroneMessageHandler, LastFMHandlerSupport):

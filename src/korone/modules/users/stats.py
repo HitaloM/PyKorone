@@ -1,45 +1,41 @@
 from aiogram.enums import ChatType
 
 from korone.db.repositories.chat import ChatRepository
-from korone.utils.formatting import Code, HList, KeyValue, Section
+from korone.ui import Code, UIExpression, field, row, section
 
 
-async def users_stats() -> Section:
-    return Section(
-        KeyValue(
+async def users_stats() -> UIExpression:
+    return section(
+        "Users (new)",
+        field(
             "Total",
-            HList(
-                KeyValue("users", Code(await ChatRepository.total_count((ChatType.PRIVATE,))), title_bold=False),
-                KeyValue(
-                    "groups",
-                    Code(await ChatRepository.total_count((ChatType.SUPERGROUP, ChatType.GROUP))),
-                    title_bold=False,
+            row(
+                field("users", Code(await ChatRepository.total_count((ChatType.PRIVATE,))), bold=False),
+                field(
+                    "groups", Code(await ChatRepository.total_count((ChatType.SUPERGROUP, ChatType.GROUP))), bold=False
                 ),
             ),
         ),
-        KeyValue(
+        field(
             "New (48h)",
-            HList(
-                KeyValue("users", Code(await ChatRepository.new_count_last_48h((ChatType.PRIVATE,))), title_bold=False),
-                KeyValue(
+            row(
+                field("users", Code(await ChatRepository.new_count_last_48h((ChatType.PRIVATE,))), bold=False),
+                field(
                     "groups",
                     Code(await ChatRepository.new_count_last_48h((ChatType.SUPERGROUP, ChatType.GROUP))),
-                    title_bold=False,
+                    bold=False,
                 ),
             ),
         ),
-        KeyValue(
+        field(
             "Active (48h)",
-            HList(
-                KeyValue(
-                    "users", Code(await ChatRepository.active_count_last_48h((ChatType.PRIVATE,))), title_bold=False
-                ),
-                KeyValue(
+            row(
+                field("users", Code(await ChatRepository.active_count_last_48h((ChatType.PRIVATE,))), bold=False),
+                field(
                     "groups",
                     Code(await ChatRepository.active_count_last_48h((ChatType.SUPERGROUP, ChatType.GROUP))),
-                    title_bold=False,
+                    bold=False,
                 ),
             ),
         ),
-        title="Users (new)",
     )

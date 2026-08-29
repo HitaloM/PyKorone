@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.utils.chat_action import ChatActionMiddleware
 
 from korone.modules.metadata import ModuleManifest, ModulePackage, ModuleScripts
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -24,7 +24,9 @@ manifest = ModuleManifest(
         name=l_("GSM Arena"),
         icon="📱",
         summary=l_("Device specs from GSMArena"),
-        description=LazyProxy(lambda: Doc(l_("Search phones and browse key specifications without leaving Telegram."))),
+        description=LazyProxy(
+            lambda: column(l_("Search phones and browse key specifications without leaving Telegram."))
+        ),
     ),
     router=router,
     handlers=(DeviceSearchHandler, DeviceListCallbackHandler, DeviceGetCallbackHandler),

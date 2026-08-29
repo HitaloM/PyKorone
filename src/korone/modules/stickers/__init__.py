@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.modules.metadata import ModuleExport, ModuleManifest, ModulePackage, ModuleScripts
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -33,7 +33,7 @@ manifest = ModuleManifest(
         icon="🧩",
         summary=l_("Personal sticker pack management"),
         description=LazyProxy(
-            lambda: Doc(
+            lambda: column(
                 l_("Copy stickers and supported media into your own packs."),
                 l_("Manage tracked packs, set a default pack, and remove stickers."),
             )

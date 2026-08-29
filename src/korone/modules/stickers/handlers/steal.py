@@ -22,7 +22,8 @@ from korone.modules.stickers.utils import (
     prepare_sticker_file,
 )
 from korone.modules.utils_.message import is_real_reply
-from korone.utils.formatting import Code, Doc, Template, Url
+from korone.modules.utils_.reply_or_edit import edit_message_text
+from korone.ui import Code, column, link, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -49,12 +50,10 @@ class StickerStealHandler(KoroneMessageHandler):
             return
 
         if not self.event.reply_to_message or not is_real_reply(self.event):
-            await self.event.reply(
-                str(
-                    Doc(
-                        _("Reply to a sticker, photo, animation, video, or document first."),
-                        Template(_("Then use {command}."), command=Code("/steal")),
-                    )
+            await self.answer(
+                column(
+                    _("Reply to a sticker, photo, animation, video, or document first."),
+                    template(_("Then use {command}."), command=Code("/steal")),
                 )
             )
             return
@@ -113,10 +112,12 @@ class StickerStealHandler(KoroneMessageHandler):
 
         pack_url = f"https://t.me/addstickers/{pack_id}"
         if created_new_pack:
-            response = Doc(_("Created new sticker pack."), Template(_("Pack: {pack}"), pack=Url(pack_title, pack_url)))
+            response = column(
+                _("Created new sticker pack."), template(_("Pack: {pack}"), pack=link(pack_title, pack_url))
+            )
         else:
-            response = Doc(
-                _("Sticker saved successfully."), Template(_("Pack: {pack}"), pack=Url(pack_title, pack_url))
+            response = column(
+                _("Sticker saved successfully."), template(_("Pack: {pack}"), pack=link(pack_title, pack_url))
             )
 
-        await status_message.edit_text(str(response), disable_web_page_preview=True)
+        await edit_message_text(status_message, response, disable_web_page_preview=True)

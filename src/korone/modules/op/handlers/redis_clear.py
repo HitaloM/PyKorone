@@ -3,7 +3,7 @@ from aiogram.filters import Command
 
 from korone import aredis
 from korone.filters.user_status import IsOP
-from korone.utils.formatting import Code, Doc, Template
+from korone.ui import Code, column, template
 from korone.utils.handlers import KoroneMessageHandler
 
 
@@ -21,5 +21,5 @@ class RedisClearHandler(KoroneMessageHandler):
             before, _, after = await pipeline.execute()
         removed = max(before - after, 0)
 
-        message = Doc(Template("Redis cleared. {removed} keys removed.", removed=Code(removed)))
-        await self.event.reply(str(message))
+        message = column(template("Redis cleared. {removed} keys removed.", removed=Code(removed)))
+        await self.answer(message)

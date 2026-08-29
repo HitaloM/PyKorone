@@ -9,7 +9,7 @@ from korone.db.repositories.language import LanguageRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.modules.language.callbacks import SetLangCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
-from korone.utils.formatting import Doc, Template
+from korone.ui import UIExpression, column, template
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
@@ -25,25 +25,27 @@ async def set_chat_language(chat_id: int, language: str) -> None:
     await LanguageRepository.set_locale(chat_id, language)
 
 
-def build_language_changed_message(language: str, i18n: I18nNew) -> str:
+def build_language_changed_message(language: str, i18n: I18nNew) -> UIExpression:
     locale = i18n.babels.get(language) or i18n.babel(language)
     locale_display = i18n.locale_display(locale)
 
-    text = Doc(Template(_("Language changed to {new_lang}."), new_lang=locale_display))
+    parts: list[UIExpression | str] = [template(_("Language changed to {new_lang}."), new_lang=locale_display)]
 
     if language in CONFIG.devs_managed_languages:
-        text += _("This is the bot's native language.")
-        text += _("If you find any errors, please file an issue in the GitHub Repository.")
+        parts.extend((
+            _("This is the bot's native language."),
+            _("If you find any errors, please file an issue in the GitHub Repository."),
+        ))
     elif stats := i18n.get_locale_stats(locale_code=language):
         percent = stats.percent_translated()
-        text += Template(_("The language is {percent}% translated."), percent=percent)
+        parts.append(template(_("The language is {percent}% translated."), percent=percent))
 
         if percent > 99:
-            text += _("In case you find any errors, please file an issue in the GitHub Repository.")
+            parts.append(_("In case you find any errors, please file an issue in the GitHub Repository."))
         else:
-            text += _("Please help us translate this language by completing it on our translations platform.")
+            parts.append(_("Please help us translate this language by completing it on our translations platform."))
 
-    return str(text)
+    return column(*parts)
 
 
 def build_keyboard(language: str, i18n: I18nNew, *, back_to_start: bool = False) -> InlineKeyboardBuilder:

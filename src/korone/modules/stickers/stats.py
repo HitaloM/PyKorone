@@ -1,8 +1,8 @@
 from korone.db.repositories.sticker_pack import StickerPackRepository
-from korone.utils.formatting import Code, KeyValue, Section
+from korone.ui import Code, UIExpression, field, section
 
 
-async def stickers_stats() -> Section:
+async def stickers_stats() -> UIExpression:
     owners = await StickerPackRepository.unique_owner_count()
     packs = await StickerPackRepository.total_count()
-    return Section(KeyValue("Users with packs", Code(owners)), KeyValue("Tracked packs", Code(packs)), title="Stickers")
+    return section("Stickers", field("Users with packs", Code(owners)), field("Tracked packs", Code(packs)))

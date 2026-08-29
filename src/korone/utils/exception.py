@@ -3,10 +3,10 @@ from typing import TYPE_CHECKING
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
-    from korone.utils.formatting import Element
+    from korone.ui import MessageContent
 
 
-type DocElement = str | Element
+type DocElement = MessageContent
 
 
 class KoroneError(Exception):

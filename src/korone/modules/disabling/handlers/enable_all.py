@@ -9,8 +9,8 @@ from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.modules.disabling.callbacks import EnableAllCallback
 from korone.modules.utils_.callbacks import CancelActionCallback
+from korone.ui import Italic, template
 from korone.utils.exception import KoroneError
-from korone.utils.formatting import Italic, Template
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -39,10 +39,8 @@ class EnableAllHandler(KoroneMessageHandler):
         buttons.button(text=_("❌ Cancel"), style=ButtonStyle.DANGER, callback_data=CancelActionCallback())
         buttons.adjust(2)
 
-        await self.event.reply(
-            text=str(
-                Template(_("Do you want to enable all commands in the {chat_name}?"), chat_name=Italic(self.chat.title))
-            ),
+        await self.answer(
+            template(_("Do you want to enable all commands in the {chat_name}?"), chat_name=Italic(self.chat.title)),
             reply_markup=buttons.as_markup(),
         )
 
@@ -73,4 +71,4 @@ class DisableAllCbHandler(KoroneCallbackQueryHandler):
                 removed_count,
             )
 
-        await self.edit_text(str(Template(message, removed_count=Italic(removed_count), chat_name=self.chat.title)))
+        await self.edit_text(template(message, removed_count=Italic(removed_count), chat_name=self.chat.title))

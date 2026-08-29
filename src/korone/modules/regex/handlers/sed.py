@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from aiogram import flags
 
 from korone.modules.regex.utils import SED_PATTERN, SedPatternFilter, process_command
-from korone.utils.formatting import Template
+from korone.ui import template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -49,7 +49,7 @@ class SedHandler(KoroneMessageHandler):
         for command in substitution_commands:
             command_data, error_message = process_command(command)
             if error_message:
-                await self.event.reply(error_message)
+                await self.answer(error_message)
                 return
 
             if command_data is None:
@@ -61,7 +61,7 @@ class SedHandler(KoroneMessageHandler):
             try:
                 modified_text = re.sub(from_pattern, to_pattern, modified_text, count=count, flags=flags)
             except re.error as e:
-                await self.event.reply(Template(_("Regex error: {e}"), e=str(e)).to_html())
+                await self.answer(template(_("Regex error: {e}"), e=str(e)))
                 return
 
         if modified_text == original_text:

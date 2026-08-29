@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.utils.chat_action import ChatActionMiddleware
 
 from korone.modules.metadata import ModuleExport, ModuleInlineQuery, ModuleManifest, ModulePackage, ModuleScripts
-from korone.utils.formatting import Doc
+from korone.ui import column
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -30,7 +30,7 @@ manifest = ModuleManifest(
         icon="🎵",
         summary=l_("Last.fm now-playing and profile tools"),
         description=LazyProxy(
-            lambda: Doc(l_("Show current scrobbles and fetch album, artist, compatibility, and collage views."))
+            lambda: column(l_("Show current scrobbles and fetch album, artist, compatibility, and collage views."))
         ),
     ),
     router=router,

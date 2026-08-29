@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from korone.args import OptionalArg, TextArg, define_arguments
 from korone.db.repositories.sticker_pack import StickerPackRepository
 from korone.modules.stickers.utils import get_valid_user_packs
-from korone.utils.formatting import Code, Template
+from korone.ui import Code, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -28,13 +28,13 @@ class StickerSwitchDefaultPackHandler(KoroneMessageHandler):
 
     async def handle(self) -> None:
         if not self.event.from_user:
-            await self.event.reply(str(Template(_("Could not identify your user."))))
+            await self.answer(template(_("Could not identify your user.")))
             return
 
         target = (self.data.get("target") or "").strip()
         if not target:
-            await self.event.reply(
-                str(Template(_("Usage: {command} {target}"), command=Code("/switch"), target=Code("1 | pack_name")))
+            await self.answer(
+                template(_("Usage: {command} {target}"), command=Code("/switch"), target=Code("1 | pack_name"))
             )
             return
 
@@ -46,17 +46,15 @@ class StickerSwitchDefaultPackHandler(KoroneMessageHandler):
 
         selected_pack = self.resolve_target_pack(packs, target)
         if not selected_pack:
-            await self.event.reply(
-                str(Template(_("Could not find a pack with index or name: {value}"), value=Code(target)))
-            )
+            await self.answer(template(_("Could not find a pack with index or name: {value}"), value=Code(target)))
             return
 
         if selected_pack.is_default:
-            await self.event.reply(str(Template(_("{pack} is already your default pack."), pack=selected_pack.title)))
+            await self.answer(template(_("{pack} is already your default pack."), pack=selected_pack.title))
             return
 
         await StickerPackRepository.set_default_by_pack_id(owner_id, selected_pack.pack_id)
-        await self.event.reply(str(Template(_("Default sticker pack changed to {pack}."), pack=selected_pack.title)))
+        await self.answer(template(_("Default sticker pack changed to {pack}."), pack=selected_pack.title))
 
     @staticmethod
     def resolve_target_pack(packs: list[StickerPackModel], target: str) -> StickerPackModel | None:
