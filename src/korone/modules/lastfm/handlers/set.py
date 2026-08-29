@@ -1,11 +1,12 @@
-import re
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.filters import Command
 
-from korone.args import OptionalArg, WordArg, define_arguments
+from korone.args import ArgumentSchema
 from korone.db.repositories.lastfm import LastFMRepository
+from korone.modules.lastfm.args import LastFMUsernameArg
 from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
 from korone.ui import Code, template
@@ -19,22 +20,12 @@ if TYPE_CHECKING:
     from aiogram.types import Message
 
 
-USERNAME_RE = re.compile(r"^[A-Za-z0-9_.-]{1,64}$")
+@dataclass(frozen=True, slots=True)
+class LastFMSetArguments:
+    username: str | None = None
 
 
-def _normalize_username(raw_username: str) -> str:
-    username = raw_username.strip()
-    if username.startswith("@"):
-        return username[1:]
-    return username
-
-
-async def _set_lastfm_username(message: Message, raw_username: str) -> bool:
-    username = _normalize_username(raw_username)
-    if not username or not USERNAME_RE.match(username):
-        await message.reply(_("Invalid Last.fm username format."))
-        return False
-
+async def _set_lastfm_username(message: Message, username: str) -> bool:
     if not message.from_user:
         await message.reply(_("Could not identify your Telegram user."))
         return False
@@ -65,15 +56,15 @@ async def _set_lastfm_username(message: Message, raw_username: str) -> bool:
 
 @flags.help(description=l_("Set your Last.fm username for status commands."))
 @flags.disableable(name="setlfm")
-class LastFMSetHandler(KoroneMessageHandler):
-    arguments = define_arguments(username=OptionalArg(WordArg(l_("Username"))))
+class LastFMSetHandler(KoroneMessageHandler[LastFMSetArguments]):
+    arguments = ArgumentSchema(LastFMSetArguments, username=LastFMUsernameArg(l_("Username")))
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("setlfm"),)
 
     async def handle(self) -> None:
-        username = str(self.data.get("username") or "").strip()
+        username = self.args.username
         if username:
             await _set_lastfm_username(self.event, username)
             return

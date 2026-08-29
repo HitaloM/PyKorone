@@ -18,20 +18,3 @@ def build_pack_id(user_id: int, pack_title: str, bot_username: str | None) -> st
     user_hash = hashlib.sha1(str(user_id).encode("utf-8")).hexdigest()
     title_hash = hashlib.sha1(pack_title.lower().encode("utf-8")).hexdigest()
     return f"K{title_hash[:10]}{user_hash[:10]}_by_{username}"
-
-
-def parse_pack_and_emoji(args_text: str, *, default_title: str, default_emoji: str) -> tuple[str, str]:
-    parts = args_text.split()
-    pack_title = default_title
-    emoji = default_emoji
-
-    if parts:
-        last_char = parts[-1][-1]
-        if len(last_char.encode("utf-8")) == 1:
-            pack_title = " ".join(parts)
-        else:
-            emoji = parts[-1]
-            if len(parts) > 1:
-                pack_title = " ".join(parts[:-1])
-
-    return normalize_pack_title(pack_title), emoji

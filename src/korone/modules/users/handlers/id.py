@@ -1,11 +1,12 @@
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ChatType
 from aiogram.filters import Command
 
-from korone.args import OptionalArg, define_arguments
-from korone.args.users import KoroneUserArg
+from korone.args import ArgumentSchema
+from korone.modules.users.args import UserArg
 from korone.modules.utils_.message import is_real_reply
 from korone.ui import Code, UIExpression, column, mention, template
 from korone.utils.handlers import KoroneMessageHandler
@@ -18,17 +19,22 @@ if TYPE_CHECKING:
     from korone.db.models.chat import ChatModel
 
 
+@dataclass(frozen=True, slots=True)
+class ShowIDArguments:
+    user: ChatModel | None = None
+
+
 @flags.help(description=l_("Show user, chat, and topic IDs."))
 @flags.disableable(name="id")
-class ShowIDHandler(KoroneMessageHandler):
-    arguments = define_arguments(user=OptionalArg(KoroneUserArg(l_("User"))))
+class ShowIDHandler(KoroneMessageHandler[ShowIDArguments]):
+    arguments = ArgumentSchema(ShowIDArguments, user=UserArg(l_("User")))
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("id"),)
 
     async def handle(self) -> None:
-        user: ChatModel | None = self.data.get("user", None)
+        user = self.args.user
 
         items: list[UIExpression] = []
 

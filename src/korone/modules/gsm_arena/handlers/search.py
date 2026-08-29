@@ -1,10 +1,11 @@
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ChatAction
 from aiogram.filters import Command
 
-from korone.args import TextArg, define_arguments
+from korone.args import ArgumentSchema, TextArg
 from korone.logger import get_logger
 from korone.modules.gsm_arena.utils.device import get_device_presentation, reply_with_device
 from korone.modules.gsm_arena.utils.errors import GSMArenaError
@@ -25,11 +26,16 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
+@dataclass(frozen=True, slots=True)
+class DeviceSearchArguments:
+    device: str
+
+
 @flags.help(description=l_("Search GSMArena for device specifications."))
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="device")
-class DeviceSearchHandler(KoroneMessageHandler):
-    arguments = define_arguments(device=TextArg(l_("Device")))
+class DeviceSearchHandler(KoroneMessageHandler[DeviceSearchArguments]):
+    arguments = ArgumentSchema(DeviceSearchArguments, device=TextArg(l_("Device")))
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
@@ -70,16 +76,7 @@ class DeviceSearchHandler(KoroneMessageHandler):
         await self.answer(text, reply_markup=keyboard)
 
     async def handle(self) -> None:
-        query = (self.data.get("device") or "").strip()
-
-        if not query:
-            await self.answer(
-                template(
-                    _("You should provide a device name to search. Example: {example}."),
-                    example=Code("/device Galaxy S24"),
-                )
-            )
-            return
+        query = self.args.device
 
         try:
             devices = await search_phone(query)

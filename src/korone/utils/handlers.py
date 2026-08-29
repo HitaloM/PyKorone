@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 import sentry_sdk
 from aiogram.exceptions import TelegramBadRequest
@@ -7,6 +7,7 @@ from aiogram.handlers import BaseHandler, BaseHandlerMixin
 from aiogram.types import CallbackQuery, InaccessibleMessage, InlineQuery, InputMediaPhoto, Message
 from structlog.contextvars import bind_contextvars
 
+from korone.args.base import PARSED_ARGUMENTS_KEY
 from korone.middlewares.context_data import as_korone_context
 from korone.modules.utils_.reply_or_edit import edit_message_rich, edit_message_text, reply_or_edit, reply_or_edit_rich
 from korone.ui.rendering import caption_kwargs
@@ -21,7 +22,7 @@ if TYPE_CHECKING:
     from aiogram.filters.callback_data import CallbackData
     from aiogram.types import InputFile, InputRichMessage
 
-    from korone.args import ArgumentsMap
+    from korone.args import ArgumentSchema
     from korone.middlewares.chat_context import ChatContext
     from korone.middlewares.context_data import KoroneContextData
     from korone.ui import MessageContent
@@ -58,8 +59,8 @@ class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
         pass
 
 
-class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
-    arguments: ClassVar[ArgumentsMap | None] = None
+class KoroneMessageHandler[ArgumentsT = None](KoroneBaseHandler[Message]):
+    arguments: ArgumentSchema[ArgumentsT] | None = None
 
     @classmethod
     @abstractmethod
@@ -71,6 +72,16 @@ class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
         flags = {"args": cls.arguments} if cls.arguments else None
 
         router.message.register(cls, *cls.filters(), flags=flags)
+
+    @property
+    def args(self) -> ArgumentsT:
+        if type(self).arguments is None:
+            return cast("ArgumentsT", None)
+        try:
+            return cast("ArgumentsT", self.data[PARSED_ARGUMENTS_KEY])
+        except KeyError as exc:
+            msg = "Handler arguments were accessed before parsing"
+            raise RuntimeError(msg) from exc
 
     async def answer(self, text: MessageContent, **kwargs: object) -> Message | bool:
         return await reply_or_edit(self.event, text, **kwargs)

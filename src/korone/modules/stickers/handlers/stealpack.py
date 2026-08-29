@@ -1,4 +1,5 @@
 import asyncio
+from dataclasses import dataclass
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
@@ -7,8 +8,9 @@ from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest, TelegramRetryAfter
 from aiogram.filters import Command
 
-from korone.args import OptionalArg, TextArg, define_arguments
+from korone.args import ArgumentSchema
 from korone.db.repositories.sticker_pack import StickerPackRepository
+from korone.modules.stickers.args import StickerPackTitleArg
 from korone.modules.stickers.utils import (
     DEFAULT_EMOJI,
     StickerPrepareError,
@@ -18,7 +20,6 @@ from korone.modules.stickers.utils import (
     is_pack_full_error,
     is_stickerset_invalid,
     map_pack_write_error,
-    normalize_pack_title,
     prepare_sticker_file,
     suffix_from_sticker,
 )
@@ -37,11 +38,16 @@ if TYPE_CHECKING:
     from aiogram.types import Sticker
 
 
+@dataclass(frozen=True, slots=True)
+class StickerStealPackArguments:
+    pack_name: str
+
+
 @flags.help(description=l_("Copy an entire sticker set into one of your packs."))
 @flags.disableable(name="stealpack")
 @flags.defer_sticker_pack_processing
-class StickerStealPackHandler(KoroneMessageHandler):
-    arguments = define_arguments(pack_name=OptionalArg(TextArg(l_("Target pack name"))))
+class StickerStealPackHandler(KoroneMessageHandler[StickerStealPackArguments]):
+    arguments = ArgumentSchema(StickerStealPackArguments, pack_name=StickerPackTitleArg(l_("Target pack name")))
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
@@ -99,13 +105,6 @@ class StickerStealPackHandler(KoroneMessageHandler):
             await self.event.reply(_("Could not identify your user."))
             return
 
-        pack_title_arg = (self.data.get("pack_name") or "").strip()
-        if not pack_title_arg:
-            await self.answer(
-                template(_("Usage: {command} {pack_name}"), command=Code("/stealpack"), pack_name=Code("new_pack_name"))
-            )
-            return
-
         if not self.event.reply_to_message or not is_real_reply(self.event):
             await self.answer(
                 column(
@@ -132,7 +131,7 @@ class StickerStealPackHandler(KoroneMessageHandler):
             await status_message.edit_text(map_pack_write_error(exc))
             return
 
-        pack_title = normalize_pack_title(pack_title_arg)
+        pack_title = self.args.pack_name
         bot_user = await self.bot.me()
         pack_id = build_pack_id(user.id, pack_title, bot_user.username)
 

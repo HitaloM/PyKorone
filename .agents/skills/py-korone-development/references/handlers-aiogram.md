@@ -36,8 +36,12 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 ## Arguments, Filters, and Flags
 
 - Use argument types from `korone.args` instead of manually splitting commands with arguments.
-- Declare arguments once as `arguments = define_arguments(...)` on the `KoroneMessageHandler` subclass and read parsed values from `self.data`.
-- Prefer existing types such as `TextArg`, `WordArg`, `BooleanArg`, `OptionalArg`, and `KoroneUserArg`.
+- Define an immutable, slotted dataclass for parsed values, bind it with `ArgumentSchema(...)`, parameterize
+  `KoroneMessageHandler` with that dataclass, and read values from `self.args`.
+- Express optional arguments with dataclass defaults. Input that is present but invalid must remain an error; do not
+  recreate the removed `OptionalArg` fallback behavior.
+- Prefer core types such as `TextArg`, `WordArg`, `BooleanArg`, and `OrArg`; use module-local types such as
+  `korone.modules.users.args.UserArg` for domain-specific parsing and resolution.
 - Leave `arguments` unset for handlers without command arguments so `ArgumentsMiddleware` can take its fast path.
 - Localize argument descriptions with `lazy_gettext as l_`.
 - Use aiogram `Command`, `CommandStart`, `StateFilter`, and `F` with reusable filters from `korone.filters`.

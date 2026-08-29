@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, cast
 
 import aiohttp
@@ -6,9 +7,10 @@ from aiogram import flags
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from korone.args import TextArg, define_arguments
+from korone.args import ArgumentSchema
+from korone.modules.web.args import IPAddressOrDomainArg
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
-from korone.modules.web.utils.ip import fetch_ip_info, get_ips_from_string
+from korone.modules.web.utils.ip import fetch_ip_info
 from korone.ui import Code, Italic, UIExpression, field, section, template
 from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
@@ -32,6 +34,11 @@ IP_FIELDS = {
 }
 
 
+@dataclass(frozen=True, slots=True)
+class IPInfoArguments:
+    addresses: tuple[str, ...]
+
+
 def format_ip_info(ip: str, info: dict[str, Any]) -> UIExpression:
     fields: list[UIExpression] = []
     for key, title in IP_FIELDS.items():
@@ -48,11 +55,11 @@ def format_ip_info(ip: str, info: dict[str, Any]) -> UIExpression:
 
 @flags.help(description=l_("Look up information for an IP address or domain."))
 @flags.disableable(name="ip")
-class IPInfoHandler(KoroneMessageHandler):
+class IPInfoHandler(KoroneMessageHandler[IPInfoArguments]):
     IPINFO_URL = "https://ipinfo.io/{target}/json"
     CF_DNS_URL = "https://cloudflare-dns.com/dns-query"
 
-    arguments = define_arguments(target=TextArg(l_("IP or domain")))
+    arguments = ArgumentSchema(IPInfoArguments, addresses=IPAddressOrDomainArg(l_("IP or domain")))
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
@@ -94,20 +101,7 @@ class IPInfoHandler(KoroneMessageHandler):
         await self.answer(format_ip_info(ip, info))
 
     async def handle(self) -> None:
-        target = (self.data.get("target") or "").strip()
-
-        if not target:
-            await self.answer(
-                template(
-                    _("You should provide an IP address or domain. Example: {example}."), example=Code("/ip google.com")
-                )
-            )
-            return
-
-        ips = await get_ips_from_string(target)
-        if not ips:
-            await self.event.reply(_("No valid IP addresses or domains found in the provided input."))
-            return
+        ips = self.args.addresses
 
         if len(ips) == 1:
             await self._reply_with_ip_info(ips[0])

@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
@@ -6,8 +7,9 @@ from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 
-from korone.args import OptionalArg, TextArg, define_arguments
+from korone.args import ArgumentSchema
 from korone.db.repositories.sticker_pack import StickerPackRepository
+from korone.modules.stickers.args import StickerStealOptions, StickerStealOptionsArg
 from korone.modules.stickers.utils import (
     DEFAULT_EMOJI,
     StickerPrepareError,
@@ -18,7 +20,6 @@ from korone.modules.stickers.utils import (
     get_default_or_generated_pack_title,
     is_stickerset_invalid,
     map_pack_write_error,
-    parse_pack_and_emoji,
     prepare_sticker_file,
 )
 from korone.modules.utils_.message import is_real_reply
@@ -32,13 +33,20 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
+@dataclass(frozen=True, slots=True)
+class StickerStealArguments:
+    options: StickerStealOptions = field(default_factory=StickerStealOptions)
+
+
 @flags.help(
     description=l_("Copy a replied sticker or media item into one of your packs."),
     examples=((l_("Save into specific pack with emoji"), "MyPack 😄"), (l_("Save into default pack"), "MyPack")),
 )
 @flags.disableable(name="steal")
-class StickerStealHandler(KoroneMessageHandler):
-    arguments = define_arguments(args=OptionalArg(TextArg(l_("Pack name and optional emoji"))))
+class StickerStealHandler(KoroneMessageHandler[StickerStealArguments]):
+    arguments = ArgumentSchema(
+        StickerStealArguments, options=StickerStealOptionsArg(l_("Pack name and optional emoji"))
+    )
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
@@ -60,8 +68,6 @@ class StickerStealHandler(KoroneMessageHandler):
 
         status_message = await self.event.reply(_("Stealing sticker..."))
         user = self.event.from_user
-        args_text = (self.data.get("args") or "").strip()
-
         try:
             file_id, suffix, reply_emoji = extract_reply_media(self.event)
         except ValueError:
@@ -70,7 +76,8 @@ class StickerStealHandler(KoroneMessageHandler):
 
         default_title = await get_default_or_generated_pack_title(user.id, user.first_name)
         default_emoji = reply_emoji or DEFAULT_EMOJI
-        pack_title, emoji = parse_pack_and_emoji(args_text, default_title=default_title, default_emoji=default_emoji)
+        pack_title = self.args.options.pack_title or default_title
+        emoji = self.args.options.emoji or default_emoji
 
         bot_user = await self.bot.me()
         pack_id = build_pack_id(user.id, pack_title, bot_user.username)

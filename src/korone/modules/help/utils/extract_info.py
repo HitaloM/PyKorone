@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any, cast, overload
 from aiogram.filters import Command
 from aiogram.filters.logic import _InvertFilter
 
-from korone.args import Argument, ArgumentsMap
+from korone.args import ArgumentSchema
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import GroupChatFilter, PrivateChatFilter
 from korone.filters.user_status import IsOP
@@ -30,7 +30,7 @@ logger = get_logger(__name__)
 @dataclass(frozen=True, slots=True, kw_only=True)
 class HandlerHelp:
     cmds: tuple[str, ...]
-    args: ArgumentsMap | None
+    args: ArgumentSchema[object] | None
     description: LazyProxy | str | None
     examples: tuple[HelpExample, ...]
     only_admin: bool
@@ -127,14 +127,12 @@ def _clone_without_cache(
     return KoroneLazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)
 
 
-def gather_cmd_args(args: object) -> ArgumentsMap | None:
+def gather_cmd_args(args: object) -> ArgumentSchema[object] | None:
     if args is None:
         return None
 
-    if isinstance(args, Mapping) and all(
-        isinstance(name, str) and isinstance(argument, Argument) for name, argument in args.items()
-    ):
-        return cast("ArgumentsMap", args)
+    if isinstance(args, ArgumentSchema):
+        return cast("ArgumentSchema[object]", args)
 
     msg = "Unsupported args type"
     raise TypeError(msg)
@@ -201,7 +199,7 @@ def _extract_visibility_flags(filters: Sequence[Any]) -> tuple[bool, bool, bool,
     return only_admin, only_op, only_pm, only_chats
 
 
-def _extract_args(flags: Mapping[str, object], help_flags: HelpFlags) -> ArgumentsMap | None:
+def _extract_args(flags: Mapping[str, object], help_flags: HelpFlags) -> ArgumentSchema[object] | None:
     args_source = help_flags["args"] if "args" in help_flags else flags.get("args")
     return gather_cmd_args(args_source)
 

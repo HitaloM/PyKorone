@@ -1,31 +1,22 @@
-from inspect import isawaitable
-from typing import TYPE_CHECKING, cast, override
+from abc import ABC, abstractmethod
+from typing import override
 
 from korone.args.base import (
     Argument,
     ArgumentDescription,
-    ArgumentEntities,
     ArgumentExample,
     ArgumentExamples,
-    ArgumentParseResult,
+    ArgumentSource,
     ArgumentTypeError,
     ParsedArgument,
 )
-from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
-
-if TYPE_CHECKING:
-    from collections.abc import Awaitable
-
-
-async def resolve_argument[T](result: ArgumentParseResult[T]) -> ParsedArgument[T]:
-    if isawaitable(result):
-        return await cast("Awaitable[ParsedArgument[T]]", result)
-    return result
 
 
 class TextArg(Argument[str]):
     __slots__ = ()
+
+    consumes_remainder = True
 
     @override
     def needed_type(self) -> tuple[ArgumentDescription, ArgumentDescription]:
@@ -37,11 +28,10 @@ class TextArg(Argument[str]):
         return {"Foo": None, "Foo Bar": None}
 
     @override
-    def parse(self, text: str, entities: ArgumentEntities) -> ParsedArgument[str]:
-        del entities
-        if not text:
+    async def parse(self, source: ArgumentSource) -> ParsedArgument[str]:
+        if source.empty:
             raise ArgumentTypeError
-        return ParsedArgument(length=len(text), value=text)
+        return ParsedArgument(consumed=len(source.text), value=source.text.rstrip())
 
 
 class WordArg(Argument[str]):
@@ -57,12 +47,11 @@ class WordArg(Argument[str]):
         return {"Hello": None, "Foo": None, "bar": None}
 
     @override
-    def parse(self, text: str, entities: ArgumentEntities) -> ParsedArgument[str]:
-        del entities
-        word = text.split(maxsplit=1)[0] if text.strip() else ""
+    async def parse(self, source: ArgumentSource) -> ParsedArgument[str]:
+        word = source.text.split(maxsplit=1)[0] if source.text else ""
         if not word:
             raise ArgumentTypeError
-        return ParsedArgument(length=len(word), value=word)
+        return ParsedArgument(consumed=len(word), value=word)
 
 
 class BooleanArg(Argument[bool]):
@@ -81,30 +70,20 @@ class BooleanArg(Argument[bool]):
         return {"true": l_("True (can means Enabled or Yes)"), "false": l_("False (can means Disabled or No)")}
 
     @override
-    def parse(self, text: str, entities: ArgumentEntities) -> ParsedArgument[bool]:
-        del entities
-        word = text.split(maxsplit=1)[0].casefold() if text.strip() else ""
+    async def parse(self, source: ArgumentSource) -> ParsedArgument[bool]:
+        word = source.text.split(maxsplit=1)[0].casefold() if source.text else ""
         if word not in self.true_words and word not in self.false_words:
             raise ArgumentTypeError
-        return ParsedArgument(length=len(word), value=word in self.true_words)
+        return ParsedArgument(consumed=len(word), value=word in self.true_words)
 
 
-class OptionalArg[T](Argument[T | None]):
-    __slots__ = ("child",)
+class TransformArg[InputT, OutputT](Argument[OutputT], ABC):
+    __slots__ = ("child", "consumes_remainder")
 
-    can_be_empty = True
-
-    def __init__(self, child: Argument[T]) -> None:
+    def __init__(self, child: Argument[InputT]) -> None:
         super().__init__(child.description)
         self.child = child
-
-    @property
-    @override
-    def help_description(self) -> ArgumentDescription | None:
-        if self.description is None:
-            return None
-        description = self.description
-        return LazyProxy(lambda: f"?{description}", enable_cache=False)
+        self.consumes_remainder = child.consumes_remainder
 
     @property
     @override
@@ -113,20 +92,20 @@ class OptionalArg[T](Argument[T | None]):
 
     @override
     def needed_type(self) -> tuple[ArgumentDescription, ArgumentDescription]:
-        singular, plural = self.child.needed_type()
-        return l_("Optional {}").format(singular), l_("Optionals {}").format(plural)
+        return self.child.needed_type()
+
+    @abstractmethod
+    async def transform(self, value: InputT) -> OutputT:
+        raise NotImplementedError
 
     @override
-    async def parse(self, text: str, entities: ArgumentEntities) -> ParsedArgument[T | None]:
-        try:
-            parsed = await resolve_argument(self.child.parse(text, entities))
-        except ArgumentTypeError:
-            return ParsedArgument(length=0, value=None)
-        return ParsedArgument(length=parsed.length, value=parsed.value)
+    async def parse(self, source: ArgumentSource) -> ParsedArgument[OutputT]:
+        parsed = await self.child.parse(source)
+        return ParsedArgument(consumed=parsed.consumed, value=await self.transform(parsed.value))
 
 
 class OrArg[T](Argument[T]):
-    __slots__ = ("arguments",)
+    __slots__ = ("arguments", "consumes_remainder")
 
     def __init__(self, *arguments: Argument[T], description: ArgumentDescription | None = None) -> None:
         if not arguments:
@@ -134,6 +113,7 @@ class OrArg[T](Argument[T]):
             raise ValueError(msg)
         super().__init__(description if description is not None else arguments[0].description)
         self.arguments = arguments
+        self.consumes_remainder = any(argument.consumes_remainder for argument in arguments)
 
     @property
     @override
@@ -151,10 +131,10 @@ class OrArg[T](Argument[T]):
         return singular, plural
 
     @override
-    async def parse(self, text: str, entities: ArgumentEntities) -> ParsedArgument[T]:
+    async def parse(self, source: ArgumentSource) -> ParsedArgument[T]:
         for argument in self.arguments:
             try:
-                return await resolve_argument(argument.parse(text, entities))
+                return await argument.parse(source)
             except ArgumentTypeError:
                 continue
         raise ArgumentTypeError

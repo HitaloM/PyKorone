@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, override
 from urllib.parse import quote_plus
 
@@ -6,11 +7,12 @@ from aiogram.enums import ChatAction
 from aiogram.filters import Command
 from aiogram.types import User
 
-from korone.args import OptionalArg, WordArg, define_arguments
+from korone.args import ArgumentSchema
 from korone.db.repositories.lastfm import LastFMRepository
+from korone.modules.lastfm.args import LastFMPeriodArg
 from korone.modules.lastfm.handlers.base import LastFMHandlerSupport, LastFMUserContext
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
-from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
+from korone.modules.lastfm.utils.periods import LastFMPeriod, period_label
 from korone.modules.utils_.get_user import get_arg_or_reply_user
 from korone.ui import Code, MessageContent, link, template
 from korone.utils.exception import KoroneError
@@ -24,6 +26,11 @@ if TYPE_CHECKING:
 
 COMPAT_MUTUAL_ARTISTS_LIMIT = 8
 COMPAT_DENOMINATOR_LIMIT = 40
+
+
+@dataclass(frozen=True, slots=True)
+class LastFMCompatArguments:
+    period: LastFMPeriod = LastFMPeriod.ONE_YEAR
 
 
 class LastFMCompatFormatter(LastFMHandlerSupport):
@@ -73,8 +80,8 @@ class LastFMCompatFormatter(LastFMHandlerSupport):
 )
 @flags.chat_action(action=ChatAction.TYPING, initial_sleep=0.7)
 @flags.disableable(name="lfmcompat")
-class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
-    arguments = define_arguments(period=OptionalArg(WordArg(l_("Period"))))
+class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler[LastFMCompatArguments]):
+    arguments = ArgumentSchema(LastFMCompatArguments, period=LastFMPeriodArg(l_("Period")))
 
     @classmethod
     @override
@@ -88,7 +95,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
             return
 
         try:
-            target_candidate = get_arg_or_reply_user(self.event, {})
+            target_candidate = get_arg_or_reply_user(self.event, None)
         except KoroneError:
             target_candidate = None
 
@@ -125,7 +132,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler):
         target_context = LastFMUserContext(
             username=target_username, display_name=target_user.first_name, telegram_user_id=target_user.id
         )
-        period = parse_period_token(str(self.data.get("period") or "").strip(), default=LastFMPeriod.ONE_YEAR)
+        period = self.args.period
 
         try:
             client = LastFMClient()

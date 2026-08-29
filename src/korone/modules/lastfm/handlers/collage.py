@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, cast, override
 from urllib.parse import quote_plus
 
@@ -9,13 +9,14 @@ from aiogram.filters import Command
 from aiogram.types import BufferedInputFile, InputMediaPhoto
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from korone.args import OptionalArg, TextArg, define_arguments
+from korone.args import ArgumentSchema
 from korone.db.repositories.lastfm import LastFMRepository
+from korone.modules.lastfm.args import LastFMCollageOptions, LastFMCollageOptionsArg
 from korone.modules.lastfm.callbacks import LastFMCollageCallback
 from korone.modules.lastfm.handlers.base import LastFMHandlerSupport, LastFMUserContext
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, create_album_collage, format_lastfm_error
 from korone.modules.lastfm.utils.collage import MAX_SIZE, MIN_SIZE, LastFMCollageError
-from korone.modules.lastfm.utils.periods import LastFMPeriod, parse_period_token, period_label
+from korone.modules.lastfm.utils.periods import period_label
 from korone.ui import MessageContent, link, template
 from korone.ui.rendering import caption_kwargs
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
@@ -28,50 +29,12 @@ if TYPE_CHECKING:
     from aiogram.types import InlineKeyboardMarkup, Message
 
 
-COLLAGE_CLEAN_TOKENS = {"clean", "notext", "nonames"}
-
-
-@dataclass(slots=True, frozen=True)
-class LastFMCollageOptions:
-    size: int = 3
-    period: LastFMPeriod = LastFMPeriod.OVERALL
-    include_text: bool = True
+@dataclass(frozen=True, slots=True)
+class LastFMCollageArguments:
+    options: LastFMCollageOptions = field(default_factory=LastFMCollageOptions)
 
 
 class LastFMCollageSupport(LastFMHandlerSupport):
-    @staticmethod
-    def parse_size(token: str) -> int | None:
-        fragment = token.split("x", 1)[0]
-        if not fragment.isdigit():
-            return None
-
-        size = int(fragment)
-        if MIN_SIZE <= size <= MAX_SIZE:
-            return size
-        return None
-
-    @staticmethod
-    def parse_options(raw_options: str) -> LastFMCollageOptions:
-        options = LastFMCollageOptions()
-        for token in raw_options.lower().split():
-            if token in COLLAGE_CLEAN_TOKENS:
-                options = LastFMCollageOptions(size=options.size, period=options.period, include_text=False)
-                continue
-
-            if parsed_size := LastFMCollageSupport.parse_size(token):
-                options = LastFMCollageOptions(
-                    size=parsed_size, period=options.period, include_text=options.include_text
-                )
-                continue
-
-            parsed_period = parse_period_token(token, default=options.period)
-            if parsed_period != options.period:
-                options = LastFMCollageOptions(
-                    size=options.size, period=parsed_period, include_text=options.include_text
-                )
-
-        return options
-
     @staticmethod
     def build_caption(*, user: LastFMUserContext, options: LastFMCollageOptions) -> MessageContent:
         profile_url = f"https://www.last.fm/user/{quote_plus(user.username)}"
@@ -136,8 +99,8 @@ class LastFMCollageSupport(LastFMHandlerSupport):
 )
 @flags.chat_action(action=ChatAction.UPLOAD_PHOTO, initial_sleep=0.2, interval=4.0)
 @flags.disableable(name="lfmcollage")
-class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
-    arguments = define_arguments(options=OptionalArg(TextArg(l_("Options"))))
+class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler[LastFMCollageArguments]):
+    arguments = ArgumentSchema(LastFMCollageArguments, options=LastFMCollageOptionsArg(l_("Options")))
 
     @classmethod
     @override
@@ -155,7 +118,7 @@ class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler):
             await type(self).reply_missing_username(self.event)
             return
 
-        options = self.parse_options(str(self.data.get("options") or "").strip())
+        options = self.args.options
 
         try:
             image_bytes = await self.render_collage(username=user.username, options=options)

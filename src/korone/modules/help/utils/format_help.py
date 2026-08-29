@@ -17,11 +17,11 @@ from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping, Sequence
+    from collections.abc import Sequence
 
     from aiogram.types import InputRichBlockUnion, RichTextUnion
 
-    from korone.args import Argument
+    from korone.args import ArgumentSchema
     from korone.modules.help.utils.extract_info import HandlerHelp
 
 
@@ -29,13 +29,10 @@ def format_cmd(cmd: str, *, raw: bool = False) -> Text:
     return Code(cmd if raw else f"/{cmd}")
 
 
-def format_cmd_args(arguments: Mapping[str, Argument[object]], *, as_code: bool = False) -> UIExpression:
+def format_cmd_args(arguments: ArgumentSchema[object], *, as_code: bool = False) -> UIExpression:
     formatted: list[Renderable] = []
-    for arg in arguments.values():
-        if arg.help_description is None:
-            continue
-
-        rendered = f"<{arg.help_description}>"
+    for schema_field in arguments.fields:
+        rendered = f"<{schema_field.help_description}>"
         formatted.append(Code(rendered) if as_code else rendered)
 
     return row(*formatted)
@@ -138,10 +135,8 @@ def format_rich_handler(handler: HandlerHelp) -> RichTextUnion:
         parts.append(_format_rich_command(handler, command))
 
     if handler.args:
-        for argument in handler.args.values():
-            if argument.help_description is None:
-                continue
-            parts.extend((" ", RichTextCode(text=f"<{argument.help_description}>")))
+        for schema_field in handler.args.fields:
+            parts.extend((" ", RichTextCode(text=f"<{schema_field.help_description}>")))
 
     if handler.only_chats:
         parts.extend((" ", RichTextItalic(text=str(_("— Only in groups")))))

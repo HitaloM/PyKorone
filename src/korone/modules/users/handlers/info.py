@@ -1,13 +1,14 @@
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from aiogram import flags
 from aiogram.enums import ChatType
 from aiogram.filters import Command
 
-from korone.args import OptionalArg, define_arguments
-from korone.args.users import KoroneUserArg
+from korone.args import ArgumentSchema
 from korone.db.models.chat import ChatModel
 from korone.db.repositories.chat import ChatRepository, UserInGroupRepository
+from korone.modules.users.args import UserArg
 from korone.modules.utils_.admin import is_chat_creator, is_user_admin
 from korone.modules.utils_.get_user import get_arg_or_reply_user
 from korone.ui import Renderable, field, mention, section
@@ -20,10 +21,15 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
+@dataclass(frozen=True, slots=True)
+class UserInfoArguments:
+    user: ChatModel | None = None
+
+
 @flags.help(description=l_("Show detailed information about a user."))
 @flags.disableable(name="info")
-class UserInfoHandler(KoroneMessageHandler):
-    arguments = define_arguments(user=OptionalArg(KoroneUserArg(l_("User"))))
+class UserInfoHandler(KoroneMessageHandler[UserInfoArguments]):
+    arguments = ArgumentSchema(UserInfoArguments, user=UserArg(l_("User")))
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
@@ -32,7 +38,7 @@ class UserInfoHandler(KoroneMessageHandler):
     async def handle(self) -> None:
         target_user: ChatModel | None = None
         try:
-            selected_user = get_arg_or_reply_user(self.event, self.data)
+            selected_user = get_arg_or_reply_user(self.event, self.args.user)
         except KoroneError:
             selected_user = None
 

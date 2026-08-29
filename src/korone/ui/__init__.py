@@ -1,4 +1,4 @@
-from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink
+from aiogram.utils.formatting import Bold, Code, Italic, Text, TextLink, TextMention
 
 from .components import bullets, column, field, link, mention, numbered, row, section, template
 from .expression import UI, MessageContent, Renderable, UIExpression
@@ -12,6 +12,7 @@ __all__ = (
     "Renderable",
     "Text",
     "TextLink",
+    "TextMention",
     "UIExpression",
     "bullets",
     "column",

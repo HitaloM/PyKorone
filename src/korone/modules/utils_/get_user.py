@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from aiogram.types import User
 from attr import dataclass
@@ -19,14 +19,12 @@ class UnionUser:
     username: str | None
 
 
-def get_arg_or_reply_user(message: Message, data: dict[str, Any]) -> User | ChatModel:
+def get_arg_or_reply_user(message: Message, user: ChatModel | None) -> User | ChatModel:
     if not message.from_user:
         raise KoroneError.user_context_unavailable()
 
-    if db_user := data.get("user"):
-        if isinstance(db_user, ChatModel):
-            return db_user
-        raise KoroneError.user_context_unavailable()
+    if user is not None:
+        return user
 
     if message.reply_to_message and is_real_reply(message) and message.reply_to_message.from_user:
         return message.reply_to_message.from_user

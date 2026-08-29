@@ -39,9 +39,9 @@ _PERIOD_ALIASES: dict[str, LastFMPeriod] = {
 }
 
 
-def parse_period_token(raw_value: str, *, default: LastFMPeriod) -> LastFMPeriod:
+def parse_period_token(raw_value: str) -> LastFMPeriod | None:
     normalized = raw_value.strip().lower()
-    return _PERIOD_ALIASES.get(normalized, default)
+    return _PERIOD_ALIASES.get(normalized)
 
 
 def period_label(period: LastFMPeriod) -> str:

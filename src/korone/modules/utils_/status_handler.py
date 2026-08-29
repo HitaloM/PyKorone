@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, ClassVar, TypeVar, cast
 
 from aiogram.exceptions import TelegramBadRequest
 
-from korone.args import BooleanArg, OptionalArg, define_arguments
+from korone.args import ArgumentSchema, BooleanArg
 from korone.ui import Italic, MessageContent, Renderable, field, section, template
 from korone.ui.rendering import text_kwargs
 from korone.utils.handlers import KoroneMessageHandler
@@ -19,13 +20,18 @@ if TYPE_CHECKING:
 T = TypeVar("T")
 
 
-class StatusHandlerABC[T](KoroneMessageHandler):
+@dataclass(frozen=True, slots=True)
+class StatusArguments:
+    new_status: bool | None = None
+
+
+class StatusHandlerABC[T](KoroneMessageHandler[StatusArguments]):
     header_text: LazyProxy
     status_texts: ClassVar[Mapping[object, LazyProxy]]
     change_command: str | None = None
     change_args: str = "on / off"
 
-    arguments = define_arguments(new_status=OptionalArg(BooleanArg(l_("New status"))))
+    arguments = ArgumentSchema(StatusArguments, new_status=BooleanArg(l_("New status")))
 
     @abstractmethod
     async def get_status(self) -> T:
@@ -82,7 +88,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
         await self.reply_status(doc)
 
     async def handle(self) -> None:
-        new_status: T | None = self.data.get("new_status", None)
+        new_status = self.args.new_status
 
         if new_status is None:
             return await self.display_current_status()
