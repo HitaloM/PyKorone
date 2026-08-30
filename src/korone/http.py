@@ -177,32 +177,40 @@ class RetryPolicy:
         raise RuntimeError(msg)
 
 
-class HTTPClient:
-    _session: ClientSession | None = None
-    _connector: TCPConnector | None = None
+class HttpClient:
+    __slots__ = ("_session",)
 
-    @classmethod
-    async def get_session(cls) -> ClientSession:
-        if cls._session is None or cls._session.closed:
-            if cls._connector is None or cls._connector.closed:
-                cls._connector = TCPConnector(
-                    use_dns_cache=True,
-                    limit=100,
-                    limit_per_host=30,
-                    ttl_dns_cache=300,
-                    keepalive_timeout=30,
-                    enable_cleanup_closed=True,
-                    force_close=False,
-                )
-            cls._session = ClientSession(connector=cls._connector)
-        return cls._session
+    def __init__(self) -> None:
+        self._session: ClientSession | None = None
 
-    @classmethod
-    async def close(cls) -> None:
-        if cls._session and not cls._session.closed:
-            await cls._session.close()
-            cls._session = None
+    async def start(self) -> None:
+        if self._session is not None and not self._session.closed:
+            return
 
-        if cls._connector and not cls._connector.closed:
-            await cls._connector.close()
-            cls._connector = None
+        connector = TCPConnector(
+            use_dns_cache=True,
+            limit=100,
+            limit_per_host=30,
+            ttl_dns_cache=300,
+            keepalive_timeout=30,
+            enable_cleanup_closed=True,
+            force_close=False,
+        )
+        self._session = ClientSession(connector=connector)
+
+    @property
+    def session(self) -> ClientSession:
+        if self._session is None or self._session.closed:
+            msg = "HTTP client is not running"
+            raise RuntimeError(msg)
+        return self._session
+
+    async def close(self) -> None:
+        if self._session is None:
+            return
+        if not self._session.closed:
+            await self._session.close()
+        self._session = None
+
+
+http_client = HttpClient()

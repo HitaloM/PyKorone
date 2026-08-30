@@ -6,7 +6,7 @@ from typing import Any
 import aiohttp
 import orjson
 
-from korone.utils.aiohttp_session import HTTPClient
+from korone.http import http_client
 
 from .misc import _extract_hostname
 
@@ -17,7 +17,7 @@ CF_DNS_URL = "https://cloudflare-dns.com/dns-query"
 async def fetch_ip_info(ip_or_domain: str) -> dict[str, Any] | None:
     url = IPINFO_URL.format(target=ip_or_domain)
     timeout = aiohttp.ClientTimeout(total=15)
-    session = await HTTPClient.get_session()
+    session = http_client.session
     try:
         async with session.get(url, timeout=timeout) as response:
             if response.status != 200:
@@ -34,7 +34,7 @@ async def fetch_dns_info(hostname: str, record_type: str) -> list[str]:
     headers = {"accept": "application/dns-json"}
     timeout = aiohttp.ClientTimeout(total=10)
 
-    session = await HTTPClient.get_session()
+    session = http_client.session
     try:
         async with session.get(CF_DNS_URL, timeout=timeout, params=params, headers=headers) as response:
             if response.status != 200:

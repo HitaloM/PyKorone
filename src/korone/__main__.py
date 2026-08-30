@@ -18,6 +18,7 @@ from . import aredis, bot, dp
 from .config import CONFIG
 from .db.repositories.chat import ChatRepository
 from .db.utils import close_db, init_db, migrate_db_if_needed
+from .http import http_client
 from .logger import get_logger, setup_logging
 from .middlewares import UpdateLogContextMiddleware, localization_middleware
 from .middlewares.admin_cache import AdminCacheMiddleware
@@ -26,7 +27,6 @@ from .middlewares.disabling import DisablingMiddleware
 from .middlewares.save_chats import SAVE_CHATS_REQUIRED_UPDATE_TYPES, SaveChatsMiddleware
 from .modules import LOADED_MODULES, load_modules
 from .modules.help.utils.commands import sync_bot_commands
-from .utils.aiohttp_session import HTTPClient
 from .utils.i18n import i18n
 
 logger = get_logger(__name__)
@@ -88,6 +88,7 @@ async def prepare_runtime() -> list[str]:
             in_app_include=["korone"],
         )
 
+    await http_client.start()
     await init_db()
     await migrate_db_if_needed()
     await ensure_bot_in_db()
@@ -108,7 +109,7 @@ async def shutdown(*, close_bot_session: bool = True) -> None:
     await logger.ainfo("Shutting down the bot...")
     await drop_pending_updates()
     await close_db()
-    await HTTPClient.close()
+    await http_client.close()
     if close_bot_session:
         await bot.session.close()
     await aredis.aclose(close_connection_pool=True)

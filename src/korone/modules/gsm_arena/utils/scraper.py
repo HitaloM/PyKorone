@@ -5,8 +5,8 @@ import aiohttp
 from lxml import html
 
 from korone.config import CONFIG
+from korone.http import RetryPolicy, http_client
 from korone.logger import get_logger
-from korone.utils.aiohttp_session import HTTPClient, RetryPolicy
 from korone.utils.cached import Cached
 
 from .errors import GSMArenaRequestError
@@ -61,7 +61,7 @@ def _build_request_url(url: str) -> str:
 @Cached(ttl=CACHE_TTL, key="gsmarena:html")
 async def fetch_html(url: str) -> str:
     request_url = _build_request_url(url)
-    session = await HTTPClient.get_session()
+    session = http_client.session
 
     try:
         async with session.get(

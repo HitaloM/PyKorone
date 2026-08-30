@@ -5,7 +5,7 @@ import aiohttp
 import orjson
 from pydantic import BaseModel, TypeAdapter, ValidationError
 
-from korone.utils.aiohttp_session import HTTPClient, RetryPolicy
+from korone.http import HttpClient, RetryPolicy, http_client
 
 from ._schemas import (
     _DeezerAlbumPayload,
@@ -33,7 +33,7 @@ def _validate_payload[T: BaseModel](model_type: type[T], payload: object) -> T:
 
 
 class DeezerClient:
-    __slots__ = ("base_url", "retry_policy")
+    __slots__ = ("base_url", "http", "retry_policy")
 
     BASE_URL = "https://api.deezer.com"
     TIMEOUT_SECONDS = 12
@@ -41,8 +41,9 @@ class DeezerClient:
     SEARCH_STRICT_MODE = "on"
     COMPARISON_SANITIZER_RE = re.compile(r"[\W_]+")
 
-    def __init__(self, base_url: str | None = None) -> None:
+    def __init__(self, base_url: str | None = None, *, http: HttpClient = http_client) -> None:
         self.base_url = (base_url or self.BASE_URL).rstrip("/")
+        self.http = http
         self.retry_policy = RetryPolicy(
             attempts=3,
             timeout=aiohttp.ClientTimeout(total=self.TIMEOUT_SECONDS),
@@ -132,7 +133,7 @@ class DeezerClient:
 
     async def _request(self, path: str, *, params: dict[str, str | int]) -> dict[str, object]:
         url = f"{self.base_url}/{path.lstrip('/')}"
-        session = await HTTPClient.get_session()
+        session = self.http.session
 
         try:
             async with session.get(

@@ -3,7 +3,7 @@ import orjson
 from pydantic import BaseModel, TypeAdapter, ValidationError
 
 from korone.config import CONFIG
-from korone.utils.aiohttp_session import HTTPClient
+from korone.http import HttpClient, http_client
 
 from ._schemas import (
     _LastFMAlbumInfoResponse,
@@ -82,9 +82,11 @@ def _tags(payload: _LastFMTagsPayload | None) -> tuple[str, ...]:
 
 
 class LastFMClient:
-    __slots__ = ("api_key", "base_url", "timeout")
+    __slots__ = ("api_key", "base_url", "http", "timeout")
 
-    def __init__(self, api_key: str | None = None, base_url: str = LASTFM_BASE_URL) -> None:
+    def __init__(
+        self, api_key: str | None = None, base_url: str = LASTFM_BASE_URL, *, http: HttpClient = http_client
+    ) -> None:
         configured_key = CONFIG.lastfm_key.get_secret_value() if CONFIG.lastfm_key is not None else ""
         resolved_key = (api_key or configured_key).strip()
         if not resolved_key:
@@ -93,12 +95,13 @@ class LastFMClient:
 
         self.api_key = resolved_key
         self.base_url = base_url
+        self.http = http
         self.timeout = aiohttp.ClientTimeout(total=LASTFM_TIMEOUT_SECONDS)
 
     async def _request(self, *, method: str, params: dict[str, str | int]) -> dict[str, object]:
         request_params: dict[str, str | int] = {"method": method, "api_key": self.api_key, "format": "json", **params}
 
-        session = await HTTPClient.get_session()
+        session = self.http.session
         try:
             async with session.get(self.base_url, params=request_params, timeout=self.timeout) as response:
                 raw_payload: object

@@ -8,11 +8,11 @@ from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.args import ArgumentSchema
+from korone.http import http_client
 from korone.modules.web.args import IPAddressOrDomainArg
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
 from korone.modules.web.utils.ip import fetch_ip_info
 from korone.ui import Code, Italic, UIExpression, field, section, template
-from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -68,7 +68,7 @@ class IPInfoHandler(KoroneMessageHandler[IPInfoArguments]):
     async def fetch_ip_info(self, ip_or_domain: str) -> dict[str, Any] | None:
         url = self.IPINFO_URL.format(target=ip_or_domain)
         timeout = aiohttp.ClientTimeout(total=15)
-        session = await HTTPClient.get_session()
+        session = http_client.session
         try:
             async with session.get(url, timeout=timeout) as response:
                 if response.status != 200:

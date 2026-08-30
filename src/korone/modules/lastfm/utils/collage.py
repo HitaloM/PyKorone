@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import aiohttp
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
-from korone.utils.aiohttp_session import HTTPClient
+from korone.http import http_client
 from korone.utils.i18n import ngettext as pl_
 
 if TYPE_CHECKING:
@@ -46,7 +46,7 @@ def _load_font() -> FontType:
 async def _download_cover(
     url: str, *, request_timeout: aiohttp.ClientTimeout, semaphore: asyncio.Semaphore
 ) -> bytes | None:
-    session = await HTTPClient.get_session()
+    session = http_client.session
     async with semaphore:
         try:
             async with session.get(url, timeout=request_timeout) as response:
