@@ -12,15 +12,11 @@ from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 from .callbacks import LastFMMode
-from .handlers.album import LastFMAlbumPayload, LastFMAlbumView
-from .handlers.artist import LastFMArtistPayload, LastFMArtistView
 from .handlers.base import LastFMHandlerSupport, LastFMUserContext
 from .handlers.lfm import LastFMStatusPayload, LastFMStatusView
 from .utils import LastFMClient, LastFMError, format_lastfm_error
 
 if TYPE_CHECKING:
-    from collections.abc import Awaitable
-
     from aiogram.types import InlineQuery
 
     from korone.ui import MessageContent
@@ -47,13 +43,6 @@ logger = get_logger(__name__)
 
 def matches_lastfm_inline(query: InlineQuery) -> bool:
     return not query.query.strip()
-
-
-async def _capture_lastfm_error[T](awaitable: Awaitable[T]) -> T | LastFMError:
-    try:
-        return await awaitable
-    except LastFMError as exc:
-        return exc
 
 
 def _message_content(text: MessageContent, image_url: str | None = None) -> InputTextMessageContent:
@@ -94,30 +83,6 @@ def _track_result(payload: LastFMStatusPayload, track: LastFMRecentTrack) -> Inl
     )
 
 
-def _album_result(payload: LastFMAlbumPayload | None, track: LastFMRecentTrack) -> InlineQueryResultArticle:
-    if payload is None:
-        empty_text = LastFMAlbumView.empty_state_text()
-        return _article(result_id="album", title=_("Current album"), description=empty_text, text=empty_text)
-
-    image_url = LastFMHandlerSupport.resolve_image_url(payload.image_url)
-    album_name = payload.album_info.name if payload.album_info else track.album
-    return _article(
-        result_id="album",
-        title=_("Current album"),
-        description=f"{track.artist} — {album_name}",
-        text=payload.text,
-        image_url=image_url,
-    )
-
-
-def _artist_result(payload: LastFMArtistPayload, track: LastFMRecentTrack) -> InlineQueryResultArticle:
-    image_url = LastFMHandlerSupport.resolve_image_url(payload.image_url)
-    artist_name = payload.artist_info.name if payload.artist_info else track.artist
-    return _article(
-        result_id="artist", title=_("Current artist"), description=artist_name, text=payload.text, image_url=image_url
-    )
-
-
 async def _build_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
     username = await LastFMRepository.get_username(query.from_user.id)
     if not username:
@@ -136,59 +101,15 @@ async def _build_lastfm_inline(query: InlineQuery) -> InlineQueryContribution:
         return _informational_contribution(title=_("No recent scrobbles"), text=LastFMStatusView.empty_state_text())
 
     track = recent_tracks[0]
-    async with asyncio.TaskGroup() as task_group:
-        status_task = task_group.create_task(
-            _capture_lastfm_error(
-                LastFMStatusView.build_status_payload_from_tracks(
-                    user=user, mode=LastFMMode.COMPACT, tracks=recent_tracks
-                )
-            )
+    try:
+        status_payload = await LastFMStatusView.build_status_payload_from_tracks(
+            user=user, mode=LastFMMode.COMPACT, tracks=recent_tracks
         )
-        album_task = task_group.create_task(
-            _capture_lastfm_error(LastFMAlbumView.build_payload_from_track(user=user, track=track))
-        )
-        artist_task = task_group.create_task(
-            _capture_lastfm_error(LastFMArtistView.build_payload_from_track(user=user, track=track))
-        )
+    except LastFMError as exc:
+        return _informational_contribution(title=_("Last.fm unavailable"), text=format_lastfm_error(exc))
 
-    status_payload = status_task.result()
-    album_payload = album_task.result()
-    artist_payload = artist_task.result()
-    results = []
-    failure = None
-    failed_components = []
-
-    if isinstance(status_payload, LastFMError):
-        failure = status_payload
-        failed_components.append("status")
-    elif status_payload is not None:
-        results.append(_track_result(status_payload, track))
-
-    if isinstance(album_payload, LastFMError):
-        failed_components.append("album")
-        if failure is None:
-            failure = album_payload
-    else:
-        results.append(_album_result(album_payload, track))
-
-    if isinstance(artist_payload, LastFMError):
-        failed_components.append("artist")
-        if failure is None:
-            failure = artist_payload
-    else:
-        results.append(_artist_result(artist_payload, track))
-
-    if results:
-        if failed_components:
-            await logger.awarning(
-                "Last.fm inline payload partially degraded",
-                failed_components=tuple(failed_components),
-                result_count=len(results),
-            )
-        return InlineQueryContribution(results=tuple(results))
-
-    if failure is not None:
-        return _informational_contribution(title=_("Last.fm unavailable"), text=format_lastfm_error(failure))
+    if status_payload is not None:
+        return InlineQueryContribution(results=(_track_result(status_payload, track),))
 
     return _informational_contribution(title=_("No recent scrobbles"), text=LastFMStatusView.empty_state_text())
 

@@ -1006,30 +1006,21 @@ msgstr "Defina seu nome de usuário do Last.fm para usar os comandos de status."
 msgid "Username"
 msgstr "Nome de usuário"
 
-#: src/korone/modules/lastfm/inline.py:90
+#: src/korone/modules/lastfm/inline.py:79
 msgid "Current track"
 msgstr "Faixa atual"
 
-#: src/korone/modules/lastfm/inline.py:100
-#: src/korone/modules/lastfm/inline.py:106
-msgid "Current album"
-msgstr "Álbum atual"
-
-#: src/korone/modules/lastfm/inline.py:117
-msgid "Current artist"
-msgstr "Artista atual"
-
-#: src/korone/modules/lastfm/inline.py:124
+#: src/korone/modules/lastfm/inline.py:89
 msgid "Set up Last.fm"
 msgstr "Configurar Last.fm"
 
-#: src/korone/modules/lastfm/inline.py:133
-#: src/korone/modules/lastfm/inline.py:191
+#: src/korone/modules/lastfm/inline.py:98
+#: src/korone/modules/lastfm/inline.py:109
 msgid "Last.fm unavailable"
 msgstr "Last.fm indisponível"
 
-#: src/korone/modules/lastfm/inline.py:136
-#: src/korone/modules/lastfm/inline.py:193
+#: src/korone/modules/lastfm/inline.py:101
+#: src/korone/modules/lastfm/inline.py:114
 msgid "No recent scrobbles"
 msgstr "Nenhum scrobble recente"
 
