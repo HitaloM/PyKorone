@@ -27,6 +27,9 @@ logger = get_logger(__name__)
 
 SAVE_CHATS_REQUIRED_UPDATE_TYPES: Final[frozenset[str]] = frozenset((
     UpdateType.MESSAGE.value,
+    UpdateType.EDITED_MESSAGE.value,
+    UpdateType.CHANNEL_POST.value,
+    UpdateType.EDITED_CHANNEL_POST.value,
     UpdateType.CALLBACK_QUERY.value,
     UpdateType.INLINE_QUERY.value,
     UpdateType.POLL_ANSWER.value,
@@ -418,8 +421,9 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         context = as_korone_context(data)
         await logger.adebug("SaveChatsMiddleware: Incoming update", update_id=event.update_id)
-        if event.message:
-            await self.handle_message(event.message, context)
+        message = event.message or event.edited_message or event.channel_post or event.edited_channel_post
+        if message is not None:
+            await self.handle_message(message, context)
         elif event.callback_query or event.inline_query or event.poll_answer:
             await self.save_from_user(context)
         elif event.chat_join_request:
