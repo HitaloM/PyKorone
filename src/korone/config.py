@@ -28,8 +28,8 @@ class Config(BaseSettings):
     redis_db_states: RedisDatabase = 2
     redis_db_schedule: RedisDatabase = 3
 
-    media_max_concurrent_downloads: MediaConcurrency = 4
-    media_max_concurrent_transforms: MediaConcurrency = 2
+    media_max_concurrent_downloads: MediaConcurrency = 8
+    media_max_concurrent_transforms: MediaConcurrency = 4
 
     botapi_server: AnyHttpUrl | None = None
     botapi_local_storage_root: str = "/var/lib/telegram-bot-api"
