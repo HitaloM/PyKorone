@@ -44,7 +44,7 @@ class TwitterProvider(MediaProvider):
 
         post_url = parser.extract_post_url(tweet, status_id, author_handle, url)
 
-        media_sources = parser.extract_media_sources(tweet)
+        media_sources = parser.extract_media_sources(tweet, max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES)
         media = await cls.download_media(
             media_sources, filename_prefix="x_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="FXTwitter"
         )

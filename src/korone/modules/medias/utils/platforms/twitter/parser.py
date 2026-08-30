@@ -14,6 +14,9 @@ _STATUS_URL_PATTERN = re.compile(
     re.IGNORECASE,
 )
 _VIDEO_MEDIA_TYPES = {"video", "gif", "animated_gif"}
+# Reserve capacity for audio and container overhead not represented by the video bitrate.
+_VIDEO_SIZE_BUDGET_NUMERATOR = 9
+_VIDEO_SIZE_BUDGET_DENOMINATOR = 10
 _TRAILING_TCO_LINK_PATTERN = re.compile(r"(?:\s+)?https://t\.co/[A-Za-z0-9]+(?:\u2026)?\s*$", re.IGNORECASE)
 
 
@@ -98,7 +101,7 @@ def extract_post_url(tweet: dict[str, Any], status_id: str, handle: str | None, 
     return fallback
 
 
-def extract_media_sources(tweet: dict[str, Any]) -> list[MediaSource]:
+def extract_media_sources(tweet: dict[str, Any], *, max_size: int | None = None) -> list[MediaSource]:
     media = _extract_fxtwitter_media(tweet)
 
     sources: list[MediaSource] = []
@@ -126,31 +129,35 @@ def extract_media_sources(tweet: dict[str, Any]) -> list[MediaSource]:
             _add(MediaKind.PHOTO, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
     for video in iter_media_dicts(media.get("videos"), media.get("video")):
-        url = pick_video_url(video)
+        thumbnail_url, duration, width, height = _extract_media_metadata(video)
+        url = pick_video_url(video, duration=duration, max_size=max_size)
         if url:
-            thumbnail_url, duration, width, height = _extract_media_metadata(video)
             _add(MediaKind.VIDEO, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
     for item in iter_media_dicts(media.get("all")):
         kind = resolve_kind(item)
-        url = pick_video_url(item) if kind == MediaKind.VIDEO else coerce_url(item.get("url") or item.get("src"))
+        thumbnail_url, duration, width, height = _extract_media_metadata(item)
+        url = (
+            pick_video_url(item, duration=duration, max_size=max_size)
+            if kind == MediaKind.VIDEO
+            else coerce_url(item.get("url") or item.get("src"))
+        )
         if not url:
             url = coerce_url(item.get("source"))
         if not url:
             continue
 
-        thumbnail_url, duration, width, height = _extract_media_metadata(item)
         _add(kind, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
     return sources
 
 
-def pick_video_url(video: dict[str, Any]) -> str | None:
+def pick_video_url(video: dict[str, Any], *, duration: int | None = None, max_size: int | None = None) -> str | None:
     variants = dict_list(video.get("formats"))
     if not variants:
         variants = dict_list(video.get("variants"))
 
-    if best_variant := pick_best_variant(variants):
+    if best_variant := pick_best_variant(variants, duration=duration, max_size=max_size):
         return best_variant
 
     direct_url = coerce_url(video.get("url") or video.get("src") or video.get("source"))
@@ -163,9 +170,13 @@ def pick_video_url(video: dict[str, Any]) -> str | None:
     return direct_url
 
 
-def pick_best_variant(variants: list[dict[str, Any]]) -> str | None:
+def pick_best_variant(
+    variants: list[dict[str, Any]], *, duration: int | None = None, max_size: int | None = None
+) -> str | None:
     best_mp4_url: str | None = None
     best_mp4_bitrate = -1
+    lowest_mp4_url: str | None = None
+    lowest_mp4_bitrate: int | None = None
 
     for variant in variants:
         if not isinstance(variant, dict):
@@ -180,13 +191,24 @@ def pick_best_variant(variants: list[dict[str, Any]]) -> str | None:
             continue
 
         bitrate = coerce_int(variant.get("bitrate")) or -1
+        if bitrate > 0 and (lowest_mp4_bitrate is None or bitrate < lowest_mp4_bitrate):
+            lowest_mp4_bitrate = bitrate
+            lowest_mp4_url = url
+
+        if (
+            bitrate > 0
+            and duration
+            and max_size
+            and bitrate * duration * _VIDEO_SIZE_BUDGET_DENOMINATOR > max_size * 8 * _VIDEO_SIZE_BUDGET_NUMERATOR
+        ):
+            continue
         if bitrate <= best_mp4_bitrate:
             continue
 
         best_mp4_bitrate = bitrate
         best_mp4_url = url
 
-    return best_mp4_url
+    return best_mp4_url or lowest_mp4_url
 
 
 def looks_like_hls(url: str, format_hint: object) -> bool:
