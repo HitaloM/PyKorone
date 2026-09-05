@@ -43,7 +43,7 @@ class StickerSwitchDefaultPackHandler(KoroneMessageHandler[StickerSwitchArgument
         owner_id = self.event.from_user.id
         packs = await get_valid_user_packs(self.bot, owner_id)
         if not packs:
-            await self.event.reply(_("You don't have any tracked sticker packs yet."))
+            await self.answer(_("You don't have any tracked sticker packs yet."))
             return
 
         selected_pack = self.resolve_target_pack(packs, target)

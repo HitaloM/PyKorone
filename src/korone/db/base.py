@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncAttrs
@@ -8,14 +8,12 @@ if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
     from sqlalchemy.sql import ColumnElement
 
-ModelT = TypeVar("ModelT", bound="Base")
-
 
 class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
-async def get_one[ModelT: "Base"](
+async def get_one[ModelT: Base](
     session: AsyncSession, model: type[ModelT], *filters: ColumnElement[bool]
 ) -> ModelT | None:
     stmt = select(model)

@@ -42,7 +42,8 @@ manifest = ModuleManifest(package=ModulePackage(...), router=router, handlers=(H
 
 - Provide `name`, `icon`, `summary`, `description`, and `public` through `ModulePackage`.
 - Localize public metadata with `lazy_gettext as l_`.
-- Use `LazyProxy(lambda: column(...))` from `korone.ui` for lazy structured descriptions. Preserve the resulting UI
+- Use `LazyProxy` from `korone.utils.i18n` with `column` from `korone.ui` for lazy structured descriptions, as in
+  `LazyProxy(lambda: column(...))`. Keep proxies uncached so metadata follows the request locale. Preserve the resulting UI
   expression until the help rendering boundary; never stringify the proxy or expression.
 - Use plain strings with `public=False` for internal modules where appropriate.
 
@@ -60,4 +61,7 @@ manifest = ModuleManifest(package=ModulePackage(...), router=router, handlers=(H
 - Import the new or changed package directly.
 - Verify `LoadedModule.from_module(...)` accepts its `manifest`.
 - Verify the slug, router, handler tuple, callbacks, hooks, stats, and export contracts affected by the change.
-- Verify loader order and localization when package metadata changes.
+- Verify loader order and localization when package metadata changes, rendering the same metadata in alternating
+  locales. Do not clone Babel private state in the loader/help layer.
+- Import handlers as well as checking types: aiogram flag decorators erase class types, so `ModuleHandler` retains a
+  narrow `Any` boundary. Do not spread that exception into feature data or change decorators just to hide it.

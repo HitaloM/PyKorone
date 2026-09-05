@@ -1,4 +1,4 @@
-from collections.abc import Awaitable, Callable
+from typing import TYPE_CHECKING
 
 from aiogram.exceptions import (
     TelegramAPIError,
@@ -9,41 +9,36 @@ from aiogram.exceptions import (
 )
 
 from korone.logger import get_logger
-from korone.modules.utils_.telegram_exceptions import (
-    CAN_NOT_BE_DELETED,
-    MSG_TO_DEL_NOT_FOUND,
-    REPLIED_NOT_FOUND,
-    USER_ALREADY_PARTICIPANT,
+from korone.utils.telegram_errors import (
+    is_message_delete_unavailable_error,
+    is_message_to_reply_not_found_error,
+    is_user_already_participant_error,
 )
 from korone.utils.telegram_permissions import is_no_rights_error
 
-type COROUTINE_TYPE[T] = Awaitable[T]
-type CALLBACK_COROUTINE_TYPE[T] = Callable[[], COROUTINE_TYPE[T]]
+if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable
+
 IGNORED_EXCEPTIONS = (TelegramNotFound, TelegramForbiddenError, TelegramMigrateToChat)
 
 logger = get_logger(__name__)
 
 
-async def common_try[T](
-    to_try: COROUTINE_TYPE[T], reply_not_found: CALLBACK_COROUTINE_TYPE[T] | None = None
-) -> T | None:
+async def common_try[T](to_try: Awaitable[T], reply_not_found: Callable[[], Awaitable[T]] | None = None) -> T | None:
     try:
         await logger.adebug("common_try: Trying to execute callback")
         return await to_try
     except TelegramBadRequest as err:
-        if reply_not_found and REPLIED_NOT_FOUND in err.message:
+        if reply_not_found and is_message_to_reply_not_found_error(err):
             await logger.adebug("common_try: Reply not found, trying to execute reply_not_found")
             return await common_try(to_try=reply_not_found())
-        if REPLIED_NOT_FOUND in err.message:
+        if is_message_to_reply_not_found_error(err):
             await logger.adebug("common_try: Reply not found, ignoring")
             return None
-        if CAN_NOT_BE_DELETED in err.message:
+        if is_message_delete_unavailable_error(err):
             await logger.adebug("common_try: Message can't be deleted, ignoring")
             return None
-        if MSG_TO_DEL_NOT_FOUND in err.message:
-            await logger.adebug("common_try: Message to delete not found, ignoring")
-            return None
-        if USER_ALREADY_PARTICIPANT in err.message:
+        if is_user_already_participant_error(err):
             await logger.adebug("common_try: User already participant, ignoring")
         else:
             await logger.awarning("common_try: Unknown TelegramBadRequest exception, re-raising", error=str(err))

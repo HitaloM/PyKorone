@@ -76,19 +76,13 @@ class ArgumentValueError(Exception):
         super().__init__(*(plain_text(message) for message in messages))
 
 
-def _uncached_description(description: ArgumentDescription | None) -> ArgumentDescription | None:
-    if not isinstance(description, LazyProxy):
-        return description
-    return LazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)
-
-
 class Argument[T](ABC):
     __slots__ = ("description",)
 
     consumes_remainder = False
 
     def __init__(self, description: ArgumentDescription | None = None) -> None:
-        self.description = _uncached_description(description)
+        self.description = description
 
     @property
     def help_description(self) -> ArgumentDescription | None:
@@ -118,7 +112,7 @@ class ArgumentSchemaField:
         description = self.argument.help_description or self.name
         if self.required:
             return description
-        return LazyProxy(lambda: f"?{description}", enable_cache=False)
+        return LazyProxy(lambda: f"?{description}")
 
 
 class ArgumentParsingError(Exception):

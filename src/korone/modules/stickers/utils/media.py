@@ -10,14 +10,13 @@ import orjson
 from aiogram.types import FSInputFile, InputSticker
 from PIL import Image
 
-from korone.modules.utils_.telegram_file import download_telegram_file
 from korone.utils.i18n import gettext as _
+from korone.utils.subprocess import run_process
 
 from .constants import MAX_STICKER_SIDE, MAX_VIDEO_SECONDS, MAX_VIDEO_SIZE_BYTES, VIDEO_EXTENSIONS
 from .errors import StickerPrepareError
 
 if TYPE_CHECKING:
-    from aiogram import Bot
     from aiogram.types import Message, Sticker
 
 
@@ -75,10 +74,6 @@ def extract_reply_media(message: Message) -> tuple[str, str, str | None]:
 
     msg = "Reply does not contain supported media"
     raise ValueError(msg)
-
-
-async def download_file(bot: Bot, file_id: str, destination: Path) -> None:
-    await download_telegram_file(bot=bot, file_id=file_id, destination=destination)
 
 
 async def prepare_sticker_file(source_path: Path) -> tuple[Path, str]:
@@ -167,12 +162,15 @@ async def convert_video_for_sticker(source_path: Path, output_path: Path) -> Non
         command.extend(["-r", "30"])
 
     command.append(str(output_path))
-    status, _stdout, _stderr = await run_subprocess(command)
-    output_exists = await asyncio.to_thread(path_exists, output_path)
-    if status != 0 or not output_exists:
+    try:
+        result = await run_process(command, timeout_seconds=120)
+    except (OSError, TimeoutError) as exc:
+        raise StickerPrepareError(_("Could not convert this video to a valid sticker.")) from exc
+    output_exists = await asyncio.to_thread(output_path.exists)
+    if result.returncode != 0 or not output_exists:
         raise StickerPrepareError(_("Could not convert this video to a valid sticker."))
 
-    size_bytes = await asyncio.to_thread(path_size, output_path)
+    size_bytes = (await asyncio.to_thread(output_path.stat)).st_size
     if size_bytes > MAX_VIDEO_SIZE_BYTES:
         raise StickerPrepareError(
             _("Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB.").format(
@@ -181,12 +179,8 @@ async def convert_video_for_sticker(source_path: Path, output_path: Path) -> Non
         )
 
 
-def is_ffmpeg_available() -> bool:
-    return _is_ffmpeg_available()
-
-
 @cache
-def _is_ffmpeg_available() -> bool:
+def is_ffmpeg_available() -> bool:
     return bool(shutil.which("ffmpeg") and shutil.which("ffprobe"))
 
 
@@ -203,12 +197,15 @@ async def probe_video(path: Path) -> VideoMeta:
         "json",
         str(path),
     ]
-    status, stdout, _stderr = await run_subprocess(command)
-    if status != 0:
+    try:
+        result = await run_process(command, timeout_seconds=30)
+    except (OSError, TimeoutError) as exc:
+        raise StickerPrepareError(_("Could not inspect video metadata.")) from exc
+    if result.returncode != 0:
         raise StickerPrepareError(_("Could not inspect video metadata."))
 
     try:
-        payload = orjson.loads(stdout)
+        payload = orjson.loads(result.stdout)
         stream = payload["streams"][0]
         width = int(stream["width"])
         height = int(stream["height"])
@@ -238,20 +235,3 @@ def parse_fps(raw_value: str) -> float:
         return float(raw_value)
     except ValueError:
         return 0.0
-
-
-def path_exists(path: Path) -> bool:
-    return path.exists()
-
-
-def path_size(path: Path) -> int:
-    return path.stat().st_size
-
-
-async def run_subprocess(command: list[str]) -> tuple[int, str, str]:
-    process = await asyncio.create_subprocess_exec(
-        *command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
-    stdout, stderr = await process.communicate()
-    returncode = process.returncode if process.returncode is not None else 1
-    return returncode, stdout.decode("utf-8", errors="replace"), stderr.decode("utf-8", errors="replace")

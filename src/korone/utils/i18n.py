@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, Literal, cast
+from typing import TYPE_CHECKING, Literal, cast
 
 import polib
 from aiogram.utils.i18n import I18n
@@ -32,11 +32,10 @@ class LocaleStats:
 
 
 class I18nNew(I18n):
-    babels: ClassVar[dict[str, Locale]] = {}
-    stats: ClassVar[dict[str, LocaleStats | None]] = {}
-
     def __init__(self, *, path: str | Path, default_locale: str = "en", domain: str = "messages") -> None:
         super().__init__(path=path, default_locale=default_locale, domain=domain)
+        self.babels: dict[str, Locale] = {}
+        self.stats: dict[str, LocaleStats | None] = {}
 
         logger.debug("Loading locales additional data...")
         for locale in self.locales:
@@ -131,7 +130,7 @@ def format_relative_timedelta(
 class LazyProxy(BabelLazyProxy):
     __isabstractmethod__: bool = False
 
-    def __init__(self, *items: str | Callable, enable_cache: bool = True, **kwargs: str | float | bool) -> None:
+    def __init__(self, *items: str | Callable, enable_cache: bool = False, **kwargs: str | float | bool) -> None:
         if callable(items[0]):
             func = items[0]
             args = items[1:]

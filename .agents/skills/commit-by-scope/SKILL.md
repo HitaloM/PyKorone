@@ -14,7 +14,7 @@ Commit only the changes the user authorized, preserving unrelated work and produ
 3. Partition the requested changes by coherent intent and scope:
    - create one commit when all changes form one indivisible behavior or maintenance unit;
    - create multiple commits when groups have distinct purposes and each group remains valid and understandable on its own;
-   - keep implementation and its directly required migrations, generated files, or localization updates together; include tests only when they already exist in the authorized change set or the user explicitly requested them;
+   - keep implementation, its canonical decision/skill updates, and directly required migrations, generated files, or localization updates together; include tests only when they already exist in the authorized change set or the user explicitly requested them;
    - do not split solely by file or directory when the files implement the same outcome;
    - order dependent commits so every intermediate commit is internally consistent.
 4. Choose scopes from PyKorone's logical ownership and recent commit history:

@@ -1,14 +1,11 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, cast
 
-import aiohttp
-import orjson
 from aiogram import flags
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.args import ArgumentSchema
-from korone.http import http_client
 from korone.modules.web.args import IPAddressOrDomainArg
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
 from korone.modules.web.utils.ip import fetch_ip_info
@@ -56,31 +53,14 @@ def format_ip_info(ip: str, info: dict[str, Any]) -> UIExpression:
 @flags.help(description=l_("Look up information for an IP address or domain."))
 @flags.disableable(name="ip")
 class IPInfoHandler(KoroneMessageHandler[IPInfoArguments]):
-    IPINFO_URL = "https://ipinfo.io/{target}/json"
-    CF_DNS_URL = "https://cloudflare-dns.com/dns-query"
-
     arguments = ArgumentSchema(IPInfoArguments, addresses=IPAddressOrDomainArg(l_("IP or domain")))
 
     @classmethod
     def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("ip", "ipinfo"),)
 
-    async def fetch_ip_info(self, ip_or_domain: str) -> dict[str, Any] | None:
-        url = self.IPINFO_URL.format(target=ip_or_domain)
-        timeout = aiohttp.ClientTimeout(total=15)
-        session = http_client.session
-        try:
-            async with session.get(url, timeout=timeout) as response:
-                if response.status != 200:
-                    return None
-                data = await response.json(loads=orjson.loads)
-                data.pop("readme", None)
-                return data
-        except aiohttp.ClientError:
-            return None
-
     async def _reply_with_ip_info(self, ip: str) -> None:
-        info = await self.fetch_ip_info(ip)
+        info = await fetch_ip_info(ip)
         if not info:
             await self.answer(template(_("No information found for {ip_or_domain}."), ip_or_domain=ip))
             return
@@ -112,7 +92,7 @@ class IPInfoHandler(KoroneMessageHandler[IPInfoArguments]):
             builder.button(text=ip, callback_data=GetIPCallback(ip=encode_ip(ip)))
         builder.adjust(1)
 
-        await self.event.reply(_("Please select an IP address:"), reply_markup=builder.as_markup())
+        await self.answer(_("Please select an IP address:"), reply_markup=builder.as_markup())
 
 
 @flags.help(exclude=True)

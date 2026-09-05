@@ -1,28 +1,14 @@
 import asyncio
-import contextlib
 from typing import TYPE_CHECKING
 
 import aiofiles
 import aiofiles.os
 
+from korone.utils.subprocess import run_process
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
     from pathlib import Path
-
-
-async def _stop_process(process: asyncio.subprocess.Process) -> None:
-    if process.returncode is not None:
-        return
-
-    with contextlib.suppress(ProcessLookupError):
-        process.terminate()
-    try:
-        async with asyncio.timeout(5):
-            await process.wait()
-    except TimeoutError:
-        with contextlib.suppress(ProcessLookupError):
-            process.kill()
-        await process.wait()
 
 
 class FFmpegTranscoder:
@@ -36,20 +22,8 @@ class FFmpegTranscoder:
     ) -> bytes | None:
         async with self._slots:
             try:
-                process = await asyncio.create_subprocess_exec(
-                    *command, stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.PIPE
-                )
-            except OSError:
-                return None
-
-            try:
-                async with asyncio.timeout(timeout_seconds):
-                    await process.communicate()
-            except asyncio.CancelledError:
-                await _stop_process(process)
-                raise
-            except TimeoutError:
-                await _stop_process(process)
+                process = await run_process(command, timeout_seconds=timeout_seconds, stdout=asyncio.subprocess.DEVNULL)
+            except OSError, TimeoutError:
                 return None
 
         if process.returncode != 0:

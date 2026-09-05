@@ -44,16 +44,6 @@ class StickerPackRepository:
             )
 
     @staticmethod
-    async def get_by_title(owner_id: int, title: str) -> StickerPackModel | None:
-        normalized_title = title.strip().lower()
-        async with session_scope() as session:
-            stmt = select(StickerPackModel).where(
-                StickerPackModel.owner_id == owner_id, func.lower(StickerPackModel.title) == normalized_title
-            )
-            result = await session.execute(stmt.limit(1))
-            return result.scalars().first()
-
-    @staticmethod
     async def upsert_pack(
         pack_id: str, owner_id: int, title: str, *, set_default: bool | None = None
     ) -> StickerPackModel:
@@ -93,25 +83,6 @@ class StickerPackRepository:
             item = await get_one(
                 session, StickerPackModel, StickerPackModel.owner_id == owner_id, StickerPackModel.pack_id == pack_id
             )
-            if not item:
-                return None
-
-            await session.execute(
-                update(StickerPackModel).where(StickerPackModel.owner_id == owner_id).values(is_default=False)
-            )
-            item.is_default = True
-            return item
-
-    @staticmethod
-    async def set_default_by_title(owner_id: int, title: str) -> StickerPackModel | None:
-        normalized_title = title.strip().lower()
-        async with session_scope() as session:
-            stmt = select(StickerPackModel).where(
-                StickerPackModel.owner_id == owner_id, func.lower(StickerPackModel.title) == normalized_title
-            )
-            result = await session.execute(stmt.limit(1))
-            item = result.scalars().first()
-
             if not item:
                 return None
 

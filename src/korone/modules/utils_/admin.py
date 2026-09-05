@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING
 
 from aiogram.enums import ChatMemberStatus
 
@@ -10,29 +10,24 @@ from korone.logger import get_logger
 from korone.modules.utils_.chat_member import update_chat_members
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
     from typing import Any
 
     from korone.db.models.chat import ChatModel
 
 logger = get_logger(__name__)
 
-AdminPermission = Literal[
-    "can_post_messages",
-    "can_edit_messages",
-    "can_delete_messages",
-    "can_restrict_members",
-    "can_promote_members",
-    "can_change_info",
-    "can_invite_users",
-    "can_pin_messages",
-    "can_manage_tags",
-]
 
-
-async def _resolve_model(model_id: int) -> ChatModel | None:
-    if model := await ChatRepository.get_by_chat_id(model_id):
-        return model
-    return await ChatRepository.get_by_id(model_id)
+def check_member_permissions(
+    member_data: Mapping[str, object], required_permissions: Sequence[str] = (), *, require_creator: bool = False
+) -> bool | list[str]:
+    is_creator = member_data.get("status") == ChatMemberStatus.CREATOR
+    if require_creator:
+        return is_creator
+    if is_creator:
+        return True
+    missing = [permission for permission in required_permissions if member_data.get(permission) is not True]
+    return missing or True
 
 
 async def _ensure_admin_cache(chat_model: ChatModel) -> None:
@@ -76,49 +71,20 @@ async def check_user_admin_permissions(
         return True
 
     if not chat_model:
-        chat_model = await _resolve_model(chat)
+        chat_model = await ChatRepository.get_by_chat_id(chat)
     if not chat_model:
         return False
 
     if not user_model:
-        user_model = await _resolve_model(user)
+        user_model = await ChatRepository.get_by_chat_id(user)
     if not user_model:
         return False
-
-    if not require_creator:
-        if chat_model.chat_id == user_model.chat_id:
-            return True
-        if user_model.chat_id in CONFIG.operators:
-            return True
-        if user_model.chat_id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
-            return True
 
     admin_data = await _get_admin_data(chat_model, user_model)
     if not admin_data:
         return False
 
-    if require_creator:
-        return _is_creator_status(admin_data.get("status"))
-
-    if not required_permissions:
-        return True
-
-    if _is_creator_status(admin_data.get("status")):
-        return True
-
-    missing_permissions = [permission for permission in required_permissions if admin_data.get(permission) is not True]
-
-    return missing_permissions or True
-
-
-def _is_creator_status(status: str | None) -> bool:
-    if status is None:
-        return False
-
-    try:
-        return ChatMemberStatus(status) == ChatMemberStatus.CREATOR
-    except ValueError:
-        return False
+    return check_member_permissions(admin_data, required_permissions or (), require_creator=require_creator)
 
 
 async def is_user_admin(chat: int, user: int) -> bool:
@@ -127,30 +93,12 @@ async def is_user_admin(chat: int, user: int) -> bool:
 
 
 async def is_chat_creator(chat: int, user: int) -> bool:
-    chat_model = await _resolve_model(chat)
-    if not chat_model:
-        return False
-
-    user_model = await _resolve_model(user)
-    if not user_model:
-        return False
-
-    admin_data = await _get_admin_data(chat_model, user_model)
-    if not admin_data:
-        return False
-
-    admin_status = admin_data.get("status")
-    if not admin_status:
-        return False
-
-    try:
-        return ChatMemberStatus(admin_status) == ChatMemberStatus.CREATOR
-    except ValueError:
-        return False
+    result = await check_user_admin_permissions(chat, user, require_creator=True)
+    return result is True
 
 
 async def get_admins_rights(chat: int, *, force_update: bool = False) -> None:
-    chat_model = await _resolve_model(chat)
+    chat_model = await ChatRepository.get_by_chat_id(chat)
     if not chat_model:
         return
 

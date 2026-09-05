@@ -9,8 +9,8 @@ from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.lastfm.args import LastFMUsernameArg
 from korone.modules.lastfm.handlers.base import LastFMHandlerSupport
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, format_lastfm_error
+from korone.modules.utils_.reply_or_edit import reply_message
 from korone.ui import Code, template
-from korone.ui.rendering import text_kwargs
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -27,29 +27,28 @@ class LastFMSetArguments:
 
 async def _set_lastfm_username(message: Message, username: str) -> bool:
     if not message.from_user:
-        await message.reply(_("Could not identify your Telegram user."))
+        await reply_message(message, _("Could not identify your Telegram user."))
         return False
 
     client = LastFMClient()
     try:
         exists = await client.user_exists(username=username)
     except LastFMError as exc:
-        await message.reply(format_lastfm_error(exc))
+        await reply_message(message, format_lastfm_error(exc))
         return False
 
     if not exists:
-        await message.reply(_("Last.fm user not found."))
+        await reply_message(message, _("Last.fm user not found."))
         return False
 
     await LastFMRepository.set_username(chat_id=message.from_user.id, username=username)
-    await message.reply(
-        **text_kwargs(
-            template(
-                _("Last.fm username set to {username}. Use {command} to check your status."),
-                username=Code(username),
-                command=Code("/lfm"),
-            )
-        )
+    await reply_message(
+        message,
+        template(
+            _("Last.fm username set to {username}. Use {command} to check your status."),
+            username=Code(username),
+            command=Code("/lfm"),
+        ),
     )
     return True
 

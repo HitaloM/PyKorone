@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 from aiogram import flags
 from aiogram.enums import ButtonStyle, ChatType
 from aiogram.filters import Command
-from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 
@@ -86,7 +85,7 @@ class LanguageSelectHandler(KoroneMessageHandler):
         text = _("Please select the language you want to use for the chat.")
         keyboard = build_language_selection_keyboard(i18n, is_private=is_private, back_to_start=False)
 
-        await self.event.reply(text, reply_markup=keyboard.as_markup())
+        await self.answer(text, reply_markup=keyboard.as_markup())
 
 
 @flags.help(exclude=True)
@@ -97,9 +96,7 @@ class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
 
     async def handle(self) -> None:
         await self.check_for_message()
-        message = self.event.message
-        if not isinstance(message, Message):
-            return
+        message = self.message
 
         is_private = message.chat.type == ChatType.PRIVATE
 

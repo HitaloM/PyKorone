@@ -22,12 +22,12 @@ class StickerMyPacksHandler(KoroneMessageHandler):
 
     async def handle(self) -> None:
         if not self.event.from_user:
-            await self.event.reply(_("Could not identify your user."))
+            await self.answer(_("Could not identify your user."))
             return
 
         packs = await get_valid_user_packs(self.bot, self.event.from_user.id)
         if not packs:
-            await self.event.reply(_("You don't have any tracked sticker packs yet."))
+            await self.answer(_("You don't have any tracked sticker packs yet."))
             return
 
         lines: list[UIExpression] = []

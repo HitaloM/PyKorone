@@ -27,7 +27,7 @@ class AdminListHandler(KoroneMessageHandler):
     async def handle(self) -> None:
         chat_model = await ChatRepository.get_by_chat_id(self.chat.chat_id)
         if not chat_model:
-            await self.event.reply(_("Chat not found."))
+            await self.answer(_("Chat not found."))
             return
 
         await get_admins_rights(chat_model.chat_id)

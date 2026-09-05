@@ -11,6 +11,7 @@ from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Message, TelegramObject
 
 from korone.logger import get_logger
+from korone.modules.utils_.reply_or_edit import reply_message
 
 logger = get_logger(__name__)
 
@@ -147,7 +148,7 @@ class StickerPackProcessingManager:
     @staticmethod
     async def _reply_safely(event: Message, text: str, job_id: str) -> None:
         try:
-            await event.reply(text)
+            await reply_message(event, text)
         except TelegramAPIError as error:
             await logger.awarning(
                 "[Stickers] Could not report pack processing result", job_id=job_id, error_type=type(error).__name__

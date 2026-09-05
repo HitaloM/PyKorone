@@ -3,7 +3,7 @@ from dataclasses import field as dataclass_field
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from aiogram.dispatcher.event.bases import SkipHandler
-from aiogram.enums import ChatMemberStatus, ChatType
+from aiogram.enums import ChatType
 from aiogram.filters import Filter
 from aiogram.types import Message
 from aiogram.types.callback_query import CallbackQuery
@@ -12,10 +12,11 @@ from korone.config import CONFIG
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
 from korone.db.repositories.chat import ChatRepository
 from korone.db.repositories.chat_admin import ChatAdminRepository
-from korone.modules.utils_.admin import check_user_admin_permissions
+from korone.modules.utils_.admin import check_member_permissions, check_user_admin_permissions
 from korone.modules.utils_.common_try import common_try
+from korone.modules.utils_.reply_or_edit import reply_message
 from korone.ui import UIExpression, bullets, column
-from korone.ui.rendering import plain_text, text_kwargs
+from korone.ui.rendering import plain_text
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -162,7 +163,7 @@ class UserRestricting(Filter):
             return AnonymousResolution(permission_check=False, resolved_user_db=None, already_notified=True)
 
         checks = [
-            self.check_member_permissions(member_data=admin.data, require_creator=self.user_owner)
+            check_member_permissions(admin.data, self.required_permissions, require_creator=self.user_owner)
             for admin in matched_admins
         ]
         if not all(check is True for check in checks):
@@ -183,33 +184,6 @@ class UserRestricting(Filter):
                 return AnonymousResolution(permission_check=True, resolved_user_db=resolved_user_db)
 
         return AnonymousResolution(permission_check=True, resolved_user_db=None)
-
-    def check_member_permissions(
-        self, member_data: dict[str, Any], *, require_creator: bool = False
-    ) -> bool | list[str]:
-        if require_creator:
-            return self._is_creator_status(member_data.get("status"))
-
-        if self._is_creator_status(member_data.get("status")):
-            return True
-
-        if not self.required_permissions:
-            return True
-
-        missing_permissions = []
-        for permission in self.required_permissions:
-            permission_value = member_data.get(permission)
-            if permission_value is not True:
-                missing_permissions.append(permission)
-
-        return missing_permissions or True
-
-    @staticmethod
-    def _is_creator_status(status: str | ChatMemberStatus | None) -> bool:
-        try:
-            return ChatMemberStatus(status) == ChatMemberStatus.CREATOR
-        except TypeError, ValueError:
-            return False
 
     @staticmethod
     async def get_target_id(message: TelegramObject) -> int:
@@ -240,17 +214,7 @@ class UserRestricting(Filter):
             )
             doc = column(text)
 
-        if isinstance(event, CallbackQuery):
-            await event.answer(plain_text(doc), show_alert=True)
-            return
-
-        async def answer() -> Message:
-            return await event.answer(**text_kwargs(doc))
-
-        if hasattr(event, "reply"):
-            await common_try(event.reply(**text_kwargs(doc)), reply_not_found=answer)
-        elif hasattr(event, "answer"):
-            await answer()
+        await self.send_doc(event, doc)
 
     async def no_anon_title_msg(self, event: TelegramObject) -> None:
         await self.send_doc(event, column(_("Anonymous admin must have a custom admin title to use this command.")))
@@ -283,13 +247,7 @@ class UserRestricting(Filter):
         if not isinstance(event, Message):
             return
 
-        async def answer() -> Message:
-            return await event.answer(**text_kwargs(doc))
-
-        if hasattr(event, "reply"):
-            await common_try(event.reply(**text_kwargs(doc)), reply_not_found=answer)
-        elif hasattr(event, "answer"):
-            await answer()
+        await common_try(reply_message(event, doc))
 
 
 @dataclass(slots=True)

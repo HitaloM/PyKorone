@@ -7,7 +7,7 @@ from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.medias.settings import AUTO_DOWNLOAD_KEY, is_auto_download_enabled
-from korone.modules.utils_.status_handler import StatusBoolHandlerABC
+from korone.modules.utils_.status_handler import BooleanStatusHandler
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 @flags.help(description=l_("Toggle automatic media downloads for this chat."))
 @flags.disableable(name="medias")
-class MediaAutoDownloadStatus(StatusBoolHandlerABC):
+class MediaAutoDownloadStatus(BooleanStatusHandler):
     header_text = l_("Media auto-download")
     change_command = "mediaauto"
     change_args = "on / off"

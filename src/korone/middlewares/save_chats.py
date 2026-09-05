@@ -8,7 +8,7 @@ from aiogram.utils.deep_linking import create_start_link
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.config import CONFIG
-from korone.db.repositories.chat import ChatRepository
+from korone.db.repositories.chat import ChatRepository, ChatTopicRepository, UserInGroupRepository
 from korone.logger import get_logger
 from korone.middlewares.context_data import as_korone_context
 from korone.modules.help.callbacks import HELP_START_PAYLOAD
@@ -42,7 +42,7 @@ class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
     async def _delete_user_in_chat_by_user_id(user_id: int, group: ChatModel) -> None:
         await logger.adebug("SaveChatsMiddleware: Deleting user from chat", user_id=user_id, group=group)
-        await ChatRepository.delete_user_in_group(user_id, group)
+        await UserInGroupRepository.delete_user_in_group(user_id, group)
 
     @staticmethod
     async def _chats_update(chats: Iterable[Chat | User]) -> None:
@@ -92,14 +92,14 @@ class SaveChatsMiddleware(BaseMiddleware):
             await logger.adebug(
                 "SaveChatsMiddleware: Saving topic", group=group, thread_id=message.message_thread_id, name=name
             )
-            await ChatRepository.ensure_topic(group, message.message_thread_id, name)
+            await ChatTopicRepository.ensure_topic(group, message.message_thread_id, name)
 
     @staticmethod
     async def close_topic(message: Message, group: ChatModel) -> None:
         if message.forum_topic_closed:
             await logger.adebug("SaveChatsMiddleware: Closing topic", group=group, thread_id=message.message_thread_id)
             if message.message_thread_id is not None:
-                await ChatRepository.ensure_topic(group, message.message_thread_id, None)
+                await ChatTopicRepository.ensure_topic(group, message.message_thread_id, None)
 
     @staticmethod
     async def update_from_user(
@@ -118,7 +118,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             await logger.adebug("SaveChatsMiddleware: Updating from from_user", from_user=message.from_user.id)
             current_user = await ChatRepository.upsert_user(message.from_user)
 
-        user_in_group = await ChatRepository.ensure_user_in_group(current_user, current_group)
+        user_in_group = await UserInGroupRepository.ensure_user_in_group(current_user, current_group)
         return current_user, user_in_group
 
     async def handle_message(self, message: Message, context: KoroneContextData) -> None:
@@ -220,7 +220,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
             await logger.adebug("SaveChatsMiddleware: Saving new chat member", user_id=member.id)
             new_user = await ChatRepository.upsert_user(member)
-            await ChatRepository.ensure_user_in_group(new_user, group)
+            await UserInGroupRepository.ensure_user_in_group(new_user, group)
             new_users.append(new_user)
 
         return new_users
@@ -260,7 +260,7 @@ class SaveChatsMiddleware(BaseMiddleware):
                 new_owner_user_id=new_owner.id,
             )
             new_owner_db = await ChatRepository.upsert_user(new_owner)
-            await ChatRepository.ensure_user_in_group(new_owner_db, group)
+            await UserInGroupRepository.ensure_user_in_group(new_owner_db, group)
             await self._refresh_admin_cache(group, reason="chat_owner_changed")
             return
 
@@ -280,7 +280,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         if new_owner:
             new_owner_db = await ChatRepository.upsert_user(new_owner)
-            await ChatRepository.ensure_user_in_group(new_owner_db, group)
+            await UserInGroupRepository.ensure_user_in_group(new_owner_db, group)
 
         await self._refresh_admin_cache(group, reason="chat_owner_left")
 
@@ -301,7 +301,7 @@ class SaveChatsMiddleware(BaseMiddleware):
                 await logger.adebug("SaveChatsMiddleware: Saving callback event chat", chat_id=event_chat.id)
                 group = await ChatRepository.upsert_group(event_chat)
                 context["chat_db"] = context["group_db"] = group
-                context["user_in_group"] = await ChatRepository.ensure_user_in_group(user, group)
+                context["user_in_group"] = await UserInGroupRepository.ensure_user_in_group(user, group)
                 return
 
         context["chat_db"] = context["user_db"] = user

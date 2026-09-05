@@ -43,7 +43,7 @@ class DeviceSearchHandler(KoroneMessageHandler[DeviceSearchArguments]):
 
     async def _handle_search_results(self, query: str, devices: list[PhoneSearchResult]) -> None:
         if not devices:
-            await self.event.reply(_("No devices found."))
+            await self.answer(_("No devices found."))
             return
 
         if len(devices) == 1:
@@ -55,13 +55,13 @@ class DeviceSearchHandler(KoroneMessageHandler[DeviceSearchArguments]):
                     device_url=devices[0].url,
                     error_type=type(exc).__name__,
                 )
-                await self.event.reply(_("Error fetching device details. Please try again later."))
+                await self.answer(_("Error fetching device details. Please try again later."))
                 return
 
             if presentation:
                 await reply_with_device(self.event, presentation)
             else:
-                await self.event.reply(_("Error fetching device details. Please try again later."))
+                await self.answer(_("Error fetching device details. Please try again later."))
             return
 
         if not self.event.from_user:
@@ -82,7 +82,7 @@ class DeviceSearchHandler(KoroneMessageHandler[DeviceSearchArguments]):
             devices = await search_phone(query)
         except GSMArenaError as exc:
             await logger.awarning("[GSM Arena] Search failed", query=query, error_type=type(exc).__name__)
-            await self.event.reply(_("Error searching GSMArena. Please try again later."))
+            await self.answer(_("Error searching GSMArena. Please try again later."))
             return
 
         await self._handle_search_results(query, devices)

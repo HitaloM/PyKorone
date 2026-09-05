@@ -1,5 +1,4 @@
 import asyncio
-from dataclasses import dataclass
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
@@ -10,13 +9,12 @@ from aiogram.filters import Command
 
 from korone.args import ArgumentSchema
 from korone.db.repositories.sticker_pack import StickerPackRepository
-from korone.modules.stickers.args import StickerPackTitleArg
+from korone.modules.stickers.args import StickerPackTitleArg, StickerStealPackArguments
 from korone.modules.stickers.utils import (
     DEFAULT_EMOJI,
     StickerPrepareError,
     build_pack_id,
     create_input_sticker,
-    download_file,
     is_pack_full_error,
     is_stickerset_invalid,
     map_pack_write_error,
@@ -25,6 +23,7 @@ from korone.modules.stickers.utils import (
 )
 from korone.modules.utils_.message import is_real_reply
 from korone.modules.utils_.reply_or_edit import edit_message_text
+from korone.modules.utils_.telegram_file import download_telegram_file
 from korone.ui import Code, column, link, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -36,11 +35,6 @@ if TYPE_CHECKING:
 
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import Sticker
-
-
-@dataclass(frozen=True, slots=True)
-class StickerStealPackArguments:
-    pack_name: str
 
 
 @flags.help(description=l_("Copy an entire sticker set into one of your packs."))
@@ -67,7 +61,7 @@ class StickerStealPackHandler(KoroneMessageHandler[StickerStealPackArguments]):
         with TemporaryDirectory(prefix="korone-pack-") as temp_dir_name:
             temp_dir = Path(temp_dir_name)
             source_path = temp_dir / f"source{suffix_from_sticker(source_sticker)}"
-            await download_file(self.bot, source_sticker.file_id, source_path)
+            await download_telegram_file(self.bot, source_sticker.file_id, source_path)
 
             prepared_path, sticker_format = await prepare_sticker_file(source_path)
             input_sticker = create_input_sticker(
@@ -102,7 +96,7 @@ class StickerStealPackHandler(KoroneMessageHandler[StickerStealPackArguments]):
 
     async def handle(self) -> None:
         if not self.event.from_user:
-            await self.event.reply(_("Could not identify your user."))
+            await self.answer(_("Could not identify your user."))
             return
 
         if not self.event.reply_to_message or not is_real_reply(self.event):
@@ -116,19 +110,19 @@ class StickerStealPackHandler(KoroneMessageHandler[StickerStealPackArguments]):
 
         reply_sticker = self.event.reply_to_message.sticker
         if not reply_sticker or not reply_sticker.set_name:
-            await self.event.reply(_("Reply to a sticker that belongs to a sticker set."))
+            await self.answer(_("Reply to a sticker that belongs to a sticker set."))
             return
 
-        status_message = await self.event.reply(_("Stealing sticker pack..."))
+        status_message = await self.answer(_("Stealing sticker pack..."))
         user = self.event.from_user
 
         try:
             source_pack = await self.bot.get_sticker_set(reply_sticker.set_name)
         except TelegramBadRequest as exc:
             if is_stickerset_invalid(exc):
-                await status_message.edit_text(_("The source sticker pack does not exist anymore."))
+                await edit_message_text(status_message, _("The source sticker pack does not exist anymore."))
                 return
-            await status_message.edit_text(map_pack_write_error(exc))
+            await edit_message_text(status_message, map_pack_write_error(exc))
             return
 
         pack_title = self.args.pack_name
@@ -158,7 +152,7 @@ class StickerStealPackHandler(KoroneMessageHandler[StickerStealPackArguments]):
                     stopped_because_full = True
                     break
                 if not pack_ready:
-                    await status_message.edit_text(map_pack_write_error(exc))
+                    await edit_message_text(status_message, map_pack_write_error(exc))
                     return
                 skipped += 1
 
@@ -169,7 +163,7 @@ class StickerStealPackHandler(KoroneMessageHandler[StickerStealPackArguments]):
                 )
 
         if not pack_ready:
-            await status_message.edit_text(_("Could not add any sticker from that pack."))
+            await edit_message_text(status_message, _("Could not add any sticker from that pack."))
             return
 
         await StickerPackRepository.upsert_pack(pack_id, user.id, pack_title, set_default=None)

@@ -20,6 +20,8 @@ Produce an evidence-backed impact assessment of recent aiogram changes against t
    [PyKorone development references](../py-korone-development/SKILL.md), especially
    [handlers and aiogram](../py-korone-development/references/handlers-aiogram.md).
 6. Trace actual impact across handlers, filters, middleware, FSM, callbacks, polling or webhook startup, Bot API types, serialization, error handling, and typing only where the upstream change applies.
+   Compare against [handler contracts](../py-korone-development/references/handlers-aiogram.md), including ephemeral-aware response helpers,
+   uncached translations, disabled-by-default FSM, and the documented aiogram typing/inheritance boundaries.
 7. Reject speculative adoption. A new upstream feature is relevant only when it removes a local workaround, improves a measured or evident weakness, enables requested behavior, or reduces maintenance risk.
 8. Do not edit code, dependencies, or the lockfile during an analysis-only request. If implementation is requested, use `py-korone-development`; add `issue-fixer` when correcting a demonstrated defect.
 

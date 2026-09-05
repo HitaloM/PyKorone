@@ -34,6 +34,24 @@ Persistent data is managed with PostgreSQL and SQLAlchemy, while Redis provides 
 
 This separation keeps feature development isolated from the core runtime and allows modules to evolve without introducing unnecessary coupling.
 
+## Development
+
+Use the Python version in `.python-version` and install uv, PostgreSQL, and Redis. Features also require
+`ffmpeg`/`ffprobe` for media and stickers and `whois` for domain lookups; catalog updates require gettext tools.
+
+1. Run `uv sync --locked`.
+2. Copy `data/config.example.env` to `data/config.env` and configure your bot token and services.
+   [Config](src/korone/config.py) defines the available settings and defaults.
+3. Run `make db_upgrade` for explicit schema setup, or let normal startup apply pending migrations.
+4. Start the bot with `uv run python -m korone`.
+
+Validate changes with `uv run ruff check`, `uv run ruff format --check`, and `uv run pyright`.
+The project has no automated test suite; use focused deterministic reproductions for behavior changes.
+
+Project rules and workflow routing live in [AGENTS.md](AGENTS.md). Detailed architectural decisions, conventions,
+and validation workflows live in the [development skill and its references](.agents/skills/py-korone-development/SKILL.md)
+and the other [domain skills](.agents/skills).
+
 ## License
 
 PyKorone is distributed under the [GNU Affero General Public License v3.0](LICENSE).

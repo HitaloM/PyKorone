@@ -29,10 +29,6 @@ type ExportValue = JsonValue
 EXPORTABLE_MODULES: list[LoadedModule] = []
 
 
-def text_to_buffered_file(text: str, filename: str = "data.txt") -> BufferedInputFile:
-    return BufferedInputFile(text.encode(), filename=filename)
-
-
 def _make_serializable(obj: ExportValue | Enum | datetime | _date) -> ExportValue:
     if isinstance(obj, dict):
         return {str(k): _make_serializable(cast("ExportValue | Enum | datetime | _date", v)) for k, v in obj.items()}
@@ -64,7 +60,7 @@ class TriggerExport(KoroneMessageHandler):
         return exports
 
     async def handle(self) -> None:
-        await self.event.reply(_("Export is started, this may take a while."))
+        await self.answer(_("Export is started, this may take a while."))
 
         data = self.get_initial_data(self.chat)
         modules_data = await self.get_data(self.chat)
@@ -72,7 +68,9 @@ class TriggerExport(KoroneMessageHandler):
         for module_data in modules_data:
             data.update(module_data)
 
-        jfile = text_to_buffered_file(orjson.dumps(_make_serializable(data), option=orjson.OPT_INDENT_2).decode())
+        jfile = BufferedInputFile(
+            orjson.dumps(_make_serializable(data), option=orjson.OPT_INDENT_2), filename="data.txt"
+        )
         text = _("Export is done.")
         await self.event.reply_document(jfile, caption=text)
 

@@ -16,13 +16,8 @@ from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
 
     from korone.utils.i18n import I18nNew
-
-
-async def set_chat_language(chat_id: int, language: str) -> None:
-    await LanguageRepository.set_locale(chat_id, language)
 
 
 def build_language_changed_message(language: str, i18n: I18nNew) -> UIExpression:
@@ -82,11 +77,11 @@ class ApplyLanguageHandler(KoroneCallbackQueryHandler):
         back_to_start = callback_data.back_to_start
 
         await self.check_for_message()
-        message = cast("Message", self.event.message)
+        message = self.message
 
         chat_id = message.chat.id
 
-        await set_chat_language(chat_id, language)
+        await LanguageRepository.set_locale(chat_id, language)
 
         i18n = get_i18n()
         text = build_language_changed_message(language, i18n)

@@ -54,7 +54,7 @@ class UserInfoHandler(KoroneMessageHandler[UserInfoArguments]):
             ) or await ChatRepository.upsert_user(self.event.from_user)
 
         if not target_user:
-            await self.event.reply(_("Could not identify user."))
+            await self.answer(_("Could not identify user."))
             return
 
         chat_id = self.chat.chat_id

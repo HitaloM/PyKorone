@@ -21,6 +21,7 @@ type MaybeAwaitable[T] = T | Awaitable[T]
 type ModuleText = str | LazyProxy
 type ModuleContent = ModuleText | Text | UIExpression
 type ModuleExportProvider = Callable[[int], MaybeAwaitable[object]]
+# aiogram's flag decorators erase the handler class type in their return annotations.
 type ModuleHandler = Any
 type ModuleHook = Callable[..., object]
 type ModuleInlineQueryMatcher = Callable[[InlineQuery], bool]

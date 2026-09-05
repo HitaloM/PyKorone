@@ -41,9 +41,15 @@ Use a fallback only when absence is valid by design. Represent it in the type an
 ## Boundary Checks
 
 - Handlers: trace `self.data`, `arguments` declarations, local argument parsing, flags, filters, middleware order, manifest registration, disabling, and allowed updates.
-- Callbacks and FSM: verify typed payloads, owner checks, message accessibility, state transitions, and clearing.
+  Middleware consuming command input must use the typed object at `PARSED_ARGUMENTS_KEY`; old per-argument keys
+  can silently bypass deferred processing.
+- Callbacks and FSM: verify typed payloads, owner checks, project `message` accessibility guards, and any explicitly
+  configured state lifecycle (the default dispatcher disables FSM).
 - Database: inspect repository transaction scope, Telegram versus database IDs, migration state, and required backfills.
-- Cache: inspect key construction, serialization, expiry, and invalidation.
+  Never recover a missing Telegram-ID lookup by treating the same number as a database primary key.
+- Cache: inspect shared key construction, serialization, expiry, invalidation, cancellation, and shutdown ownership.
+- Localization: reproduce with alternating locales; proxies must not retain the first translation. Limit fallback to
+  locale resolution, and prove a downstream failure invokes the handler only once.
 - External services: capture safe status and response shape, validate adapter assumptions, and retry only transient failures.
 
 ## Regression and Completion

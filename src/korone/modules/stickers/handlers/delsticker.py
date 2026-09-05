@@ -24,7 +24,7 @@ class StickerDeleteStickerHandler(KoroneMessageHandler):
 
     async def handle(self) -> None:
         if not self.event.from_user:
-            await self.event.reply(_("Could not identify your user."))
+            await self.answer(_("Could not identify your user."))
             return
 
         if not self.event.reply_to_message or not is_real_reply(self.event):
@@ -38,18 +38,18 @@ class StickerDeleteStickerHandler(KoroneMessageHandler):
 
         reply_sticker = self.event.reply_to_message.sticker
         if not reply_sticker or not reply_sticker.set_name:
-            await self.event.reply(_("That reply is not a sticker from a sticker set."))
+            await self.answer(_("That reply is not a sticker from a sticker set."))
             return
 
         tracked_pack = await StickerPackRepository.get_by_pack_id(reply_sticker.set_name)
         if not tracked_pack or tracked_pack.owner_id != self.event.from_user.id:
-            await self.event.reply(_("This sticker is not from one of your tracked packs."))
+            await self.answer(_("This sticker is not from one of your tracked packs."))
             return
 
         try:
             await self.bot.delete_sticker_from_set(sticker=reply_sticker.file_id)
         except TelegramBadRequest:
-            await self.event.reply(_("Could not delete this sticker from the pack."))
+            await self.answer(_("Could not delete this sticker from the pack."))
             return
 
         await self.answer(template(_("Sticker deleted successfully from {pack}."), pack=Code(tracked_pack.title)))

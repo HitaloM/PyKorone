@@ -50,17 +50,7 @@ class UserInGroupRepository:
     @staticmethod
     async def delete_user_in_group(user_id: int, group: ChatModel) -> UserInGroupModel | None:
         if user := await ChatRepository.get_by_chat_id(user_id):
-            return await UserInGroupRepository.ensure_delete(user, group)
-        return None
-
-    @staticmethod
-    async def ensure_delete(user: ChatModel, group: ChatModel) -> UserInGroupModel | None:
-        async with session_scope() as session:
-            if model := await get_one(
-                session, UserInGroupModel, UserInGroupModel.user_id == user.id, UserInGroupModel.group_id == group.id
-            ):
-                await session.delete(model)
-                return model
+            return await UserInGroupRepository.remove_user_in_chat(user.id, group.id)
         return None
 
     @staticmethod
@@ -116,18 +106,6 @@ class ChatRepository:
             "is_bot": False,
             "last_saw": datetime.now(UTC),
         }
-
-    @staticmethod
-    async def ensure_user_in_group(user: ChatModel, group: ChatModel) -> UserInGroupModel:
-        return await UserInGroupRepository.ensure_user_in_group(user, group)
-
-    @staticmethod
-    async def delete_user_in_group(user_id: int, group: ChatModel) -> UserInGroupModel | None:
-        return await UserInGroupRepository.delete_user_in_group(user_id, group)
-
-    @staticmethod
-    async def ensure_topic(group: ChatModel, thread_id: int, topic_name: str | None) -> ChatTopicModel:
-        return await ChatTopicRepository.ensure_topic(group, thread_id, topic_name)
 
     @classmethod
     async def upsert_user(cls, user: User) -> ChatModel:

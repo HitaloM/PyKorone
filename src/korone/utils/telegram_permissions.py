@@ -5,6 +5,7 @@ from aiogram.types import Chat
 
 from korone.db.repositories.chat import ChatRepository
 from korone.logger import get_logger
+from korone.utils.telegram_errors import normalized_error_message
 
 if TYPE_CHECKING:
     from aiogram import Bot
@@ -18,7 +19,6 @@ RIGHTS_INDICATORS = (
     "can't send messages",
     "cannot send messages",
     "chat write forbidden",
-    "chat_write_forbidden",
     "bot is restricted",
     "user is restricted",
 )
@@ -49,7 +49,7 @@ def is_no_rights_error(exception: BaseException) -> TypeGuard[TelegramBadRequest
     if not isinstance(exception, (TelegramBadRequest, TelegramForbiddenError)):
         return False
 
-    error_message = str(exception).lower().replace("_", " ")
+    error_message = normalized_error_message(exception)
     return any(indicator in error_message for indicator in RIGHTS_INDICATORS)
 
 

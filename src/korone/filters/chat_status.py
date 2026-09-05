@@ -4,6 +4,7 @@ from aiogram.enums import ChatType
 from aiogram.filters import Filter
 from aiogram.types import CallbackQuery, Message
 
+from korone.modules.utils_.reply_or_edit import reply_message
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
@@ -35,7 +36,7 @@ class BaseChatTypeFilter(Filter):
             return
 
         if isinstance(event, Message):
-            await event.reply(str(message))
+            await reply_message(event, str(message))
             return
 
         if isinstance(event, CallbackQuery):

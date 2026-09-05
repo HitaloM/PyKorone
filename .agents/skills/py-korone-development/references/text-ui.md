@@ -14,6 +14,9 @@ message or caption rendering.
 - Use only simple named placeholders in `template(...)`. Preserve placeholders across translations; conversions,
   format specifications, attribute access, and indexing are unsupported.
 
+Plain `.format()` remains appropriate for plain strings needing numeric formatting; it must not flatten structured
+values. UI templates retain their stricter simple-placeholder contract.
+
 ## Rendering Boundaries
 
 - The only normal rendering path is `UIExpression -> aiogram.utils.formatting.Text -> text/entities`.
@@ -29,6 +32,7 @@ message or caption rendering.
 ## Compiler Invariants
 
 - Compile `LazyProxy.value` recursively because a proxy may resolve to either a string or another UI expression.
+  Project proxies are uncached by default; validate reuse across locales and do not copy Babel private attributes.
 - Recursively compile Korone expressions nested inside any aiogram `Text` subclass; reject unsupported arbitrary
   objects instead of sending their `repr`.
 - Avoid duplicate automatic `Bold` entities when a `field` label or `section` title is already a root `Bold` node.

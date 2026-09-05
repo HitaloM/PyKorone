@@ -27,6 +27,11 @@ Complete the catalog update, manual review, and compilation in the same change a
 - Use `make new_locale` only when the user explicitly requests the destructive full locale reset.
 - Treat direct gettext commands as read-only debugging unless the normal Makefile flow cannot express the task.
 - Use the helpers from `korone.utils.i18n`: runtime gettext aliases for immediate text, lazy aliases for deferred metadata, and ngettext aliases for plurals.
+- Project `LazyProxy` defaults to uncached evaluation. Keep locale-dependent metadata uncached; never clone Babel
+  private attributes or freeze a shared proxy in the first request's locale. Do not translate shared metadata at import.
+- Locale metadata maps belong to each `I18nNew` instance, not shared mutable class state.
+- For refactors that only move unchanged strings, compare extracted message IDs. Avoid catalog rewrites solely for
+  shifted source references; compile catalogs and explain why no translation edit is required.
 
 ## Manual Review Rules
 
@@ -44,5 +49,6 @@ Complete the catalog update, manual review, and compilation in the same change a
 - Expect visible source changes to produce a corresponding `pt_BR` catalog change; explain explicitly when they do not.
 - Confirm no placeholder mismatch between each source and translation.
 - Confirm no obsolete `#~` entries remain after updating catalogs.
-- Confirm compilation succeeds.
+- Confirm compilation succeeds. When deferred text/rendering changes, resolve the same proxy, argument help, and
+  module description in `en_US`, `pt_BR`, then `en_US` again; verify nested entities survive.
 - Keep active translator comments, context, and unrelated catalog entries intact.

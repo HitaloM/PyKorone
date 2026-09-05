@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, cast, override
+from typing import TYPE_CHECKING, override
 from urllib.parse import quote_plus
 
 from aiogram import flags
@@ -22,11 +22,12 @@ from korone.ui.rendering import caption_kwargs
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+from korone.utils.telegram_errors import is_message_not_modified_error
 
 if TYPE_CHECKING:
     from aiogram import Router
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import InlineKeyboardMarkup, Message
+    from aiogram.types import InlineKeyboardMarkup
 
 
 @dataclass(frozen=True, slots=True)
@@ -110,7 +111,7 @@ class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler[LastFMColl
     @override
     async def handle(self) -> None:
         if not self.event.from_user:
-            await self.event.reply(_("Could not identify the target user."))
+            await self.answer(_("Could not identify the target user."))
             return
 
         user = await self.resolve_user_context_from_message(self.event)
@@ -132,9 +133,9 @@ class LastFMCollageHandler(LastFMCollageSupport, KoroneMessageHandler[LastFMColl
                 reply_markup=keyboard,
             )
         except LastFMError as exc:
-            await self.event.reply(format_lastfm_error(exc))
+            await self.answer(format_lastfm_error(exc))
         except LastFMCollageError as exc:
-            await self.event.reply(str(exc))
+            await self.answer(str(exc))
 
 
 @flags.help(exclude=True)
@@ -174,7 +175,7 @@ class LastFMCollageCallbackHandler(LastFMCollageSupport, KoroneCallbackQueryHand
         )
         options = LastFMCollageOptions(size=callback_data.s, period=callback_data.p, include_text=bool(callback_data.t))
 
-        message = cast("Message", self.event.message)
+        message = self.message
         try:
             image_bytes = await self.render_collage(username=user.username, options=options)
             keyboard = self.build_keyboard(owner_id=callback_data.uid, target_id=callback_data.uid, options=options)
@@ -191,7 +192,7 @@ class LastFMCollageCallbackHandler(LastFMCollageSupport, KoroneCallbackQueryHand
         except LastFMCollageError as exc:
             await self.event.answer(str(exc), show_alert=True)
         except TelegramBadRequest as exc:
-            if "message is not modified" in exc.message.lower():
+            if is_message_not_modified_error(exc):
                 await self.event.answer(_("No updates from your profile."))
                 return
             raise

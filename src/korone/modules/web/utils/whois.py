@@ -1,6 +1,7 @@
-import asyncio
 import ipaddress
 import re
+
+from korone.utils.subprocess import run_process
 
 from .misc import _extract_hostname
 
@@ -47,12 +48,8 @@ def normalize_domain(value: str) -> str | None:
 
 
 async def query_whois(domain: str) -> str:
-    process = await asyncio.create_subprocess_exec(
-        "whois", domain, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
-
-    stdout, _ = await process.communicate()
-    return stdout.decode("utf-8")
+    result = await run_process(("whois", domain), timeout_seconds=30)
+    return result.stdout.decode("utf-8")
 
 
 def parse_whois_output(output: str) -> dict[str, str] | None:

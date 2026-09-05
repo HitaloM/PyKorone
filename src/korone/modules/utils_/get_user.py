@@ -1,7 +1,7 @@
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from aiogram.types import User
-from attr import dataclass
 
 from korone.db.models.chat import ChatModel
 from korone.modules.utils_.message import is_real_reply

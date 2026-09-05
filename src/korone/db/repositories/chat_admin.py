@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any
 from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 
+from korone.db.base import get_one
 from korone.db.models.chat_admin import ChatAdminModel
 from korone.db.session import session_scope
 
@@ -15,9 +16,9 @@ class ChatAdminRepository:
     @staticmethod
     async def get_chat_admin(chat: ChatModel, user: ChatModel) -> ChatAdminModel | None:
         async with session_scope() as session:
-            stmt = select(ChatAdminModel).where(ChatAdminModel.chat_id == chat.id, ChatAdminModel.user_id == user.id)
-            result = await session.execute(stmt.limit(1))
-            return result.scalars().first()
+            return await get_one(
+                session, ChatAdminModel, ChatAdminModel.chat_id == chat.id, ChatAdminModel.user_id == user.id
+            )
 
     @staticmethod
     async def get_chat_admins(chat: ChatModel) -> list[ChatAdminModel]:
@@ -37,8 +38,7 @@ class ChatAdminRepository:
     async def get_oldest_admin(chat: ChatModel) -> ChatAdminModel | None:
         async with session_scope() as session:
             stmt = select(ChatAdminModel).where(ChatAdminModel.chat_id == chat.id).order_by(ChatAdminModel.last_updated)
-            result = await session.execute(stmt.limit(1))
-            return result.scalars().first()
+            return await session.scalar(stmt.limit(1))
 
     @staticmethod
     async def replace_chat_admins(chat: ChatModel, admins_map: dict[int, dict[str, Any]]) -> None:

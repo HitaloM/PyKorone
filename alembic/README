@@ -1,1 +1,10 @@
-Generic single-database configuration.
+PyKorone PostgreSQL migrations.
+
+Use the Makefile's db_revision, db_upgrade, db_downgrade, and db_stamp targets.
+Review generated revisions before applying them. Runtime startup applies pending
+revisions; importing model modules does not create or migrate tables.
+
+env.py deliberately bootstraps the package namespace without constructing the
+Telegram bot. Preserve that boundary when changing model imports or configuration.
+Persistence rules: ../.agents/skills/py-korone-development/references/python.md.
+Migration workflow: ../.agents/skills/py-korone-development/references/tooling.md.

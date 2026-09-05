@@ -3,7 +3,7 @@ import functools
 import math
 import random
 import time
-from typing import TYPE_CHECKING, ParamSpec, TypeVar, cast
+from typing import TYPE_CHECKING, cast
 
 import orjson
 
@@ -15,11 +15,7 @@ if TYPE_CHECKING:
 
 type JsonValue = str | int | float | bool | list[JsonValue] | dict[str, JsonValue] | None
 
-P = ParamSpec("P")
-T = TypeVar("T", bound=JsonValue)
-
 _NOT_SET_MARKER = "__korone_not_set__"
-_LOCK_CLEANUP_INTERVAL = 300
 
 logger = get_logger(__name__)
 _background_tasks: set[asyncio.Task[None]] = set()
@@ -75,6 +71,15 @@ def _track_background_task(task: asyncio.Task[None], *, message: str, **context:
     task.add_done_callback(_on_done)
 
 
+async def shutdown_cache() -> None:
+    tasks = tuple(_background_tasks)
+    for task in tasks:
+        task.cancel()
+    if tasks:
+        await asyncio.gather(*tasks, return_exceptions=True)
+    _background_tasks.clear()
+
+
 class _LockEntry:
     __slots__ = ("lock", "waiters")
 
@@ -86,27 +91,8 @@ class _LockEntry:
 class _LockRegistry:
     def __init__(self) -> None:
         self._locks: dict[str, _LockEntry] = {}
-        self._cleanup_task: asyncio.Task[None] | None = None
-
-    def _ensure_cleanup_task(self) -> None:
-        if self._cleanup_task is None or self._cleanup_task.done():
-            try:
-                loop = asyncio.get_running_loop()
-            except RuntimeError:
-                return
-            self._cleanup_task = loop.create_task(self._periodic_cleanup())
-
-    async def _periodic_cleanup(self) -> None:
-        while True:
-            await asyncio.sleep(_LOCK_CLEANUP_INTERVAL)
-            stale_keys = [key for key, entry in self._locks.items() if entry.waiters <= 0 and not entry.lock.locked()]
-            for key in stale_keys:
-                self._locks.pop(key, None)
-            if stale_keys:
-                await logger.adebug("Cached: lock registry cleanup removed stale entries", count=len(stale_keys))
 
     def acquire_entry(self, key: str) -> _LockEntry:
-        self._ensure_cleanup_task()
         entry = self._locks.get(key)
         if entry is None:
             entry = _LockEntry()
@@ -207,7 +193,7 @@ class Cached[**P, T: JsonValue]:
         await set_value(key, result, ttl=self.ttl)
         await logger.adebug("Cached: PER background refresh complete", key=key)
 
-    def _build_key(self, *args: P.args, **kwargs: P.kwargs) -> str:
+    def _build_key(self, *args: object, **kwargs: object) -> str:
         if self.func is None:
             msg = "Cached decorator not properly initialized"
             raise RuntimeError(msg)
@@ -226,18 +212,7 @@ class Cached[**P, T: JsonValue]:
         return new_key
 
     async def reset_cache(self, *args: object, new_value: T | None = None, **kwargs: object) -> int | None:
-        if self.func is None:
-            msg = "Cached decorator not properly initialized"
-            raise RuntimeError(msg)
-
-        ordered_kwargs = sorted(kwargs.items())
-        func_module = getattr(self.func, "__module__", "") or ""
-        func_name = getattr(self.func, "__name__", "unknown")
-        base_key = self.key or func_module + func_name
-        args_key = str(args[1:] if self.no_self else args)
-        key = base_key + args_key
-        if ordered_kwargs:
-            key += str(ordered_kwargs)
+        key = self._build_key(*args, **kwargs)
 
         if new_value is not None:
             await set_value(key, new_value, ttl=self.ttl)

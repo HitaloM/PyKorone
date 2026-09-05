@@ -7,6 +7,7 @@ from aiogram.utils.media_group import MediaGroupBuilder
 
 from korone.logger import get_logger
 from korone.ui.rendering import caption_kwargs
+from korone.utils.telegram_errors import normalized_error_message
 
 from .captions import build_caption, build_keyboard
 from .models import DeliveredMedia, DeliveryReceipt, MediaKind, MediaPost, PreparedMedia, ProviderInfo
@@ -32,9 +33,9 @@ class TelegramMediaDelivery:
     VIDEO_SUPPORTS_STREAMING: ClassVar[bool] = True
     _RETRYABLE_PHOTO_ERROR_TOKENS: ClassVar[tuple[str, ...]] = (
         "too big for a photo",
-        "photo_invalid_dimensions",
+        "photo invalid dimensions",
         "invalid dimensions",
-        "image_process_failed",
+        "image process failed",
     )
 
     def __init__(self, message: Message, provider: ProviderInfo, photos: PhotoProcessor) -> None:
@@ -222,5 +223,5 @@ class TelegramMediaDelivery:
 
     @classmethod
     def _is_retryable_photo_error(cls, error: TelegramBadRequest) -> bool:
-        message = error.message.casefold()
+        message = normalized_error_message(error)
         return any(token in message for token in cls._RETRYABLE_PHOTO_ERROR_TOKENS)

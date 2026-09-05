@@ -33,3 +33,12 @@ class LocalizationMiddleware(SimpleI18nMiddleware):
             return await super().get_locale(event, data)
 
         return CONFIG.default_locale
+
+
+class FallbackLocalizationMiddleware(LocalizationMiddleware):
+    async def get_locale(self, event: TelegramObject, data: dict[str, Any]) -> str:
+        try:
+            return await super().get_locale(event, data)
+        except Exception:  # ruff: ignore[blind-except]
+            await logger.aexception("Could not resolve locale for error reporting")
+            return self.i18n.default_locale

@@ -7,8 +7,9 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.types import FSInputFile
 
-from korone.modules.stickers.utils import download_file, suffix_from_sticker
+from korone.modules.stickers.utils import suffix_from_sticker
 from korone.modules.utils_.message import is_real_reply
+from korone.modules.utils_.telegram_file import download_telegram_file
 from korone.ui import Code, UIExpression, column, field, link, template
 from korone.ui.rendering import caption_kwargs
 from korone.utils.handlers import KoroneMessageHandler
@@ -34,11 +35,11 @@ class StickerGetStickerHandler(KoroneMessageHandler):
 
         sticker = self.event.reply_to_message.sticker
         if not sticker:
-            await self.event.reply(_("That reply is not a sticker."))
+            await self.answer(_("That reply is not a sticker."))
             return
 
         if sticker.is_animated:
-            await self.event.reply(_("Animated stickers are not supported by this command."))
+            await self.answer(_("Animated stickers are not supported by this command."))
             return
 
         with TemporaryDirectory(prefix="korone-getsticker-") as temp_dir_name:
@@ -48,7 +49,7 @@ class StickerGetStickerHandler(KoroneMessageHandler):
             file_path = temp_dir / filename
 
             try:
-                await download_file(self.bot, sticker.file_id, file_path)
+                await download_telegram_file(self.bot, sticker.file_id, file_path)
 
                 await self.event.reply_document(
                     document=FSInputFile(file_path, filename=filename),
@@ -56,7 +57,7 @@ class StickerGetStickerHandler(KoroneMessageHandler):
                     disable_content_type_detection=True,
                 )
             except OSError, RuntimeError, TelegramBadRequest:
-                await self.event.reply(_("Could not fetch this sticker file."))
+                await self.answer(_("Could not fetch this sticker file."))
 
     @staticmethod
     def build_sticker_info_doc(sticker: Sticker) -> UIExpression:

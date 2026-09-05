@@ -20,7 +20,6 @@ from korone.utils.telegram_errors import is_message_not_modified_error, is_messa
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
 
 logger = get_logger(__name__)
 
@@ -35,7 +34,7 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
         await self.check_for_message()
 
         callback_data = cast("GetDeviceCallback", self.callback_data)
-        message = cast("Message", self.event.message)
+        message = self.message
 
         if self.event.from_user.id != callback_data.user_id:
             await self.event.answer(_("You are not allowed to use this button."), show_alert=True)

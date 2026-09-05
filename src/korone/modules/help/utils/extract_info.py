@@ -2,7 +2,7 @@ from collections import OrderedDict
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from itertools import chain
-from typing import TYPE_CHECKING, Any, cast, overload
+from typing import TYPE_CHECKING, Any, cast
 
 from aiogram.dispatcher.flags import extract_flags
 from aiogram.filters import Command
@@ -12,7 +12,6 @@ from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import GroupChatFilter, PrivateChatFilter
 from korone.filters.user_status import IsOP
 from korone.logger import get_logger
-from korone.utils.i18n import LazyProxy as KoroneLazyProxy
 
 if TYPE_CHECKING:
     from aiogram import Router
@@ -107,24 +106,6 @@ def _normalize_str_sequence(values: object) -> tuple[str, ...] | None:
 
 def normalize_cmds(cmds: object) -> tuple[str, ...] | None:
     return _normalize_str_sequence(cmds)
-
-
-@overload
-def _clone_without_cache(description: LazyProxy | str | None) -> LazyProxy | str | None: ...
-
-
-@overload
-def _clone_without_cache(
-    description: LazyProxy | str | Text | UIExpression | None,
-) -> LazyProxy | str | Text | UIExpression | None: ...
-
-
-def _clone_without_cache(
-    description: LazyProxy | str | Text | UIExpression | None,
-) -> LazyProxy | str | Text | UIExpression | None:
-    if not isinstance(description, KoroneLazyProxy):
-        return description
-    return KoroneLazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)
 
 
 def gather_cmd_args(args: object) -> ArgumentSchema[object] | None:
@@ -253,7 +234,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
 
         disableable = handler_flags.get("disableable")
         disableable_name = disableable.name if disableable is not None else None
-        description = _clone_without_cache(cast("LazyProxy | str | None", help_flags.get("description")))
+        description = cast("LazyProxy | str | None", help_flags.get("description"))
         alias_to_modules = _normalize_str_sequence(help_flags.get("alias_to_modules")) or ()
 
         handler_help = HandlerHelp(
@@ -284,9 +265,9 @@ async def gather_module_help(module: LoadedModule) -> ModuleHelp | None:
         return None
 
     package = module.package
-    name = _clone_without_cache(package.name)
-    info = _clone_without_cache(package.description)
-    description = _clone_without_cache(package.summary)
+    name = package.name
+    info = package.description
+    description = package.summary
 
     await logger.adebug("gather_module_help", module=module.import_path, name=name, emoji=package.icon)
 

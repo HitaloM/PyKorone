@@ -15,6 +15,7 @@ from korone.modules.medias.delivery import TelegramMediaDelivery
 from korone.modules.medias.filters import MediaUrlFilter
 from korone.modules.medias.models import MediaOutcome, MediaRequest, MediaStage
 from korone.utils.handlers import KoroneMessageHandler
+from korone.utils.telegram_errors import normalized_error_message
 from korone.utils.telegram_permissions import handle_no_rights_error, is_no_rights_error
 
 if TYPE_CHECKING:
@@ -171,5 +172,5 @@ class MediaHandler(KoroneMessageHandler):
 
     @classmethod
     def _is_request_timeout(cls, error: TelegramNetworkError) -> bool:
-        message = str(error).casefold()
+        message = normalized_error_message(error)
         return any(token in message for token in cls._REQUEST_TIMEOUT_TOKENS)

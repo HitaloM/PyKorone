@@ -27,7 +27,7 @@ sessions, caches, or download frameworks.
    options. Implement `fetch(url: str) -> MediaPost | None` without inheriting a base provider.
 6. Use `MediaDownloader.download(...)` and `DownloadOptions`. Add a source-loader strategy only for HLS, separate audio,
    offload, or another real transport exception; delegate ordinary sources back to `download_source(...)`.
-7. Inject `FFmpegTranscoder` only when required. If FFmpeg downloads the upstream itself, reserve a downloader slot for
+7. Inject `FFmpegTranscoder` only when required; it owns media slots and delegates process cleanup to `run_process`. If FFmpeg downloads the upstream itself, reserve a downloader slot for
    that operation.
 8. Use request-level `RetryPolicy` only for metadata or buffered bodies whose retry contract is known. Binary streaming
    remains owned by `MediaDownloader`.

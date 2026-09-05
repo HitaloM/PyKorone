@@ -17,6 +17,6 @@ class CrashHandler(KoroneMessageHandler):
         return (Command("op_crash"), IsOP(is_op=True))
 
     async def handle(self) -> None:
-        await self.event.reply("Crashing...")
+        await self.answer("Crashing...")
 
         _ = 1 / 0

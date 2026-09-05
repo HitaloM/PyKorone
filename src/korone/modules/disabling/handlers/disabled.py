@@ -25,7 +25,7 @@ class ListDisabled(KoroneMessageHandler):
         disabled = await get_disabled_handlers(self.chat.chat_id)
 
         if not disabled:
-            await self.event.reply(_("No disabled commands found."))
+            await self.answer(_("No disabled commands found."))
             return
 
         await self.answer(

@@ -2,17 +2,15 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 import sentry_sdk
-from aiogram.exceptions import TelegramBadRequest
 from aiogram.handlers import BaseHandler, MessageHandlerCommandMixin
-from aiogram.types import CallbackQuery, InaccessibleMessage, InlineQuery, InputMediaPhoto, Message
+from aiogram.types import CallbackQuery, InlineQuery, InputMediaPhoto, Message
 from structlog.contextvars import bind_contextvars
 
 from korone.args.base import PARSED_ARGUMENTS_KEY
 from korone.middlewares.context_data import as_korone_context
-from korone.modules.utils_.reply_or_edit import edit_message_rich, edit_message_text, reply_or_edit, reply_or_edit_rich
+from korone.modules.utils_.message import get_message
+from korone.modules.utils_.reply_or_edit import reply_message, reply_or_edit, reply_or_edit_rich
 from korone.ui.rendering import caption_kwargs
-from korone.utils.exception import KoroneError
-from korone.utils.telegram_errors import is_message_not_modified_error
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -27,6 +25,8 @@ if TYPE_CHECKING:
     from korone.middlewares.context_data import KoroneContextData
     from korone.ui import MessageContent
 
+
+# BaseHandler's Generic/ABC hierarchy requires legacy generic syntax at this boundary.
 T = TypeVar("T")
 
 
@@ -79,8 +79,8 @@ class KoroneMessageHandler[ArgumentsT = None](MessageHandlerCommandMixin, Korone
             msg = "Handler arguments were accessed before parsing"
             raise RuntimeError(msg) from exc
 
-    async def answer(self, text: MessageContent, **kwargs: object) -> Message | bool:
-        return await reply_or_edit(self.event, text, **kwargs)
+    async def answer(self, text: MessageContent, **kwargs: object) -> Message:
+        return await reply_message(self.event, text, **kwargs)
 
 
 class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
@@ -97,34 +97,18 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
     def callback_data(self) -> CallbackData | str:
         return self.data["callback_data"]
 
-    async def check_for_message(self) -> None:
-        if not self.event.from_user:
-            raise KoroneError.user_context_unavailable()
+    @property
+    def message(self) -> Message:
+        return get_message(self.event)
 
-        if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
-            raise KoroneError.inaccessible_message()
+    async def check_for_message(self) -> None:
+        get_message(self.event)
 
     async def edit_text(self, text: MessageContent, **kwargs: object) -> None:
-        await self.check_for_message()
-        message = self.event.message
-        if not isinstance(message, Message):
-            raise KoroneError.inaccessible_message()
-        try:
-            await edit_message_text(message, text, **kwargs)
-        except TelegramBadRequest as exc:
-            if not is_message_not_modified_error(exc):
-                raise
+        await reply_or_edit(self.event, text, **kwargs)
 
     async def edit_rich(self, rich_message: InputRichMessage, **kwargs: object) -> None:
-        await self.check_for_message()
-        message = self.event.message
-        if not isinstance(message, Message):
-            raise KoroneError.inaccessible_message()
-        try:
-            await edit_message_rich(message, rich_message, **kwargs)
-        except TelegramBadRequest as exc:
-            if not is_message_not_modified_error(exc):
-                raise
+        await reply_or_edit_rich(self.event, rich_message, **kwargs)
 
 
 class KoroneInlineQueryHandler(KoroneBaseHandler[InlineQuery], ABC):
@@ -141,15 +125,7 @@ class KoroneInlineQueryHandler(KoroneBaseHandler[InlineQuery], ABC):
 class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuery], ABC):
     @property
     def message(self) -> Message:
-        msg = self.event if isinstance(self.event, Message) else getattr(self.event, "message", None)
-
-        if not msg:
-            raise KoroneError.inaccessible_message()
-        if isinstance(msg, InaccessibleMessage):
-            raise KoroneError.inaccessible_message()
-        if not isinstance(msg, Message):
-            raise KoroneError.inaccessible_message()
-        return msg
+        return get_message(self.event)
 
     @property
     def callback_data(self) -> CallbackData | str | None:
@@ -160,9 +136,7 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
     ) -> Message | bool:
         caption_payload = caption_kwargs(caption) if caption is not None else {}
         if isinstance(self.event, CallbackQuery):
-            message = self.event.message
-            if not message or isinstance(message, InaccessibleMessage):
-                raise KoroneError.inaccessible_message()
+            message = self.message
             media = InputMediaPhoto(media=f, **caption_payload)
             if message.ephemeral_message_id is not None:
                 return await message.edit_ephemeral_media(media=media, **cast("dict[str, Any]", kwargs))

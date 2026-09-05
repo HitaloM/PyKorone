@@ -9,10 +9,10 @@ from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
 from korone.modules.gsm_arena.utils.session import get_search_session
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
+from korone.utils.telegram_errors import is_message_not_modified_error
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import Message
 
 logger = get_logger(__name__)
 
@@ -42,12 +42,12 @@ class DeviceListCallbackHandler(KoroneCallbackQueryHandler):
             return
 
         keyboard = create_pagination_layout(devices, callback_data.token, callback_data.page, callback_data.user_id)
-        message = cast("Message", self.event.message)
+        message = self.message
 
         try:
             await message.edit_reply_markup(reply_markup=keyboard)
         except TelegramBadRequest as err:
-            if "message is not modified" not in err.message:
+            if not is_message_not_modified_error(err):
                 raise
 
         await self.event.answer()

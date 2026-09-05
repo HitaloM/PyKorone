@@ -38,8 +38,11 @@ module and metadata contracts before deciding which files and manifest fields th
    on orchestration and register their classes through `ModuleManifest.handlers`.
 7. Put custom module middleware classes in a `middlewares/` subpackage, export intentional entry points from its
    `__init__.py`, and register them only in `pre_setup()` through `ModuleManifest.scripts`.
-8. Keep processing managers, repositories, external transport, and parsing outside middleware and handlers.
-9. Define typed callback data and authorize user-bound interactions.
+8. Keep processing managers, repositories, external transport, and parsing outside middleware and handlers. Use the
+   [shared ownership decisions](../py-korone-development/references/python.md#architecture); avoid forwarding wrappers or
+   new generic bases without multiple concrete policies to share.
+9. Define typed callback data and authorize user-bound interactions. Use project response/message helpers. FSM is
+   disabled by default; adding FSM requires an explicit runtime storage decision.
 10. Declare lifecycle hooks, stats, exports, and inline-query integration through the corresponding manifest fields;
     avoid import-time registration and other side effects.
 11. Add help metadata and disableable flags when appropriate.

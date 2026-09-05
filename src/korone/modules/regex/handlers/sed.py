@@ -31,12 +31,12 @@ class SedHandler(KoroneMessageHandler):
 
         reply_message = self.event.reply_to_message
         if not reply_message:
-            await self.event.reply(_("No message to apply the substitution."))
+            await self.answer(_("No message to apply the substitution."))
             return
 
         original_text = reply_message.text or reply_message.caption or ""
         if not original_text:
-            await self.event.reply(_("No text to apply the substitution."))
+            await self.answer(_("No text to apply the substitution."))
             return
 
         match = re.match(SED_PATTERN, text)
@@ -53,7 +53,7 @@ class SedHandler(KoroneMessageHandler):
                 return
 
             if command_data is None:
-                await self.event.reply(_("Invalid command data."))
+                await self.answer(_("Invalid command data."))
                 return
 
             from_pattern, to_pattern, flags, count = command_data
@@ -65,7 +65,7 @@ class SedHandler(KoroneMessageHandler):
                 return
 
         if modified_text == original_text:
-            await self.event.reply(_("Your regex didn't change anything from the original message."))
+            await self.answer(_("Your regex didn't change anything from the original message."))
             return
 
         await self.bot.send_message(self.chat.chat_id, modified_text, reply_to_message_id=reply_message.message_id)

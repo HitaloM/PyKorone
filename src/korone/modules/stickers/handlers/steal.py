@@ -15,7 +15,6 @@ from korone.modules.stickers.utils import (
     StickerPrepareError,
     build_pack_id,
     create_input_sticker,
-    download_file,
     extract_reply_media,
     get_default_or_generated_pack_title,
     is_stickerset_invalid,
@@ -24,6 +23,7 @@ from korone.modules.stickers.utils import (
 )
 from korone.modules.utils_.message import is_real_reply
 from korone.modules.utils_.reply_or_edit import edit_message_text
+from korone.modules.utils_.telegram_file import download_telegram_file
 from korone.ui import Code, column, link, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -54,7 +54,7 @@ class StickerStealHandler(KoroneMessageHandler[StickerStealArguments]):
 
     async def handle(self) -> None:
         if not self.event.from_user:
-            await self.event.reply(_("Could not identify your user."))
+            await self.answer(_("Could not identify your user."))
             return
 
         if not self.event.reply_to_message or not is_real_reply(self.event):
@@ -66,12 +66,12 @@ class StickerStealHandler(KoroneMessageHandler[StickerStealArguments]):
             )
             return
 
-        status_message = await self.event.reply(_("Stealing sticker..."))
+        status_message = await self.answer(_("Stealing sticker..."))
         user = self.event.from_user
         try:
             file_id, suffix, reply_emoji = extract_reply_media(self.event)
         except ValueError:
-            await status_message.edit_text(_("That reply does not contain supported media."))
+            await edit_message_text(status_message, _("That reply does not contain supported media."))
             return
 
         default_title = await get_default_or_generated_pack_title(user.id, user.first_name)
@@ -87,7 +87,7 @@ class StickerStealHandler(KoroneMessageHandler[StickerStealArguments]):
             with TemporaryDirectory(prefix="korone-sticker-") as temp_dir_name:
                 temp_dir = Path(temp_dir_name)
                 source_path = temp_dir / f"source{suffix}"
-                await download_file(self.bot, file_id, source_path)
+                await download_telegram_file(self.bot, file_id, source_path)
 
                 prepared_path, sticker_format = await prepare_sticker_file(source_path)
                 input_sticker = create_input_sticker(prepared_path, sticker_format=sticker_format, emoji=emoji)
@@ -96,7 +96,7 @@ class StickerStealHandler(KoroneMessageHandler[StickerStealArguments]):
                     await self.bot.add_sticker_to_set(user_id=user.id, name=pack_id, sticker=input_sticker)
                 except TelegramBadRequest as exc:
                     if not is_stickerset_invalid(exc):
-                        await status_message.edit_text(map_pack_write_error(exc))
+                        await edit_message_text(status_message, map_pack_write_error(exc))
                         return
 
                     await self.bot.create_new_sticker_set(
@@ -109,10 +109,10 @@ class StickerStealHandler(KoroneMessageHandler[StickerStealArguments]):
                     )
                     created_new_pack = True
         except StickerPrepareError as exc:
-            await status_message.edit_text(str(exc))
+            await edit_message_text(status_message, str(exc))
             return
         except TelegramBadRequest as exc:
-            await status_message.edit_text(map_pack_write_error(exc))
+            await edit_message_text(status_message, map_pack_write_error(exc))
             return
 
         await StickerPackRepository.upsert_pack(pack_id, user.id, pack_title, set_default=None)

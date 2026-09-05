@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from contextlib import AsyncExitStack
 from typing import Final
 
 import sentry_sdk
@@ -27,6 +28,7 @@ from .middlewares.disabling import DisablingMiddleware
 from .middlewares.save_chats import SAVE_CHATS_REQUIRED_UPDATE_TYPES, SaveChatsMiddleware
 from .modules import LOADED_MODULES, load_modules
 from .modules.help.utils.commands import sync_bot_commands
+from .utils.cached import shutdown_cache
 from .utils.i18n import i18n
 
 logger = get_logger(__name__)
@@ -107,12 +109,14 @@ async def drop_pending_updates() -> None:
 
 async def shutdown(*, close_bot_session: bool = True) -> None:
     await logger.ainfo("Shutting down the bot...")
-    await drop_pending_updates()
-    await close_db()
-    await http_client.close()
-    if close_bot_session:
-        await bot.session.close()
-    await aredis.aclose(close_connection_pool=True)
+    async with AsyncExitStack() as cleanup:
+        cleanup.push_async_callback(aredis.aclose, close_connection_pool=True)
+        if close_bot_session:
+            cleanup.push_async_callback(bot.session.close)
+        cleanup.push_async_callback(http_client.close)
+        cleanup.push_async_callback(close_db)
+        cleanup.push_async_callback(shutdown_cache)
+        await drop_pending_updates()
 
 
 async def run_polling() -> None:

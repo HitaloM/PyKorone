@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, ClassVar, Protocol, cast, override
+from typing import TYPE_CHECKING, Protocol, override
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import InputMediaPhoto
@@ -8,10 +8,15 @@ from aiogram.types import InputMediaPhoto
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.logger import get_logger
 from korone.modules.lastfm.utils import LastFMError, format_lastfm_error
-from korone.ui.rendering import caption_kwargs, text_kwargs
+from korone.modules.utils_.reply_or_edit import edit_message_text, reply_message
+from korone.ui.rendering import caption_kwargs
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
-from korone.utils.telegram_errors import is_callback_query_expired_error, is_message_not_modified_error
+from korone.utils.telegram_errors import (
+    is_bad_media_url_error,
+    is_callback_query_expired_error,
+    is_message_not_modified_error,
+)
 
 if TYPE_CHECKING:
     from aiogram.types import InlineKeyboardMarkup, Message
@@ -39,14 +44,9 @@ class LastFMUserContext:
 
 
 class LastFMHandlerSupport:
-    _BAD_MEDIA_URL_ERROR_TOKENS: ClassVar[tuple[str, ...]] = (
-        "wrong type of the web page content",
-        "failed to get http url content",
-    )
-
     @classmethod
     async def reply_missing_username(cls, message: Message) -> None:
-        await message.reply(cls.missing_username_text())
+        await reply_message(message, cls.missing_username_text())
 
     @staticmethod
     def can_use_buttons(*, callback_owner_id: int, user_id: int) -> bool:
@@ -88,15 +88,6 @@ class LastFMHandlerSupport:
 
         return (primary_url, LASTFM_FALLBACK_IMAGE_URL)
 
-    @staticmethod
-    def _normalize_telegram_error_message(exc: TelegramBadRequest) -> str:
-        return exc.message.casefold()
-
-    @classmethod
-    def _is_bad_media_url_error(cls, exc: TelegramBadRequest) -> bool:
-        normalized_message = cls._normalize_telegram_error_message(exc)
-        return any(token in normalized_message for token in cls._BAD_MEDIA_URL_ERROR_TOKENS)
-
     @classmethod
     async def send_response(
         cls,
@@ -110,7 +101,7 @@ class LastFMHandlerSupport:
             try:
                 return await message.reply_photo(photo=candidate_url, **caption_kwargs(text, reply_markup=reply_markup))
             except TelegramBadRequest as exc:
-                if not cls._is_bad_media_url_error(exc):
+                if not is_bad_media_url_error(exc):
                     raise
                 await logger.awarning(
                     "[LastFM] Telegram rejected album art URL while sending response",
@@ -120,7 +111,7 @@ class LastFMHandlerSupport:
                     error=exc.message,
                 )
 
-        return await message.reply(**text_kwargs(text, reply_markup=reply_markup))
+        return await reply_message(message, text, reply_markup=reply_markup)
 
     @classmethod
     async def edit_response(
@@ -132,7 +123,7 @@ class LastFMHandlerSupport:
         reply_markup: InlineKeyboardMarkup | None = None,
     ) -> None:
         if not message.photo:
-            await message.edit_text(**text_kwargs(text, reply_markup=reply_markup))
+            await edit_message_text(message, text, reply_markup=reply_markup)
             return
 
         for candidate_url in cls._resolve_image_url_candidates(image_url):
@@ -141,7 +132,7 @@ class LastFMHandlerSupport:
                     media=InputMediaPhoto(media=candidate_url, **caption_kwargs(text)), reply_markup=reply_markup
                 )
             except TelegramBadRequest as exc:
-                if not cls._is_bad_media_url_error(exc):
+                if not is_bad_media_url_error(exc):
                     raise
                 await logger.awarning(
                     "[LastFM] Telegram rejected album art URL while editing response",
@@ -181,11 +172,11 @@ class BaseLastFMMessageHandler[P: LastFMResponsePayload](KoroneMessageHandler, L
         try:
             payload = await type(self).build_payload_for_user(user=user)
         except LastFMError as exc:
-            await self.event.reply(format_lastfm_error(exc))
+            await self.answer(format_lastfm_error(exc))
             return
 
         if payload is None:
-            await self.event.reply(type(self).empty_state_text())
+            await self.answer(type(self).empty_state_text())
             return
 
         reply_markup = type(self).build_reply_markup_for_user(user=user, payload=payload)
@@ -251,12 +242,12 @@ class BaseLastFMCallbackHandler[C: LastFMUserContext, P: LastFMResponsePayload](
             await self._answer_callback_safely(_("You are not allowed to use this button."), show_alert=True)
             return
 
-        message = cast("Message", self.event.message)
+        message = self.message
         await self._answer_callback_safely()
         try:
             payload = await type(self).build_payload(context=context)
             if payload is None:
-                await message.edit_text(type(self).empty_state_text())
+                await edit_message_text(message, type(self).empty_state_text())
             else:
                 await self.render_response(message, context=context, payload=payload)
         except LastFMError as exc:

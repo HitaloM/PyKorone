@@ -22,4 +22,4 @@ class ResetAdminCache(KoroneMessageHandler):
 
     async def handle(self) -> None:
         await get_admins_rights(self.chat.chat_id, force_update=True)
-        await self.event.reply(_("Admin rights cache has been reset."))
+        await self.answer(_("Admin rights cache has been reset."))

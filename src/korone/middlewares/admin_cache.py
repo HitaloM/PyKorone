@@ -17,7 +17,6 @@ if TYPE_CHECKING:
     from aiogram.types import TelegramObject
 
     from korone.db.models.chat import ChatModel
-    from korone.db.models.chat_admin import ChatAdminModel
     from korone.middlewares.context_data import KoroneContextData
 
 logger = get_logger(__name__)
@@ -58,14 +57,11 @@ class AdminCacheMiddleware(BaseMiddleware):
         else:
             await logger.adebug("AdminCacheMiddleware: admin cache is up to date", chat_id=chat_tid)
 
-    async def _is_cache_stale(self, chat: ChatModel) -> bool:
-        oldest_admin = await self._get_oldest_admin(chat)
+    @staticmethod
+    async def _is_cache_stale(chat: ChatModel) -> bool:
+        oldest_admin = await ChatAdminRepository.get_oldest_admin(chat)
         if oldest_admin is None:
             return True
 
         cache_age_seconds = (datetime.now(UTC) - oldest_admin.last_updated).total_seconds()
         return cache_age_seconds > CACHE_ADMIN_TTL_SECONDS
-
-    @staticmethod
-    async def _get_oldest_admin(chat: ChatModel) -> ChatAdminModel | None:
-        return await ChatAdminRepository.get_oldest_admin(chat)

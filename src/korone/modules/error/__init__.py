@@ -1,7 +1,7 @@
 from aiogram import Router
 
 from korone.filters.user_status import IsOP as IsOP
-from korone.middlewares import try_localization_middleware
+from korone.middlewares import fallback_localization_middleware
 from korone.modules.metadata import ModuleManifest, ModulePackage, ModuleScripts
 from korone.ui import column
 
@@ -12,7 +12,7 @@ router = Router(name="error")
 
 
 def pre_setup() -> None:
-    router.error.middleware(try_localization_middleware)
+    router.error.middleware(fallback_localization_middleware)
     router.error.register(KoroneErrorHandler)
 
 

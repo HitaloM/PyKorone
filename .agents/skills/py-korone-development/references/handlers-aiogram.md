@@ -4,7 +4,8 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 
 ## Runtime and Routing
 
-- Reuse the shared `bot`, `dp`, configured storage, and dispatcher setup.
+- Reuse the shared `bot`, `dp`, and dispatcher setup. FSM is currently disabled; do not assume `self.state` or FSM
+  storage is available. A feature needing FSM must explicitly configure and validate that runtime contract.
 - Do not instantiate feature-local `Bot` or `Dispatcher` objects.
 - Compose routing through module manifests and the loader.
 - Put module-specific middleware implementations in `src/korone/modules/<module>/middlewares/`; do not place
@@ -17,7 +18,8 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 ## Handler Workflow
 
 1. Read the nearest handlers, callbacks, manifest, filters, utilities, and repositories.
-2. Choose `KoroneMessageHandler`, `KoroneCallbackQueryHandler`, or `KoroneMessageCallbackQueryHandler` for the incoming event.
+2. Choose `KoroneMessageHandler`, `KoroneCallbackQueryHandler`, `KoroneMessageCallbackQueryHandler`, or
+   `KoroneInlineQueryHandler` for the incoming event. The error handler uses aiogram's error-specific base for `ErrorEvent`.
 3. Define filters, project arguments, flags, callbacks, and FSM states declaratively.
 4. Implement `filters()` and `async def handle(self)`.
 5. Override `register(...)` only for dual-event or custom registration.
@@ -26,18 +28,32 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 
 ## Project Handler Context
 
-- Use `self.event`, `self.bot`, `self.state`, `self.chat`, `self.context`, and `self.current_locale`.
-- Use `self.answer(...)` for text or UI responses on handler bases that define it. Use direct `self.event.reply_*`
-  methods for Telegram operations that have no project wrapper.
+- Use `self.event`, `self.bot`, `self.chat`, `self.context`, and `self.current_locale`.
+- Use `self.answer(...)` for ordinary text/UI responses. It replies and falls back to a new message if the target
+  disappeared. Message handlers return `Message`; dual-event responses may also return `bool` for edits. Use direct
+  aiogram methods for uncovered transport (media, markup, inline results, alerts) and deliberate new-message sends.
+  Keep domain-specific media fallbacks in their adapter.
 - Use callback helpers such as `self.edit_text(...)` in callback handlers.
 - Guard optional Telegram values such as `from_user`, callback messages, and inaccessible messages.
-- Use `check_for_message()` and project exceptions where the nearby implementation does.
+- Use `self.message` for an accessible callback/dual-event `Message`; use `check_for_message()` only when an early
+  explicit guard is needed. Absent/inaccessible messages raise the project error. This guard does not authorize
+  the callback owner. Do not repeat casts or silent guards after this validated boundary.
+- Outside handlers, use `reply_message` / `reply_message_rich` and `edit_message_text` / `edit_message_rich` from
+  `modules.utils_.reply_or_edit`. Replies
+  recover missing targets; edits route ephemeral messages and propagate errors. Handler edit helpers suppress only
+  unchanged-message errors; lower-level callers may interpret that error themselves.
+- Use `BooleanStatusHandler` for BooleanArg-based on/off settings. Another status abstraction needs a concrete
+  nonboolean parser and caller; do not cast BooleanArg output to an unconstrained generic type.
+- `common_try` is only for best-effort Telegram operations whose caller accepts its ignored errors. Do not wrap
+  an entire handler or persistence operation in generic retry/suppression.
 
 ## Arguments, Filters, and Flags
 
 - Use argument types from `korone.args` instead of manually splitting commands with arguments.
 - Define an immutable, slotted dataclass for parsed values, bind it with `ArgumentSchema(...)`, parameterize
   `KoroneMessageHandler` with that dataclass, and read values from `self.args`.
+- If middleware also consumes parsed values, put the shared dataclass in the module's `args.py`, read
+  `PARSED_ARGUMENTS_KEY`, and narrow to that type. Do not read legacy per-argument `data` keys or import the handler.
 - Express optional arguments with dataclass defaults. Input that is present but invalid must remain an error; do not
   recreate the removed `OptionalArg` fallback behavior.
 - Prefer core types such as `TextArg`, `WordArg`, `BooleanArg`, and `OrArg`; use module-local types such as
@@ -85,7 +101,12 @@ Use the active aiogram range in `pyproject.toml` and the current PyKorone implem
 - Use `KoroneContextData`, `self.context`, or helpers in `korone.middlewares.context_data` instead of scattered casts.
 - Use `chat_id` and `user_id` for Telegram IDs.
 - Distinguish `ChatModel.chat_id` from its database primary key `ChatModel.id`.
-- Never pass a database primary key to Telegram API methods.
+- Never pass a database primary key to Telegram API methods or retry Telegram-ID lookup as primary-key lookup.
+- Share member permission evaluation through `check_member_permissions`; use `check_user_admin_permissions` for
+  model/cache resolution and operator policy. Keep anonymous identity resolution in the filter.
+- Match Telegram failures with `utils.telegram_errors`. Feature predicates use `normalized_error_message` and
+  normalized phrases instead of independent casing or underscore rules.
+- Localization fallback is limited to locale resolution. Never rerun a failed handler under another middleware.
 
 ## Validation
 

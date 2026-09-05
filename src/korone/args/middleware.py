@@ -21,8 +21,8 @@ from korone.args.base import (
     MissingArgumentError,
     UnexpectedArgumentError,
 )
+from korone.modules.utils_.reply_or_edit import reply_message
 from korone.ui import Bold, Code, Italic, Renderable, UIExpression, column, field, section, template
-from korone.ui.rendering import text_kwargs
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -181,7 +181,7 @@ class ArgumentsMiddleware(BaseMiddleware):
         except (MissingArgumentError, InvalidArgumentError, InvalidArgumentValueError, UnexpectedArgumentError) as exc:
             content = _format_error(exc, arguments, command_object)
             reply_markup = await _argument_help_markup(data)
-            await event.reply(**text_kwargs(content, disable_web_page_preview=True), reply_markup=reply_markup)
+            await reply_message(event, content, disable_web_page_preview=True, reply_markup=reply_markup)
             return None
 
         data[PARSED_ARGUMENTS_KEY] = parsed

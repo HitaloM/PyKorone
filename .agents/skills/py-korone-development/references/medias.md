@@ -27,7 +27,8 @@ Every provider is an instance satisfying `MediaProvider`, exposes immutable `Pro
 - Return a `MediaPost` with at least one `PreparedMedia` on success.
 - Use `MediaDownloader.download(...)` with `DownloadOptions`. Pass a source-loader strategy only for HLS remuxing,
   separate audio, offload, or another transport-specific requirement.
-- Propagate cancellation. `MediaService` owns conversion of expected provider failures into misses and structured logs.
+- Propagate cancellation. `MediaService` isolates provider failures, converting timeouts to misses and logging other
+  exceptions before returning a miss. Do not add provider-local broad catches or repeat those logs.
 
 ## HTTP, Downloads, and Transforms
 
@@ -36,7 +37,8 @@ Every provider is an instance satisfying `MediaProvider`, exposes immutable `Pro
   backoff, jitter, timeout, redirects, and body-read behavior.
 - Keep bounded binary streaming retry in `MediaDownloader`; it owns size enforcement, truncated-body recovery, source
   file-ID reuse, ordering, and cancellation.
-- Use `PhotoProcessor` for Telegram-safe photos and `FFmpegTranscoder` for subprocess output. Provider-specific network
+- Use `PhotoProcessor` for Telegram-safe photos and `FFmpegTranscoder` for subprocess output. The transcoder delegates
+  timeout and child-process cleanup to `korone.utils.subprocess.run_process`. Provider-specific network
   transforms must also reserve a downloader slot when FFmpeg performs the upstream download itself.
 - Reuse `DEFAULT_MEDIA_HEADERS` and `DEFAULT_MEDIA_TIMEOUT` unless the platform requires verified overrides.
 

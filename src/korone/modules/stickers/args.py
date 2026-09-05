@@ -8,6 +8,11 @@ from korone.utils.i18n import lazy_gettext as l_
 
 
 @dataclass(frozen=True, slots=True)
+class StickerStealPackArguments:
+    pack_name: str
+
+
+@dataclass(frozen=True, slots=True)
 class StickerStealOptions:
     pack_title: str | None = None
     emoji: str | None = None

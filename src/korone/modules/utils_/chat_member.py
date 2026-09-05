@@ -6,6 +6,7 @@ from korone import bot
 from korone.db.repositories.chat import ChatRepository
 from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.logger import get_logger
+from korone.utils.telegram_errors import is_chat_not_found_error
 
 if TYPE_CHECKING:
     from aiogram.types import ResultChatMemberUnion
@@ -20,7 +21,7 @@ async def get_chat_members(chat_id: int) -> list[ResultChatMemberUnion]:
     try:
         return await bot.get_chat_administrators(chat_id)
     except TelegramBadRequest as error:
-        if "chat not found" in str(error).lower():
+        if is_chat_not_found_error(error):
             await logger.adebug("chat_members: chat not found", chat_id=chat_id)
             return []
         raise

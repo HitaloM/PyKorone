@@ -91,7 +91,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler[LastFMComp
     @override
     async def handle(self) -> None:
         if not self.event.from_user:
-            await self.event.reply(_("Could not identify your Telegram user."))
+            await self.answer(_("Could not identify your Telegram user."))
             return
 
         try:
@@ -109,11 +109,11 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler[LastFMComp
         target_user = target_candidate
 
         if source_user.id == target_user.id:
-            await self.event.reply(_("Lookie, it's me!!!"))
+            await self.answer(_("Lookie, it's me!!!"))
             return
 
         if source_user.is_bot or target_user.is_bot:
-            await self.event.reply(_("Bots don't listen to music."))
+            await self.answer(_("Bots don't listen to music."))
             return
 
         source_username = await LastFMRepository.get_username(source_user.id)
@@ -123,7 +123,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler[LastFMComp
 
         target_username = await LastFMRepository.get_username(target_user.id)
         if not target_username:
-            await self.event.reply(_("This user needs to set Last.fm first with /setlfm."))
+            await self.answer(_("This user needs to set Last.fm first with /setlfm."))
             return
 
         source_context = LastFMUserContext(
@@ -139,7 +139,7 @@ class LastFMCompatHandler(LastFMCompatFormatter, KoroneMessageHandler[LastFMComp
             artists_a = await client.get_top_artists(username=source_username, period=period.value, limit=100)
             artists_b = await client.get_top_artists(username=target_username, period=period.value, limit=100)
         except LastFMError as exc:
-            await self.event.reply(format_lastfm_error(exc))
+            await self.answer(format_lastfm_error(exc))
             return
 
         denominator = min(len(artists_a), len(artists_b), COMPAT_DENOMINATOR_LIMIT)
