@@ -188,13 +188,7 @@ class HttpClient:
             return
 
         connector = TCPConnector(
-            use_dns_cache=True,
-            limit=100,
-            limit_per_host=30,
-            ttl_dns_cache=300,
-            keepalive_timeout=30,
-            enable_cleanup_closed=True,
-            force_close=False,
+            use_dns_cache=True, limit=100, limit_per_host=30, ttl_dns_cache=300, keepalive_timeout=30, force_close=False
         )
         self._session = ClientSession(connector=connector)
 
