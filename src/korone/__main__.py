@@ -1,4 +1,3 @@
-import asyncio
 import logging
 from contextlib import AsyncExitStack
 from typing import Final
@@ -173,13 +172,12 @@ def main() -> None:
 
     if CONFIG.webhook_domain:
         app = create_webhook_app()
-        web.run_app(app, host="0.0.0.0", port=CONFIG.web_server_port)
+        web.run_app(app, host="0.0.0.0", port=CONFIG.web_server_port, loop=uvloop.new_event_loop())
         return
 
-    asyncio.run(run_polling())
+    uvloop.run(run_polling())
 
 
 if __name__ == "__main__":
     setup_logging(level=logging.DEBUG if CONFIG.debug_mode else logging.INFO)
-    uvloop.install()
     main()
