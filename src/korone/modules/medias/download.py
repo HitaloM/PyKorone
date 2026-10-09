@@ -18,7 +18,7 @@ from korone.logger import get_logger
 from .models import MediaKind, MediaSource, PreparedMedia
 
 if TYPE_CHECKING:
-    from collections.abc import AsyncIterator, Awaitable, Callable, Sequence
+    from collections.abc import AsyncGenerator, Awaitable, Callable, Sequence
 
     from aiogram.types import InputFile
 
@@ -124,7 +124,7 @@ class MediaDownloader:
         return self._cached_media(request, file_ids[0]) if file_ids and file_ids[0] else None
 
     @contextlib.asynccontextmanager
-    async def reserve_slot(self) -> AsyncIterator[None]:
+    async def reserve_slot(self) -> AsyncGenerator[None]:
         async with self._slots:
             yield
 
