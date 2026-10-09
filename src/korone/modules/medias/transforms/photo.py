@@ -83,19 +83,15 @@ def _constrain_photo_dimensions(image: Image.Image, *, max_dimensions_sum: int, 
 def photo_payload_needs_resize(payload: bytes, *, max_dimensions_sum: int, max_aspect_ratio: int) -> bool:
     try:
         with Image.open(BytesIO(payload)) as source_image:
-            base = ImageOps.exif_transpose(source_image)
-            try:
-                width, height = base.size
-                if width < 1 or height < 1:
-                    return True
+            # Both limits are invariant under EXIF rotation; reading the header avoids decoding pixels.
+            width, height = source_image.size
+            if width < 1 or height < 1:
+                return True
 
-                target_width, target_height = _target_photo_dimensions(
-                    width, height, max_dimensions_sum=max_dimensions_sum, max_aspect_ratio=max_aspect_ratio
-                )
-                return (target_width, target_height) != (width, height)
-            finally:
-                if base is not source_image:
-                    base.close()
+            target_width, target_height = _target_photo_dimensions(
+                width, height, max_dimensions_sum=max_dimensions_sum, max_aspect_ratio=max_aspect_ratio
+            )
+            return (target_width, target_height) != (width, height)
     except OSError, ValueError:
         return True
 
