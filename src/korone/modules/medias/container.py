@@ -2,8 +2,9 @@ import asyncio
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from korone import aredis
+from korone import aredis, bot
 from korone.config import CONFIG
+from korone.constants import TELEGRAM_LOCAL_MAX_FILE_SIZE_BYTES, TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.http import HttpClient, http_client
 
 from .cache import MediaCache
@@ -37,12 +38,23 @@ class MediaContainer:
 
 
 def build_media_container(
-    *, http: HttpClient, redis: Redis, max_concurrent_downloads: int, max_concurrent_transforms: int
+    *,
+    http: HttpClient,
+    redis: Redis,
+    max_concurrent_downloads: int,
+    max_concurrent_transforms: int,
+    max_concurrent_posts: int,
 ) -> MediaContainer:
     cache = MediaCache(redis)
     download_slots = asyncio.Semaphore(max_concurrent_downloads)
     transform_slots = asyncio.Semaphore(max_concurrent_transforms)
-    downloader = MediaDownloader(http, cache, download_slots)
+    downloader = MediaDownloader(
+        http,
+        cache,
+        download_slots,
+        max_size=TELEGRAM_LOCAL_MAX_FILE_SIZE_BYTES if bot.session.api.is_local else TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES,
+        local_timeout_seconds=CONFIG.media_local_download_timeout_seconds if bot.session.api.is_local else None,
+    )
     photos = PhotoProcessor(transform_slots)
     transcoder = FFmpegTranscoder(transform_slots)
 
@@ -55,7 +67,9 @@ def build_media_container(
         TikTokProvider(TikTokClient(http), downloader),
     )
     registry = ProviderRegistry(providers)
-    return MediaContainer(registry=registry, service=MediaService(cache), photos=photos)
+    return MediaContainer(
+        registry=registry, service=MediaService(cache, asyncio.Semaphore(max_concurrent_posts)), photos=photos
+    )
 
 
 media_container = build_media_container(
@@ -63,4 +77,5 @@ media_container = build_media_container(
     redis=aredis,
     max_concurrent_downloads=CONFIG.media_max_concurrent_downloads,
     max_concurrent_transforms=CONFIG.media_max_concurrent_transforms,
+    max_concurrent_posts=CONFIG.media_max_concurrent_posts,
 )

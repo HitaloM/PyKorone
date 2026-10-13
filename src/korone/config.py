@@ -1,6 +1,7 @@
+from pathlib import Path
 from typing import Annotated
 
-from pydantic import AnyHttpUrl, Field, SecretStr, ValidationInfo, computed_field, field_validator
+from pydantic import AnyHttpUrl, Field, SecretStr, ValidationInfo, computed_field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 type PortNumber = Annotated[int, Field(ge=1, le=65535)]
@@ -30,9 +31,30 @@ class Config(BaseSettings):
 
     media_max_concurrent_downloads: MediaConcurrency = 8
     media_max_concurrent_transforms: MediaConcurrency = 4
+    media_max_concurrent_posts: MediaConcurrency = 2
+    media_local_download_timeout_seconds: PositiveSeconds = 1800
+    media_local_send_timeout_seconds: PositiveSeconds = 1800
 
     botapi_server: AnyHttpUrl | None = None
     botapi_local_storage_root: str = "/var/lib/telegram-bot-api"
+    botapi_server_storage_root: str = "/var/lib/telegram-bot-api"
+    botapi_upload_root: Path | None = None
+
+    @model_validator(mode="after")
+    def validate_botapi_paths(self) -> Config:
+        local_root = Path(self.botapi_local_storage_root)
+        server_root = Path(self.botapi_server_storage_root)
+        if not local_root.is_absolute() or not server_root.is_absolute():
+            msg = "Bot API storage roots must be absolute paths"
+            raise ValueError(msg)
+        if self.botapi_upload_root is not None:
+            if self.botapi_server is None or not self.botapi_upload_root.is_absolute():
+                msg = "BOTAPI_UPLOAD_ROOT requires a local Bot API server and an absolute path"
+                raise ValueError(msg)
+            if not self.botapi_upload_root.resolve().is_relative_to(local_root.resolve()):
+                msg = "BOTAPI_UPLOAD_ROOT must be inside BOTAPI_LOCAL_STORAGE_ROOT"
+                raise ValueError(msg)
+        return self
 
     webhook_domain: str | None = None
     webhook_secret: SecretStr | None = None

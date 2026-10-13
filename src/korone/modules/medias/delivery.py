@@ -2,10 +2,13 @@ import asyncio
 from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from aiogram.exceptions import TelegramBadRequest, TelegramRetryAfter
+from aiogram.types import InputMediaVideo
 from aiogram.utils.chat_action import ChatActionSender
 from aiogram.utils.media_group import MediaGroupBuilder
 
+from korone.config import CONFIG
 from korone.logger import get_logger
+from korone.modules.utils_.telegram_file import telegram_upload
 from korone.ui.rendering import caption_kwargs
 from korone.utils.telegram_errors import normalized_error_message
 
@@ -123,7 +126,7 @@ class TelegramMediaDelivery:
         self, media: PreparedMedia, caption: MessageContent, keyboard: InlineKeyboardMarkup | None
     ) -> Message:
         method = self._message.answer_photo(
-            photo=media.file,
+            photo=telegram_upload(self._bot, media.file),
             **caption_kwargs(caption),
             reply_parameters=self._reply_parameters(),
             reply_markup=keyboard,
@@ -134,7 +137,7 @@ class TelegramMediaDelivery:
         self, media: PreparedMedia, caption: MessageContent, keyboard: InlineKeyboardMarkup | None
     ) -> Message:
         method = self._message.answer_video(
-            video=media.file,
+            video=telegram_upload(self._bot, media.file),
             **caption_kwargs(caption),
             reply_parameters=self._reply_parameters(),
             reply_markup=keyboard,
@@ -144,7 +147,15 @@ class TelegramMediaDelivery:
             thumbnail=media.thumbnail,
             supports_streaming=self.VIDEO_SUPPORTS_STREAMING,
         )
-        return await self._bot(method, request_timeout=self.SEND_REQUEST_TIMEOUT_SECONDS)
+        return await self._bot(method, request_timeout=self.video_send_timeout_seconds)
+
+    @property
+    def video_send_timeout_seconds(self) -> int:
+        return (
+            CONFIG.media_local_send_timeout_seconds
+            if self._bot.session.api.is_local
+            else self.SEND_REQUEST_TIMEOUT_SECONDS
+        )
 
     async def _send_group(self, media_items: tuple[PreparedMedia, ...], caption: MessageContent) -> DeliveryReceipt:
         try:
@@ -161,28 +172,30 @@ class TelegramMediaDelivery:
 
     async def _send_group_messages(self, media_group: list[MediaUnion]) -> list[Message]:
         method = self._message.answer_media_group(media=media_group, reply_parameters=self._reply_parameters())
-        return await self._retry_flood_control(
-            lambda: self._bot(method, request_timeout=self.SEND_REQUEST_TIMEOUT_SECONDS)
+        timeout = (
+            self.video_send_timeout_seconds
+            if any(isinstance(item, InputMediaVideo) for item in media_group)
+            else self.SEND_REQUEST_TIMEOUT_SECONDS
         )
+        return await self._retry_flood_control(lambda: self._bot(method, request_timeout=timeout))
 
-    @classmethod
-    def _build_group(cls, media_items: tuple[PreparedMedia, ...], caption: MessageContent) -> list[MediaUnion]:
+    def _build_group(self, media_items: tuple[PreparedMedia, ...], caption: MessageContent) -> list[MediaUnion]:
         builder = MediaGroupBuilder()
         last_index = len(media_items) - 1
         for index, item in enumerate(media_items):
             payload = caption_kwargs(caption) if index == last_index else {}
             match item.kind:
                 case MediaKind.PHOTO:
-                    builder.add_photo(item.file, **payload)
+                    builder.add_photo(telegram_upload(self._bot, item.file), **payload)
                 case MediaKind.VIDEO:
                     builder.add_video(
-                        item.file,
+                        telegram_upload(self._bot, item.file),
                         **payload,
                         duration=item.duration,
                         width=item.width,
                         height=item.height,
                         thumbnail=item.thumbnail,
-                        supports_streaming=cls.VIDEO_SUPPORTS_STREAMING,
+                        supports_streaming=self.VIDEO_SUPPORTS_STREAMING,
                     )
         return cast("list[MediaUnion]", builder.build())
 

@@ -7,6 +7,8 @@ from . import parser
 from .constants import PATTERN, POST_PATTERN
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from korone.modules.medias.download import MediaDownloader
 
     from .client import InstagramClient
@@ -19,7 +21,7 @@ class InstagramProvider:
         self._client = client
         self._downloader = downloader
 
-    async def fetch(self, url: str) -> MediaPost | None:
+    async def fetch(self, url: str, *, workspace: Path) -> MediaPost | None:
         normalized_url = parser.ensure_url_scheme(url)
         if not POST_PATTERN.search(normalized_url):
             return None
@@ -29,7 +31,7 @@ class InstagramProvider:
             return None
         media = await self._downloader.download(
             tuple(MediaSource(item.kind, item.url, thumbnail_url=item.thumbnail_url) for item in data.media),
-            options=DownloadOptions(filename_prefix="instagram", label=self.info.name),
+            options=DownloadOptions(workspace=workspace, filename_prefix="instagram", label=self.info.name),
         )
         if not media:
             return None

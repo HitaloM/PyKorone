@@ -24,7 +24,8 @@ sessions, caches, or download frameworks.
    - `models.py` only for useful platform-specific value objects.
    - `__init__.py` for intentional client/provider exports.
 5. Expose immutable `ProviderInfo` with a unique stable key, display name, website, compiled URL pattern, and any caption
-   options. Implement `fetch(url: str) -> MediaPost | None` without inheriting a base provider.
+   options. Implement `fetch(url: str, *, workspace: Path) -> MediaPost | None` without inheriting a base provider;
+   pass the service-owned workspace through `DownloadOptions` and keep video outputs on disk until delivery finishes.
 6. Use `MediaDownloader.download(...)` and `DownloadOptions`. Add a source-loader strategy only for HLS, separate audio,
    offload, or another real transport exception; delegate ordinary sources back to `download_source(...)`.
 7. Inject `FFmpegTranscoder` only when required; it owns media slots and delegates process cleanup to `run_process`. If FFmpeg downloads the upstream itself, reserve a downloader slot for

@@ -37,6 +37,10 @@ Apply these rules to repository tooling, developer workflows, dependencies, migr
   not prevent other closures. Module-owned jobs still shut down through router lifecycle observers.
 - Preserve the Compose user's access to the local Bot API volume; the standalone Dockerfile user serves a different
   deployment mode. Do not standardize numeric UIDs without validating volume access.
+- Compose shares a separate upload volume with bot write access and API read access; initialize its ownership to
+  UID/GID 101:101 before either service starts. Keep the Bot API download mount read-only in the bot. Map the bot and
+  server storage roots through aiogram, and keep `BOTAPI_UPLOAD_ROOT` inside the bot's shared root. Provision disk for
+  post workspaces and FFmpeg inputs/outputs; concurrency is not a quota, and hard stops may require manual cleanup.
 - Basic setup lives in the [README](../../../../README.md#development). Keep examples aligned with settings in
   `Config`, not obsolete username options. Module selection uses JSON arrays in `MODULES_LOAD` / `MODULES_NOT_LOAD`.
 - If the default uv cache is read-only, set `UV_CACHE_DIR` to a writable temporary directory. Use `uv run --no-sync`

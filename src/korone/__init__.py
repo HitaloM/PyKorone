@@ -1,7 +1,9 @@
+from pathlib import Path
+
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.client.session.aiohttp import AiohttpSession
-from aiogram.client.telegram import PRODUCTION, TelegramAPIServer
+from aiogram.client.telegram import PRODUCTION, SimpleFilesPathWrapper, TelegramAPIServer
 from aiogram.types import LinkPreviewOptions
 from redis.asyncio import Redis
 
@@ -10,7 +12,17 @@ from .logger import get_logger
 
 logger = get_logger(__name__)
 
-bot_api = TelegramAPIServer.from_base(str(CONFIG.botapi_server), is_local=True) if CONFIG.botapi_server else PRODUCTION
+bot_api = (
+    TelegramAPIServer.from_base(
+        str(CONFIG.botapi_server),
+        is_local=True,
+        wrap_local_file=SimpleFilesPathWrapper(
+            server_path=Path(CONFIG.botapi_server_storage_root), local_path=Path(CONFIG.botapi_local_storage_root)
+        ),
+    )
+    if CONFIG.botapi_server
+    else PRODUCTION
+)
 session = AiohttpSession(api=bot_api)
 logger.info("Using BotAPI server", bot_api=str(bot_api))
 

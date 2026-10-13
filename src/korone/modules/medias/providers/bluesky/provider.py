@@ -7,6 +7,8 @@ from . import parser
 from .constants import PATTERN
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from korone.modules.medias.download import MediaDownloader
 
     from .client import BlueskyClient
@@ -19,7 +21,7 @@ class BlueskyProvider:
         self._client = client
         self._downloader = downloader
 
-    async def fetch(self, url: str) -> MediaPost | None:
+    async def fetch(self, url: str, *, workspace: Path) -> MediaPost | None:
         handle, rkey = parser.extract_handle_and_rkey(url, self.info.pattern)
         if not handle or not rkey or not (did := await self._client.resolve_handle(handle)):
             return None
@@ -42,7 +44,7 @@ class BlueskyProvider:
 
         media = await self._downloader.download(
             parser.extract_media_sources(embed_view, embed_type, effective_did, pds_url),
-            options=DownloadOptions(filename_prefix="bsky_media", label=self.info.name),
+            options=DownloadOptions(workspace=workspace, filename_prefix="bsky_media", label=self.info.name),
         )
         if not media:
             return None

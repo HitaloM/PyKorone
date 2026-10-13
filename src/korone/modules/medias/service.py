@@ -4,12 +4,14 @@ from typing import TYPE_CHECKING, Protocol
 from aiogram.exceptions import TelegramBadRequest
 
 from korone.logger import get_logger
+from korone.modules.utils_.telegram_file import telegram_workspace
 
 from .models import DeliveryReceipt, MediaOutcome, MediaPost, MediaRequest, MediaStage
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from contextlib import AbstractAsyncContextManager
+    from pathlib import Path
 
     from .cache import MediaCache
 
@@ -21,10 +23,11 @@ class MediaDelivery(Protocol):
 
 
 class MediaService:
-    __slots__ = ("_cache",)
+    __slots__ = ("_cache", "_slots")
 
-    def __init__(self, cache: MediaCache) -> None:
+    def __init__(self, cache: MediaCache, slots: asyncio.Semaphore) -> None:
         self._cache = cache
+        self._slots = slots
 
     async def process(
         self,
@@ -45,39 +48,40 @@ class MediaService:
             else:
                 return MediaOutcome.CACHED
 
-        on_stage(MediaStage.FETCH)
-        async with fetch_context:
-            post = await self._safe_fetch(request)
-        if post is None:
-            return MediaOutcome.NOT_FOUND
+        async with self._slots, telegram_workspace(prefix="korone-media-") as workspace:
+            on_stage(MediaStage.FETCH)
+            async with fetch_context:
+                post = await self._safe_fetch(request, workspace=workspace)
+            if post is None:
+                return MediaOutcome.NOT_FOUND
 
-        on_stage(MediaStage.SEND)
-        receipt = await delivery.send(post)
-        expected_count = min(len(post.media), 10)
-        if len(receipt.media) != expected_count:
-            await logger.adebug(
-                "[Medias] Could not collect sent media",
-                provider=request.provider.info.name,
-                media_count=len(post.media),
-                receipt_count=len(receipt.media),
-            )
-            return MediaOutcome.SEND_FAILED
+            on_stage(MediaStage.SEND)
+            receipt = await delivery.send(post)
+            expected_count = min(len(post.media), 10)
+            if len(receipt.media) != expected_count:
+                await logger.adebug(
+                    "[Medias] Could not collect sent media",
+                    provider=request.provider.info.name,
+                    media_count=len(post.media),
+                    receipt_count=len(receipt.media),
+                )
+                return MediaOutcome.SEND_FAILED
 
-        on_stage(MediaStage.CACHE_STORE)
-        await self._cache.set_source_file_ids(
-            tuple(
-                (delivered.media.source_url, delivered.file_id)
-                for delivered in receipt.media
-                if not isinstance(delivered.media.file, str)
+            on_stage(MediaStage.CACHE_STORE)
+            await self._cache.set_source_file_ids(
+                tuple(
+                    (delivered.media.source_url, delivered.file_id)
+                    for delivered in receipt.media
+                    if not isinstance(delivered.media.file, str)
+                )
             )
-        )
-        await self._cache.set_post(request.url, post, receipt)
-        return MediaOutcome.SENT
+            await self._cache.set_post(request.url, post, receipt)
+            return MediaOutcome.SENT
 
     @staticmethod
-    async def _safe_fetch(request: MediaRequest) -> MediaPost | None:
+    async def _safe_fetch(request: MediaRequest, *, workspace: Path) -> MediaPost | None:
         try:
-            return await request.provider.fetch(request.url)
+            return await request.provider.fetch(request.url, workspace=workspace)
         except asyncio.CancelledError:
             raise
         except TimeoutError:

@@ -3,16 +3,19 @@ import contextlib
 import mimetypes
 import random
 from dataclasses import dataclass, field
+from io import BytesIO
 from pathlib import Path
+from tempfile import mkdtemp
 from typing import TYPE_CHECKING, Final, Literal
 from urllib.parse import urlparse
 
 import aiofiles
 import aiofiles.os
 import aiohttp
-from aiogram.types import BufferedInputFile
+from aiogram.types import BufferedInputFile, FSInputFile
+from PIL import Image, UnidentifiedImageError
 
-from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
+from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, TELEGRAM_THUMBNAIL_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 
 from .models import MediaKind, MediaSource, PreparedMedia
@@ -47,9 +50,10 @@ async def _noop_cleanup() -> None:
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class DownloadOptions:
+    workspace: Path
     filename_prefix: str
     label: str
-    max_size: int | None = TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
+    max_size: int | None = None
     headers: dict[str, str] = field(default_factory=lambda: dict(DEFAULT_MEDIA_HEADERS))
     timeout: aiohttp.ClientTimeout = DEFAULT_MEDIA_TIMEOUT
 
@@ -71,17 +75,27 @@ type SourceLoader = Callable[[DownloadRequest], Awaitable[PreparedMedia | None]]
 
 
 class MediaDownloader:
-    __slots__ = ("_cache", "_http", "_slots")
+    __slots__ = ("_cache", "_http", "_slots", "local_timeout_seconds", "max_size")
 
     _RETRY_ATTEMPTS = 3
     _RETRY_BASE_DELAY_SECONDS = 0.35
     _RETRY_JITTER_SECONDS = 0.2
     _CHUNK_SIZE_BYTES = 64 * 1024
 
-    def __init__(self, http: HttpClient, cache: MediaCache, slots: asyncio.Semaphore) -> None:
+    def __init__(
+        self,
+        http: HttpClient,
+        cache: MediaCache,
+        slots: asyncio.Semaphore,
+        *,
+        max_size: int,
+        local_timeout_seconds: int | None = None,
+    ) -> None:
         self._http = http
         self._cache = cache
         self._slots = slots
+        self.max_size = max_size
+        self.local_timeout_seconds = local_timeout_seconds
 
     async def download(
         self, sources: Sequence[MediaSource], *, options: DownloadOptions, loader: SourceLoader | None = None
@@ -115,7 +129,7 @@ class MediaDownloader:
             provider=options.label,
             source_count=len(requests),
             source_cache_hits=len(requests) - len(pending),
-            downloaded_count=sum(isinstance(item.file, BufferedInputFile) for item in results if item is not None),
+            downloaded_count=sum(not isinstance(item.file, str) for item in results if item is not None),
         )
         return tuple(item for item in results if item is not None)
 
@@ -140,24 +154,53 @@ class MediaDownloader:
         except Exception:  # ruff: ignore[blind-except]
             await logger.aexception("[Medias] Download worker failed", **self._request_log(request))
 
+    def size_limit(self, request: DownloadRequest) -> int:
+        limit = self.max_size if request.source.kind == MediaKind.VIDEO else TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
+        return min(limit, request.options.max_size) if request.options.max_size is not None else limit
+
+    @staticmethod
+    def source_directory(request: DownloadRequest) -> Path:
+        return Path(mkdtemp(prefix=f"source-{request.index}-", dir=request.options.workspace))
+
     async def download_source(self, request: DownloadRequest) -> PreparedMedia | None:
         source = request.source
-        payload_result = await self.fetch_payload(
-            source.url, request, stage="source", max_size=request.options.max_size
-        )
-        if payload_result is None:
-            return None
+        max_size = self.size_limit(request)
+        if source.kind == MediaKind.VIDEO:
+            directory = self.source_directory(request)
+            destination = directory / "download"
 
-        payload, content_type = payload_result
-        extension = self.guess_extension(source.url, content_type, source.kind)
+            async def consume(response: aiohttp.ClientResponse) -> str | None:
+                size = await self._write_response_to_path(response, destination, max_size=max_size)
+                return response.headers.get("Content-Type", "") if size is not None and size > 0 else None
+
+            async def cleanup() -> None:
+                await self._remove_path(destination)
+
+            content_type = await self._fetch_with_retry(
+                source.url, request, stage="source", max_size=max_size, consume=consume, cleanup=cleanup
+            )
+            if content_type is None:
+                return None
+            extension = self.guess_extension(source.url, content_type, source.kind)
+            filename = f"{request.options.filename_prefix}_{request.index}{extension}"
+            output = directory / filename
+            await aiofiles.os.rename(destination, output)
+            file: InputFile = FSInputFile(output, filename=filename)
+        else:
+            payload_result = await self.fetch_payload(source.url, request, stage="source", max_size=max_size)
+            if payload_result is None:
+                return None
+            payload, content_type = payload_result
+            extension = self.guess_extension(source.url, content_type, source.kind)
+            filename = f"{request.options.filename_prefix}_{request.index}{extension}"
+            file = BufferedInputFile(payload, filename)
+
         thumbnail: InputFile | None = None
         if source.thumbnail_url and source.kind == MediaKind.VIDEO:
             thumbnail = await self.download_thumbnail(source.thumbnail_url, request)
-
-        filename = f"{request.options.filename_prefix}_{request.index}{extension}"
         return PreparedMedia(
             kind=source.kind,
-            file=BufferedInputFile(payload, filename),
+            file=file,
             filename=filename,
             source_url=source.url,
             thumbnail=thumbnail,
@@ -189,12 +232,37 @@ class MediaDownloader:
         )
 
     async def download_thumbnail(self, url: str, request: DownloadRequest) -> InputFile | None:
-        payload_result = await self.fetch_payload(url, request, stage="thumbnail")
+        payload_result = await self.fetch_payload(
+            url, request, stage="thumbnail", max_size=TELEGRAM_THUMBNAIL_MAX_FILE_SIZE_BYTES
+        )
         if payload_result is None:
             return None
-        payload, content_type = payload_result
-        extension = self.guess_extension(url, content_type, MediaKind.PHOTO)
-        return BufferedInputFile(payload, f"{request.options.filename_prefix}_{request.index}_thumb{extension}")
+        payload, _content_type = payload_result
+        if not self._valid_thumbnail(payload):
+            return None
+        return BufferedInputFile(payload, f"{request.options.filename_prefix}_{request.index}_thumb.jpg")
+
+    @staticmethod
+    def _valid_thumbnail(payload: bytes) -> bool:
+        try:
+            with Image.open(BytesIO(payload)) as image:
+                if image.format != "JPEG" or max(image.size) > 320:
+                    return False
+                image.verify()
+        except OSError, ValueError, UnidentifiedImageError:
+            return False
+        return True
+
+    def _request_timeout(self, request: DownloadRequest, *, stage: str) -> aiohttp.ClientTimeout:
+        timeout = request.options.timeout
+        if stage != "source" or request.source.kind != MediaKind.VIDEO or self.local_timeout_seconds is None:
+            return timeout
+        return aiohttp.ClientTimeout(
+            total=self.local_timeout_seconds,
+            connect=timeout.connect or 20,
+            sock_connect=timeout.sock_connect or 20,
+            sock_read=timeout.sock_read or 60,
+        )
 
     async def _fetch_with_retry[Result](
         self,
@@ -216,7 +284,7 @@ class MediaDownloader:
                 async with (
                     self._slots,
                     self._http.session.get(
-                        url, headers=request.options.headers, timeout=request.options.timeout
+                        url, headers=request.options.headers, timeout=self._request_timeout(request, stage=stage)
                     ) as response,
                 ):
                     should_retry, result = await self._consume_response(

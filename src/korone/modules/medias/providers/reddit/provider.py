@@ -1,14 +1,11 @@
-import tempfile
 from dataclasses import replace
-from pathlib import Path
 from typing import TYPE_CHECKING
 from urllib.parse import quote, urljoin, urlparse, urlunparse
 
 import aiohttp
-from aiogram.types import BufferedInputFile
+from aiogram.types import FSInputFile
 from lxml import html as lxml_html
 
-from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.modules.medias.download import DEFAULT_MEDIA_HEADERS, DownloadOptions, DownloadRequest
 from korone.modules.medias.models import MediaKind, MediaPost, MediaSource, PreparedMedia, ProviderInfo
@@ -27,6 +24,8 @@ from .constants import (
 from .models import _PostRef, _ScrapedPost
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from aiogram.types import InputFile
 
     from korone.modules.medias.download import MediaDownloader
@@ -48,7 +47,7 @@ class RedditProvider:
         self._downloader = downloader
         self._transcoder = transcoder
 
-    async def fetch(self, url: str) -> MediaPost | None:
+    async def fetch(self, url: str, *, workspace: Path) -> MediaPost | None:
         post_ref = await self._resolve_post_ref(url)
         if not post_ref:
             return None
@@ -67,9 +66,10 @@ class RedditProvider:
         media = await self._downloader.download(
             scraped.media_sources,
             options=DownloadOptions(
+                workspace=workspace,
                 filename_prefix="reddit_media",
                 label=self.info.name,
-                max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES,
+                max_size=self._downloader.max_size,
                 timeout=self._TIMEOUT,
             ),
             loader=self._download_source,
@@ -436,19 +436,13 @@ class RedditProvider:
         if not source.audio_url:
             return await self._downloader.download_source(request)
 
-        remuxed_payload = await self._download_and_remux_hls(request)
-        if not remuxed_payload:
+        output_path = await self._download_and_remux_hls(request)
+        if output_path is None:
             await logger.awarning(
                 "[Reddit] Failed to remux HLS media",
                 source_url=source.url,
                 audio_url=source.audio_url,
                 source_index=request.index,
-            )
-            return await self._download_fallback_source(request)
-
-        if request.options.max_size and len(remuxed_payload) > request.options.max_size:
-            await logger.adebug(
-                "[Reddit] Remuxed HLS media too large", size=len(remuxed_payload), source_url=source.url
             )
             return await self._download_fallback_source(request)
 
@@ -459,7 +453,7 @@ class RedditProvider:
         filename = f"{request.options.filename_prefix}_{request.index}.mp4"
         return PreparedMedia(
             kind=source.kind,
-            file=BufferedInputFile(remuxed_payload, filename),
+            file=FSInputFile(output_path, filename),
             filename=filename,
             source_url=source.url,
             thumbnail=thumbnail,
@@ -486,44 +480,41 @@ class RedditProvider:
             return cached_item
         return await self._downloader.download_source(fallback_request)
 
-    async def _download_and_remux_hls(self, request: DownloadRequest) -> bytes | None:
+    async def _download_and_remux_hls(self, request: DownloadRequest) -> Path | None:
         source = request.source
-        with tempfile.TemporaryDirectory(prefix="korone-reddit-hls-") as temp_dir:
-            temp_dir_path = Path(temp_dir)
-            video_input_path = temp_dir_path / "video.ts"
-            video_size = await self._downloader.fetch_to_path(
-                source.url, request, video_input_path, max_size=request.options.max_size
-            )
-            if video_size is None:
+        temp_dir_path = self._downloader.source_directory(request)
+        max_size = self._downloader.size_limit(request)
+        video_input_path = temp_dir_path / "video.ts"
+        video_size = await self._downloader.fetch_to_path(source.url, request, video_input_path, max_size=max_size)
+        if video_size is None:
+            return None
+
+        command = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video_input_path)]
+        if source.audio_url:
+            remaining_size = max_size - video_size
+            if remaining_size <= 0:
                 return None
-
-            command = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(video_input_path)]
-            if source.audio_url:
-                remaining_size = None if request.options.max_size is None else request.options.max_size - video_size
-                if remaining_size is not None and remaining_size <= 0:
-                    return None
-                audio_input_path = temp_dir_path / "audio.aac"
-                audio_size = await self._downloader.fetch_to_path(
-                    source.audio_url, request, audio_input_path, max_size=remaining_size
-                )
-                if audio_size is None:
-                    await logger.awarning(
-                        "[Reddit] Failed to fetch HLS audio payload",
-                        source_url=source.audio_url,
-                        video_url=source.url,
-                        source_index=request.index,
-                    )
-                    return None
-                command.extend(["-i", str(audio_input_path)])
-
-            output_path = temp_dir_path / "output.mp4"
-            command.extend(["-c", "copy", "-movflags", "+faststart"])
-            if request.options.max_size is not None:
-                command.extend(["-fs", str(request.options.max_size)])
-            command.append(str(output_path))
-            return await self._transcoder.run_to_payload(
-                command,
-                output_path,
-                timeout_seconds=REDDIT_HLS_REMUX_TIMEOUT_SECONDS,
-                max_size=request.options.max_size,
+            audio_input_path = temp_dir_path / "audio.aac"
+            audio_size = await self._downloader.fetch_to_path(
+                source.audio_url, request, audio_input_path, max_size=remaining_size
             )
+            if audio_size is None:
+                await logger.awarning(
+                    "[Reddit] Failed to fetch HLS audio payload",
+                    source_url=source.audio_url,
+                    video_url=source.url,
+                    source_index=request.index,
+                )
+                return None
+            command.extend(["-i", str(audio_input_path)])
+
+        output_path = temp_dir_path / f"{request.options.filename_prefix}_{request.index}.mp4"
+        command.extend(["-c", "copy", "-movflags", "+faststart"])
+        command.extend(["-fs", str(max_size + 1)])
+        command.append(str(output_path))
+        return await self._transcoder.run_to_file(
+            command,
+            output_path,
+            timeout_seconds=self._downloader.local_timeout_seconds or REDDIT_HLS_REMUX_TIMEOUT_SECONDS,
+            max_size=max_size,
+        )

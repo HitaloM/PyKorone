@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
     import re
+    from pathlib import Path
 
     from aiogram.types import InputFile
 
@@ -84,7 +85,7 @@ class MediaPost:
 class MediaProvider(Protocol):
     info: ProviderInfo
 
-    async def fetch(self, url: str) -> MediaPost | None: ...
+    async def fetch(self, url: str, *, workspace: Path) -> MediaPost | None: ...
 
 
 @dataclass(frozen=True, slots=True)

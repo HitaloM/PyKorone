@@ -1,5 +1,3 @@
-from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
 
 from aiogram import flags
@@ -9,7 +7,7 @@ from aiogram.types import FSInputFile
 
 from korone.modules.stickers.utils import suffix_from_sticker
 from korone.modules.utils_.message import is_real_reply
-from korone.modules.utils_.telegram_file import download_telegram_file
+from korone.modules.utils_.telegram_file import telegram_file, telegram_upload
 from korone.ui import Code, UIExpression, column, field, link, template
 from korone.ui.rendering import caption_kwargs
 from korone.utils.handlers import KoroneMessageHandler
@@ -42,22 +40,17 @@ class StickerGetStickerHandler(KoroneMessageHandler):
             await self.answer(_("Animated stickers are not supported by this command."))
             return
 
-        with TemporaryDirectory(prefix="korone-getsticker-") as temp_dir_name:
-            temp_dir = Path(temp_dir_name)
-            suffix = suffix_from_sticker(sticker)
-            filename = f"sticker-{sticker.file_unique_id}{suffix}"
-            file_path = temp_dir / filename
-
-            try:
-                await download_telegram_file(self.bot, sticker.file_id, file_path)
-
+        suffix = suffix_from_sticker(sticker)
+        filename = f"sticker-{sticker.file_unique_id}{suffix}"
+        try:
+            async with telegram_file(self.bot, sticker.file_id) as file_path:
                 await self.event.reply_document(
-                    document=FSInputFile(file_path, filename=filename),
+                    document=telegram_upload(self.bot, FSInputFile(file_path, filename=filename)),
                     **caption_kwargs(self.build_sticker_info_doc(sticker)),
                     disable_content_type_detection=True,
                 )
-            except OSError, RuntimeError, TelegramBadRequest:
-                await self.answer(_("Could not fetch this sticker file."))
+        except OSError, RuntimeError, TelegramBadRequest:
+            await self.answer(_("Could not fetch this sticker file."))
 
     @staticmethod
     def build_sticker_info_doc(sticker: Sticker) -> UIExpression:

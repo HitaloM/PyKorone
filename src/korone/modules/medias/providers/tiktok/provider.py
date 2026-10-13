@@ -10,6 +10,8 @@ from . import parser
 from .constants import PATTERN, TIKTOK_MEDIA_HEADERS, TIKTOK_TIMEOUT
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from korone.modules.medias.download import MediaDownloader
 
     from .client import TikTokClient
@@ -25,14 +27,14 @@ class TikTokProvider:
         self._client = client
         self._downloader = downloader
 
-    async def fetch(self, url: str) -> MediaPost | None:
+    async def fetch(self, url: str, *, workspace: Path) -> MediaPost | None:
         normalized_url = ensure_url_scheme(url)
         post_id, resolved_url = await self._resolve_post_id(normalized_url)
         if not post_id or not (item_struct := await self._client.fetch_item_struct(post_id)):
             return None
 
         sources = await self._extract_sources(item_struct)
-        media = await self._download(sources, post_id=post_id)
+        media = await self._download(sources, post_id=post_id, workspace=workspace)
         if not media:
             return None
 
@@ -60,8 +62,11 @@ class TikTokProvider:
         resolved_url = await self._client.resolve_media_url(source.url)
         return (replace(source, url=resolved_url),) if resolved_url and resolved_url != source.url else sources
 
-    async def _download(self, sources: tuple[MediaSource, ...], *, post_id: str) -> tuple[PreparedMedia, ...]:
+    async def _download(
+        self, sources: tuple[MediaSource, ...], *, post_id: str, workspace: Path
+    ) -> tuple[PreparedMedia, ...]:
         options = DownloadOptions(
+            workspace=workspace,
             filename_prefix="tiktok_media",
             label=self.info.name,
             headers=dict(TIKTOK_MEDIA_HEADERS),

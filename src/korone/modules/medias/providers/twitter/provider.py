@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 from urllib.parse import quote
 
-from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.modules.medias.download import DownloadOptions
 from korone.modules.medias.models import MediaPost, ProviderInfo
@@ -10,6 +9,7 @@ from . import parser
 from .constants import FXTWITTER_STATUS_API, PATTERN
 
 if TYPE_CHECKING:
+    from pathlib import Path
     from typing import Any
 
     from korone.modules.medias.download import MediaDownloader
@@ -26,7 +26,7 @@ class TwitterProvider:
         self._client = client
         self._downloader = downloader
 
-    async def fetch(self, url: str) -> MediaPost | None:
+    async def fetch(self, url: str, *, workspace: Path) -> MediaPost | None:
         status_id, handle = parser.extract_status_id_and_handle(url)
         if not status_id or not (tweet := await self._fetch_tweet(status_id)):
             return None
@@ -38,8 +38,8 @@ class TwitterProvider:
         quote_payload = parser.extract_quote(tweet)
         quote_text, quote_author_name, quote_author_handle = quote_payload or (None, None, None)
         media = await self._downloader.download(
-            parser.extract_media_sources(tweet, max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES),
-            options=DownloadOptions(filename_prefix="x_media", label="FXTwitter"),
+            parser.extract_media_sources(tweet, max_size=self._downloader.max_size),
+            options=DownloadOptions(workspace=workspace, filename_prefix="x_media", label="FXTwitter"),
         )
         if not media:
             return None

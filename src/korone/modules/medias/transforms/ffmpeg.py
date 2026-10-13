@@ -1,7 +1,6 @@
 import asyncio
 from typing import TYPE_CHECKING
 
-import aiofiles
 import aiofiles.os
 
 from korone.utils.subprocess import run_process
@@ -17,9 +16,9 @@ class FFmpegTranscoder:
     def __init__(self, slots: asyncio.Semaphore) -> None:
         self._slots = slots
 
-    async def run_to_payload(
+    async def run_to_file(
         self, command: Sequence[str], output_path: Path, *, timeout_seconds: float, max_size: int | None
-    ) -> bytes | None:
+    ) -> Path | None:
         async with self._slots:
             try:
                 process = await run_process(command, timeout_seconds=timeout_seconds, stdout=asyncio.subprocess.DEVNULL)
@@ -35,6 +34,4 @@ class FFmpegTranscoder:
         if max_size is not None and output_size > max_size:
             return None
 
-        async with aiofiles.open(output_path, "rb") as output_file:
-            payload = await output_file.read() if max_size is None else await output_file.read(max_size + 1)
-        return None if max_size is not None and len(payload) > max_size else payload
+        return output_path if output_size > 0 else None

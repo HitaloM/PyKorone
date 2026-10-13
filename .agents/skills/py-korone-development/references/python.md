@@ -94,8 +94,12 @@ below when choosing an abstraction.
   use one function, as with `web.utils.ip.fetch_ip_info`.
 - Use request-level `RetryPolicy` for metadata when appropriate; media streaming retry remains in `MediaDownloader`.
   Their body-reading, size-limit, and recovery requirements differ.
-- Use `modules.utils_.telegram_file.download_telegram_file` to preserve local Bot API storage and network fallback.
-  Do not add feature-local aliases without additional policy.
+- Use `modules.utils_.telegram_file.telegram_file` to borrow local Bot API files for reading or own temporary
+  public downloads. Use `download_telegram_file` only when a writable destination copy is required. Local mode uses
+  aiogram's `wrap_local_file` mapping; inaccessible shared files are storage errors, not HTTP fallback candidates.
+- Own shared upload outputs with `telegram_workspace` until sends and retries finish. Convert `FSInputFile` to
+  server paths with `telegram_upload` only at Telegram payload boundaries; retain file objects in domain values
+  so cache logic cannot confuse local paths with Telegram file IDs. Files outside shared storage use multipart.
 - Use `Path` methods directly and pass serialized bytes to `BufferedInputFile`; avoid forwarding wrappers or
   decode/encode round trips that add no behavior.
 

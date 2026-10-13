@@ -1,6 +1,4 @@
 import asyncio
-from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING
 
 from aiogram import flags
@@ -23,7 +21,7 @@ from korone.modules.stickers.utils import (
 )
 from korone.modules.utils_.message import is_real_reply
 from korone.modules.utils_.reply_or_edit import edit_message_text
-from korone.modules.utils_.telegram_file import download_telegram_file
+from korone.modules.utils_.telegram_file import telegram_file, telegram_workspace
 from korone.ui import Code, column, link, template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -58,14 +56,15 @@ class StickerStealPackHandler(KoroneMessageHandler[StickerStealPackArguments]):
     async def _copy_single_sticker(
         self, *, source_sticker: Sticker, user_id: int, pack_id: str, pack_title: str, pack_ready: bool
     ) -> bool:
-        with TemporaryDirectory(prefix="korone-pack-") as temp_dir_name:
-            temp_dir = Path(temp_dir_name)
-            source_path = temp_dir / f"source{suffix_from_sticker(source_sticker)}"
-            await download_telegram_file(self.bot, source_sticker.file_id, source_path)
-
-            prepared_path, sticker_format = await prepare_sticker_file(source_path)
+        async with (
+            telegram_file(self.bot, source_sticker.file_id) as source_path,
+            telegram_workspace(prefix="korone-pack-") as temp_dir,
+        ):
+            prepared_path, sticker_format = await prepare_sticker_file(
+                source_path, output_directory=temp_dir, source_suffix=suffix_from_sticker(source_sticker)
+            )
             input_sticker = create_input_sticker(
-                prepared_path, sticker_format=sticker_format, emoji=source_sticker.emoji or DEFAULT_EMOJI
+                self.bot, prepared_path, sticker_format=sticker_format, emoji=source_sticker.emoji or DEFAULT_EMOJI
             )
 
             if pack_ready:

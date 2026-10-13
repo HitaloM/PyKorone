@@ -1,6 +1,7 @@
 import asyncio
 import math
 import shutil
+from contextlib import suppress
 from dataclasses import dataclass
 from functools import cache
 from pathlib import Path
@@ -10,6 +11,7 @@ import orjson
 from aiogram.types import FSInputFile, InputSticker
 from PIL import Image
 
+from korone.modules.utils_.telegram_file import telegram_upload
 from korone.utils.i18n import gettext as _
 from korone.utils.subprocess import run_process
 
@@ -17,6 +19,7 @@ from .constants import MAX_STICKER_SIDE, MAX_VIDEO_SECONDS, MAX_VIDEO_SIZE_BYTES
 from .errors import StickerPrepareError
 
 if TYPE_CHECKING:
+    from aiogram import Bot
     from aiogram.types import Message, Sticker
 
 
@@ -76,8 +79,8 @@ def extract_reply_media(message: Message) -> tuple[str, str, str | None]:
     raise ValueError(msg)
 
 
-async def prepare_sticker_file(source_path: Path) -> tuple[Path, str]:
-    suffix = source_path.suffix.lower()
+async def prepare_sticker_file(source_path: Path, *, output_directory: Path, source_suffix: str) -> tuple[Path, str]:
+    suffix = source_suffix.lower()
 
     if suffix == ".tgs":
         return source_path, "animated"
@@ -86,22 +89,30 @@ async def prepare_sticker_file(source_path: Path) -> tuple[Path, str]:
         return source_path, "video"
 
     if suffix in VIDEO_EXTENSIONS:
-        output = source_path.with_suffix(".webm")
+        output = output_directory / "sticker.webm"
         await convert_video_for_sticker(source_path, output)
         return output, "video"
 
-    output = source_path.with_suffix(".png")
+    output = output_directory / "sticker.png"
     await convert_image_for_sticker(source_path, output)
     return output, "static"
 
 
-def create_input_sticker(path: Path, *, sticker_format: str, emoji: str) -> InputSticker:
-    return InputSticker(sticker=FSInputFile(path), format=sticker_format, emoji_list=[emoji])
+def create_input_sticker(bot: Bot, path: Path, *, sticker_format: str, emoji: str) -> InputSticker:
+    return InputSticker(sticker=telegram_upload(bot, FSInputFile(path)), format=sticker_format, emoji_list=[emoji])
 
 
 async def convert_image_for_sticker(source_path: Path, output_path: Path) -> None:
+    worker = asyncio.create_task(
+        asyncio.to_thread(_convert_image_for_sticker_sync, source_path, output_path), name="sticker-image-conversion"
+    )
     try:
-        await asyncio.to_thread(_convert_image_for_sticker_sync, source_path, output_path)
+        await asyncio.shield(worker)
+    except asyncio.CancelledError:
+        # A thread cannot be stopped; finish its I/O before releasing the output workspace.
+        with suppress(OSError):
+            await worker
+        raise
     except OSError as exc:
         raise StickerPrepareError(_("Could not process this file as an image sticker.")) from exc
 

@@ -9,6 +9,7 @@ from aiogram.exceptions import TelegramNetworkError, TelegramRetryAfter
 from aiogram.filters import Command
 from aiogram.utils.chat_action import ChatActionSender
 
+from korone.config import CONFIG
 from korone.logger import get_logger
 from korone.modules.medias.container import media_container
 from korone.modules.medias.delivery import TelegramMediaDelivery
@@ -97,7 +98,11 @@ class MediaHandler(KoroneMessageHandler):
                 message_id=self.event.message_id,
                 message_thread_id=self.event.message_thread_id,
                 handler=self.__class__.__name__,
-                request_timeout_seconds=TelegramMediaDelivery.SEND_REQUEST_TIMEOUT_SECONDS,
+                request_timeout_seconds=(
+                    CONFIG.media_local_send_timeout_seconds
+                    if self.bot.session.api.is_local
+                    else TelegramMediaDelivery.SEND_REQUEST_TIMEOUT_SECONDS
+                ),
             )
             return MediaOutcome.SEND_TIMEOUT
 

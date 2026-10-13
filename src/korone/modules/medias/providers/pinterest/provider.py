@@ -1,8 +1,6 @@
-import tempfile
-from pathlib import Path
 from typing import TYPE_CHECKING
 
-from aiogram.types import BufferedInputFile
+from aiogram.types import FSInputFile
 
 from korone.logger import get_logger
 from korone.modules.medias.download import DEFAULT_MEDIA_HEADERS, DownloadOptions, DownloadRequest
@@ -12,6 +10,8 @@ from . import parser
 from .constants import PATTERN, PINTEREST_HLS_TIMEOUT_SECONDS, PINTEREST_TIMEOUT
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from aiogram.types import InputFile
 
     from korone.modules.medias.download import MediaDownloader
@@ -31,7 +31,7 @@ class PinterestProvider:
         self._downloader = downloader
         self._transcoder = transcoder
 
-    async def fetch(self, url: str) -> MediaPost | None:
+    async def fetch(self, url: str, *, workspace: Path) -> MediaPost | None:
         post_id = parser.extract_post_id(url)
         if not post_id:
             resolved_url = await self._client.resolve_pin_url(
@@ -49,7 +49,9 @@ class PinterestProvider:
 
         media = await self._downloader.download(
             parser.extract_media_sources(pin_data),
-            options=DownloadOptions(filename_prefix="pinterest_media", label=self.info.name, timeout=PINTEREST_TIMEOUT),
+            options=DownloadOptions(
+                workspace=workspace, filename_prefix="pinterest_media", label=self.info.name, timeout=PINTEREST_TIMEOUT
+            ),
             loader=self._download_source,
         )
         if not media:
@@ -70,10 +72,8 @@ class PinterestProvider:
         if source.kind != MediaKind.VIDEO or not parser.is_hls_url(source.url):
             return await self._downloader.download_source(request)
 
-        payload = await self._download_hls_payload(
-            source.url, request.options.headers["User-Agent"], request.options.max_size
-        )
-        if payload is None:
+        output_path = await self._download_hls_file(request)
+        if output_path is None:
             await logger.awarning(
                 "[Pinterest] Failed to remux HLS media", source_url=source.url, source_index=request.index
             )
@@ -85,7 +85,7 @@ class PinterestProvider:
         filename = f"{request.options.filename_prefix}_{request.index}.mp4"
         return PreparedMedia(
             kind=source.kind,
-            file=BufferedInputFile(payload, filename),
+            file=FSInputFile(output_path, filename),
             filename=filename,
             source_url=source.url,
             thumbnail=thumbnail,
@@ -94,27 +94,35 @@ class PinterestProvider:
             height=source.height,
         )
 
-    async def _download_hls_payload(self, url: str, user_agent: str, max_size: int | None) -> bytes | None:
-        with tempfile.TemporaryDirectory(prefix="korone-pinterest-hls-") as temp_dir:
-            output_path = Path(temp_dir) / "output.mp4"
-            command = [
-                "ffmpeg",
-                "-y",
-                "-loglevel",
-                "error",
-                "-user_agent",
-                user_agent,
-                "-i",
-                url,
-                "-c",
-                "copy",
-                "-movflags",
-                "+faststart",
-            ]
-            if max_size is not None:
-                command.extend(["-fs", str(max_size)])
-            command.append(str(output_path))
-            async with self._downloader.reserve_slot():
-                return await self._transcoder.run_to_payload(
-                    command, output_path, timeout_seconds=PINTEREST_HLS_TIMEOUT_SECONDS, max_size=max_size
-                )
+    async def _download_hls_file(self, request: DownloadRequest) -> Path | None:
+        output_path = (
+            self._downloader.source_directory(request) / f"{request.options.filename_prefix}_{request.index}.mp4"
+        )
+        max_size = self._downloader.size_limit(request)
+        command = [
+            "ffmpeg",
+            "-y",
+            "-loglevel",
+            "error",
+            "-user_agent",
+            request.options.headers["User-Agent"],
+            "-rw_timeout",
+            "60000000",
+            "-i",
+            request.source.url,
+            "-c",
+            "copy",
+            "-movflags",
+            "+faststart",
+            # Leave one byte above the budget so a size-limited remux is rejected rather than delivered truncated.
+            "-fs",
+            str(max_size + 1),
+            str(output_path),
+        ]
+        async with self._downloader.reserve_slot():
+            return await self._transcoder.run_to_file(
+                command,
+                output_path,
+                timeout_seconds=self._downloader.local_timeout_seconds or PINTEREST_HLS_TIMEOUT_SECONDS,
+                max_size=max_size,
+            )

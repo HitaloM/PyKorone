@@ -18,7 +18,7 @@ Apply these contracts to changes under `src/korone/modules/medias/`. For a compl
 ## Provider Contract
 
 Every provider is an instance satisfying `MediaProvider`, exposes immutable `ProviderInfo`, and implements
-`fetch(url: str) -> MediaPost | None`.
+`fetch(url: str, *, workspace: Path) -> MediaPost | None`.
 
 - Inject the platform client and shared `MediaDownloader` through the provider constructor.
 - Add the instance to the ordered tuple built in `container.py`; do not create a platform-specific handler.
@@ -37,6 +37,13 @@ Every provider is an instance satisfying `MediaProvider`, exposes immutable `Pro
   backoff, jitter, timeout, redirects, and body-read behavior.
 - Keep bounded binary streaming retry in `MediaDownloader`; it owns size enforcement, truncated-body recovery, source
   file-ID reuse, ordering, and cancellation.
+- `MediaService` owns the post workspace and concurrency slot through fetch, send, and cache persistence. Providers
+  receive `workspace` explicitly and pass it through `DownloadOptions`; source outputs use unique subdirectories.
+  Cached posts bypass the active-post limit. Videos stream to disk in both API modes; the injected transport budget
+  is 2 GB decimal locally and 50 MiB publicly. Photo buffers stay bounded at 50 MiB; thumbnails at 200 KiB.
+- Keep `PreparedMedia.file` as `FSInputFile` for disk outputs and as a string only for cached Telegram file IDs.
+  Resolve shared server paths in delivery, including albums. FFmpeg returns a validated nonempty file path, never a
+  video-sized byte buffer, and its subprocess must finish or be reaped before workspace cleanup.
 - Use `PhotoProcessor` for Telegram-safe photos and `FFmpegTranscoder` for subprocess output. The transcoder delegates
   timeout and child-process cleanup to `korone.utils.subprocess.run_process`. Provider-specific network
   transforms must also reserve a downloader slot when FFmpeg performs the upstream download itself.
