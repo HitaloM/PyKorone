@@ -6,8 +6,8 @@ services:
     environment:
       TELEGRAM_LOCAL: "1"
     volumes:
-      - telegram_bot_api_data:/var/lib/telegram-bot-api
-      - telegram_uploads:/var/lib/telegram-bot-api/korone-uploads:ro
+      - telegram_bot_api_data:/var/lib/telegram-bot-api:z
+      - telegram_uploads:/var/lib/telegram-bot-api/korone-uploads:ro,z
     depends_on:
       telegram-upload-init:
         condition: service_completed_successfully
@@ -50,8 +50,8 @@ services:
       redis:
         condition: service_started
     volumes:
-      - telegram_bot_api_data:/var/lib/telegram-bot-api:ro
-      - telegram_uploads:/var/lib/telegram-bot-api/korone-uploads
+      - telegram_bot_api_data:/var/lib/telegram-bot-api:ro,z
+      - telegram_uploads:/var/lib/telegram-bot-api/korone-uploads:z
     restart: unless-stopped
 
   telegram-upload-init:
@@ -60,7 +60,7 @@ services:
     entrypoint: ["sh", "-c"]
     command: ["chown 101:101 /uploads && chmod 700 /uploads"]
     volumes:
-      - telegram_uploads:/uploads
+      - telegram_uploads:/uploads:z
     restart: "no"
 
   tunnel:

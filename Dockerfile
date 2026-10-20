@@ -17,7 +17,7 @@ COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-editable
 
-FROM python:3.14-slim-trixie AS runtime
+FROM docker.io/library/python:3.14-slim-trixie AS runtime
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONDONTWRITEBYTECODE=1 \
