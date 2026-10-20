@@ -63,17 +63,26 @@ changing `POSTGRES_PASSWORD` alone does not rotate an existing database password
 ## Optional tunnel
 
 Configure the credentials and webhook settings described in the README, refresh configuration, and start
-`korone-tunnel.service`. The tunnel has no default install dependency. To start it with the stack on future boots:
+`korone-tunnel.service`. The tunnel has no default install dependency. To start it with the stack on future boots,
+add a Quadlet drop-in. Generated services cannot be enabled with `systemctl enable` or `systemctl add-wants`;
+Quadlet processes their `[Install]` section during generation instead:
 
 ```sh
-systemctl --user add-wants korone.target korone-tunnel.service
+mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}/containers/systemd/korone-tunnel.container.d"
+cat > "${XDG_CONFIG_HOME:-$HOME/.config}/containers/systemd/korone-tunnel.container.d/10-autostart.conf" <<'EOF'
+[Install]
+WantedBy=korone.target
+EOF
+systemctl --user daemon-reload
+systemctl --user start korone.target korone-tunnel.service
 ```
 
-To remove that persistent dependency:
+The drop-in remains outside the repository even when the base Quadlets are linked through the `pykorone`
+subdirectory. Enable `korone.target` and lingering as described above. To remove the tunnel's persistent dependency:
 
 ```sh
 systemctl --user stop korone-tunnel.service
-rm "${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user/korone.target.wants/korone-tunnel.service"
+rm "${XDG_CONFIG_HOME:-$HOME/.config}/containers/systemd/korone-tunnel.container.d/10-autostart.conf"
 systemctl --user daemon-reload
 ```
 
