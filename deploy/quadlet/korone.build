@@ -1,0 +1,11 @@
+[Unit]
+Description=Build the PyKorone runtime image
+
+[Build]
+SetWorkingDirectory=../..
+ImageTag=localhost/pykorone:latest
+PodmanArgs=--layers
+
+[Service]
+RemainAfterExit=yes
+TimeoutStartSec=900

@@ -1,0 +1,22 @@
+[Unit]
+Description=PyKorone Redis cache
+PartOf=korone.target
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.io/library/redis:8
+ContainerName=korone-redis
+LogDriver=journald
+Network=korone.network
+NetworkAlias=redis
+HealthCmd=redis-cli ping | grep -q PONG
+HealthInterval=10s
+HealthTimeout=5s
+HealthRetries=5
+HealthOnFailure=kill
+Notify=healthy
+
+[Service]
+Restart=always
+RestartSec=5s
+TimeoutStartSec=900

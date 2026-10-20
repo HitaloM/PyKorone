@@ -1,0 +1,25 @@
+[Unit]
+Description=PyKorone PostgreSQL
+PartOf=korone.target
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.io/library/postgres:18
+ContainerName=korone-postgres
+LogDriver=journald
+Network=korone.network
+NetworkAlias=postgres
+Environment=POSTGRES_DB=korone POSTGRES_USER=korone POSTGRES_PASSWORD=korone
+Volume=korone-postgres.volume:/var/lib/postgresql:Z
+HealthCmd=pg_isready -h 127.0.0.1 -U korone -d korone
+HealthInterval=10s
+HealthTimeout=5s
+HealthRetries=5
+HealthStartPeriod=30s
+HealthOnFailure=kill
+Notify=healthy
+
+[Service]
+Restart=always
+RestartSec=5s
+TimeoutStartSec=900

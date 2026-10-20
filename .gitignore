@@ -6,6 +6,7 @@ __pycache__/
 # Config
 data/config.env
 data/docker.env
+data/podman.env
 
 # Ansible inv
 data/*.yaml

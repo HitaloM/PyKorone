@@ -1,0 +1,18 @@
+[Unit]
+Description=Prepare PyKorone shared upload permissions
+PartOf=korone.target
+
+[Container]
+Image=docker.io/aiogram/telegram-bot-api:latest
+ContainerName=korone-upload-init
+LogDriver=journald
+Network=none
+User=0
+Entrypoint=sh
+Exec=-c "chown 101:101 /uploads && chmod 700 /uploads"
+Volume=korone-telegram-uploads.volume:/uploads:z
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStartSec=900

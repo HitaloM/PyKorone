@@ -1,0 +1,39 @@
+[Unit]
+Description=PyKorone Telegram bot
+Requires=korone-upload-init.service
+Wants=korone-postgres.service korone-redis.service korone-telegram-api.service
+After=korone-upload-init.service korone-postgres.service korone-redis.service korone-telegram-api.service
+PartOf=korone.target
+StartLimitIntervalSec=0
+
+[Container]
+Image=korone.build
+ContainerName=korone-bot
+LogDriver=journald
+Pull=never
+Network=korone.network
+NetworkAlias=korone-bot
+# The Bot API image owns its local files as 101:101 in the shared user namespace.
+User=101
+Group=101
+Secret=korone-config,target=/app/data/config.env,uid=101,gid=101,mode=0400
+Environment=DB_URL=postgresql+asyncpg://korone:korone@postgres:5432/korone
+Environment=KORONE_PROJECT_ROOT=/app
+Environment=REDIS_HOST=redis REDIS_PORT=6379
+Environment=BOTAPI_SERVER=http://telegram-bot-api:8081
+Environment=BOTAPI_LOCAL_STORAGE_ROOT=/var/lib/telegram-bot-api
+Environment=BOTAPI_SERVER_STORAGE_ROOT=/var/lib/telegram-bot-api
+Environment=BOTAPI_UPLOAD_ROOT=/var/lib/telegram-bot-api/korone-uploads
+Environment=WEB_SERVER_PORT=9669
+Volume=korone-telegram-data.volume:/var/lib/telegram-bot-api:ro,z
+Volume=korone-telegram-uploads.volume:/var/lib/telegram-bot-api/korone-uploads:z
+RunInit=true
+StopTimeout=90
+NoNewPrivileges=true
+DropCapability=all
+
+[Service]
+Restart=always
+RestartSec=5s
+TimeoutStartSec=900
+TimeoutStopSec=120

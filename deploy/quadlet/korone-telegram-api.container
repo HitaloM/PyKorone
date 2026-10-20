@@ -1,0 +1,24 @@
+[Unit]
+Description=PyKorone local Telegram Bot API
+Requires=korone-upload-init.service
+After=korone-upload-init.service
+PartOf=korone.target
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.io/aiogram/telegram-bot-api:latest
+ContainerName=korone-telegram-api
+LogDriver=journald
+Network=korone.network
+NetworkAlias=telegram-bot-api
+# Let systemd parse dotenv quotes; pass only the API credentials into this container.
+Environment=TELEGRAM_API_ID TELEGRAM_API_HASH
+Environment=TELEGRAM_LOCAL=1
+Volume=korone-telegram-data.volume:/var/lib/telegram-bot-api:z
+Volume=korone-telegram-uploads.volume:/var/lib/telegram-bot-api/korone-uploads:ro,z
+
+[Service]
+EnvironmentFile=%E/korone/podman.env
+Restart=always
+RestartSec=5s
+TimeoutStartSec=900

@@ -1,0 +1,22 @@
+[Unit]
+Description=PyKorone optional Cloudflare Tunnel
+Wants=korone-bot.service
+After=korone-bot.service
+PartOf=korone.target
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.io/cloudflare/cloudflared:latest
+ContainerName=korone-tunnel
+LogDriver=journald
+Network=korone.network
+Environment=TUNNEL_TOKEN
+Exec=tunnel run
+NoNewPrivileges=true
+DropCapability=all
+
+[Service]
+EnvironmentFile=%E/korone/podman.env
+Restart=always
+RestartSec=5s
+TimeoutStartSec=900

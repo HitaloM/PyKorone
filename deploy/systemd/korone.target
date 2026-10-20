@@ -1,0 +1,7 @@
+[Unit]
+Description=PyKorone container stack
+Wants=korone-bot.service
+After=korone-bot.service
+
+[Install]
+WantedBy=default.target

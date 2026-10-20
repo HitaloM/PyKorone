@@ -52,34 +52,55 @@ Project rules and workflow routing live in [AGENTS.md](AGENTS.md). Detailed arch
 and validation workflows live in the [development skill and its references](.agents/skills/py-korone-development/SKILL.md)
 and the other [domain skills](.agents/skills).
 
-## Docker
+## Podman
+
+The Linux deployment uses rootless [Podman Quadlet](https://docs.podman.io/en/stable/markdown/podman-systemd.unit.5.html)
+with systemd, Podman 5.4 or newer, cgroup v2, and subordinate UID/GID ranges configured for your user.
+Install your distribution's Podman packages, including its rootless networking and Quadlet dependencies.
+Run the following commands as your regular deployment user.
+For an existing Docker deployment, follow the [data migration guide](deploy/README.md#migrating-existing-docker-data)
+before starting this stack.
 
 Copy the configuration examples and replace their credential placeholders:
 
 ```sh
 cp data/config.example.env data/config.env
-cp data/docker.example.env data/docker.env
+cp data/podman.example.env data/podman.env
+chmod 600 data/config.env data/podman.env
 ```
 
-Set `TOKEN` in `data/config.env` and `TELEGRAM_API_ID` / `TELEGRAM_API_HASH` in `data/docker.env`.
+Set `TOKEN` in `data/config.env` and `TELEGRAM_API_ID` / `TELEGRAM_API_HASH` in `data/podman.env`.
 The latter are application credentials from [my.telegram.org](https://my.telegram.org/apps), as required by the
 [Bot API image](https://github.com/aiogram/telegram-bot-api#configuration), and are separate from the bot token.
 The bot example documents optional settings, including owner/operator IDs, modules, integrations and media limits.
 Keep optional settings commented when unused.
 
 ```sh
-docker compose up -d --build
-docker compose logs -f korone-bot
+make podman-install
+make podman-up
+make podman-logs
 ```
 
-Compose configures PostgreSQL, Redis, the local Bot API server and shared file storage automatically, overriding
-the corresponding host settings in `data/config.env`. Without `WEBHOOK_DOMAIN`, the bot uses long polling.
-Startup applies pending database migrations.
+Quadlet builds the image from `Containerfile`, starts PostgreSQL, Redis and the local Bot API, and provisions
+shared file storage. The bot waits for PostgreSQL and Redis healthchecks before starting. Its dotenv configuration
+is mounted through a Podman secret; container environment settings override service addresses and storage roots.
+Without `WEBHOOK_DOMAIN`, the bot uses long polling. Startup applies pending database migrations.
+The stack publishes no host ports. Keep the checkout at its installed path: Quadlet links resolve the build context
+from it. Use a separate checkout and deployment user for each instance.
 
-For the optional Cloudflare Tunnel, set `TUNNEL_TOKEN` in `data/docker.env`, configure its public hostname to forward
+For startup at boot, run `systemctl --user enable korone.target` and `loginctl enable-linger "$USER"`.
+Use `make podman-down` to stop the stack while preserving volumes; disable the target to prevent startup at login/boot.
+After code updates, run `make podman-build` followed by `systemctl --user restart korone-bot.service`.
+After configuration changes, run `make podman-config` and restart the affected services.
+
+For the optional Cloudflare Tunnel, set `TUNNEL_TOKEN` in `data/podman.env`, configure its public hostname to forward
 to `http://korone-bot:9669`, and set `WEBHOOK_DOMAIN` and `WEBHOOK_SECRET` in `data/config.env`. Then run
-`docker compose --profile tunnel up -d --build`. The public hostname must match `WEBHOOK_DOMAIN`; the configured
-`WEBHOOK_PATH` must reach the bot unchanged.
+`make podman-config` and `systemctl --user restart korone-bot.service`, followed by
+`systemctl --user start korone-tunnel.service`. The public hostname must match `WEBHOOK_DOMAIN`; the configured
+`WEBHOOK_PATH` must reach the bot unchanged. For persistent tunnel startup, see the
+[deployment guide](deploy/README.md#optional-tunnel).
+
+See the [deployment guide](deploy/README.md) for Docker data migration, updates, troubleshooting and volume ownership.
 
 ## License
 

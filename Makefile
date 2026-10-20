@@ -4,9 +4,11 @@ PYTHON := uv run python
 PYBABEL := uv run pybabel
 ALEMBIC := uv run alembic
 MSGATTRIB := msgattrib
+PODMAN := podman
+USER_CONFIG_DIR := $(or $(XDG_CONFIG_HOME),$(HOME)/.config)
 
 BABEL_PROJECT := Korone
-BABEL_VERSION := $(shell $(PYTHON) -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
+BABEL_VERSION = $(shell $(PYTHON) -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
 BABEL_COPYRIGHT_HOLDER := Hitalo M.
 BABEL_MSGID_BUGS_ADDRESS := https://github.com/HitaloM/PyKorone/issues
 
@@ -60,3 +62,30 @@ db_revision:
 
 db_stamp:
 	$(ALEMBIC) stamp "$(rev)"
+
+
+.PHONY: podman-config podman-install podman-build podman-up podman-down podman-logs
+
+# Refresh runtime configuration without putting dotenv values in command arguments.
+podman-config: data/config.env data/podman.env
+	$(PODMAN) secret create --replace korone-config data/config.env
+	install -d -m 700 "$(USER_CONFIG_DIR)/korone"
+	install -m 600 data/podman.env "$(USER_CONFIG_DIR)/korone/podman.env"
+
+podman-install: podman-config
+	install -d "$(USER_CONFIG_DIR)/containers/systemd" "$(USER_CONFIG_DIR)/systemd/user"
+	ln -sfnT "$(CURDIR)/deploy/quadlet" "$(USER_CONFIG_DIR)/containers/systemd/pykorone"
+	ln -sfnT "$(CURDIR)/deploy/systemd/korone.target" "$(USER_CONFIG_DIR)/systemd/user/korone.target"
+	systemctl --user daemon-reload
+
+podman-build:
+	systemctl --user restart korone-build.service
+
+podman-up:
+	systemctl --user start korone.target
+
+podman-down:
+	systemctl --user stop korone.target
+
+podman-logs:
+	journalctl --user -u korone-bot.service -f

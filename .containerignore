@@ -15,6 +15,11 @@ __pycache__
 .env.*
 data/config.env
 data/docker.env
+data/podman.env
+*.tar
+*.dump
+*.sql
+data/korone.db*
 build
 dist
 *.egg-info
@@ -22,3 +27,5 @@ htmlcov
 .cache
 .idea
 .vscode
+.agents
+.codex

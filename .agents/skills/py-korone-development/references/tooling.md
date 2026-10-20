@@ -1,6 +1,6 @@
 # Development Tooling
 
-Apply these rules to repository tooling, developer workflows, dependencies, migrations, localization automation, Docker, and runtime bootstrap.
+Apply these rules to repository tooling, developer workflows, dependencies, migrations, localization automation, Podman, and runtime bootstrap.
 
 ## Package and Quality Tools
 
@@ -28,19 +28,25 @@ Apply these rules to repository tooling, developer workflows, dependencies, migr
 - Use `localization-workflow` for user-facing strings or catalog edits.
 - Do not change locale command semantics without updating dependent artifacts.
 
-## Docker and Runtime
+## Podman and Runtime
 
 - Keep builds reproducible from the uv lockfile.
 - Preserve the runtime entrypoint contract, `python -m korone`, unless the request explicitly changes startup.
 - Check media and utility system packages when runtime dependencies change.
 - Runtime shutdown drains cached work before dependent clients and uses `AsyncExitStack` so a failed cleanup does
   not prevent other closures. Module-owned jobs still shut down through router lifecycle observers.
-- Preserve the Compose user's access to the local Bot API volume; the standalone Dockerfile user serves a different
-  deployment mode. Do not standardize numeric UIDs without validating volume access.
-- Compose shares a separate upload volume with bot write access and API read access; initialize its ownership to
+- Use rootless Quadlet and systemd for the container stack, with fully qualified upstream image names and the
+  locked multi-stage Containerfile. Keep build context resolution relative to the Quadlet directory.
+- Preserve the Quadlet user's access to the local Bot API volume; the standalone Containerfile user serves a different
+  deployment mode. Do not standardize numeric UIDs or isolate per-container user namespaces without validating volume access.
+- Quadlet shares a separate upload volume with bot write access and API read access; initialize its ownership to
   UID/GID 101:101 before either service starts. Keep the Bot API download mount read-only in the bot. Map the bot and
   server storage roots through aiogram, and keep `BOTAPI_UPLOAD_ROOT` inside the bot's shared root. Provision disk for
   post workspaces and FFmpeg inputs/outputs; concurrency is not a quota, and hard stops may require manual cleanup.
+- Mount the bot dotenv file through a Podman secret to preserve Pydantic parsing and keep credentials out of images.
+  Systemd parses the infrastructure env file and forwards only each service's required variables. Keep generated
+  Quadlet services under the regular `korone.target`, with systemd owning restarts and PostgreSQL/Redis health readiness.
+  Docker data migration is an explicit offline backup/restore; never treat the engines' storage as interchangeable.
 - Basic setup lives in the [README](../../../../README.md#development). Keep examples aligned with settings in
   `Config`, not obsolete username options. Module selection uses JSON arrays in `MODULES_LOAD` / `MODULES_NOT_LOAD`.
 - If the default uv cache is read-only, set `UV_CACHE_DIR` to a writable temporary directory. Use `uv run --no-sync`
@@ -50,9 +56,9 @@ Apply these rules to repository tooling, developer workflows, dependencies, migr
 
 - Ruff: `ruff.toml` and `.pre-commit-config.yaml`.
 - Migrations: Alembic configuration, runtime migration code, and Makefile targets.
-- Startup: `src/korone/__init__.py`, `src/korone/__main__.py`, `docker-compose.yml`, and `Dockerfile`.
+- Startup: `src/korone/__init__.py`, `src/korone/__main__.py`, `deploy/quadlet/`, `deploy/systemd/korone.target`, and `Containerfile`.
 - Dependencies: `pyproject.toml` and `uv.lock`.
-- Python version: `.python-version`, `pyproject.toml`, `Dockerfile`, and documented requirements.
+- Python version: `.python-version`, `pyproject.toml`, `Containerfile`, and documented requirements.
 
 ## Validation
 
@@ -60,4 +66,6 @@ Apply these rules to repository tooling, developer workflows, dependencies, migr
 - Verify pre-commit and Ruff remain aligned.
 - Verify migration generation and runtime migration detection remain compatible.
 - Verify dependency lock synchronization.
-- Verify Docker build and startup paths when affected.
+- Verify the Quadlet generator output, systemd dependency ordering, Podman build and startup paths when affected.
+- Check rootless shared volume ownership, SELinux labels, secret mounts and the Docker migration instructions.
+- Keep operational details in `deploy/README.md` and basic setup in the README.
