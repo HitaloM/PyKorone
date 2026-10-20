@@ -7,11 +7,14 @@ from typing import TYPE_CHECKING
 from aiogram.types import FSInputFile, InputFile
 
 from korone.config import CONFIG
+from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
 
     from aiogram import Bot
+
+logger = get_logger(__name__)
 
 
 def telegram_upload(bot: Bot, file: InputFile | str) -> InputFile | str:
@@ -24,7 +27,10 @@ def telegram_upload(bot: Bot, file: InputFile | str) -> InputFile | str:
     path = Path(file.path).resolve()
     if not path.is_relative_to(Path(CONFIG.botapi_local_storage_root).resolve()):
         return file
-    return str(bot.session.api.wrap_local_file.to_server(path))
+    # Bare absolute paths are parsed as remote file references by the Bot API.
+    # as_uri also escapes spaces, percent signs and non-ASCII filenames.
+    logger.debug("Using shared Bot API upload", transport="local_file_uri")
+    return Path(bot.session.api.wrap_local_file.to_server(path)).as_uri()
 
 
 @asynccontextmanager
