@@ -1,4 +1,3 @@
-import sys
 from typing import TYPE_CHECKING, Any
 
 from aiogram.handlers import ErrorHandler
@@ -13,8 +12,6 @@ from korone.modules.error.utils.ignored import QUIET_EXCEPTIONS
 from korone.utils.telegram_permissions import handle_no_rights_error, is_no_rights_error
 
 if TYPE_CHECKING:
-    from types import TracebackType
-
     from aiogram.types import Update
 
 logger = get_logger(__name__)
@@ -41,17 +38,14 @@ class KoroneErrorHandler(ErrorHandler):
             if handled:
                 return
 
-        etype, value, tb = sys.exc_info()
-        sys_exception = sys.exception()
-
-        active_exception = sys_exception if isinstance(sys_exception, Exception) else exception
-        sentry_event_id = self.capture_sentry(active_exception)
-        await self.log_to_console(etype, value, tb, sentry_event_id=sentry_event_id)
-
-        if not isinstance(sys_exception, Exception):
-            await logger.awarning("No sys exception", from_aiogram=exception, from_sys=sys_exception)
-        elif type(exception) is not type(sys_exception) or str(exception) != str(sys_exception):
-            await logger.awarning("Mismatched exception seeking", from_aiogram=exception, from_sys=sys_exception)
+        sentry_event_id = capture_sentry(exception)
+        # Explicit capture owns this event; warning logging adds diagnostics without
+        # creating a second event through LoggingIntegration.
+        await logger.awarning(
+            "Unhandled exception",
+            exc_info=(type(exception), exception, exception.__traceback__),
+            sentry_event_id=sentry_event_id,
+        )
 
         if update and update.inline_query:
             return
@@ -61,13 +55,13 @@ class KoroneErrorHandler(ErrorHandler):
             await logger.awarning("Error update has no event chat attached")
             return
 
-        signature = compute_error_signature(active_exception)
+        signature = compute_error_signature(exception)
         notify = await should_notify(signature)
         if not notify:
             await logger.ainfo("Suppressing error notification", signature=signature)
             return
 
-        send_kwargs = generic_error_message(active_exception, sentry_event_id)
+        send_kwargs = generic_error_message(exception, sentry_event_id)
         sent_in_origin_message = await self._answer_in_origin_message(update, send_kwargs)
         if sent_in_origin_message:
             return
@@ -108,24 +102,3 @@ class KoroneErrorHandler(ErrorHandler):
 
         await origin_message.answer(**send_kwargs)
         return True
-
-    @staticmethod
-    async def log_to_console(
-        etype: type[BaseException] | None,
-        value: BaseException | None,
-        tb: TracebackType | None,
-        **kwargs: str | float | bool | BaseException | None,
-    ) -> None:
-        if etype and value and tb:
-            await logger.awarning("Unhandled exception", exc_info=(etype, value, tb))
-        else:
-            await logger.awarning("Unhandled exception (no sys exc_info available)")
-        if kwargs:
-            await logger.awarning("Additional error data", **kwargs)
-
-    @staticmethod
-    def capture_sentry(exception: Exception) -> str | None:
-        sys_exc = sys.exception()
-        if isinstance(sys_exc, Exception):
-            return capture_sentry(sys_exc)
-        return capture_sentry(exception)

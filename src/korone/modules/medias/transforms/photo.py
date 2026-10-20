@@ -225,7 +225,11 @@ class PhotoProcessor:
                     timeout_seconds=self.TIMEOUT_SECONDS,
                 )
                 return media
+            except OSError, ValueError, Image.DecompressionBombError:
+                # Invalid or unsupported image data can still be tried by Telegram.
+                return media
             except Exception:  # ruff: ignore[blind-except]
+                await logger.aexception("[Medias] Photo preparation failed", stage="photo_transform")
                 return media
 
         if not payload:

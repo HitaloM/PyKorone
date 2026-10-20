@@ -12,6 +12,7 @@ from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from korone.args.middleware import ArgumentsMiddleware
+from korone.modules.error.utils.capture import before_send
 from korone.modules.error.utils.ignored import IGNORED_EXCEPTIONS
 
 from . import aredis, bot, dp
@@ -71,12 +72,11 @@ def resolve_allowed_updates() -> list[str]:
     return sorted({*dp.resolve_used_update_types(), *CORE_MIDDLEWARE_UPDATE_TYPES})
 
 
-async def prepare_runtime() -> list[str]:
-    await logger.ainfo("Starting up the bot...")
-
+def configure_sentry() -> None:
+    # Recovered defects use exception logging; the aiogram error handler captures
+    # explicitly and logs at WARNING. Keep SDK deduplication enabled for automatic
+    # integrations, and install this before any startup API calls can fail.
     if CONFIG.sentry_url:
-        await logger.ainfo("Starting sentry.io integration...")
-
         sentry_sdk.init(
             str(CONFIG.sentry_url),
             integrations=[
@@ -86,8 +86,14 @@ async def prepare_runtime() -> list[str]:
                 SqlalchemyIntegration(),
             ],
             ignore_errors=IGNORED_EXCEPTIONS,
+            before_send=before_send,
+            include_local_variables=False,
             in_app_include=["korone"],
         )
+
+
+async def prepare_runtime() -> list[str]:
+    await logger.ainfo("Starting up the bot...")
 
     await http_client.start()
     await init_db()
@@ -168,6 +174,7 @@ def create_webhook_app() -> web.Application:
 
 
 def main() -> None:
+    configure_sentry()
     configure_dispatcher()
 
     if CONFIG.webhook_domain:

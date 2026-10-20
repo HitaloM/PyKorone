@@ -48,6 +48,7 @@ class _MediaRun:
         self.stage_durations[self.stage] = now - self.stage_started_at
         self.stage = stage
         self.stage_started_at = now
+        sentry_sdk.set_tag("korone.media_stage", stage.value)
 
     def finish(self) -> float:
         finished_at = perf_counter()
@@ -127,6 +128,9 @@ class MediaHandler(KoroneMessageHandler):
             message_id=self.event.message_id,
             message_thread_id=self.event.message_thread_id,
             handler=self.__class__.__name__,
+            stage=run.stage.value,
+            outcome=MediaOutcome.FAILED.value,
+            exc_info=(type(error), error, error.__traceback__),
         )
         return MediaOutcome.FAILED
 
@@ -135,6 +139,10 @@ class MediaHandler(KoroneMessageHandler):
             return
 
         run = _MediaRun(request=request, source_id=_source_id(request.url), handler_name=self.__class__.__name__)
+        sentry_sdk.set_context(
+            "media_handler",
+            {"provider": request.provider.info.name, "handler": run.handler_name, "source_id": run.source_id},
+        )
         try:
             await logger.ainfo(
                 "[Medias] Handler started",
