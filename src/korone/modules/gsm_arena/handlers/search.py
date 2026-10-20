@@ -6,9 +6,9 @@ from aiogram.enums import ChatAction
 from aiogram.filters import Command
 
 from korone.args import ArgumentSchema, TextArg
-from korone.logger import get_logger
 from korone.modules.gsm_arena.utils.device import get_device_presentation, reply_with_device
 from korone.modules.gsm_arena.utils.errors import GSMArenaError
+from korone.modules.gsm_arena.utils.failures import report_failure
 from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
 from korone.modules.gsm_arena.utils.scraper import search_phone
 from korone.modules.gsm_arena.utils.session import create_search_session
@@ -22,8 +22,6 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
     from korone.modules.gsm_arena.utils.types import PhoneSearchResult
-
-logger = get_logger(__name__)
 
 
 @dataclass(frozen=True, slots=True)
@@ -41,27 +39,22 @@ class DeviceSearchHandler(KoroneMessageHandler[DeviceSearchArguments]):
     def filters(cls) -> tuple[CallbackType, ...]:
         return (Command("device", "specs", "d"),)
 
+    async def _answer_device(self, url: str) -> None:
+        try:
+            presentation = await get_device_presentation(url)
+        except GSMArenaError as exc:
+            await self.answer(await report_failure(exc, operation="details"))
+            return
+
+        await reply_with_device(self.event, presentation)
+
     async def _handle_search_results(self, query: str, devices: list[PhoneSearchResult]) -> None:
         if not devices:
             await self.answer(_("No devices found."))
             return
 
         if len(devices) == 1:
-            try:
-                presentation = await get_device_presentation(devices[0].url)
-            except GSMArenaError as exc:
-                await logger.awarning(
-                    "[GSM Arena] Device details request failed",
-                    device_url=devices[0].url,
-                    error_type=type(exc).__name__,
-                )
-                await self.answer(_("Error fetching device details. Please try again later."))
-                return
-
-            if presentation:
-                await reply_with_device(self.event, presentation)
-            else:
-                await self.answer(_("Error fetching device details. Please try again later."))
+            await self._answer_device(devices[0].url)
             return
 
         if not self.event.from_user:
@@ -81,8 +74,7 @@ class DeviceSearchHandler(KoroneMessageHandler[DeviceSearchArguments]):
         try:
             devices = await search_phone(query)
         except GSMArenaError as exc:
-            await logger.awarning("[GSM Arena] Search failed", query=query, error_type=type(exc).__name__)
-            await self.answer(_("Error searching GSMArena. Please try again later."))
+            await self.answer(await report_failure(exc, operation="search"))
             return
 
         await self._handle_search_results(query, devices)

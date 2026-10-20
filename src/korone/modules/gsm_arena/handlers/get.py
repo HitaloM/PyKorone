@@ -4,7 +4,6 @@ from aiogram import flags
 from aiogram.enums import ChatType
 from aiogram.exceptions import TelegramBadRequest
 
-from korone.logger import get_logger
 from korone.modules.gsm_arena.callbacks import GetDeviceCallback
 from korone.modules.gsm_arena.utils.device import (
     answer_with_device,
@@ -13,6 +12,7 @@ from korone.modules.gsm_arena.utils.device import (
     reply_with_device,
 )
 from korone.modules.gsm_arena.utils.errors import GSMArenaError
+from korone.modules.gsm_arena.utils.failures import report_failure
 from korone.modules.gsm_arena.utils.session import get_search_session
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
@@ -20,8 +20,6 @@ from korone.utils.telegram_errors import is_message_not_modified_error, is_messa
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-
-logger = get_logger(__name__)
 
 
 @flags.help(exclude=True)
@@ -54,16 +52,7 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
         try:
             presentation = await get_device_presentation(devices[callback_data.index].url)
         except GSMArenaError as exc:
-            await logger.awarning(
-                "[GSM Arena] Device details callback failed",
-                device_url=devices[callback_data.index].url,
-                error_type=type(exc).__name__,
-            )
-            await message.answer(_("Error fetching device details"))
-            return
-
-        if not presentation:
-            await message.answer(_("Error fetching device details"))
+            await message.answer(await report_failure(exc, operation="details"))
             return
 
         if message.chat.type == ChatType.PRIVATE:

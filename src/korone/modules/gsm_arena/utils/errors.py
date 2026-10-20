@@ -11,3 +11,15 @@ class GSMArenaRequestError(GSMArenaError):
         super().__init__(message)
         self.status_code = status_code
         self.target_url = target_url
+
+
+class GSMArenaAccessError(GSMArenaRequestError):
+    """The upstream service restricted access or requested human verification."""
+
+
+class GSMArenaUnavailableError(GSMArenaRequestError):
+    """The upstream service is temporarily unavailable."""
+
+
+class GSMArenaParseError(GSMArenaError):
+    """A successful HTTP response did not contain the expected device data."""

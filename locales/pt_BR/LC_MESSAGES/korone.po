@@ -292,65 +292,71 @@ msgstr "Especificações de dispositivos do GSMArena"
 msgid "Search phones and browse key specifications without leaving Telegram."
 msgstr "Pesquise celulares e consulte especificações principais sem sair do Telegram."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:41
+#: src/korone/modules/gsm_arena/handlers/get.py:38
 #: src/korone/modules/gsm_arena/handlers/list.py:32
 #: src/korone/modules/lastfm/handlers/base.py:251
 #: src/korone/modules/lastfm/handlers/collage.py:162
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:46
+#: src/korone/modules/gsm_arena/handlers/get.py:43
 #: src/korone/modules/gsm_arena/handlers/list.py:37
 msgid "Search session expired. Please run /device again."
 msgstr "Sessão de pesquisa expirada. Por favor, execute /device novamente."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:50
+#: src/korone/modules/gsm_arena/handlers/get.py:47
 msgid "Invalid device selected."
 msgstr "Dispositivo selecionado inválido."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:53
+#: src/korone/modules/gsm_arena/handlers/get.py:50
 msgid "Fetching device details..."
 msgstr "Buscando detalhes do dispositivo..."
-
-#: src/korone/modules/gsm_arena/handlers/get.py:63
-#: src/korone/modules/gsm_arena/handlers/get.py:67
-msgid "Error fetching device details"
-msgstr "Erro ao buscar detalhes do dispositivo"
 
 #: src/korone/modules/gsm_arena/handlers/list.py:41
 msgid "No devices found"
 msgstr "Nenhum dispositivo encontrado"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:34
+#: src/korone/modules/gsm_arena/handlers/search.py:32
 msgid "Search GSMArena for device specifications."
 msgstr "Pesquise especificações de dispositivos no GSMArena."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:38
+#: src/korone/modules/gsm_arena/handlers/search.py:36
 msgid "Device"
 msgstr "Dispositivo"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:46
+#: src/korone/modules/gsm_arena/handlers/search.py:53
 msgid "No devices found."
 msgstr "Nenhum dispositivo encontrado."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:58
-#: src/korone/modules/gsm_arena/handlers/search.py:64
-msgid "Error fetching device details. Please try again later."
-msgstr "Erro ao buscar detalhes do dispositivo. Tente novamente mais tarde."
-
-#: src/korone/modules/gsm_arena/handlers/search.py:73
+#: src/korone/modules/gsm_arena/handlers/search.py:66
 #, python-brace-format
 msgid "Search results for: {query}"
 msgstr "Resultados da pesquisa para: {query}"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:74
+#: src/korone/modules/gsm_arena/handlers/search.py:67
 #, python-brace-format
 msgid "Found {count} devices. Select one from the list below."
 msgstr "Encontrados {count} dispositivos. Selecione um da lista abaixo."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:85
-msgid "Error searching GSMArena. Please try again later."
-msgstr "Erro ao pesquisar no GSMArena. Tente novamente mais tarde."
+#: src/korone/modules/gsm_arena/utils/failures.py:31
+msgid "GSMArena is receiving too many requests. Please try again later."
+msgstr "O GSMArena está recebendo muitas solicitações. Tente novamente mais tarde."
+
+#: src/korone/modules/gsm_arena/utils/failures.py:32
+msgid "GSMArena is restricting automated access. Please try searching on its website."
+msgstr "O GSMArena está restringindo o acesso automatizado. Tente pesquisar no site dele."
+
+#: src/korone/modules/gsm_arena/utils/failures.py:34
+msgid "GSMArena is temporarily unavailable. Please try again later."
+msgstr "O GSMArena está temporariamente indisponível. Tente novamente mais tarde."
+
+#: src/korone/modules/gsm_arena/utils/failures.py:36
+msgid "GSMArena returned an unexpected page. Device data could not be read. Please try again later."
+msgstr "O GSMArena retornou uma página inesperada. Não foi possível ler os dados do dispositivo. Tente novamente mais tarde."
+
+#: src/korone/modules/gsm_arena/utils/failures.py:37
+msgid "Could not retrieve data from GSMArena. Please try again later."
+msgstr "Não foi possível obter dados do GSMArena. Tente novamente mais tarde."
 
 #: src/korone/modules/gsm_arena/utils/formatters.py:46
 msgid "Overview"
