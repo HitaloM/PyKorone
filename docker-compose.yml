@@ -1,6 +1,6 @@
 services:
   telegram-bot-api:
-    image: aiogram/telegram-bot-api:latest
+    image: docker.io/aiogram/telegram-bot-api:latest
     env_file:
       - data/docker.env
     environment:
@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:18
+    image: docker.io/library/postgres:18
     environment:
       POSTGRES_DB: korone
       POSTGRES_USER: korone
@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:8
+    image: docker.io/library/redis:8
     restart: unless-stopped
 
   korone-bot:
@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
 
   telegram-upload-init:
-    image: aiogram/telegram-bot-api:latest
+    image: docker.io/aiogram/telegram-bot-api:latest
     user: "0:0"
     entrypoint: ["sh", "-c"]
     command: ["chown 101:101 /uploads && chmod 700 /uploads"]
@@ -64,7 +64,7 @@ services:
     restart: "no"
 
   tunnel:
-    image: cloudflare/cloudflared:latest
+    image: docker.io/cloudflare/cloudflared:latest
     profiles: ["tunnel"]
     restart: unless-stopped
     env_file:
