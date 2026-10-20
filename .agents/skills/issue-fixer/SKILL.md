@@ -1,61 +1,41 @@
 ---
 name: issue-fixer
-description: Diagnose PyKorone bugs and, when implementation is requested, fix them through evidence-driven root-cause analysis. Use for issue reports, exceptions, regressions, failing checks, incorrect Telegram behavior, broken module loading, middleware or handler context failures, database inconsistencies, cache problems, and unexpected external-provider responses.
+description: Diagnose PyKorone bugs, regressions, exceptions, and failing checks; implement a root-cause fix when requested.
 ---
 
 # Issue Fixer
 
-Identify the earliest verified divergence from the required contract. When implementation is requested, fix it with the smallest coherent patch. Treat the exception, failed assertion, or visible misbehavior as evidence, not automatically as the defect.
+Find the earliest verified divergence from the required contract. A traceback or visible failure identifies a symptom;
+it does not establish where the defect began. Respect diagnosis-only scope.
 
-## Scope and Evidence
+## Investigation and fix
 
-1. Read the complete report, traceback, logs, reproduction, and expected behavior.
-2. Distinguish diagnosis-only requests from requests that authorize implementation.
-3. Inspect `git status` and preserve unrelated changes.
-4. Record uncertainty instead of turning an unverified theory into a patch.
-5. Load `py-korone-development` and only the references matching the affected boundary.
+- Establish the trigger, expected behavior, observed result, and evidence from the report and current code.
+- Reproduce with the smallest realistic input. When services or captured responses are unavailable, state the limit and
+  distinguish a verified local failure from an upstream hypothesis.
+- Trace the failing value or transition through its producer and consumers. Read only the affected
+  [development references](../py-korone-development/SKILL.md).
+- Decide whether missing, stale, or malformed data is valid at that boundary. Correct the producer or contract with
+  the smallest coherent patch; do not hide required values behind defaults, broad catches, casts, or silent returns.
+- Demonstrate the regression with the same deterministic input before and after the change, following `AGENTS.md`'s
+  no-new-tests policy. Re-run relevant static checks and the original reproduction when available.
 
-## Root-Cause Workflow
+Fallbacks belong where absence is valid and recoverable. Retry only transient failures, propagate cancellation, and log
+recovery once at its owning layer. Use [localization-workflow](../localization-workflow/SKILL.md) for changed visible text.
 
-1. State the observed behavior, expected behavior, trigger, and strongest evidence.
-2. Reproduce with the smallest realistic input or command before editing.
-3. Identify the failing value, transition, query, event, or contract at the symptom.
-4. Trace backward through callers, middleware, repositories, parsers, caches, migrations, or external responses.
-5. Find the first point where actual state diverges from the required contract.
-6. Decide whether the value is required, optional, stale, malformed, or legitimately unavailable.
-7. Fix the producer or contract at that point with the smallest coherent patch.
-8. Capture regression evidence with the smallest deterministic reproduction that fails for the original behavior and succeeds after the fix. Do not create an automated test unless the user explicitly requests it.
-9. Re-run the original reproduction and checks proportional to the changed boundary.
+## High-value traces
 
-## Reject Symptom Masking
+| Symptom | Follow the contract |
+| --- | --- |
+| Command ignored or wrong arguments | Manifest registration → filters/flags → `ArgumentsMiddleware` → typed `PARSED_ARGUMENTS_KEY` / `self.args`; absence and invalid input differ |
+| Callback failure or wrong target | Typed payload → owner authorization → accessible `self.message` → response helper; message accessibility does not authorize the user |
+| Missing database row or wrong admin | Owning repository → Telegram versus database ID → transaction/migration state; never retry the same number as another ID type |
+| Wrong language or handler runs twice | Locale resolution → uncached proxy → rendering; fallback must not catch and rerun the downstream handler |
+| Stale cache or shutdown failure | Shared key construction/invalidation → serialization/TTL → task ownership/cancellation → client closure |
+| Provider failure | Safe response status/shape → deterministic parser → download/transport boundary; separate expected unavailability from programmer errors |
 
-- Do not add broad `except`, `return`, `pass`, or default values merely to stop an exception.
-- Do not replace required indexing with `.get(...)` until absence is a valid domain state.
-- Do not scatter `None` guards when an upstream contract requires the value.
-- Do not weaken annotations, add broad ignores, or cast away a data-flow defect.
-- Do not retry deterministic parsing, validation, authorization, or schema failures.
-- Do not change expected behavior to match the bug.
+FSM is disabled in the default dispatcher. If the report involves state transitions, first verify that the runtime
+actually enables storage. For shared middleware, check ordering and allowed-update resolution in `korone.__main__`.
 
-Use a fallback only when absence is valid by design. Represent it in the type and handle it at the earliest useful boundary.
-
-## Boundary Checks
-
-- Handlers: trace `self.data`, `arguments` declarations, local argument parsing, flags, filters, middleware order, manifest registration, disabling, and allowed updates.
-  Middleware consuming command input must use the typed object at `PARSED_ARGUMENTS_KEY`; old per-argument keys
-  can silently bypass deferred processing.
-- Callbacks and FSM: verify typed payloads, owner checks, project `message` accessibility guards, and any explicitly
-  configured state lifecycle (the default dispatcher disables FSM).
-- Database: inspect repository transaction scope, Telegram versus database IDs, migration state, and required backfills.
-  Never recover a missing Telegram-ID lookup by treating the same number as a database primary key.
-- Cache: inspect shared key construction, serialization, expiry, invalidation, cancellation, and shutdown ownership.
-- Localization: reproduce with alternating locales; proxies must not retain the first translation. Limit fallback to
-  locale resolution, and prove a downstream failure invokes the handler only once.
-- External services: capture safe status and response shape, validate adapter assumptions, and retry only transient failures.
-
-## Regression and Completion
-
-- This project has no automated test suite. Use a focused deterministic reproduction; do not create tests, test files, test fixtures, or introduce a test framework unless the user explicitly requests it.
-- Catch only errors the layer can recover from or translate and preserve exception chaining.
-- Log operational failures once with structured context; never log secrets or full sensitive payloads.
-- Use `localization-workflow` if the fix changes visible text.
-- Report the root cause, corrected contract, regression proof, commands and outcomes, and anything still unverified.
+Report the root cause, corrected contract, regression evidence, and anything still unverified. Do not present an
+unreproduced external-service theory as a confirmed fix.

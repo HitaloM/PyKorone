@@ -1,7 +1,7 @@
 # Korone Text UI
 
-Use this reference for changes to `src/korone/ui`, structured module output, lazy module descriptions, and low-level
-message or caption rendering.
+Use for `src/korone/ui`, structured output/descriptions, and low-level message/caption rendering.
+Sources: `ui/__init__.py` (public surface), `components.py`, `compiler.py`, and `rendering.py`.
 
 ## Public Composition Contract
 
@@ -25,7 +25,8 @@ values. UI templates retain their stricter simple-placeholder contract.
 - Keep `korone.ui`'s top-level exports limited to composition. Import `text_kwargs`, `caption_kwargs`,
   `message_text_kwargs`, `as_text`, or `plain_text` from `korone.ui.rendering` only in transport/integration code.
 - Pass additional Telegram arguments naturally, such as
-  `text_kwargs(content, disable_web_page_preview=True)`. Do not add mapping-based `merge_*` helpers.
+  `text_kwargs(content, disable_web_page_preview=True)`. Rendered keys cannot be overridden by extra kwargs;
+  preserve this collision check. Do not add mapping-based `merge_*` helpers.
 - Use `plain_text(...)` only for Telegram surfaces that cannot carry entities, such as button labels, callback alerts,
   exception strings, or rich-message fields with their own formatting model.
 
@@ -49,4 +50,4 @@ values. UI templates retain their stricter simple-placeholder contract.
 - Exercise text, caption, media-group, inline-message, and lazy module-description boundaries when affected.
 - Search changed code for `str(ui)`, HTML renderers, parse modes, legacy formatting imports, uppercase link aliases, and
   private aiogram formatting internals.
-- Run focused Ruff checks and Pyright. This repository has no automated test suite; use deterministic reproductions.
+- Run relevant Ruff/Pyright checks and deterministic reproductions under the validation policy in `AGENTS.md`.

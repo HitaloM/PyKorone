@@ -1,115 +1,66 @@
 # Handlers and aiogram
 
-Use the active aiogram range in `pyproject.toml` and the current PyKorone implementations. Avoid legacy aiogram v2 patterns.
+The source contracts live in `korone.utils.handlers`, `korone.args`, `korone.middlewares.context_data`, and
+`modules.utils_.reply_or_edit`. Use the active aiogram range from project configuration.
 
-## Runtime and Routing
+## Entry points and context
 
-- Reuse the shared `bot`, `dp`, and dispatcher setup. FSM is currently disabled; do not assume `self.state` or FSM
-  storage is available. A feature needing FSM must explicitly configure and validate that runtime contract.
-- Do not instantiate feature-local `Bot` or `Dispatcher` objects.
-- Compose routing through module manifests and the loader.
-- Put module-specific middleware implementations in `src/korone/modules/<module>/middlewares/`; do not place
-  middleware classes in handlers, utilities, or the module `__init__.py`.
-- Export intentional middleware entry points from `middlewares/__init__.py` and register them in the module's
-  `pre_setup()` hook declared through `ModuleManifest.scripts`.
-- Keep polling, webhook, allowed-update resolution, and lifecycle logic centralized.
-- Preserve middleware registration order and use outer middleware only when logic must wrap the complete update path.
+Use `KoroneMessageHandler`, `KoroneCallbackQueryHandler`, `KoroneMessageCallbackQueryHandler`, or
+`KoroneInlineQueryHandler`. The centralized error handler uses aiogram's error-specific base. Implement typed `filters()`
+and `handle()` and register classes in `ModuleManifest.handlers`; override `register()` for dual/custom routing only.
 
-## Handler Workflow
+Use `self.event`, `self.bot`, `self.chat`, `self.context`, and `self.current_locale`. Middleware passes shared data through
+`KoroneContextData` / helpers in `middlewares.context_data`, rather than scattered casts. Trace middleware registration
+and allowed updates in `korone.__main__` when changing shared context. FSM is disabled unless explicitly configured.
 
-1. Read the nearest handlers, callbacks, manifest, filters, utilities, and repositories.
-2. Choose `KoroneMessageHandler`, `KoroneCallbackQueryHandler`, `KoroneMessageCallbackQueryHandler`, or
-   `KoroneInlineQueryHandler` for the incoming event. The error handler uses aiogram's error-specific base for `ErrorEvent`.
-3. Define filters, project arguments, flags, callbacks, and FSM states declaratively.
-4. Implement `filters()` and `async def handle(self)`.
-5. Override `register(...)` only for dual-event or custom registration.
-6. Register the class in `ModuleManifest.handlers`.
-7. Keep business logic, external I/O, and database access outside `handle()` when reusable.
+## Typed arguments and flags
 
-## Project Handler Context
+- Define immutable slotted parsed-value dataclasses and bind them with `ArgumentSchema(...)` from `korone.args`.
+  Parameterize `KoroneMessageHandler` and consume `self.args` instead of splitting command strings.
+- If middleware also needs parsed values, place the shared dataclass in the module's `args.py` and narrow
+  `data[PARSED_ARGUMENTS_KEY]` to it. Do not import handlers or read removed per-argument data keys.
+- Dataclass defaults express absent optional input; present-but-invalid input remains an error. Leave `arguments` unset
+  for commands without arguments so middleware can take its fast path.
+- Use core `TextArg`, `WordArg`, `BooleanArg`, and `OrArg`; domain parsers belong to their module, such as `users.args.UserArg`.
+  Localize descriptions with `lazy_gettext as l_`. Use `BooleanStatusHandler` for BooleanArg settings.
+- Use aiogram commands/filters and reusable project filters. Public commands declare `@flags.help(...)`;
+  `@flags.disableable(...)` opts into chat disabling. Internal/state/callback-only handlers do not need public help.
+- Read flags with `aiogram.dispatcher.flags.get_flag(data, name)`. Declare decorators or registration flags before
+  registration, never by mutating `HandlerObject.flags`. Custom flag names cannot start with `_`; explicitly clear
+  inherited dynamic flags on ineligible subclasses.
 
-- Use `self.event`, `self.bot`, `self.chat`, `self.context`, and `self.current_locale`.
-- Use `self.answer(...)` for ordinary text/UI responses. It replies and falls back to a new message if the target
-  disappeared. Message handlers return `Message`; dual-event responses may also return `bool` for edits. Use direct
-  aiogram methods for uncovered transport (media, markup, inline results, alerts) and deliberate new-message sends.
-  Keep domain-specific media fallbacks in their adapter.
-- Use callback helpers such as `self.edit_text(...)` in callback handlers.
-- Guard optional Telegram values such as `from_user`, callback messages, and inaccessible messages.
-- Use `self.message` for an accessible callback/dual-event `Message`; use `check_for_message()` only when an early
-  explicit guard is needed. Absent/inaccessible messages raise the project error. This guard does not authorize
-  the callback owner. Do not repeat casts or silent guards after this validated boundary.
-- Outside handlers, use `reply_message` / `reply_message_rich` and `edit_message_text` / `edit_message_rich` from
-  `modules.utils_.reply_or_edit`. Replies
-  recover missing targets; edits route ephemeral messages and propagate errors. Handler edit helpers suppress only
-  unchanged-message errors; lower-level callers may interpret that error themselves.
-- Use `BooleanStatusHandler` for BooleanArg-based on/off settings. Another status abstraction needs a concrete
-  nonboolean parser and caller; do not cast BooleanArg output to an unconstrained generic type.
-- `common_try` is only for best-effort Telegram operations whose caller accepts its ignored errors. Do not wrap
-  an entire handler or persistence operation in generic retry/suppression.
+## Responses and authorization
 
-## Arguments, Filters, and Flags
+`self.answer(content)` on message handlers replies and recovers a missing reply target. Callback handlers use
+`self.edit_text(...)` / `self.edit_rich(...)`; dual-event handlers expose `answer(...)` / `answer_rich(...)`.
+Use direct aiogram methods for transports not covered by these helpers and deliberate new-message sends.
 
-- Use argument types from `korone.args` instead of manually splitting commands with arguments.
-- Define an immutable, slotted dataclass for parsed values, bind it with `ArgumentSchema(...)`, parameterize
-  `KoroneMessageHandler` with that dataclass, and read values from `self.args`.
-- If middleware also consumes parsed values, put the shared dataclass in the module's `args.py`, read
-  `PARSED_ARGUMENTS_KEY`, and narrow to that type. Do not read legacy per-argument `data` keys or import the handler.
-- Express optional arguments with dataclass defaults. Input that is present but invalid must remain an error; do not
-  recreate the removed `OptionalArg` fallback behavior.
-- Prefer core types such as `TextArg`, `WordArg`, `BooleanArg`, and `OrArg`; use module-local types such as
-  `korone.modules.users.args.UserArg` for domain-specific parsing and resolution.
-- Leave `arguments` unset for handlers without command arguments so `ArgumentsMiddleware` can take its fast path.
-- Localize argument descriptions with `lazy_gettext as l_`.
-- Use aiogram `Command`, `CommandStart`, `StateFilter`, and `F` with reusable filters from `korone.filters`.
-- Return a tuple from `filters()`.
-- Add `@flags.help(...)` to public commands and exclude internal, state-only, or callback-only routes.
-- Add `@flags.disableable(...)` only when the command participates in chat-level disabling.
-- Read handler flags in middleware with `aiogram.dispatcher.flags.get_flag(data, "name")`; do not reach through
-  `data["handler"].flags` directly.
-- Declare flags with aiogram's `@flags.<name>(...)` decorator or the registration `flags={...}` argument before the
-  handler is registered. For programmatically derived flags, apply the decorator to the handler class before calling
-  `register(...)`; do not mutate `HandlerObject.flags` after registration.
-- Keep custom flag names public-style without a leading underscore because aiogram's `FlagGenerator` rejects private
-  names. When subclasses can inherit a dynamic flag, explicitly apply a falsy value to ineligible subclasses so an
-  inherited value cannot accidentally enable middleware behavior.
+Outside handlers, use `reply_message` / `reply_message_rich` and `edit_message_text` / `edit_message_rich` from
+`modules.utils_.reply_or_edit`. Edits route ephemeral messages; low-level edits propagate unchanged-message errors,
+while callback/dual reply-or-edit helpers suppress only that error. Media fallback stays in its adapter.
+`common_try` is for accepted best-effort Telegram failures, not blanket handler/persistence suppression.
 
-## Responses and Localization
+Use `self.message` for a validated accessible callback/dual-event message. `check_for_message()` is an optional early
+explicit guard, not an owner check. Use typed `CallbackData` in `callbacks.py` with stable unique prefixes, narrow the
+payload, and authorize user-bound interactions separately. Guard genuinely optional Telegram fields and answer callback
+queries when feedback is required.
 
-- Wrap runtime text with `gettext as _` and deferred metadata with `lazy_gettext as l_`.
-- Import text primitives and declarative factories from `korone.ui` for structured output.
-- Pass `UI`, `UIExpression`, or aiogram `Text` values directly to `self.answer(...)`, `self.edit_text(...)`, and other
-  project boundaries; do not call `str()`, render HTML, or set a parse mode.
-- Use `template(...)` for translated strings containing formatted dynamic values, and use `link(...)` or `mention(...)`
-  for semantic links.
-- Import helpers from `korone.ui.rendering` only when implementing a low-level aiogram transport boundary that cannot
-  use a project handler helper.
-- Use plain translated strings for simple messages.
-- Run `localization-workflow` whenever visible text changes.
+Public admin helpers use Telegram IDs; use [persistence.md](persistence.md) for model keys. Share permission checks through
+`check_member_permissions` and `check_user_admin_permissions`, with anonymous identity resolution in the filter.
+Match Telegram errors through `utils.telegram_errors`; domain predicates reuse `normalized_error_message`.
 
-## Callback Data and FSM
+## Middleware and content
 
-- Define compact, typed `CallbackData` classes in the module's `callbacks.py` with unique stable prefixes.
-- Pass callback instances to keyboard builders and filter with `YourCallback.filter(...)` and `F` when needed.
-- Narrow `self.callback_data` before reading fields.
-- Store an owner ID and authorize user-bound interactions.
-- Answer callback queries promptly when feedback is required.
-- Keep FSM states near the owning feature; transition and clear state deliberately.
+Put module middleware in `middlewares/`, export entry points, and register in manifest `pre_setup()` hooks. Related
+startup/shutdown observers belong there too. Preserve outer/inner middleware order; locale fallback only covers locale
+resolution and must never catch and rerun a downstream handler. See [modules.md](modules.md) for hook concurrency.
 
-## Middleware Data and IDs
-
-- Pass middleware context through the shared `data` mapping.
-- Use `KoroneContextData`, `self.context`, or helpers in `korone.middlewares.context_data` instead of scattered casts.
-- Use `chat_id` and `user_id` for Telegram IDs.
-- Distinguish `ChatModel.chat_id` from its database primary key `ChatModel.id`.
-- Never pass a database primary key to Telegram API methods or retry Telegram-ID lookup as primary-key lookup.
-- Share member permission evaluation through `check_member_permissions`; use `check_user_admin_permissions` for
-  model/cache resolution and operator policy. Keep anonymous identity resolution in the filter.
-- Match Telegram failures with `utils.telegram_errors`. Feature predicates use `normalized_error_message` and
-  normalized phrases instead of independent casing or underscore rules.
-- Localization fallback is limited to locale resolution. Never rerun a failed handler under another middleware.
+Use plain translated strings for simple responses and public `korone.ui` factories for structured content. Pass UI or
+aiogram `Text` directly to helpers. Read [text-ui.md](text-ui.md) for composition/rendering changes and use
+[localization-workflow](../../localization-workflow/SKILL.md) when visible strings change.
 
 ## Validation
 
-- Check handler registration, filters, flags, argument parsing, callbacks, authorization, and FSM transitions.
-- Run focused Ruff checks and Pyright.
-- Broaden validation for shared handler bases, middleware, repositories, or module loading.
+Check the affected registration, typed parsing, flags, context, authorization, and response behavior with deterministic
+inputs. For shared middleware/handler changes include representative message, callback, inaccessible-message, and
+ephemeral paths as applicable. Run relevant Ruff/Pyright checks and controlled import/dispatcher checks.

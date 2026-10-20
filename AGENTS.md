@@ -1,66 +1,72 @@
-# PyKorone Codex Instructions
+# PyKorone
 
-## Repository Context
+Modular Telegram bot using aiogram, PostgreSQL, async SQLAlchemy, Redis, and gettext.
+Read Python and dependency versions from `pyproject.toml`, `.python-version`, and `uv.lock`.
+Developer setup lives in [README.md](README.md#development); deployment operations in [deploy/README.md](deploy/README.md).
 
-PyKorone is a modular Telegram bot built with Python, aiogram, PostgreSQL, Redis, SQLAlchemy async, Alembic, Ruff, Pyright, uv, and gettext catalogs. Treat `pyproject.toml` and `.python-version` as the sources of truth for the supported and local Python versions.
+## Workflows
 
-Keep repository guidance small and durable here. Use the domain skills under `.agents/skills/` for detailed workflows.
-Keep detailed decisions and their rationale in the relevant skill references, with basic developer setup in the README.
+Use the matching skill in [.agents/skills](.agents/skills). Choose the primary workflow by the requested outcome:
 
-## Default Workflow
+| Task | Skill |
+| --- | --- |
+| Diagnose or fix a bug, regression, or failing check | `issue-fixer` |
+| Assess recent aiogram releases against this project | `review-aiogram-updates` |
+| Add a completely new media provider | `add-media-platform` |
+| Create a new loadable top-level module | `create-korone-module` |
+| Other code or project-tooling implementation/review | `py-korone-development` |
+| Add, change, or remove user-facing strings/catalogs | Also use `localization-workflow` |
+| Create commits, when explicitly requested | `commit-by-scope` |
 
-- Read the nearest existing implementation and the relevant skill references before editing. Preserve domain
-  behavior while converging on canonical contracts; do not perpetuate a local workaround solely because it is nearby.
-- Keep edits scoped to the requested behavior and avoid unrelated formatting churn.
-- Use `rg` or `rg --files` for searches.
-- Use `uv` for project commands; do not introduce pip-only, poetry, or pipenv workflows.
-- Do not revert user changes or dirty worktree changes unless explicitly asked.
-- Prefer focused validation. Run broader checks when touching shared handlers, repositories, migrations, module loading, localization, or tooling.
+Specialized workflows link to shared development references; read only those needed for the affected contract.
+Use current implementations to verify those contracts, without copying a nearby workaround automatically.
+Keep changes scoped and preserve unrelated worktree changes. Use `rg` for searches and `uv` for project commands.
 
-## Common Commands
+## Project contracts
 
-- Install dependencies: `uv sync --locked`
-- Run the bot: `uv run python -m korone`
-- Ruff lint: `uv run ruff check`
-- Ruff format: `uv run ruff format`
-- Type check: `uv run pyright`
-- Automated tests: this project has no test suite. Do not create tests, test files, test fixtures, or introduce a test framework unless the user explicitly requests it. Validate with the smallest deterministic reproduction plus relevant Ruff and Pyright checks.
-- Update locale catalogs: `make update_lang`
-- Compile locale catalogs: `make compile_lang`
-- Create Alembic revision: `make db_revision m="message"`
-- Apply migrations: `make db_upgrade`
+- Fully annotate new and edited Python functions. Keep structured logging through `korone.logger.get_logger`.
+- Prefer handler bases from `korone.utils.handlers`; use project response helpers and central Telegram error predicates.
+  Keep domain-specific transport fallbacks in their owning adapter.
+- Compose structured output and module descriptions with `korone.ui`. Pass expressions or aiogram `Text` to project
+  helpers; render only at Telegram payload boundaries through `korone.ui.rendering`. Preserve entities without
+  stringifying expressions, HTML/parse-mode rendering, internal UI node imports, or private aiogram formatting state.
+- Keep feature SQL and transactions in repositories. Distinguish Telegram IDs from database keys explicitly and use
+  the entity's owning repository; never retry a lookup in a different ID namespace.
+- Preserve module manifests and loader contracts. Shared runtime resources and background tasks need an owner and
+  shutdown path; subprocesses use `korone.utils.subprocess.run_process` for timeout/cancellation cleanup.
+- Update and manually review gettext catalogs with visible string changes. Deferred translations remain uncached and
+  resolve in the current locale; do not copy Babel private state.
 
-## Skill Routing
+## Commands and validation
 
-- Use `issue-fixer` as the primary workflow for bugs, regressions, exceptions, failing checks, and unexpected behavior.
-- Use `review-aiogram-updates` as the primary workflow for assessing recent aiogram releases and their impact on PyKorone.
-- Use `add-media-platform` as the primary workflow only for a completely new supported media platform.
-- Use `create-korone-module` as the primary workflow only for a new top-level loadable module.
-- Otherwise, use `py-korone-development` for implementation or review under `src/korone/` and for project tooling, loading only references relevant to the affected boundary.
-- Add `localization-workflow` whenever user-facing strings or gettext catalogs change.
-- Use `commit-by-scope` only when the user explicitly asks to create one or more commits.
+| Purpose | Command |
+| --- | --- |
+| Install locked dependencies | `uv sync --locked` |
+| Lint / check formatting | `uv run ruff check <paths>` / `uv run ruff format --check <paths>` |
+| Type check | `uv run pyright` |
+| Update / compile catalogs | `make update_lang` / `make compile_lang` |
+| Generate migration | `make db_revision m="message"` |
+| Apply migrations | `make db_upgrade` |
+| Run the bot | `uv run python -m korone` |
+
+The project has no automated test suite. Do not create tests, test files, fixtures, or a test framework unless the
+user explicitly requests them. Use the smallest deterministic reproduction for behavior changes and the relevant
+Ruff/Pyright checks. Broaden validation for shared handlers, repositories, migrations, loading, localization, or runtime.
+Documentation-only changes need structural/link checks. Bot startup connects to services, applies migrations, and drops
+pending Telegram updates; use controlled reproductions for smoke checks. Report unverified behavior explicitly.
 
 ## Code Review Rules
 
-- Flag changes that bypass repository classes, project handler bases, module loader contracts, or the localization workflow.
-- Flag structured output that stringifies UI expressions, restores HTML/parse-mode rendering, imports internal UI nodes,
-  or depends on private aiogram formatting state; use `korone.ui` and project rendering boundaries instead.
-- Require focused regression evidence for behavior changes and validation proportional to the affected boundary.
-- Focus review comments on correctness, security, data flow, and project contracts; leave mechanically enforced formatting, lint, and typing findings to Ruff and Pyright.
+Flag changes that bypass repository ownership, handler/loader contracts, localization, or public UI/rendering boundaries.
+Focus on correctness, security, data flow, and project contracts. For behavior changes, require focused regression evidence
+proportional to the affected boundary. For UI/compiler changes, check nested aiogram formatting, lazy expressions, and
+multiline indentation with entities intact.
+Leave mechanically enforced formatting, lint, and typing findings to Ruff and Pyright.
 
-## Project Rules
+## Maintaining guidance
 
-- New and edited Python functions must have complete type annotations using modern syntax.
-- Prefer project handler bases from `korone.utils.handlers` over raw function-based aiogram handlers.
-- Build structured user-facing content and module descriptions with `korone.ui`; pass UI or aiogram `Text` objects to
-  project handler boundaries instead of converting them to strings, HTML, or parse-mode markup.
-- Import `korone.ui.rendering` only at low-level Telegram payload boundaries. When changing the UI compiler or
-  components, validate nested aiogram formatting, lazy expressions, and multiline indentation with entities intact.
-- Keep database access behind repository classes and async SQLAlchemy sessions.
-- Use structured logging through `korone.logger.get_logger`.
-- Keep module package metadata and loader contracts stable.
-- When strings shown to users change, update and manually review gettext catalogs in the same change.
-- Use the entity's owning repository and explicit Telegram/database ID namespaces; never fall back between namespaces.
-- Use project response helpers and central Telegram error predicates. Keep domain-specific transport fallbacks local.
-- Keep deferred translations uncached and evaluate them in the current locale; do not copy Babel private state.
-- Give asynchronous work an owner and shutdown path; use the shared subprocess runner for timeout/cancellation cleanup.
+Keep durable repository rules here and conditional workflows/decisions in the relevant skill reference. Update guidance
+when its contract changes; avoid generic Python tutorials, copied API manuals, and duplicated operational instructions.
+Follow OpenAI's [AGENTS.md guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md) and
+[skill authoring guidance](https://learn.chatgpt.com/docs/build-skills): concise discovery descriptions and references
+loaded only when relevant.

@@ -1,44 +1,35 @@
 ---
 name: py-korone-development
-description: Implement or review PyKorone code and project tooling. Use for changes under src/korone or to uv, Ruff, Pyright, Alembic, Babel, Docker, Makefile, and runtime bootstrap; load only the references matching the affected area. Do not use as the primary workflow for bug diagnosis, a new media platform, or a new top-level module.
+description: Implement or review PyKorone code and project tooling. For bugs, new media providers, or new loadable modules, use the specialized workflow first.
 ---
 
 # PyKorone Development
 
-Implement changes by treating the current repository as authoritative and loading only the technical references needed for the affected boundary.
+Use the current code as the contract source. Read the nearest implementation and select references by the responsibility
+being changed, rather than loading every reference for every Python edit.
 
-## Workflow
+| Affected responsibility | Reference |
+| --- | --- |
+| Python typing, runtime annotations, or abstraction choices | [python.md](references/python.md) |
+| Handlers, typed command arguments, callbacks, flags, permissions, middleware | [handlers-aiogram.md](references/handlers-aiogram.md) |
+| Structured output, UI compiler, entities, or lazy descriptions | [text-ui.md](references/text-ui.md) |
+| Manifests, loader, hooks, stats, exports, or inline providers | [modules.md](references/modules.md) |
+| Repositories, models, ID namespaces, transactions, or migrations | [persistence.md](references/persistence.md) |
+| Existing media pipeline or provider | [medias.md](references/medias.md) |
+| HTTP, subprocesses, file ownership, caches, startup, or shutdown | [runtime.md](references/runtime.md) |
+| Dependencies, uv, Ruff, Pyright, Makefile, Containerfile, or Quadlet | [tooling.md](references/tooling.md) |
 
-1. Inspect `git status` and preserve unrelated worktree changes.
-2. Read the nearest implementation and the relevant references below before designing the change. Preserve domain
-   behavior while converging on the shared contracts described in those references.
-3. Read each relevant reference completely before editing:
-   - Any Python change: [references/python.md](references/python.md)
-   - Handlers, aiogram, callbacks, filters, flags, project arguments, FSM, or middleware:
-     [references/handlers-aiogram.md](references/handlers-aiogram.md)
-   - Text UI expressions, compiler behavior, module descriptions, or message/caption payload rendering:
-     [references/text-ui.md](references/text-ui.md)
-   - Module manifests, package metadata, loader registration, hooks, stats, or exports:
-     [references/modules.md](references/modules.md)
-   - Any existing code under `src/korone/modules/medias/`:
-     [references/medias.md](references/medias.md)
-   - Dependencies, uv, Ruff, Pyright, pre-commit, Alembic, Babel, Docker, Makefile, or runtime bootstrap:
-     [references/tooling.md](references/tooling.md)
-4. Use the canonical boundary for the responsibility. Keep domain-specific exceptions local rather than building a
-   universal framework. Record shared decisions and their rationale once in the relevant skill reference; keep
-   `AGENTS.md` focused on general rules and routing, and the README on basic developer setup.
-5. Keep the patch scoped and keep shared contracts stable unless the request explicitly changes them.
-6. Use `localization-workflow` whenever user-facing strings or gettext catalogs change.
-7. Run focused validation first, then broaden checks when changing shared handlers, repositories, migrations, module loading, localization, or tooling.
+Keep feature logic in its owning module and use shared integration boundaries. Add abstractions only for concrete shared
+policies. Record a changed architectural contract and its rationale in its owning reference, without adding a rule for
+every local implementation detail. Use [localization-workflow](../localization-workflow/SKILL.md) for visible strings.
 
-## Validation Baseline
+## Validation
 
-- This project has no automated test suite. Do not create tests, test files, test fixtures, or introduce a test framework unless the user explicitly requests it.
-- Validate behavior with the smallest deterministic reproduction suited to the change.
-- Run `uv run ruff check <changed paths>` for Python changes.
-- Run `uv run pyright` when typing, public APIs, handlers, repositories, or shared runtime code change.
-- Run the specialized checks required by the selected references. Import affected modules because static checks
-  cannot detect every runtime annotation or inheritance problem.
-- For cross-cutting changes, load affected manifests/handlers in an isolated dispatcher, exercise locale/entity
-  boundaries and resource lifecycles in scope, and use deterministic inputs without production service writes.
-- Report commands, outcomes, and anything that could not be verified.
+Follow the no-new-tests policy in `AGENTS.md`. For behavior changes, use a focused deterministic reproduction with local
+inputs and controlled dependencies. Run `uv run ruff check <paths>` and `uv run ruff format --check <paths>` for Python
+edits; run `uv run pyright` for changed types, APIs, handlers, repositories, or shared runtime code.
+
+Select additional checks from the affected reference. Import/load checks matter for runtime annotations, inheritance,
+manifests, and registration, but imports of `korone` construct settings and runtime clients. Use controlled configuration
+and an isolated dispatcher when needed; do not start the bot to validate an ordinary edit.
+Report the changed behavior, validation results, and material limits.

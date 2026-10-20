@@ -1,51 +1,39 @@
 ---
 name: add-media-platform
-description: Add a new supported platform to src/korone/modules/medias. Use only when implementing and registering a new media provider, its URL detection, extraction, transport, and supported-platform localization. Do not use for fixes or refactors of existing platforms.
+description: Add and register a new PyKorone media provider. Use for a new supported platform, not fixes to an existing provider.
 ---
 
-# Add a PyKorone Media Platform
+# Add a Media Platform
 
-Implement and register a provider through the composed media pipeline without creating platform-specific handlers,
-sessions, caches, or download frameworks.
+Extend the composed media pipeline. Read the shared [media contract](../py-korone-development/references/medias.md),
+`models.py`, `container.py`, and one current provider with similar transport needs under `src/korone/modules/medias/`.
+Load the [runtime reference](../py-korone-development/references/runtime.md) only for HTTP, file, or subprocess changes.
 
-## Workflow
+## Provider boundary
 
-1. Read [py-korone-development](../py-korone-development/SKILL.md) and its Python, handlers, modules, medias, and
-   text-UI references.
-2. Inspect one simple provider and the existing provider closest to the new transport requirements.
-3. Verify the upstream contract when network access is available: canonical and alternate URLs, redirects, response
-   shapes, private/removed content, rate limits, headers, timeouts, media metadata, and fallbacks.
-4. Create `providers/<platform>/` with only the boundaries the platform needs:
-   - `constants.py` for URL patterns, endpoints, timeouts, and immutable protocol constants.
-   - `parser.py` for deterministic, network-free parsing into shared media models.
-   - `client.py` for an instantiable client receiving `HttpClient` in its constructor.
-   - `provider.py` for an instantiable object satisfying `MediaProvider` and receiving its client plus
-     `MediaDownloader`.
-   - `models.py` only for useful platform-specific value objects.
-   - `__init__.py` for intentional client/provider exports.
-5. Expose immutable `ProviderInfo` with a unique stable key, display name, website, compiled URL pattern, and any caption
-   options. Implement `fetch(url: str, *, workspace: Path) -> MediaPost | None` without inheriting a base provider;
-   pass the service-owned workspace through `DownloadOptions` and keep video outputs on disk until delivery finishes.
-6. Use `MediaDownloader.download(...)` and `DownloadOptions`. Add a source-loader strategy only for HLS, separate audio,
-   offload, or another real transport exception; delegate ordinary sources back to `download_source(...)`.
-7. Inject `FFmpegTranscoder` only when required; it owns media slots and delegates process cleanup to `run_process`. If FFmpeg downloads the upstream itself, reserve a downloader slot for
-   that operation.
-8. Use request-level `RetryPolicy` only for metadata or buffered bodies whose retry contract is known. Binary streaming
-   remains owned by `MediaDownloader`.
-9. Return `None` for expected unavailable, private, removed, invalid, unsupported, or empty content. Propagate
-   cancellation and let programmer errors reach `MediaService`.
-10. Instantiate the client/provider in `container.py` and add the provider once to the ordered tuple. Registry order
-    defines URL precedence.
-11. Update the visible supported-platform text and run `localization-workflow` when that text changes.
+Verify canonical/alternate URLs, redirects, response shapes, unavailable content, and media transports against upstream
+sources and safe captured inputs. If upstream verification is unavailable, make that limitation explicit.
+
+Create `providers/<platform>/` with the pieces it needs: protocol constants, a deterministic parser, an instantiable
+client receiving `HttpClient`, and a provider receiving that client and `MediaDownloader`. Add platform-specific models
+only when useful. Keep the provider structural (`MediaProvider`), with immutable `ProviderInfo` and
+`fetch(url: str, *, workspace: Path) -> MediaPost | None`.
+
+Pass the service-owned workspace through `DownloadOptions`. Use the shared downloader for ordering, size enforcement,
+retries, and source file-ID reuse. A custom source loader is for HLS, separate audio, offload, or another concrete transport
+exception; delegate ordinary sources to `download_source(...)`. Inject `FFmpegTranscoder` when needed, and reserve a
+downloader slot if FFmpeg itself fetches upstream content. Keep disk outputs alive until delivery completes.
+
+Return `None` for expected unavailable/private/removed/unsupported/empty content. A successful post contains media.
+Propagate cancellation and let unexpected defects reach the service boundary.
+
+Instantiate the provider once in the ordered tuple in `container.py`; order determines URL precedence. Reuse the shared
+handler, cache, and delivery adapter. Update supported-platform help text and complete
+[localization-workflow](../localization-workflow/SKILL.md).
 
 ## Validation
 
-- Canonical, alternate, mobile, regional, embedded, and shortened URLs supported by the platform.
-- Invalid URLs and private, removed, empty, rate-limited, image, video, carousel, and quote cases that apply.
-- Non-empty `MediaPost` only on success; `PreparedMedia` metadata and source URLs remain correct.
-- Metadata retry, streaming retry, timeout, cancellation, size limits, source cache hits, and special transports.
-- Registry precedence, `MediaUrlFilter`, shared handler delivery, cache v2, and manifest loading.
-- Catalog update/compilation when localization changes.
-- Deterministic reproductions using captured inputs; do not depend on a live platform response.
-- Do not add tests or a test framework unless the user explicitly requests them.
-- Focused Ruff and full Pyright with zero diagnostics.
+Use deterministic captured inputs for the supported URL variants, parser/media metadata, expected misses, and applicable
+image/video/carousel cases. Exercise registration and only the changed transport contracts: retries, limits, cache reuse,
+cancellation, or special loaders. Follow `AGENTS.md` for Ruff, Pyright, and the no-new-tests policy. Report any live
+upstream behavior that remains unverified.

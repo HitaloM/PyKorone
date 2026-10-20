@@ -1,68 +1,60 @@
-# Medias Module
+# Media pipeline
 
-Apply these contracts to changes under `src/korone/modules/medias/`. For a completely new supported platform, use
-`add-media-platform` as the primary workflow.
+Use for existing code in `src/korone/modules/medias/`; a new platform uses
+[add-media-platform](../../add-media-platform/SKILL.md) as its primary workflow.
 
-## Architecture and Runtime Flow
+## Ownership
 
-- Keep immutable domain values and the `MediaProvider` protocol in `models.py`.
-- Assemble cache, semaphores, downloader, transform services, clients, provider instances, registry, and application
-  service only in `container.py`.
-- Keep URL detection in `MediaUrlFilter`, provider precedence in `ProviderRegistry`, and orchestration in `MediaService`.
-- Keep `MediaHandler` as the Telegram error/telemetry boundary and `TelegramMediaDelivery` as the only Telegram media
-  transport adapter.
-- Preserve chat-level auto-download settings and the `/url` bypass behavior.
-- Do not recreate a generic `utils/` package, provider inheritance, classmethod providers, or feature-local HTTP/cache
-  singletons.
+| Responsibility | Source |
+| --- | --- |
+| Immutable domain values and structural `MediaProvider` protocol | `models.py` |
+| Cache, semaphores, clients/providers, registry, service assembly | `container.py` |
+| Detection and ordered provider precedence | `filters.py`, `registry.py` |
+| Cache lookup, post workspace/concurrency, fetch/send/cache orchestration | `service.py` |
+| Telegram error/telemetry boundary and transport adapter | `handlers/media.py`, `delivery.py` |
+| Bounded downloads and transforms | `download.py`, `transforms/` |
 
-## Provider Contract
+Preserve auto-download settings and the `/url` bypass. Do not add platform-specific handlers, provider inheritance,
+classmethod providers, or parallel HTTP/cache singletons.
 
-Every provider is an instance satisfying `MediaProvider`, exposes immutable `ProviderInfo`, and implements
-`fetch(url: str, *, workspace: Path) -> MediaPost | None`.
+## Provider and data flow
 
-- Inject the platform client and shared `MediaDownloader` through the provider constructor.
-- Add the instance to the ordered tuple built in `container.py`; do not create a platform-specific handler.
-- Keep clients responsible for upstream requests and parsers deterministic, side-effect free, and network free.
-- Return `None` for supported unavailable, removed, private, invalid, or empty content.
-- Return a `MediaPost` with at least one `PreparedMedia` on success.
-- Use `MediaDownloader.download(...)` with `DownloadOptions`. Pass a source-loader strategy only for HLS remuxing,
-  separate audio, offload, or another transport-specific requirement.
-- Propagate cancellation. `MediaService` isolates provider failures, converting timeouts to misses and logging other
-  exceptions before returning a miss. Do not add provider-local broad catches or repeat those logs.
+Providers are instances with immutable `ProviderInfo` and `fetch(url: str, *, workspace: Path) -> MediaPost | None`.
+Inject their client and the shared downloader. Clients own upstream requests; parsers are deterministic and network-free.
+Return `None` for expected private/removed/invalid/empty content and a nonempty post on success. Cancellation propagates;
+`MediaService._safe_fetch` converts timeouts and unexpected provider failures to misses with logging at that boundary.
 
-## HTTP, Downloads, and Transforms
+Use `MediaSource` before downloading, `PreparedMedia` for Telegram-ready files, `MediaPost` for the post, and
+`DeliveryReceipt` for sent file IDs. Delivery returns receipts; only the service persists them to the media cache.
 
-- Inject the runtime-owned `korone.http.HttpClient`; access its started `session` property instead of creating sessions.
-- Use request-level `RetryPolicy` for metadata or buffered payloads when it preserves the upstream's attempts, statuses,
-  backoff, jitter, timeout, redirects, and body-read behavior.
-- Keep bounded binary streaming retry in `MediaDownloader`; it owns size enforcement, truncated-body recovery, source
-  file-ID reuse, ordering, and cancellation.
-- `MediaService` owns the post workspace and concurrency slot through fetch, send, and cache persistence. Providers
-  receive `workspace` explicitly and pass it through `DownloadOptions`; source outputs use unique subdirectories.
-  Cached posts bypass the active-post limit. Videos stream to disk in both API modes; the injected transport budget
-  is 2 GB decimal locally and 50 MiB publicly. Photo buffers stay bounded at 50 MiB; thumbnails at 200 KiB.
-- Keep `PreparedMedia.file` as `FSInputFile` for disk outputs and as a string only for cached Telegram file IDs.
-  Resolve shared server paths in delivery, including albums. FFmpeg returns a validated nonempty file path, never a
-  video-sized byte buffer, and its subprocess must finish or be reaped before workspace cleanup.
-- Use `PhotoProcessor` for Telegram-safe photos and `FFmpegTranscoder` for subprocess output. The transcoder delegates
-  timeout and child-process cleanup to `korone.utils.subprocess.run_process`. Provider-specific network
-  transforms must also reserve a downloader slot when FFmpeg performs the upstream download itself.
-- Reuse `DEFAULT_MEDIA_HEADERS` and `DEFAULT_MEDIA_TIMEOUT` unless the platform requires verified overrides.
+## Download and file lifetime
 
-## Models, Cache, and Delivery
+Use `MediaDownloader.download(...)` / `DownloadOptions`. A source-loader strategy handles HLS, separate audio, offload,
+or another transport exception and delegates ordinary sources to `download_source(...)`. Preserve streaming retries,
+truncated-body cleanup, size checks, source file-ID reuse, and source order. Metadata may use HTTP `RetryPolicy` when its
+request semantics fit; streaming retry remains in the downloader.
 
-- Use `MediaSource` before download, `PreparedMedia` for Telegram-ready media, `MediaPost` for a fetched post, and
-  `DeliveryReceipt` for sent Telegram file IDs.
-- Use the injected `MediaCache`. Keep its `media:v2:post` and `media:v2:source` key contracts, TTL, batch ordering,
-  corruption-as-miss behavior, and Redis failure degradation stable.
-- Preserve captions, quotes, album order/limits, file-ID reuse, invalid-cache recovery, photo fallback, Telegram flood
-  control, missing-reply behavior, permissions handling, and send timeouts.
-- Keep cache persistence in `MediaService`; delivery returns receipts and must not write Redis directly.
-- Log recovery once at the owning layer with provider, source URL, stage, source index, and source kind where useful.
+`MediaService` owns a post workspace/concurrency slot through fetch, delivery, and cache persistence. Cache hits bypass
+the active-post limit. Pass its workspace through download options, using separate source subdirectories. Videos stream
+to disk in both Bot API modes; read current video/photo/thumbnail limits from `korone.constants` and downloader settings.
+
+Keep disk output as `FSInputFile`; strings in `PreparedMedia.file` are cached Telegram file IDs. Resolve shared server paths
+only in delivery, including albums. `FFmpegTranscoder` returns a validated nonempty path and uses the shared subprocess
+runner; its child must exit or be reaped before workspace cleanup. It owns transform slots; FFmpeg upstream downloads
+also reserve a downloader slot. `PhotoProcessor` owns Telegram-safe photo conversion.
+
+Read [runtime.md](runtime.md) for shared HTTP, subprocess, and Telegram file ownership. Reuse default media headers and
+timeouts unless the platform requires a verified override.
+
+## Cache and recovery
+
+Preserve `media:v2:post` / `media:v2:source` keys, TTLs, ordering, corruption-as-miss, and Redis failure degradation.
+Keep captions, quotes, album ordering/limits, invalid-cache recovery, photo fallback, flood control, missing replies,
+permissions handling, and send timeouts when changing their consumers. Log recovery once with useful provider/source/stage
+context at its owning boundary rather than repeating broad provider catches.
 
 ## Validation
 
-- Verify registry order and URL detection, representative parser inputs, cache v2, source reuse, captions, quotes,
-  single media, albums, retries, fallbacks, cancellation, transform limits, and shutdown behavior affected by the change.
-- Import the manifest, run focused Ruff and full Pyright, and use captured local inputs or deterministic fakes.
-- Do not create tests, test files, fixtures, or a test framework unless the user explicitly requests it.
+Use captured local inputs or deterministic fakes for changed parsing, detection/registry order, media metadata, cache
+reuse, delivery, and transport paths. Include relevant limits, retries, cancellation, or cleanup when those contracts
+change. Use controlled manifest imports and relevant Ruff/Pyright checks; follow `AGENTS.md`'s no-new-tests policy.
