@@ -52,6 +52,35 @@ Project rules and workflow routing live in [AGENTS.md](AGENTS.md). Detailed arch
 and validation workflows live in the [development skill and its references](.agents/skills/py-korone-development/SKILL.md)
 and the other [domain skills](.agents/skills).
 
+## Docker
+
+Copy the configuration examples and replace their credential placeholders:
+
+```sh
+cp data/config.example.env data/config.env
+cp data/docker.example.env data/docker.env
+```
+
+Set `TOKEN` in `data/config.env` and `TELEGRAM_API_ID` / `TELEGRAM_API_HASH` in `data/docker.env`.
+The latter are application credentials from [my.telegram.org](https://my.telegram.org/apps), as required by the
+[Bot API image](https://github.com/aiogram/telegram-bot-api#configuration), and are separate from the bot token.
+The bot example documents optional settings, including owner/operator IDs, modules, integrations and media limits.
+Keep optional settings commented when unused.
+
+```sh
+docker compose up -d --build
+docker compose logs -f korone-bot
+```
+
+Compose configures PostgreSQL, Redis, the local Bot API server and shared file storage automatically, overriding
+the corresponding host settings in `data/config.env`. Without `WEBHOOK_DOMAIN`, the bot uses long polling.
+Startup applies pending database migrations.
+
+For the optional Cloudflare Tunnel, set `TUNNEL_TOKEN` in `data/docker.env`, configure its public hostname to forward
+to `http://korone-bot:9669`, and set `WEBHOOK_DOMAIN` and `WEBHOOK_SECRET` in `data/config.env`. Then run
+`docker compose --profile tunnel up -d --build`. The public hostname must match `WEBHOOK_DOMAIN`; the configured
+`WEBHOOK_PATH` must reach the bot unchanged.
+
 ## License
 
 PyKorone is distributed under the [GNU Affero General Public License v3.0](LICENSE).

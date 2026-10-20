@@ -13,6 +13,8 @@ __pycache__
 .mypy_cache
 .env
 .env.*
+data/config.env
+data/docker.env
 build
 dist
 *.egg-info
