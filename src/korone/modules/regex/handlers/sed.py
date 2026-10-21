@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from aiogram import flags
 
 from korone.modules.regex.utils import SED_PATTERN, SedPatternFilter, process_command
+from korone.modules.utils_.reply_or_edit import reply_message
 from korone.ui import template
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -29,12 +30,12 @@ class SedHandler(KoroneMessageHandler):
         if not text:
             return
 
-        reply_message = self.event.reply_to_message
-        if not reply_message:
+        replied_message = self.event.reply_to_message
+        if not replied_message:
             await self.answer(_("No message to apply the substitution."))
             return
 
-        original_text = reply_message.text or reply_message.caption or ""
+        original_text = replied_message.text or replied_message.caption or ""
         if not original_text:
             await self.answer(_("No text to apply the substitution."))
             return
@@ -68,4 +69,8 @@ class SedHandler(KoroneMessageHandler):
             await self.answer(_("Your regex didn't change anything from the original message."))
             return
 
-        await self.bot.send_message(self.chat.chat_id, modified_text, reply_to_message_id=reply_message.message_id)
+        if not modified_text.strip():
+            await self.answer(_("The substitution produced an empty message."))
+            return
+
+        await reply_message(replied_message, modified_text)

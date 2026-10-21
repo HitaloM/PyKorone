@@ -1248,6 +1248,10 @@ msgstr ""
 msgid "Unknown flag: {flag}"
 msgstr ""
 
+#: src/korone/modules/regex/handlers/sed.py:73
+msgid "The substitution produced an empty message."
+msgstr ""
+
 #: src/korone/modules/stickers/__init__.py:32
 msgid "Stickers"
 msgstr ""

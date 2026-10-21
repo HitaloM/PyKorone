@@ -1252,6 +1252,10 @@ msgstr "O padrão é muito longo. Use padrões menores."
 msgid "Unknown flag: {flag}"
 msgstr "Flag desconhecida: {flag}"
 
+#: src/korone/modules/regex/handlers/sed.py:73
+msgid "The substitution produced an empty message."
+msgstr "A substituição produziu uma mensagem vazia."
+
 #: src/korone/modules/stickers/__init__.py:32
 msgid "Stickers"
 msgstr "Figurinhas"
