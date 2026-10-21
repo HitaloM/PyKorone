@@ -6,6 +6,15 @@ if TYPE_CHECKING:
 
 
 @dataclass(frozen=True, slots=True)
+class _PageResponse:
+    status: int
+    url: str
+    body: str
+    redirects: tuple[tuple[int, str], ...] = ()
+    retry_after: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class _PostRef:
     kind: str
     name: str | None

@@ -1,14 +1,12 @@
 import html
 import re
-from typing import TYPE_CHECKING
 from urllib.parse import urldefrag, urljoin, urlparse
+
+from lxml import html as lxml_html
 
 from korone.modules.medias.parsing import coerce_int, coerce_str, ensure_url_scheme
 
-from .constants import POST_TYPE_REGEX
-
-if TYPE_CHECKING:
-    from lxml import html as lxml_html
+from .constants import GO_AWAY_VERIFY_PATH, POST_TYPE_REGEX
 
 
 def normalize_post_id(post_id: str) -> str | None:
@@ -37,8 +35,59 @@ def is_share_url(url: str) -> bool:
 
 
 def looks_like_block_page(html_content: str, markers: tuple[str, ...]) -> bool:
-    lowered = html_content.lower()
+    lowered = html.unescape(html_content).lower()
     return any(marker in lowered for marker in markers)
+
+
+def extract_go_away_refresh(html_content: str, base_url: str) -> tuple[float, str] | None:
+    try:
+        tree = lxml_html.fromstring(html_content)
+    except ValueError, TypeError:
+        return None
+    for meta in tree.xpath("//meta[@content]"):
+        if (meta.get("http-equiv") or "").casefold() != "refresh":
+            continue
+        match = re.fullmatch(r"\s*(\d+(?:\.\d+)?)\s*;\s*url\s*=\s*(.+?)\s*", meta.get("content"), re.IGNORECASE)
+        if not match:
+            continue
+        target = urljoin(base_url, match.group(2).strip("\"'"))
+        parsed = urlparse(target)
+        if same_origin(base_url, target) and parsed.path == GO_AWAY_VERIFY_PATH:
+            return float(match.group(1)), target
+    return None
+
+
+def same_origin(first: str, second: str) -> bool:
+    left, right = urlparse(first), urlparse(second)
+    return (
+        left.scheme in {"http", "https"}
+        and left.scheme == right.scheme
+        and left.netloc.casefold() == right.netloc.casefold()
+        and not right.username
+        and not right.password
+    )
+
+
+def extract_post_tree(html_content: str, post_id: str) -> lxml_html.HtmlElement | None:
+    try:
+        tree = lxml_html.fromstring(html_content)
+    except ValueError, TypeError:
+        return None
+    posts = tree.xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' post ') and @id=$id]", id=post_id)
+    if not posts:
+        # Single-post Redlib pages omit the listing's post ID attribute.
+        urls = tree.xpath("//p[@id='reddit_url']/text() | //meta[@property='og:url']/@content")
+        if not any(re.search(rf"/comments/{re.escape(post_id)}(?:/|$)", urlparse(url).path) for url in urls):
+            return None
+        posts = tree.xpath(
+            "//div[not(@id) and contains(concat(' ', normalize-space(@class), ' '), ' post ') "
+            "and contains(concat(' ', normalize-space(@class), ' '), ' highlighted ')]"
+        )
+        if len(posts) != 1:
+            return None
+    if not posts or not posts[0].xpath(".//*[contains(concat(' ', normalize-space(@class), ' '), ' post_title ')]"):
+        return None
+    return posts[0]
 
 
 def normalize_media_url(base_url: str, candidate: str | None) -> str:

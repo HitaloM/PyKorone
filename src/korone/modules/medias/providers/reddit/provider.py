@@ -1,4 +1,7 @@
-from dataclasses import replace
+import asyncio
+from contextlib import asynccontextmanager
+from dataclasses import dataclass, replace
+from time import monotonic
 from typing import TYPE_CHECKING
 from urllib.parse import quote, urljoin, urlparse, urlunparse
 
@@ -13,17 +16,21 @@ from korone.modules.medias.parsing import coerce_int
 
 from . import hls, parser
 from .constants import (
+    ANUBIS_PASS_CHALLENGE_PATH,
     BLOCK_MARKERS,
+    GO_AWAY_VERIFY_PATH,
     PATTERN,
     PLAYLIST_REGEX,
     REDDIT_HLS_REMUX_TIMEOUT_SECONDS,
+    REDDIT_METADATA_TIMEOUT_SECONDS,
     REDLIB_INSTANCES,
     REDLIB_REQUEST_COOKIES,
     VIDEO_REGEX,
 )
-from .models import _PostRef, _ScrapedPost
+from .models import _PageResponse, _PostRef, _ScrapedPost
 
 if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
     from pathlib import Path
 
     from aiogram.types import InputFile
@@ -36,9 +43,26 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
+@dataclass(slots=True)
+class _MetadataBudget:
+    remaining: float = REDDIT_METADATA_TIMEOUT_SECONDS
+
+    @asynccontextmanager
+    async def scope(self) -> AsyncGenerator[None]:
+        if self.remaining <= 0:
+            raise TimeoutError
+        started = monotonic()
+        try:
+            async with asyncio.timeout(self.remaining):
+                yield
+        finally:
+            self.remaining -= monotonic() - started
+
+
 class RedditProvider:
     info = ProviderInfo(key="reddit", name="Reddit", website="Reddit", pattern=PATTERN, author_handle_prefix="")
     _TIMEOUT = aiohttp.ClientTimeout(total=90, connect=20, sock_read=60)
+    _METADATA_TIMEOUT = aiohttp.ClientTimeout(total=30, connect=10, sock_read=20)
     _video_regex = VIDEO_REGEX
     _playlist_regex = PLAYLIST_REGEX
 
@@ -48,50 +72,72 @@ class RedditProvider:
         self._transcoder = transcoder
 
     async def fetch(self, url: str, *, workspace: Path) -> MediaPost | None:
-        post_ref = await self._resolve_post_ref(url)
-        if not post_ref:
+        budget = _MetadataBudget()
+        attempted = 0
+        try:
+            async with budget.scope():
+                post_ref = await self._resolve_post_ref(url)
+            if post_ref is None:
+                await logger.awarning("[Reddit] Could not resolve post", source_url=url, stage="resolve")
+                return None
+
+            for instance in self._instance_candidates():
+                attempted += 1
+                redlib_url = self._build_redlib_url(post_ref, instance)
+                async with budget.scope():
+                    page = await self._fetch_redlib_html(redlib_url)
+                    if page is None:
+                        continue
+                    scraped = await self._scrape_post(page.body, page.url, post_ref)
+                if scraped is None:
+                    await logger.adebug("[Reddit] Invalid post page or media metadata", url=redlib_url, stage="extract")
+                    continue
+                if not scraped.media_sources:
+                    return None
+
+                media = await self._downloader.download(
+                    scraped.media_sources,
+                    options=DownloadOptions(
+                        workspace=workspace,
+                        filename_prefix="reddit_media",
+                        label=self.info.name,
+                        max_size=self._downloader.max_size,
+                        timeout=self._TIMEOUT,
+                    ),
+                    loader=self._download_source,
+                )
+                if not media:
+                    await logger.adebug("[Reddit] Instance media preparation failed", url=redlib_url, stage="download")
+                    continue
+                return MediaPost(
+                    author_name=scraped.author,
+                    author_handle=scraped.subreddit,
+                    text=scraped.title,
+                    url=scraped.post_url,
+                    website=self.info.website,
+                    media=media,
+                )
+        except TimeoutError:
+            if budget.remaining > 0:
+                raise
+            await logger.awarning(
+                "[Reddit] Metadata budget exhausted",
+                source_url=url,
+                attempted_instances=attempted,
+                timeout_seconds=REDDIT_METADATA_TIMEOUT_SECONDS,
+            )
             return None
-
-        html_payload = await self._fetch_redlib_payload(post_ref)
-        if not html_payload:
-            return None
-
-        html_content = html_payload["html"]
-        base_url = html_payload["base_url"]
-
-        scraped = await self._scrape_post(html_content, base_url, post_ref)
-        if not scraped or not scraped.media_sources:
-            return None
-
-        media = await self._downloader.download(
-            scraped.media_sources,
-            options=DownloadOptions(
-                workspace=workspace,
-                filename_prefix="reddit_media",
-                label=self.info.name,
-                max_size=self._downloader.max_size,
-                timeout=self._TIMEOUT,
-            ),
-            loader=self._download_source,
-        )
-        if not media:
-            return None
-
-        return MediaPost(
-            author_name=scraped.author or "",
-            author_handle=scraped.subreddit or "",
-            text=scraped.title,
-            url=scraped.post_url,
-            website=self.info.website,
-            media=media,
-        )
+        await logger.awarning("[Reddit] All instances failed", source_url=url, attempted_instances=attempted)
+        return None
 
     async def _resolve_post_ref(self, url: str) -> _PostRef | None:
         post_ref = self._extract_post_ref(url)
         if post_ref or not parser.is_share_url(url):
             return post_ref
 
-        resolved_url = await self._client.resolve_url(url, headers=DEFAULT_MEDIA_HEADERS, request_timeout=self._TIMEOUT)
+        resolved_url = await self._client.resolve_url(
+            url, headers=DEFAULT_MEDIA_HEADERS, request_timeout=self._METADATA_TIMEOUT
+        )
         if resolved_url:
             if post_ref := self._extract_post_ref(resolved_url):
                 return post_ref
@@ -124,11 +170,11 @@ class RedditProvider:
             )
         return list(dict.fromkeys(candidates))
 
-    def _extract_post_ref_from_payload(self, payload: dict[str, str]) -> _PostRef | None:
-        base_url = payload.get("base_url", "")
+    def _extract_post_ref_from_payload(self, payload: _PageResponse) -> _PostRef | None:
+        base_url = payload.url
         candidates = [base_url]
         try:
-            tree = lxml_html.fromstring(payload.get("html", ""))
+            tree = lxml_html.fromstring(payload.body)
         except ValueError, TypeError:
             tree = None
 
@@ -191,67 +237,52 @@ class RedditProvider:
             return f"{instance_base}/{post_ref.kind}/{quote(post_ref.name)}/comments/{quote(post_ref.post_id)}"
         return f"{instance_base}/comments/{quote(post_ref.post_id)}"
 
-    async def _fetch_redlib_payload(self, post_ref: _PostRef) -> dict[str, str] | None:
-        for instance in self._instance_candidates():
-            redlib_url = self._build_redlib_url(post_ref, instance)
-            payload = await self._fetch_redlib_html(redlib_url)
-            if not payload:
-                continue
-
-            html_content = payload.get("html", "")
-            if parser.looks_like_block_page(html_content, BLOCK_MARKERS):
-                await logger.adebug("[Reddit] Redlib blocked request", url=redlib_url)
-                continue
-
-            base_url = payload.get("base_url") or redlib_url
-            return {"html": html_content, "base_url": base_url}
-
-        return None
-
-    async def _fetch_redlib_html(self, redlib_url: str) -> dict[str, str] | None:
-        payload: dict[str, str] | None = None
+    async def _fetch_redlib_html(self, redlib_url: str) -> _PageResponse | None:
         try:
-            payload = await self._client.request_page(
-                redlib_url, headers=DEFAULT_MEDIA_HEADERS, cookies=REDLIB_REQUEST_COOKIES, request_timeout=self._TIMEOUT
-            )
-            if not payload:
-                await logger.adebug("[Reddit] Non-200 Redlib response", url=redlib_url)
-                return None
-
-            html_content = payload.get("html", "")
-            if not parser.looks_like_block_page(html_content, BLOCK_MARKERS):
-                return payload
-
-            solved_payload = await self._client.solve_anubis(
-                challenge_html=html_content,
-                challenge_url=payload.get("base_url") or redlib_url,
+            page = await self._client.request_page(
+                redlib_url,
                 headers=DEFAULT_MEDIA_HEADERS,
-                request_timeout=self._TIMEOUT,
+                cookies=REDLIB_REQUEST_COOKIES,
+                request_timeout=self._METADATA_TIMEOUT,
             )
-            if solved_payload:
-                return solved_payload
-        except TimeoutError:
-            await logger.awarning("[Reddit] Timeout while fetching Redlib page", url=redlib_url)
+        except (TimeoutError, aiohttp.ClientError) as exc:
+            await logger.adebug("[Reddit] Page request failed", error=str(exc), url=redlib_url, stage="post_page")
             return None
-        except aiohttp.ClientError as exc:
-            await logger.awarning("[Reddit] Failed to fetch Redlib page", error=str(exc), url=redlib_url)
+        if page is None:
             return None
-        return payload
+        if page.status != 200 or parser.looks_like_block_page(page.body, BLOCK_MARKERS):
+            verifying = urlparse(page.url).path.endswith(ANUBIS_PASS_CHALLENGE_PATH) or (
+                urlparse(page.url).path == GO_AWAY_VERIFY_PATH
+            )
+            await logger.adebug(
+                "[Reddit] Challenge verification failed" if verifying else "[Reddit] Post page unavailable",
+                url=urlparse(page.url)._replace(query="", fragment="").geturl(),
+                status=page.status,
+                stage="challenge_submit" if verifying else "post_page",
+            )
+            return None
+        return page
 
     async def _scrape_post(self, html_content: str, base_url: str, post_ref: _PostRef) -> _ScrapedPost | None:
-        try:
-            tree = lxml_html.fromstring(html_content)
-        except ValueError, TypeError:
+        tree = parser.extract_post_tree(html_content, post_ref.post_id)
+        if tree is None:
             return None
+        post_url = self._extract_post_url(tree, post_ref)
+        # Keep comment bodies and unrelated posts out of media discovery.
+        post_html = lxml_html.tostring(tree, encoding="unicode")
+        assert isinstance(post_html, str)
+        tree = lxml_html.fromstring(post_html)
 
         post_type = parser.extract_post_type(html_content)
         author = parser.extract_node_text(tree, "//a[contains(@class, 'post_author')]")
         subreddit = parser.extract_node_text(tree, "//a[contains(@class, 'post_subreddit')]")
         title = parser.extract_title(tree)
-        post_url = self._extract_post_url(tree, post_ref)
 
-        sources = await self._extract_media_sources(tree, html_content, base_url, post_type)
-        if not sources:
+        sources = await self._extract_media_sources(tree, post_html, base_url, post_type)
+        if not sources and (
+            post_type in {"video", "gif", "image", "gallery"}
+            or tree.xpath(".//video | .//div[contains(@class, 'gallery')] | .//a[contains(@class, 'post_media_image')]")
+        ):
             return None
 
         return _ScrapedPost(author=author, subreddit=subreddit, title=title, post_url=post_url, media_sources=sources)
@@ -274,6 +305,8 @@ class RedditProvider:
     ) -> list[MediaSource]:
         preferred = await self._extract_preferred_sources(tree, html_content, base_url, post_type)
         sources = self._normalize_sources(preferred, base_url)
+        if post_type in {"video", "gif"}:
+            return sources
         if not sources:
             sources = self._normalize_sources(self._gallery_sources(tree), base_url)
         if not sources:
@@ -339,8 +372,8 @@ class RedditProvider:
         video_nodes = tree.xpath(
             "//div[contains(@class, 'post_media_content')]//video[contains(@class, 'post_media_video')]"
         )
-        if video_nodes and (source := await self._extract_video_node_source(video_nodes[0], base_url)):
-            return source
+        if video_nodes:
+            return await self._extract_video_node_source(video_nodes[0], base_url)
         return await self._extract_embedded_video_source(html_content, base_url)
 
     async def _extract_video_node_source(self, video_node: lxml_html.HtmlElement, base_url: str) -> MediaSource | None:
@@ -416,7 +449,10 @@ class RedditProvider:
     async def _fetch_text(self, url: str) -> str | None:
         try:
             text = await self._client.fetch_text(
-                url, headers=DEFAULT_MEDIA_HEADERS, cookies=REDLIB_REQUEST_COOKIES, request_timeout=self._TIMEOUT
+                url,
+                headers=DEFAULT_MEDIA_HEADERS,
+                cookies=REDLIB_REQUEST_COOKIES,
+                request_timeout=self._METADATA_TIMEOUT,
             )
         except TimeoutError:
             await logger.awarning("[Reddit] Playlist request timed out", url=url)
@@ -425,7 +461,7 @@ class RedditProvider:
             await logger.awarning("[Reddit] Playlist request failed", error=str(exc), url=url)
             return None
 
-        if text is None:
+        if text is None or not text.lstrip("\ufeff \t\r\n").startswith("#EXTM3U"):
             await logger.adebug("[Reddit] Failed to fetch playlist", url=url)
             return None
 

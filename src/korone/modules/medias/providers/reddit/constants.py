@@ -7,13 +7,16 @@ REDLIB_INSTANCES = (
     "https://redlib.privacyredirect.com",
     "https://redlib.nadeko.net",
     "https://redlib.privadency.com",
-    "https://redlib.4o1x5.dev",
 )
-REDDIT_PATTERN_HOSTS = tuple(urlparse(instance).netloc for instance in REDLIB_INSTANCES)
+REDDIT_PATTERN_HOSTS = (*tuple(urlparse(instance).netloc for instance in REDLIB_INSTANCES), "redlib.4o1x5.dev")
 REDDIT_PATTERN_HOSTS_REGEX = "|".join(re.escape(host) for host in REDDIT_PATTERN_HOSTS)
 ANUBIS_PASS_CHALLENGE_PATH = "/.within.website/x/cmd/anubis/api/pass-challenge"
 REDLIB_REQUEST_COOKIES = {"use_hls": "on", "hide_hls_notification": "on"}
 REDDIT_HLS_REMUX_TIMEOUT_SECONDS = 180
+REDDIT_METADATA_TIMEOUT_SECONDS = 90
+GO_AWAY_VERIFY_PATH = (
+    "/.well-known/.git.gammaspectra.live/git/go-away/cmd/go-away/challenge/meta-refresh/verify-challenge"
+)
 
 PATTERN = re.compile(
     rf"https?://(?:"
@@ -29,4 +32,4 @@ VIDEO_REGEX = re.compile(r'(?s)<source\s+[^>]*src="([^"]+)"[^>]*type="video/mp4"
 PLAYLIST_REGEX = re.compile(r'(?s)<source\s+[^>]*src="([^"]+)"[^>]*type="application/vnd\.apple\.mpegurl"')
 JSON_SCRIPT_REGEX_TEMPLATE = r'(?is)<script[^>]*\bid=["\']{script_id}["\'][^>]*>(.*?)</script>'
 META_REFRESH_REGEX = re.compile(r'(?is)<meta[^>]*http-equiv=["\']refresh["\'][^>]*content=["\']([^"\']+)["\']')
-BLOCK_MARKERS = ("anubis_challenge", "making sure you're not a bot", "<title>403")
+BLOCK_MARKERS = ("anubis_challenge", "preact_info", "making sure you're not a bot", "<title>403", "__goaway_challenge")

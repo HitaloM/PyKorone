@@ -25,6 +25,7 @@ dependencies = [
     "orjson>=3.13.0",
     "sentry-sdk>=2.71.0",
     "url-normalize>=3.0.1",
+    "argon2-cffi>=25.1.0",
 ]
 
 [dependency-groups]

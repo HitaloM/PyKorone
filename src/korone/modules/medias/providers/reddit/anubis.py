@@ -2,96 +2,23 @@ import asyncio
 import hashlib
 import html
 import re
+from threading import Event
 from time import perf_counter
 from urllib.parse import parse_qs, urljoin, urlparse
 
-import aiohttp
 import orjson
+from argon2.low_level import Type, hash_secret_raw
 
 from korone.logger import get_logger
 from korone.modules.medias.parsing import coerce_int
 
-from . import parser
-from .constants import (
-    ANUBIS_PASS_CHALLENGE_PATH,
-    BLOCK_MARKERS,
-    JSON_SCRIPT_REGEX_TEMPLATE,
-    META_REFRESH_REGEX,
-    REDLIB_REQUEST_COOKIES,
-)
+from .constants import ANUBIS_PASS_CHALLENGE_PATH, JSON_SCRIPT_REGEX_TEMPLATE, META_REFRESH_REGEX
 from .models import _AnubisChallengeInfo
 
 logger = get_logger(__name__)
 
 
-async def solve_challenge(
-    session: aiohttp.ClientSession,
-    *,
-    challenge_html: str,
-    challenge_url: str,
-    headers: dict[str, str],
-    request_timeout: aiohttp.ClientTimeout,
-) -> dict[str, str] | None:
-    info = extract_challenge_info(challenge_html, challenge_url)
-    if not info:
-        return None
-
-    params = await _solve_challenge_parameters(info, challenge_url)
-    if params is None:
-        return None
-
-    return await _submit_challenge(session, info, params, headers, request_timeout)
-
-
-async def _submit_challenge(
-    session: aiohttp.ClientSession,
-    info: _AnubisChallengeInfo,
-    params: dict[str, str],
-    headers: dict[str, str],
-    request_timeout: aiohttp.ClientTimeout,
-) -> dict[str, str] | None:
-    for attempt in range(1, 3):
-        try:
-            async with session.get(
-                info.pass_url,
-                headers=headers,
-                cookies=REDLIB_REQUEST_COOKIES,
-                params=params,
-                allow_redirects=True,
-                timeout=request_timeout,
-            ) as response:
-                if response.status != 200:
-                    await logger.adebug(
-                        "[Reddit] Failed to pass Anubis challenge",
-                        status=response.status,
-                        url=info.pass_url,
-                        algorithm=info.algorithm,
-                    )
-                    return None
-
-                html_content = await response.text()
-                if parser.looks_like_block_page(html_content, BLOCK_MARKERS):
-                    await logger.adebug(
-                        "[Reddit] Anubis challenge solved but page still blocked",
-                        url=info.pass_url,
-                        algorithm=info.algorithm,
-                    )
-                    return None
-
-                return {"html": html_content, "base_url": str(response.url)}
-        except TimeoutError:
-            if attempt >= 2:
-                await logger.awarning("[Reddit] Timeout during Anubis challenge solve", url=info.pass_url)
-                return None
-            await asyncio.sleep(0.4)
-        except aiohttp.ClientError as exc:
-            await logger.awarning("[Reddit] Failed during Anubis challenge solve", error=str(exc), url=info.pass_url)
-            return None
-
-    return None
-
-
-async def _solve_challenge_parameters(info: _AnubisChallengeInfo, challenge_url: str) -> dict[str, str] | None:
+async def solve_challenge_parameters(info: _AnubisChallengeInfo, challenge_url: str) -> dict[str, str] | None:
     if info.algorithm == "metarefresh":
         await asyncio.sleep((max(info.difficulty, 0) * 0.8) + 0.1)
         return {"id": info.challenge_id, "challenge": info.random_data, "redir": info.redir}
@@ -99,12 +26,23 @@ async def _solve_challenge_parameters(info: _AnubisChallengeInfo, challenge_url:
         await asyncio.sleep((max(info.difficulty, 0) * 0.125) + 0.05)
         result = hashlib.sha256(info.random_data.encode("utf-8")).hexdigest()
         return {"id": info.challenge_id, "result": result, "redir": info.redir}
-    if info.algorithm not in {"fast", "slow"}:
+    if info.algorithm not in {"fast", "slow", "argon2id"}:
         await logger.adebug("[Reddit] Unsupported Anubis challenge", algorithm=info.algorithm, url=challenge_url)
         return None
 
     started_at = perf_counter()
-    solved = await asyncio.to_thread(_solve_pow_challenge, info.random_data, info.difficulty)
+    stop = Event()
+    worker = asyncio.create_task(asyncio.to_thread(_solve_pow_challenge, info, stop))
+    try:
+        solved = await asyncio.shield(worker)
+    finally:
+        stop.set()
+        # Join the worker before releasing the client's calculation slot, including cancellation.
+        while not worker.done():
+            try:
+                await asyncio.shield(worker)
+            except asyncio.CancelledError:
+                continue
     if not solved:
         await logger.adebug(
             "[Reddit] Anubis PoW challenge not solved",
@@ -225,16 +163,38 @@ def _build_challenge_redir(challenge_url: str) -> str:
     return f"{path}?{parsed.query}" if parsed.query else path
 
 
-def _solve_pow_challenge(random_data: str, difficulty: int) -> tuple[str, int] | None:
-    if difficulty < 0:
+def _solve_pow_challenge(info: _AnubisChallengeInfo, stop: Event) -> tuple[str, int] | None:
+    if info.difficulty < 0:
         return None
+    if info.algorithm == "argon2id":
+        if info.difficulty > 256:
+            return None
+        try:
+            challenge = bytes.fromhex(info.random_data)
+        except ValueError:
+            return None
+        if not challenge or len(challenge) > 4096:
+            return None
+    else:
+        if info.difficulty > 64:
+            return None
+        challenge = b""
 
-    target_prefix = "0" * difficulty
     started_at = perf_counter()
     nonce = 0
-    while perf_counter() - started_at <= 20.0:
-        digest = hashlib.sha256(f"{random_data}{nonce}".encode()).hexdigest()
-        if digest.startswith(target_prefix):
-            return digest, nonce
+    while not stop.is_set() and perf_counter() - started_at < 20.0:
+        if info.algorithm == "argon2id":
+            # Anubis v1.28.1 uses RustCrypto Argon2::default(), raw challenge bytes,
+            # and a u64 nonce salt whose byte order depends on the last challenge byte.
+            salt = nonce.to_bytes(8, "little" if challenge[-1] >= 128 else "big")
+            digest = hash_secret_raw(
+                challenge, salt, time_cost=2, memory_cost=19456, parallelism=1, hash_len=32, type=Type.ID, version=19
+            )
+            valid = int.from_bytes(digest, "big") >> (256 - info.difficulty) == 0
+        else:
+            digest = hashlib.sha256(f"{info.random_data}{nonce}".encode()).digest()
+            valid = digest.hex().startswith("0" * info.difficulty)
+        if valid:
+            return digest.hex(), nonce
         nonce += 1
     return None
