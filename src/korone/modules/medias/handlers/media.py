@@ -1,11 +1,12 @@
 import asyncio
 import hashlib
 from dataclasses import dataclass, field
+from json import JSONDecodeError
 from time import perf_counter
 from typing import TYPE_CHECKING, ClassVar
 
 import sentry_sdk
-from aiogram.exceptions import TelegramNetworkError, TelegramRetryAfter
+from aiogram.exceptions import ClientDecodeError, TelegramBadRequest, TelegramNetworkError, TelegramRetryAfter
 from aiogram.filters import Command
 from aiogram.utils.chat_action import ChatActionSender
 
@@ -16,7 +17,7 @@ from korone.modules.medias.delivery import TelegramMediaDelivery
 from korone.modules.medias.filters import MediaUrlFilter
 from korone.modules.medias.models import MediaOutcome, MediaRequest, MediaStage
 from korone.utils.handlers import KoroneMessageHandler
-from korone.utils.telegram_errors import normalized_error_message
+from korone.utils.telegram_errors import is_topic_closed_error, normalized_error_message
 from korone.utils.telegram_permissions import handle_no_rights_error, is_no_rights_error
 
 if TYPE_CHECKING:
@@ -90,6 +91,34 @@ class MediaHandler(KoroneMessageHandler):
 
     async def _recover_error(self, error: Exception, run: _MediaRun) -> MediaOutcome:
         provider = run.request.provider.info
+        if isinstance(error, TelegramBadRequest) and is_topic_closed_error(error):
+            await logger.ainfo(
+                "[Medias] Cannot send media to a closed topic",
+                provider=provider.name,
+                source_id=run.source_id,
+                chat_id=self.event.chat.id,
+                message_thread_id=self.event.message_thread_id,
+            )
+            return MediaOutcome.TOPIC_CLOSED
+
+        if (
+            isinstance(error, ClientDecodeError)
+            and isinstance(error.original, JSONDecodeError)
+            and run.stage in {MediaStage.CACHE_SEND, MediaStage.SEND}
+        ):
+            # A non-JSON response does not establish whether Telegram accepted the send.
+            # Retrying can duplicate a message; leave the cache untouched.
+            await logger.awarning(
+                "[Medias] Telegram returned a non-JSON response; delivery status is unknown",
+                provider=provider.name,
+                source_id=run.source_id,
+                chat_id=self.event.chat.id,
+                message_id=self.event.message_id,
+                message_thread_id=self.event.message_thread_id,
+                stage=run.stage.value,
+            )
+            return MediaOutcome.SEND_UNCONFIRMED
+
         if isinstance(error, TelegramNetworkError) and self._is_request_timeout(error):
             await logger.awarning(
                 "[Medias] Media send request timed out; delivery status is unknown",

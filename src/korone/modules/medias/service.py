@@ -5,6 +5,7 @@ from aiogram.exceptions import TelegramBadRequest
 
 from korone.logger import get_logger
 from korone.modules.utils_.telegram_file import telegram_workspace
+from korone.utils.telegram_errors import is_topic_closed_error
 
 from .models import DeliveryReceipt, MediaOutcome, MediaPost, MediaRequest, MediaStage
 
@@ -43,7 +44,9 @@ class MediaService:
             cached_url, cached_post = cached_payload
             try:
                 await delivery.send(cached_post)
-            except TelegramBadRequest:
+            except TelegramBadRequest as error:
+                if is_topic_closed_error(error):
+                    raise
                 await self._cache.delete_post_and_sources(cached_post, request.url, cached_url, cached_post.url)
             else:
                 return MediaOutcome.CACHED

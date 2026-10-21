@@ -30,6 +30,8 @@ class MediaOutcome(StrEnum):
     SENT = "sent"
     CANCELLED = "cancelled"
     SEND_TIMEOUT = "send_timeout"
+    SEND_UNCONFIRMED = "send_unconfirmed"
+    TOPIC_CLOSED = "topic_closed"
     RATE_LIMITED = "rate_limited"
     PERMISSION_DENIED = "permission_denied"
     FAILED = "failed"
