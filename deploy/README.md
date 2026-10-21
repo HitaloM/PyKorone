@@ -54,8 +54,24 @@ systemctl --user restart korone-tunnel.service
 
 Replacing a secret requires recreating the container to consume its new contents. A systemd restart does that.
 Changes to Quadlet definitions require `systemctl --user daemon-reload` before restarting affected services.
-Dependency image updates are explicit: `podman pull` the fully qualified image from the relevant `.container`
-file, then restart that service. Keep PostgreSQL on major version 18 until performing a database upgrade.
+To download dependency image updates:
+
+```sh
+make podman-pull
+```
+
+This pulls each distinct external image declared in `deploy/quadlet/*.container`, including the optional tunnel,
+using the configured tags. It skips the bot's local `.build` reference and stops on the first pull failure.
+Running containers remain unchanged until you explicitly restart the affected services:
+
+```sh
+systemctl --user restart korone-postgres.service korone-redis.service korone-telegram-api.service
+# If the tunnel is in use:
+systemctl --user restart korone-tunnel.service
+```
+
+For a single dependency, pull the fully qualified image from its `.container` file, then restart that service.
+Keep PostgreSQL on major version 18 until performing a database upgrade.
 The default PostgreSQL database/user/password remain `korone` for compatibility with the old private Compose
 network. If changing credentials, update both PostgreSQL's definition and the bot's `DB_URL` via Quadlet drop-ins;
 changing `POSTGRES_PASSWORD` alone does not rotate an existing database password.

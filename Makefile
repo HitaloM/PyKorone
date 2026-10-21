@@ -64,7 +64,7 @@ db_stamp:
 	$(ALEMBIC) stamp "$(rev)"
 
 
-.PHONY: podman-config podman-install podman-build podman-up podman-down podman-logs
+.PHONY: podman-config podman-install podman-build podman-pull podman-up podman-down podman-logs
 
 # Refresh runtime configuration without putting dotenv values in command arguments.
 podman-config: data/config.env data/podman.env
@@ -80,6 +80,12 @@ podman-install: podman-config
 
 podman-build:
 	systemctl --user restart korone-build.service
+
+podman-pull:
+	@images=$$(awk -F= '/^Image=/ && $$2 !~ /\.build$$/ && !seen[$$2]++ { print $$2 }' deploy/quadlet/*.container) || exit $$?; \
+	for image in $$images; do \
+		$(PODMAN) pull "$$image" || exit $$?; \
+	done
 
 podman-up:
 	systemctl --user start korone.target

@@ -78,6 +78,7 @@ Keep the checkout at its installed path and use a separate checkout and deployme
 | --- | --- |
 | Stop the stack, keeping volumes | `make podman-down` |
 | Rebuild after code changes | `make podman-build`, then `systemctl --user restart korone-bot.service` |
+| Pull dependency image updates | `make podman-pull`, then restart the affected services; see [updates](deploy/README.md#updates). |
 | Refresh configuration | `make podman-config`, then restart the affected services; see [updates](deploy/README.md#updates). |
 | Start at boot | `systemctl --user enable korone.target` and `loginctl enable-linger "$USER"` |
 | Set up Cloudflare Tunnel | [Webhook configuration](#configuration) and [tunnel startup](deploy/README.md#optional-tunnel) |
