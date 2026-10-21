@@ -18,6 +18,7 @@ from aiohttp import (
 )
 
 from korone.logger import get_logger
+from korone.utils.json import dumps_text
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
@@ -190,7 +191,7 @@ class HttpClient:
         connector = TCPConnector(
             use_dns_cache=True, limit=100, limit_per_host=30, ttl_dns_cache=300, keepalive_timeout=30, force_close=False
         )
-        self._session = ClientSession(connector=connector)
+        self._session = ClientSession(connector=connector, json_serialize=dumps_text)
 
     @property
     def session(self) -> ClientSession:

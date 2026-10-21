@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import orjson
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.client.session.aiohttp import AiohttpSession
@@ -9,6 +10,7 @@ from redis.asyncio import Redis
 
 from .config import CONFIG
 from .logger import get_logger
+from .utils.json import dumps_text
 
 logger = get_logger(__name__)
 
@@ -23,7 +25,7 @@ bot_api = (
     if CONFIG.botapi_server
     else PRODUCTION
 )
-session = AiohttpSession(api=bot_api)
+session = AiohttpSession(api=bot_api, json_loads=orjson.loads, json_dumps=dumps_text)
 logger.info("Using BotAPI server", bot_api=str(bot_api))
 
 bot = Bot(

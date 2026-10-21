@@ -1,10 +1,10 @@
 import asyncio
 import hashlib
 from dataclasses import dataclass, field
-from json import JSONDecodeError
 from time import perf_counter
 from typing import TYPE_CHECKING, ClassVar
 
+import orjson
 import sentry_sdk
 from aiogram.exceptions import ClientDecodeError, TelegramBadRequest, TelegramNetworkError, TelegramRetryAfter
 from aiogram.filters import Command
@@ -103,7 +103,7 @@ class MediaHandler(KoroneMessageHandler):
 
         if (
             isinstance(error, ClientDecodeError)
-            and isinstance(error.original, JSONDecodeError)
+            and isinstance(error.original, orjson.JSONDecodeError)
             and run.stage in {MediaStage.CACHE_SEND, MediaStage.SEND}
         ):
             # A non-JSON response does not establish whether Telegram accepted the send.
